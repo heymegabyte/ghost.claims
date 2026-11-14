@@ -11,9 +11,12 @@ export default defineConfig({
   use: {
     baseURL: "http://127.0.0.1:8787",
     headless: true,
+    launchOptions: process.env.PLAYWRIGHT_EXECUTABLE_PATH
+      ? { executablePath: process.env.PLAYWRIGHT_EXECUTABLE_PATH }
+      : undefined,
     screenshot: "only-on-failure",
     trace: "on-first-retry",
-    video: "retain-on-failure",
+    video: "off",
   },
   webServer: {
     command: "pnpm run dev:e2e",

@@ -42,7 +42,7 @@ const ErrorSchema = z
   .object({
     error: z.string(),
     code: z.string(),
-    details: z.unknown().optional(),
+    details: z.any().optional(),
     requestId: z.string(),
   })
   .openapi("ApiError");
@@ -627,7 +627,10 @@ app.openapi(currentRoute, async (c) => {
       response.headers.set("x-emf-status", "stale");
       return response;
     }
-    return c.json({ error: "Sensor upstream unavailable", code: "UPSTREAM_ERROR" }, 503);
+    return c.json(
+      { error: "Sensor upstream unavailable", code: "UPSTREAM_ERROR", requestId: c.get("requestId") },
+      503,
+    );
   }
 });
 
@@ -642,6 +645,14 @@ const sensorsRoute = createRoute({
       content: {
         "application/json": {
           schema: AllSensorsSchema,
+        },
+      },
+    },
+    503: {
+      description: "Sensors unavailable",
+      content: {
+        "application/json": {
+          schema: ErrorSchema,
         },
       },
     },
@@ -674,7 +685,10 @@ app.openapi(sensorsRoute, async (c) => {
         response.headers.set("x-emf-status", "stale");
         return response;
       }
-      return c.json({ error: "Sensor upstream unavailable", code: "UPSTREAM_ERROR" }, 503);
+      return c.json(
+        { error: "Sensor upstream unavailable", code: "UPSTREAM_ERROR", requestId: c.get("requestId") },
+        503,
+      );
     }
 
     const response = c.json(readings, 200);
@@ -693,7 +707,10 @@ app.openapi(sensorsRoute, async (c) => {
       response.headers.set("x-emf-status", "stale");
       return response;
     }
-    return c.json({ error: "Sensor upstream unavailable", code: "UPSTREAM_ERROR" }, 503);
+    return c.json(
+      { error: "Sensor upstream unavailable", code: "UPSTREAM_ERROR", requestId: c.get("requestId") },
+      503,
+    );
   }
 });
 
@@ -1525,7 +1542,7 @@ function stripTelnet(data: Uint8Array): Uint8Array {
   let i = 0;
   while (i < data.length) {
     if (data[i] === 0xff && i + 1 < data.length) {
-      const cmd = data[i + 1];
+      const cmd = data[i + 1]!;
       if (cmd >= 0xfb && cmd <= 0xfe) {
         // WILL/WONT/DO/DONT + option byte = 3 bytes
         i += 3;
@@ -1548,7 +1565,7 @@ function stripTelnet(data: Uint8Array): Uint8Array {
         i += 2;
       }
     } else {
-      out.push(data[i]);
+      out.push(data[i]!);
       i++;
     }
   }

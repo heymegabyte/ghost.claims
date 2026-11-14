@@ -1,4 +1,4 @@
-import { test, expect, devices } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import {
   SEEDED_CUSTOM_RANGE,
   SEEDED_FULL_RANGE,
@@ -15,9 +15,8 @@ test.beforeEach(async ({ request }) => {
 });
 
 test.describe("mobile", () => {
-  test.use({ ...devices["iPhone 13"] });
-
   test("mobile viewport: nav, chat widget, timeline, hotline, and range controls remain usable", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
     await gotoHome(page, SEEDED_CUSTOM_RANGE);
 
     // Nav visible

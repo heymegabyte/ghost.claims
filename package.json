@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "check": "tsc --noEmit",
+    "check:performance": "node scripts/check-performance-budgets.mjs",
     "dev": "wrangler dev",
     "dev:e2e": "HOME=.wrangler/home XDG_CONFIG_HOME=.wrangler/config wrangler dev --local --port 8787 --test-scheduled --persist-to .wrangler/state/e2e --env-file .dev.vars.playwright",
     "deploy": "wrangler deploy",

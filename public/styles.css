@@ -8521,7 +8521,9 @@
   /* Photo layer */
   .middle-earth-photo {
     position: absolute; inset: 0;
-    background: url('/middle-earth-map.webp') center / cover no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
     transform: scale(1.04);
     animation: me-photo-slow-zoom 40s ease-in-out infinite alternate;
   }
@@ -8694,7 +8696,9 @@
   .hobbit-section-photo {
     position: absolute;
     inset: 0;
-    background: url('/middle-earth-map.webp') center / cover no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
     z-index: -2;
     transform: scale(1.04);
     animation: hobbit-photo-breathe 40s ease-in-out infinite alternate;
@@ -13687,3 +13691,49 @@ html.nav-jumping .recent-readings-section {
   contain-intrinsic-size: auto !important;
 }
 
+/* Performance containment: keep the full record in the document while preventing distant
+ * chapters and gallery cards from consuming layout/paint time before they are approached. */
+main > section:nth-of-type(n + 3),
+.dossier-feature,
+.cinema-chapter,
+.plate-vault-section,
+.newsletter-section,
+.transmissions-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
+.plate-vault-card,
+.plate-item,
+.avatar-slide,
+.dossier-card {
+  content-visibility: auto;
+  contain: layout paint style;
+  contain-intrinsic-size: 320px 320px;
+}
+
+html[data-save-data="true"] .hero-video,
+html[data-save-data="true"] .ambient-particles,
+html[data-save-data="true"] .dossier-feature-bg,
+html[data-runtime-reduced-motion="true"] .hero-video,
+html[data-runtime-reduced-motion="true"] .ambient-particles {
+  display: none !important;
+}
+
+html[data-runtime-reduced-motion="true"] *,
+html[data-runtime-reduced-motion="true"] *::before,
+html[data-runtime-reduced-motion="true"] *::after {
+  scroll-behavior: auto !important;
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+
+@media (max-width: 700px) {
+  main > section:nth-of-type(n + 2),
+  .dossier-feature,
+  .plate-vault-section {
+    contain-intrinsic-size: auto 720px;
+  }
+  .hero-video { display: none; }
+}

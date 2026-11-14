@@ -12,6 +12,9 @@ export default defineConfig({
   use: {
     baseURL: PROD,
     headless: true,
+    launchOptions: process.env.PLAYWRIGHT_EXECUTABLE_PATH
+      ? { executablePath: process.env.PLAYWRIGHT_EXECUTABLE_PATH }
+      : undefined,
     screenshot: "only-on-failure",
     trace: "retain-on-failure",
   },

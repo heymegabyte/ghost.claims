@@ -2038,4 +2038,8 @@ const GhostFeatures = (() => {
   return { init };
 })();
 
-document.addEventListener("DOMContentLoaded", GhostFeatures.init);
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", GhostFeatures.init, { once: true });
+} else {
+  GhostFeatures.init();
+}
