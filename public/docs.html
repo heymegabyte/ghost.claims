@@ -14,11 +14,11 @@
       content="Developer docs for the Ghost Signal API. EMF sensor data, entropy, live transmissions, and derived random numbers."
     />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://ghost.megabyte.space/docs" />
-    <meta property="og:image" content="https://ghost.megabyte.space/og-image.jpg?v=20260501-666" />
+    <meta property="og:url" content="https://ghost.claims/docs" />
+    <meta property="og:image" content="https://ghost.claims/og-image.jpg?v=20260501-666" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <link rel="canonical" href="https://ghost.megabyte.space/docs" />
+    <link rel="canonical" href="https://ghost.claims/docs" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=20260501-ghost" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=20260501-ghost" />
     <link rel="icon" href="/favicon.ico?v=20260501-ghost" sizes="any" />
@@ -42,7 +42,7 @@
         "@context": "https://schema.org",
         "@type": "APIReference",
         "name": "Ghost Signal API",
-        "url": "https://ghost.megabyte.space/docs",
+        "url": "https://ghost.claims/docs",
         "description": "Public API for real-time EMF, EF, and RF sensor data, entropy analysis, live transmission feeds, AI chat, and reproducible random numbers derived from electromagnetic phenomena."
       }
     </script>
@@ -51,9 +51,9 @@
         "@context": "https://schema.org",
         "@type": "WebPage",
         "name": "Ghost Signal API Documentation",
-        "url": "https://ghost.megabyte.space/docs",
+        "url": "https://ghost.claims/docs",
         "description": "Developer documentation for the Ghost Signal public API.",
-        "publisher": { "@type": "Organization", "name": "ghost.megabyte.space" }
+        "publisher": { "@type": "Organization", "name": "ghost.claims" }
       }
     </script>
   </head>
@@ -108,7 +108,7 @@
 
       <section class="panel docs-base-url">
         <p class="eyebrow">Base URL</p>
-        <pre class="docs-url-block"><code><span class="tok-str">https://ghost.megabyte.space</span></code></pre>
+        <pre class="docs-url-block"><code><span class="tok-str">https://ghost.claims</span></code></pre>
         <div class="docs-sensor-grid">
           <div class="docs-sensor-chip docs-sensor-emf">
             <span class="docs-sensor-dot"></span>
@@ -263,12 +263,12 @@
         <div class="docs-examples">
           <div class="docs-example">
             <span class="docs-example-label">curl</span>
-            <pre><code><span class="tok-fn">curl</span> <span class="tok-str">https://ghost.megabyte.space/api/v1/sensors</span></code></pre>
+            <pre><code><span class="tok-fn">curl</span> <span class="tok-str">https://ghost.claims/api/v1/sensors</span></code></pre>
           </div>
           <div class="docs-example">
             <span class="docs-example-label">JavaScript</span>
             <pre><code><span class="tok-key">const</span> sensors <span class="tok-op">=</span> <span class="tok-key">await</span> <span class="tok-fn">fetch</span>(
-  <span class="tok-str">"https://ghost.megabyte.space/api/v1/sensors"</span>
+  <span class="tok-str">"https://ghost.claims/api/v1/sensors"</span>
 ).<span class="tok-fn">then</span>(r <span class="tok-op">=&gt;</span> r.<span class="tok-fn">json</span>())
 
 <span class="tok-cls">console</span>.<span class="tok-fn">log</span>(sensors.emf.numericValue) <span class="tok-com">// 0.8 mG</span>
@@ -280,7 +280,7 @@
             <pre><code><span class="tok-key">import</span> <span class="tok-cls">requests</span>
 
 sensors <span class="tok-op">=</span> <span class="tok-cls">requests</span>.<span class="tok-fn">get</span>(
-    <span class="tok-str">"https://ghost.megabyte.space/api/v1/sensors"</span>,
+    <span class="tok-str">"https://ghost.claims/api/v1/sensors"</span>,
     timeout<span class="tok-op">=</span><span class="tok-num">10</span>,
 ).<span class="tok-fn">json</span>()
 
@@ -288,7 +288,7 @@ sensors <span class="tok-op">=</span> <span class="tok-cls">requests</span>.<spa
           </div>
           <div class="docs-example">
             <span class="docs-example-label">Google Sheets</span>
-            <pre><code><span class="tok-op">=</span><span class="tok-fn">IMPORTDATA</span>(<span class="tok-str">"https://ghost.megabyte.space/api/v1/ghost-emf/export<span class="tok-pct">?format=csv</span>"</span>)</code></pre>
+            <pre><code><span class="tok-op">=</span><span class="tok-fn">IMPORTDATA</span>(<span class="tok-str">"https://ghost.claims/api/v1/ghost-emf/export<span class="tok-pct">?format=csv</span>"</span>)</code></pre>
           </div>
           <div class="docs-example">
             <span class="docs-example-label">Polling (5s interval)</span>
@@ -316,7 +316,7 @@ sensors <span class="tok-op">=</span> <span class="tok-cls">requests</span>.<spa
     </main>
 
     <footer class="site-footer shell">
-      <p>ghost.megabyte.space &mdash; one sensor, one signal, one hotline.</p>
+      <p>ghost.claims &mdash; one sensor, one signal, one hotline.</p>
       <p>
         <a href="/">Signal</a>
         <span class="footer-sep">/</span>

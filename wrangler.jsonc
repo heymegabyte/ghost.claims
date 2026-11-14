@@ -28,7 +28,7 @@
   },
   "routes": [
     {
-      "pattern": "ghost.megabyte.space",
+      "pattern": "ghost.claims",
       "custom_domain": true
     }
   ],
@@ -39,8 +39,8 @@
     { "type": "Text", "globs": ["**/*.yaml"] }
   ],
   "vars": {
-    "SITE_NAME": "ghost.megabyte.space",
-    "SITE_URL": "https://ghost.megabyte.space",
+    "SITE_NAME": "ghost.claims",
+    "SITE_URL": "https://ghost.claims",
     "EMF_SENSOR_NAME": "Ghost EMF",
     "EMF_SENSOR_ENTITY_ID": "sensor.gq_emf390_emf_mg",
     "EF_SENSOR_ENTITY_ID": "sensor.gq_emf390_ef_v_m",

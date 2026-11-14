@@ -1,9 +1,9 @@
-# ghost.megabyte.space
+# ghost.claims
 
 <instructions>
 
 ## Product
-Public record + entropy science project at ghost.megabyte.space. Built on radical truth, a public EMF sensor, an AI hotline, and a multimedia dossier of unexplained life events.
+Public record + entropy science project at ghost.claims. Built on radical truth, a public EMF sensor, an AI hotline, and a multimedia dossier of unexplained life events.
 
 Core pillars:
 1. **Public EMF sensor** — GQ EMF-390 connected to Home Assistant, exposed through a Cloudflare-cached API. Anyone can poll, graph, and analyze the readings.

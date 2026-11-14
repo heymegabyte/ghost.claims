@@ -1,13 +1,13 @@
-# Project Brief — ghost.megabyte.space
+# Project Brief — ghost.claims
 
 ## Thesis
-`ghost.megabyte.space` is a public edge-hosted API and evidence-first website for one EMF sensor, exposing the current reading, recent history, and derived entropy metrics so anyone can inspect, poll, graph, or build on the data directly.
+`ghost.claims` is a public edge-hosted API and evidence-first website for one EMF sensor, exposing the current reading, recent history, and derived entropy metrics so anyone can inspect, poll, graph, or build on the data directly.
 
 The product pairs a Cloudflare-cached public API with a realtime demo site that frames the sensor as a public record of an unusual personal experience, while keeping the claims clearly in the realm of first-person perspective rather than asserting unverified accusations as fact.
 
 ## Users
 - Primary: developers, researchers, tinkerers, and paranormal-curious builders who want a stable public endpoint for EMF polling, dashboards, bots, and entropy experiments
-- Secondary: visitors to `ghost.megabyte.space` who want to see the current reading, a live graph, and the context for why the feed exists
+- Secondary: visitors to `ghost.claims` who want to see the current reading, a live graph, and the context for why the feed exists
 - Anti-persona: users looking for private data access, control over the Home Assistant instance, or a site that publishes unsupported accusations against named people or organizations
 
 ## Category & Model

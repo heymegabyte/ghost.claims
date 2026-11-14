@@ -126,5 +126,5 @@ Disallow: /
 User-agent: DotBot
 Disallow: /
 
-Sitemap: https://ghost.megabyte.space/sitemap.xml
-Host: ghost.megabyte.space
+Sitemap: https://ghost.claims/sitemap.xml
+Host: ghost.claims

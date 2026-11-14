@@ -1,6 +1,6 @@
 import { test, expect, Page } from "@playwright/test";
 
-const PROD = process.env.PROD_URL || "https://ghost.megabyte.space";
+const PROD = process.env.PROD_URL || "https://ghost.claims";
 
 const BREAKPOINTS = [
   { name: "iphone-se", width: 375, height: 667 },

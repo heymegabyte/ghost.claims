@@ -6,7 +6,7 @@ import { expect, test } from "@playwright/test";
  * The homepage "Timeline" section (#timeline-track) must render one card per
  * chronicle event, and EVERY card must carry a related image so each entry has
  * visual validity. Runs against the local dev server by default; set PROD_URL to
- * verify the deployed site (e.g. PROD_URL=https://ghost.megabyte.space).
+ * verify the deployed site (e.g. PROD_URL=https://ghost.claims).
  */
 
 const TARGET = process.env.PROD_URL || "/";

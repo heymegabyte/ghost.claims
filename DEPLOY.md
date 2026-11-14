@@ -23,7 +23,7 @@
 1. Create a KV namespace for `RATE_LIMIT_KV`
 2. Create a D1 database for `EMF_DB`
 3. Update [wrangler.jsonc](/Users/apple/emdash-projects/worktrees/puny-chairs-create-9eu/wrangler.jsonc) with the real KV `id` and D1 `database_id`
-4. Verify that `ghost.megabyte.space` does not already have a conflicting CNAME before using the configured Cloudflare custom domain route
+4. Verify that `ghost.claims` does not already have a conflicting CNAME before using the configured Cloudflare custom domain route
 
 ## Local Setup
 ```bash
@@ -56,18 +56,18 @@ The Worker already consumes `HASS_TOKEN` in the cron snapshot path, so once the 
 
 ## Post-Deploy Smoke Checks
 ```bash
-curl https://ghost.megabyte.space/health
-curl https://ghost.megabyte.space/api/v1/ghost-emf/current
-curl "https://ghost.megabyte.space/api/v1/ghost-emf/history?start=2026-04-03T02:47:58.394637%2B00:00&end=2026-04-23T23:00:00.000Z&targetPoints=960"
-curl "https://ghost.megabyte.space/api/v1/ghost-emf/entropy?start=2026-04-03T02:47:58.394637%2B00:00&end=2026-04-23T23:00:00.000Z&bins=24&targetPoints=960"
-curl "https://ghost.megabyte.space/api/v1/ghost-emf/snapshot?start=2026-04-03T02:47:58.394637%2B00:00&end=2026-04-23T23:00:00.000Z"
-curl "https://ghost.megabyte.space/api/v1/ghost-emf/export?start=2026-04-03T02:47:58.394637%2B00:00&end=2026-04-23T23:00:00.000Z&format=csv"
-curl "https://ghost.megabyte.space/api/v1/ghost-emf/random?start=2026-04-03T02:47:58.394637%2B00:00&end=2026-04-23T23:00:00.000Z&digits=10"
-curl https://ghost.megabyte.space/api/v1/ghost-emf/timeline
+curl https://ghost.claims/health
+curl https://ghost.claims/api/v1/ghost-emf/current
+curl "https://ghost.claims/api/v1/ghost-emf/history?start=2026-04-03T02:47:58.394637%2B00:00&end=2026-04-23T23:00:00.000Z&targetPoints=960"
+curl "https://ghost.claims/api/v1/ghost-emf/entropy?start=2026-04-03T02:47:58.394637%2B00:00&end=2026-04-23T23:00:00.000Z&bins=24&targetPoints=960"
+curl "https://ghost.claims/api/v1/ghost-emf/snapshot?start=2026-04-03T02:47:58.394637%2B00:00&end=2026-04-23T23:00:00.000Z"
+curl "https://ghost.claims/api/v1/ghost-emf/export?start=2026-04-03T02:47:58.394637%2B00:00&end=2026-04-23T23:00:00.000Z&format=csv"
+curl "https://ghost.claims/api/v1/ghost-emf/random?start=2026-04-03T02:47:58.394637%2B00:00&end=2026-04-23T23:00:00.000Z&digits=10"
+curl https://ghost.claims/api/v1/ghost-emf/timeline
 ```
 
 ## Publish Notes
-- The repo is wired for a custom domain route at `ghost.megabyte.space`
+- The repo is wired for a custom domain route at `ghost.claims`
 - The current implementation works with Home Assistant history alone; D1 snapshots remain optional but recommended if you want edge-local long-term retention independent of recorder settings
 - For historical retention, use D1. KV is reserved for rate limiting, not time-series storage.
 - Cloudflare’s Cache API is edge-local, so cache HIT behavior can vary by data center even with the same request URL

@@ -1,7 +1,7 @@
 <!-- This README has been hand-written. The ghost helped. --><div align="center">
   <center>
-    <a href="https://ghost.megabyte.space">
-      <img width="320" alt="Ghost Signal logo" src="https://ghost.megabyte.space/og-image.jpg" />
+    <a href="https://ghost.claims">
+      <img width="320" alt="Ghost Signal logo" src="https://ghost.claims/og-image.jpg" />
     </a>
   </center>
 </div>
@@ -11,19 +11,19 @@
 </div>
 
 <div align="center">
-  <a href="https://ghost.megabyte.space" title="Ghost Signal homepage" target="_blank">
-    <img alt="Homepage" src="https://img.shields.io/website?down_color=%23FF4136&down_message=Down&label=ghost.megabyte.space&logo=cloudflare&logoColor=white&up_color=%2300E5FF&up_message=Live&url=https%3A%2F%2Fghost.megabyte.space&style=for-the-badge" />
+  <a href="https://ghost.claims" title="Ghost Signal homepage" target="_blank">
+    <img alt="Homepage" src="https://img.shields.io/website?down_color=%23FF4136&down_message=Down&label=ghost.claims&logo=cloudflare&logoColor=white&up_color=%2300E5FF&up_message=Live&url=https%3A%2F%2Fghost.claims&style=for-the-badge" />
   </a>
-  <a href="https://ghost.megabyte.space/api/docs" title="OpenAPI / Swagger UI" target="_blank">
+  <a href="https://ghost.claims/api/docs" title="OpenAPI / Swagger UI" target="_blank">
     <img alt="OpenAPI" src="https://img.shields.io/badge/OpenAPI-3.1-6BA539?logo=openapiinitiative&logoColor=white&style=for-the-badge" />
   </a>
-  <a href="https://ghost.megabyte.space/docs" title="Human-friendly docs" target="_blank">
+  <a href="https://ghost.claims/docs" title="Human-friendly docs" target="_blank">
     <img alt="Docs" src="https://img.shields.io/badge/Docs-Read%20me-7C3AED?logo=readthedocs&logoColor=white&style=for-the-badge" />
   </a>
   <a href="tel:+16016666602" title="Call the AI hotline" target="_blank">
     <img alt="Hotline" src="https://img.shields.io/badge/Hotline-(601)%20666--6602-FF1744?logo=phonepe&logoColor=white&style=for-the-badge" />
   </a>
-  <a href="https://github.com/megabyte-labs/ghost.megabyte.space" title="GitHub repository" target="_blank">
+  <a href="https://github.com/megabyte-labs/ghost.claims" title="GitHub repository" target="_blank">
     <img alt="GitHub" src="https://img.shields.io/badge/Mirror-GitHub-333333?logo=github&style=for-the-badge" />
   </a>
 </div>
@@ -128,23 +128,23 @@ No keys. No accounts. Sixty requests per minute per IP.
 
 ```bash
 # Read the current EMF (mG) sensor value
-curl https://ghost.megabyte.space/api/v1/current
+curl https://ghost.claims/api/v1/current
 
 # Pull the last 24h of history
-curl 'https://ghost.megabyte.space/api/v1/history?hours=24'
+curl 'https://ghost.claims/api/v1/history?hours=24'
 
 # Mint 256 true-entropy random integers in [0, 65535]
-curl 'https://ghost.megabyte.space/api/v1/random?count=256&min=0&max=65535'
+curl 'https://ghost.claims/api/v1/random?count=256&min=0&max=65535'
 
 # Browse the Swagger UI
-open https://ghost.megabyte.space/api/docs
+open https://ghost.claims/api/docs
 ```
 
 To run a local mirror against the production Worker code:
 
 ```bash
-git clone https://github.com/megabyte-labs/ghost.megabyte.space.git
-cd ghost.megabyte.space
+git clone https://github.com/megabyte-labs/ghost.claims.git
+cd ghost.claims
 pnpm install
 cp .dev.vars.example .dev.vars
 pnpm dev
@@ -154,7 +154,7 @@ pnpm dev
 
 ## The API
 
-The formal OpenAPI 3.1 spec lives at [`/api/v1/openapi.json`](https://ghost.megabyte.space/api/v1/openapi.json). Browse the [Swagger UI](https://ghost.megabyte.space/api/docs) or the [hand-written docs](https://ghost.megabyte.space/docs).
+The formal OpenAPI 3.1 spec lives at [`/api/v1/openapi.json`](https://ghost.claims/api/v1/openapi.json). Browse the [Swagger UI](https://ghost.claims/api/docs) or the [hand-written docs](https://ghost.claims/docs).
 
 ### Endpoints
 
@@ -209,22 +209,22 @@ Origin:      Worker -> Home Assistant -> GQ EMF-390 USB
 
 ```bash
 # Last 6 hours, 60-second buckets
-curl 'https://ghost.megabyte.space/api/v1/history?hours=6&step=60'
+curl 'https://ghost.claims/api/v1/history?hours=6&step=60'
 
 # Entropy distribution since project start
-curl 'https://ghost.megabyte.space/api/v1/entropy?from=2026-04-03'
+curl 'https://ghost.claims/api/v1/entropy?from=2026-04-03'
 
 # Pure CSV stream for spreadsheets
-curl -o emf.csv 'https://ghost.megabyte.space/api/v1/export?format=csv&hours=24'
+curl -o emf.csv 'https://ghost.claims/api/v1/export?format=csv&hours=24'
 
 # 16-byte hex true-random token
-curl 'https://ghost.megabyte.space/api/v1/random?bytes=16&format=hex'
+curl 'https://ghost.claims/api/v1/random?bytes=16&format=hex'
 ```
 
 ```js
 // JavaScript: poll /current at 2s
 async function tick() {
-  const r = await fetch("https://ghost.megabyte.space/api/v1/current");
+  const r = await fetch("https://ghost.claims/api/v1/current");
   const { value, unit, timestamp } = await r.json();
   console.log(`${timestamp} ${value} ${unit}`);
 }
@@ -234,7 +234,7 @@ setInterval(tick, 2000);
 ```py
 # Python: bulk export to a DataFrame
 import pandas as pd
-df = pd.read_csv("https://ghost.megabyte.space/api/v1/export?format=csv&hours=168")
+df = pd.read_csv("https://ghost.claims/api/v1/export?format=csv&hours=168")
 print(df.describe())
 ```
 
@@ -291,7 +291,7 @@ client -|  Edge    |------> | Worker (Hono)   |------> | Home Assistant     |
   "main": "src/index.ts",
   "compatibility_date": "2026-04-23",
   "triggers": { "crons": ["*/1 * * * *"] },
-  "routes": [{ "pattern": "ghost.megabyte.space", "custom_domain": true }]
+  "routes": [{ "pattern": "ghost.claims", "custom_domain": true }]
 }
 ```
 
@@ -362,7 +362,7 @@ Local E2E uses a committed mock env at `.dev.vars.playwright`, runs the Worker i
 ## Deploying
 
 ```bash
-# Deploy to production (custom domain ghost.megabyte.space)
+# Deploy to production (custom domain ghost.claims)
 pnpm deploy
 
 # Roll back the last deployment
@@ -389,7 +389,7 @@ See [`DEPLOY.md`](DEPLOY.md) for the full runbook, secrets handling, and rollbac
 
 ## The Hotline
 
-Call `(601) 666-6602` from any phone. The call is answered by an AI persona running on Claude Haiku, recorded, transcribed, and published as a permanent transmission at [`/transmissions`](https://ghost.megabyte.space/transmissions). By calling, you consent to all of that.
+Call `(601) 666-6602` from any phone. The call is answered by an AI persona running on Claude Haiku, recorded, transcribed, and published as a permanent transmission at [`/transmissions`](https://ghost.claims/transmissions). By calling, you consent to all of that.
 
 | Step | What happens |
 |---|---|
@@ -461,14 +461,14 @@ If you have your own pattern of phenomena, the [hotline](#the-hotline) takes cal
 
 ## Contributing
 
-Contributions, issues, and feature requests are welcome. Open an [issue](https://github.com/megabyte-labs/ghost.megabyte.space/issues) first if the change is non-trivial. The project follows the [Emdash OS v6.0](https://github.com/heymegabyte/claude-skills) workflow &mdash; TDD, real-user E2E, deploy-then-purge, no console errors, no shortcuts. Stale docs are bugs. PRs that fix doc rot are loved.
+Contributions, issues, and feature requests are welcome. Open an [issue](https://github.com/megabyte-labs/ghost.claims/issues) first if the change is non-trivial. The project follows the [Emdash OS v6.0](https://github.com/heymegabyte/claude-skills) workflow &mdash; TDD, real-user E2E, deploy-then-purge, no console errors, no shortcuts. Stale docs are bugs. PRs that fix doc rot are loved.
 
 | Channel | Where |
 |---|---|
-| Issues | [github.com/megabyte-labs/ghost.megabyte.space/issues](https://github.com/megabyte-labs/ghost.megabyte.space/issues) |
+| Issues | [github.com/megabyte-labs/ghost.claims/issues](https://github.com/megabyte-labs/ghost.claims/issues) |
 | Email | [hey@megabyte.space](mailto:hey@megabyte.space) |
 | Hotline | [(601) 666-6602](tel:+16016666602) |
-| Newsletter | [Subscribe on the homepage](https://ghost.megabyte.space/#newsletter) |
+| Newsletter | [Subscribe on the homepage](https://ghost.claims/#newsletter) |
 
 <details>
 <summary><b>Sponsorship</b></summary>

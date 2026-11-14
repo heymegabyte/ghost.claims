@@ -1,6 +1,6 @@
 /* TEAM */
 Maintainer: Brian Zalewski
-Site: https://ghost.megabyte.space
+Site: https://ghost.claims
 Contact: hey@megabyte.space
 GitHub: https://github.com/HeyMegabyte
 Twitter: https://x.com/HeyMegabyte

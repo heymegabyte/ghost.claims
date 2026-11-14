@@ -1,4 +1,4 @@
-# SPEC — ghost.megabyte.space
+# SPEC — ghost.claims
 
 ## Slice 1 — Public API Foundation
 

@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
 
 test('MUD terminal keyboard input', async ({ page }) => {
-  console.log('1. Navigating to ghost.megabyte.space...');
-  await page.goto('https://ghost.megabyte.space', { waitUntil: 'networkidle' });
+  console.log('1. Navigating to ghost.claims...');
+  await page.goto('https://ghost.claims', { waitUntil: 'networkidle' });
 
   console.log('2. Scrolling to #mud-terminal section...');
   await page.locator('#mud-terminal').scrollIntoViewIfNeeded();

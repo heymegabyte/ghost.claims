@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://ghost.megabyte.space/</loc>
+    <loc>https://ghost.claims/</loc>
   </url>
   <url>
-    <loc>https://ghost.megabyte.space/docs</loc>
+    <loc>https://ghost.claims/docs</loc>
   </url>
   <url>
-    <loc>https://ghost.megabyte.space/api/docs</loc>
+    <loc>https://ghost.claims/api/docs</loc>
   </url>
 </urlset>

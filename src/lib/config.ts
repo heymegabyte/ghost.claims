@@ -10,7 +10,7 @@ export function getIntSetting(value: string | undefined, fallback: number): numb
 }
 
 export function getSiteUrl(env: Env): string {
-  return env.SITE_URL ?? "https://ghost.megabyte.space";
+  return env.SITE_URL ?? "https://ghost.claims";
 }
 
 export function getCurrentCacheTtl(env: Env): number {

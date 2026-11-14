@@ -1,6 +1,6 @@
 import { defineConfig, devices } from "@playwright/test";
 
-const PROD = process.env.PROD_URL || "https://ghost.megabyte.space";
+const PROD = process.env.PROD_URL || "https://ghost.claims";
 
 export default defineConfig({
   testDir: "./tests/e2e",

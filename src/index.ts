@@ -252,7 +252,7 @@ function transmissionsPageHtml(): string {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Transmission Log | Ghost Signal</title>
   <meta name="description" content="Public record of every call and chat to the Ghost Signal AI hotline. Everything shared becomes part of the signal." />
-  <link rel="canonical" href="https://ghost.megabyte.space/transmissions" />
+  <link rel="canonical" href="https://ghost.claims/transmissions" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
@@ -1261,12 +1261,12 @@ app.get("/transmissions/:callSid.txt", async (c) => {
 app.doc("/api/v1/openapi.json", {
   openapi: "3.0.0",
   info: {
-    title: "ghost.megabyte.space API",
+    title: "ghost.claims API",
     version,
     description:
       "Public EMF sensor API backed by Home Assistant, edge-cached on Cloudflare, and designed for polling, graphing, and entropy experiments.",
   },
-  servers: [{ url: "https://ghost.megabyte.space" }],
+  servers: [{ url: "https://ghost.claims" }],
 });
 
 app.get("/api/docs", (c) => {
@@ -1278,7 +1278,7 @@ app.get("/api/docs", (c) => {
   <title>Ghost Signal API Reference</title>
   <meta name="description" content="Interactive API reference for the Ghost Signal — EMF, EF, RF, entropy, transmissions, and AI chat. Live try-it-out and multi-language code samples." />
   <meta name="theme-color" content="#060610" />
-  <link rel="canonical" href="https://ghost.megabyte.space/api/docs" />
+  <link rel="canonical" href="https://ghost.claims/api/docs" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=20260501-ghost" />
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=20260501-ghost" />
   <link rel="icon" href="/favicon.ico?v=20260501-ghost" sizes="any" />

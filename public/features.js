@@ -1611,7 +1611,7 @@ const GhostFeatures = (() => {
             <span class="shuffle-result-tier">${tier}</span>
             <p class="shuffle-result-score">${pct}% belief compatibility</p>
             <p class="shuffle-result-desc">${desc}</p>
-            <p class="shuffle-result-share">Share your result: ghost.megabyte.space/belief/${pct}</p>
+            <p class="shuffle-result-share">Share your result: ghost.claims/belief/${pct}</p>
           </div>
         `;
       }
@@ -1748,7 +1748,7 @@ const GhostFeatures = (() => {
       // Ghost watermark
       ctx.fillStyle = "rgba(255, 23, 68, 0.3)";
       ctx.font = "10px 'Fira Code', monospace";
-      ctx.fillText(`ghost.megabyte.space // EMF: ${emfSeed.toFixed(3)}`, 10, h - 10);
+      ctx.fillText(`ghost.claims // EMF: ${emfSeed.toFixed(3)}`, 10, h - 10);
     }
 
     intensitySlider?.addEventListener("input", () => applyGlitch());

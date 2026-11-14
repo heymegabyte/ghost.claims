@@ -94,7 +94,7 @@ test("web properties: manifest, robots, sitemap, security.txt, and cross-links",
   await expect(page.locator("head link[rel='manifest']")).toHaveAttribute("href", "/site.webmanifest");
 
   const manifest = await getJson(request, "/site.webmanifest");
-  expect(manifest.name).toBe("ghost.megabyte.space");
+  expect(manifest.name).toBe("ghost.claims");
   expect(manifest.shortcuts).toHaveLength(2);
 
   const robots = await request.get("/robots.txt");
@@ -114,7 +114,7 @@ test("web properties: manifest, robots, sitemap, security.txt, and cross-links",
   expect(await sitemap.text()).toContain("/docs");
 
   // Cross-links in footer
-  await expect(page.locator(".site-footer")).toContainText("ghost.megabyte.space");
+  await expect(page.locator(".site-footer")).toContainText("ghost.claims");
   await expect(page.locator(".site-footer a[href='/docs']")).toBeVisible();
   await expect(page.locator(".site-footer a[href='/api/docs']")).toBeVisible();
 });
