@@ -1,0 +1,28 @@
+# Proposal: migrate ghost.claims to the canonical theme.tools site system
+
+**Architect:** codex
+**Architect Role:** assigned
+
+## Why
+
+Ghost Signal currently renders four visually similar but independently implemented shells: static HTML pages, Hono-rendered transmissions, Hono-rendered API reference, and the React/Vite blog. The navbar differs in markup, dimensions, active-state handling, mobile behavior, and link inventory. Legal pages omit Blog and do not link the logo home. Reusable theme.tools components are used only by the blog, leaving the remaining pages as product-local presentation forks.
+
+## Approved design
+
+The user approved the current production site on 2026-11-15 as the Figma-equivalent artifact. This is a convergence migration, not a rebrand: the existing Ghost Signal identity, dark spectral palette, logo, typography character, content, and behaviors remain the visual source of truth.
+
+## What changes
+
+- Establish one canonical theme.tools navigation configuration and render-compatible shell contract across static, Hono, and React surfaces.
+- Adopt theme.tools tokens, site components, editorial/media/widgets, and compatible shared utilities wherever they replace local presentation without changing product behavior.
+- Normalize accessibility, responsive behavior, active states, focus treatment, spacing, and performance across all public routes.
+- Run ten evidence-based visual inspection and repair passes across every public page at desktop and mobile sizes.
+- Extend automated tests so navbar structure and visual invariants cannot drift again.
+
+## Scope
+
+Public routes: `/`, `/transmissions`, `/docs`, `/api/docs`, `/privacy`, `/terms`, `/blog`, and all five published blog article routes. API JSON/text endpoints are behavior-preserving and outside visual migration scope.
+
+## Reuse classification
+
+`reuse-existing-shared`: consume the pinned `@theme.tools/blog` and `@theme-tools/shared-utils` packages. The canonical theme.tools checkout has substantial unrelated uncommitted work, so this change SHALL NOT edit or publish from that dirty tree. Missing upstream capabilities will be recorded precisely rather than locally forked.

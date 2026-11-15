@@ -1,0 +1,18 @@
+schema: spec-driven
+
+context: |
+  Product: ghost.claims
+  Runtime: Cloudflare Workers + Hono with static assets, React/Vite blog island
+  Shared UI: pinned @theme.tools/blog 1.0.0 and @theme-tools/shared-utils 1.0.1
+  Approved visual baseline: current production site, explicitly approved by the user on 2026-11-15 as the Figma-equivalent artifact for this migration.
+
+rules:
+  proposal:
+    - Record **Architect:** codex and **Architect Role:** assigned.
+    - Preserve product identity and behavior while consolidating presentation.
+  specs:
+    - Use measurable SHALL requirements and WHEN/THEN scenarios.
+  design:
+    - Document migration, accessibility, responsive behavior, rollback, and verification.
+  tasks:
+    - Check tasks only after executed evidence.

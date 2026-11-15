@@ -1,9 +1,10 @@
-import { SITE_CSS, renderArticle, renderPageHeader, renderPostGrid, renderSiteNav } from "@theme.tools/blog/site";
+import { SITE_CSS, renderArticle, renderPageHeader, renderPostGrid } from "@theme.tools/blog/site";
 import { MEDIA_CSS, renderMedia } from "@theme.tools/blog/media";
 import { WIDGET_CSS, renderWidget } from "@theme.tools/blog/widgets";
 import { useEffect } from "react";
 import { articles, type NightArchiveArticle } from "./content";
 import { CanonicalMarkup } from "./theme-tools";
+import { GHOST_SIGNAL_SHELL_CSS, renderGhostSignalFooter, renderGhostSignalNav, renderGhostSignalSkipLink } from "../../src/site-shell";
 import "./app.css";
 
 // The shared stylesheet optionally advertises self-hosted brand fonts. Ghost
@@ -11,26 +12,7 @@ import "./app.css";
 // two host-level @font-face declarations instead of issuing broken requests.
 const themeCss = SITE_CSS.slice(SITE_CSS.indexOf(":root{"));
 
-const canonicalNav = renderSiteNav({
-  brand: "GHOST // SIGNAL",
-  brandHref: "/",
-  links: [
-    { label: "Signal", href: "/" },
-    { label: "Transmissions", href: "/transmissions" },
-    { label: "Blog", href: "/blog" },
-    { label: "Docs", href: "/docs" },
-    { label: "API", href: "/api/docs" },
-  ],
-});
-
-// Keep theme.tools as the renderer while adapting its brand slot to the exact
-// production logo asset used by the canonical homepage shell.
-const nav = canonicalNav
-  .replace(
-    '<span class="tt-nav__mark" aria-hidden="true"></span>',
-    '<img class="tt-nav__logo" src="/logo-nav.png?v=2945c6a-1778550809" alt="Ghost Signal logo" width="34" height="34" decoding="async" />',
-  )
-  .replace('<a class="tt-nav__link" href="/blog">Blog</a>', '<a class="tt-nav__link" href="/blog" aria-current="page">Blog</a>');
+const nav = renderGhostSignalNav("/blog");
 
 function articleBody(article: NightArchiveArticle): string {
   return article.sections.map((section, sectionIndex) => {
@@ -120,13 +102,15 @@ export default function App() {
 
   return <>
     <style>{themeCss}</style>
+    <style>{GHOST_SIGNAL_SHELL_CSS}</style>
     <style>{WIDGET_CSS}</style>
     <style>{MEDIA_CSS}</style>
-    <a className="tt-skip" href="#main">Skip to content</a>
+    <CanonicalMarkup html={renderGhostSignalSkipLink()} />
     <CanonicalMarkup html={nav} />
     <main id="main" className="tt-shell night-shell">
       {slug ? (article ? <ArticlePage article={article} /> : <NotFound />) : <ArchiveIndex />}
     </main>
+    <CanonicalMarkup html={renderGhostSignalFooter()} />
   </>;
 }
 

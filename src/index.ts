@@ -31,6 +31,7 @@ import timelineYamlText from "./data/timeline.yaml";
 import { handleChat, handleChatDetailed, getChatHistory } from "./lib/chat";
 import { buildGreetingTwiml, handleGather, getTransmissions, getTransmissionCount } from "./lib/twilio";
 import { storyMilestones, timelineAnnotations } from "./lib/timeline-events";
+import { renderGhostSignalFooter, renderGhostSignalNav, renderGhostSignalSkipLink } from "./site-shell";
 import type { AppVariables, Env, TimelineData } from "./types";
 
 type Bindings = {
@@ -261,6 +262,7 @@ function transmissionsPageHtml(): string {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Sora:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/theme-tools-shell.css" />
   <style>
     .tx-layout { padding-top: 1rem; padding-bottom: 3rem; }
     .tx-hero {
@@ -377,22 +379,11 @@ function transmissionsPageHtml(): string {
   </style>
 </head>
 <body data-page="transmissions">
+  ${renderGhostSignalSkipLink()}
   <div class="noise"></div>
   <div class="scanlines" aria-hidden="true"></div>
 
-  <header class="site-header">
-    <a class="brand-lockup" href="/" aria-label="Ghost Signal — home" style="text-decoration:none;color:inherit;">
-      <img class="brand-logo" src="/logo-nav.png?v=20260501-ghost" alt="Ghost Signal logo" width="64" height="64" />
-      <div class="brand-mark">GHOST // SIGNAL</div>
-    </a>
-    <nav class="site-nav" aria-label="Primary">
-      <a href="/">Signal</a>
-      <a href="/transmissions" aria-current="page">Transmissions</a>
-      <a href="/blog">Blog</a>
-      <a href="/docs">Docs</a>
-      <a href="/api/docs">API</a>
-    </nav>
-  </header>
+  ${renderGhostSignalNav("/transmissions")}
   <script type="speculationrules">
   {
     "prerender": [
@@ -404,7 +395,7 @@ function transmissionsPageHtml(): string {
   }
   </script>
 
-  <main class="shell tx-layout">
+  <main id="main" class="shell tx-layout">
     <div class="tx-hero">
       <p class="eyebrow">PUBLIC RECORD // MEP TRANSMISSIONS</p>
       <h1>Transmission Log</h1>
@@ -439,12 +430,7 @@ function transmissionsPageHtml(): string {
     </div>
   </main>
 
-  <footer class="site-footer">
-    <div class="footer-meta">
-      <p class="footer-brand">Ghost Signal — Multiverse-Entropy Provider (MEP)</p>
-      <p class="footer-copy">Personal story. Believe it or not. Wrapped into an entropy API.</p>
-    </div>
-  </footer>
+  ${renderGhostSignalFooter()}
 
   <script src="/transmissions.js"></script>
 </body>
@@ -1376,6 +1362,7 @@ app.get("/api/docs", (c) => {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Fira+Code:wght@400;500;700&family=Sora:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css?v=20260501-reveal" />
+  <link rel="stylesheet" href="/theme-tools-shell.css" />
   <style>
     @view-transition { navigation: auto; }
     :root {
@@ -1468,20 +1455,9 @@ app.get("/api/docs", (c) => {
   </style>
 </head>
 <body data-page="api-docs">
-  <header class="site-header">
-    <a class="brand-lockup" href="/" aria-label="Ghost Signal — home" style="text-decoration:none;color:inherit;">
-      <img class="brand-logo" src="/logo-nav.png?v=20260501-ghost" alt="Ghost Signal logo" width="64" height="64" />
-      <div class="brand-mark">GHOST // SIGNAL</div>
-    </a>
-    <nav class="site-nav" aria-label="Primary">
-      <a href="/">Signal</a>
-      <a href="/transmissions">Transmissions</a>
-      <a href="/blog">Blog</a>
-      <a href="/docs">Docs</a>
-      <a href="/api/docs" aria-current="page">API</a>
-    </nav>
-  </header>
-  <section class="gs-banner">
+  ${renderGhostSignalSkipLink()}
+  ${renderGhostSignalNav("/api/docs")}
+  <section class="gs-banner" id="main">
     <div class="gs-banner-shell">
       <p class="eyebrow">API // PUBLIC SIGNAL</p>
       <h1>Build on the Ghost Signal</h1>
@@ -1561,6 +1537,7 @@ app.get("/api/docs", (c) => {
       .replace(/</g, "&lt;")}'
   ></script>
   <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference@1.78.1/dist/browser/standalone.js"></script>
+  ${renderGhostSignalFooter()}
 </body>
 </html>`);
 });

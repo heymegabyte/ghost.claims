@@ -171,7 +171,7 @@ test("hotline section: phone number visible with correct tel: href, section cont
   await expect(hotlineSection).toContainText("The Hotline");
 
   // Nav also has the 666 hotline link
-  const navHotline = page.locator(".nav-hotline");
+  const navHotline = page.locator(".tt-nav__hotline");
   await expect(navHotline).toHaveAttribute("href", "tel:+16016666602");
   await expect(navHotline).toContainText("666");
 

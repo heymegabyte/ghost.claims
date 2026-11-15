@@ -112,7 +112,12 @@ ${e.posts.map(c).join(`
   ${n}
   <h1 class="tt-pagehead__title">${t(e.title)}</h1>
   ${r}
-</header>`}function d(e){return`<article class="tt-article">${e}</article>`}var f=`/* Brand fonts — self-hosted variable woff2 (the host serves /fonts/*.woff2; CSP font-src 'self').
+</header>`}function d(e){return`<article class="tt-article">${e}</article>`}function f(){return`<a class="tt-skip" href="#tt-main">Skip to content</a>`}function p(e){let n=e.links.map(e=>`<a href="${t(e.href)}">${t(e.label)}</a>`).join(``);return`<footer class="tt-footer">
+  <div class="tt-footer__row">
+    <div class="tt-footer__note">${t(e.note)}</div>
+    <nav class="tt-footer__links">${n}</nav>
+  </div>
+</footer>`}var m=`/* Brand fonts — self-hosted variable woff2 (the host serves /fonts/*.woff2; CSP font-src 'self').
    font-display:swap so text paints immediately in the fallback, then swaps. */
 @font-face{font-family:'Space Grotesk';font-style:normal;font-weight:300 700;font-display:swap;
   src:url(/fonts/space-grotesk-latin.woff2) format('woff2');
@@ -886,13 +891,13 @@ img[data-tt-zoom]{cursor:zoom-in}
     --tt-muted:#2b3c48;--tt-faint:#394a56;
   }
   :focus-visible{outline-width:3px;outline-offset:3px}
-}`,p=[`featured`,`gallery`,`video-browser`];function m(e){return p.includes(e)}var h=class extends Error{constructor(e){super(e),this.name=`WidgetError`}};function g(e){return e.replace(/&/g,`&amp;`).replace(/</g,`&lt;`).replace(/>/g,`&gt;`).replace(/"/g,`&quot;`).replace(/'/g,`&#039;`)}function _(e){return typeof e==`object`&&!!e&&!Array.isArray(e)}function v(e,t,n){let r=e[t];if(typeof r!=`string`||r.trim()===``)throw new h(`${n}: field "${t}" must be a non-empty string`);return r}function y(e,t){let n=e[t];return typeof n==`string`&&n.trim()!==``?n:void 0}function b(e,t,n,r){let i=e[t];if(!Array.isArray(i)||i.length<r)throw new h(`${n}: field "${t}" must be an array of at least ${r}`);return i.map((e,r)=>{if(!_(e))throw new h(`${n}: "${t}[${r}]" must be an object`);return e})}function x(e,t){if(!_(e))throw new h(`${t}: data must be an object`);return e}function S(e,t,n){let r=v(e,t,n);if(!/^[A-Za-z0-9_-]+$/.test(r))throw new h(`${n}: field "${t}" is not a valid YouTube id`);return r}var C=1200,w=630,T=1200,E=630,D=480,ee=360,O=0;function k(){return O+=1,`${Date.now().toString(36)}-${O.toString(36)}`}function A(e){let t=`featured`,n=x(e,t),r=v(n,`src`,t),i=v(n,`alt`,t),a=y(n,`caption`),o=a?`\n  <figcaption class="tt-featured__caption">${g(a)}</figcaption>`:``;return`
+}`,h=[`featured`,`gallery`,`video-browser`];function g(e){return h.includes(e)}var _=class extends Error{constructor(e){super(e),this.name=`WidgetError`}};function v(e){return e.replace(/&/g,`&amp;`).replace(/</g,`&lt;`).replace(/>/g,`&gt;`).replace(/"/g,`&quot;`).replace(/'/g,`&#039;`)}function y(e){return typeof e==`object`&&!!e&&!Array.isArray(e)}function b(e,t,n){let r=e[t];if(typeof r!=`string`||r.trim()===``)throw new _(`${n}: field "${t}" must be a non-empty string`);return r}function x(e,t){let n=e[t];return typeof n==`string`&&n.trim()!==``?n:void 0}function S(e,t,n,r){let i=e[t];if(!Array.isArray(i)||i.length<r)throw new _(`${n}: field "${t}" must be an array of at least ${r}`);return i.map((e,r)=>{if(!y(e))throw new _(`${n}: "${t}[${r}]" must be an object`);return e})}function C(e,t){if(!y(e))throw new _(`${t}: data must be an object`);return e}function w(e,t,n){let r=b(e,t,n);if(!/^[A-Za-z0-9_-]+$/.test(r))throw new _(`${n}: field "${t}" is not a valid YouTube id`);return r}var T=1200,E=630,D=1200,O=630,k=480,A=360,j=0;function M(){return j+=1,`${Date.now().toString(36)}-${j.toString(36)}`}function N(e){let t=`featured`,n=C(e,t),r=b(n,`src`,t),i=b(n,`alt`,t),a=x(n,`caption`),o=a?`\n  <figcaption class="tt-featured__caption">${v(a)}</figcaption>`:``;return`
 <figure class="tt-widget tt-featured">
-  <img class="tt-featured__img" src="${g(r)}" alt="${g(i)}" loading="eager" fetchpriority="high" decoding="async" width="${C}" height="${w}" data-tt-zoom>${o}
-</figure>`.trim()}function j(e){let t=`gallery`,n=x(e,t),r=v(n,`title`,t),i=b(n,`images`,t,2),a=`tt-gal-${k()}`,o=i.length,s=e=>`${a}-${e}`,c=i.map((e,n)=>({src:g(v(e,`src`,`${t}.images[${n}]`)),alt:g(v(e,`alt`,`${t}.images[${n}]`)),caption:y(e,`caption`)})),l=c.map((e,t)=>{let n=s((t-1+o)%o),r=s((t+1)%o),i=t===0?` checked`:``,c=e.caption?`<span class="tt-gallery__slide-text">${g(e.caption)}</span>`:``;return`    <input class="tt-gallery__radio" type="radio" name="${a}" id="${s(t)}"${i}>
+  <img class="tt-featured__img" src="${v(r)}" alt="${v(i)}" loading="eager" fetchpriority="high" decoding="async" width="${T}" height="${E}" data-tt-zoom>${o}
+</figure>`.trim()}function P(e){let t=`gallery`,n=C(e,t),r=b(n,`title`,t),i=S(n,`images`,t,2),a=`tt-gal-${M()}`,o=i.length,s=e=>`${a}-${e}`,c=i.map((e,n)=>({src:v(b(e,`src`,`${t}.images[${n}]`)),alt:v(b(e,`alt`,`${t}.images[${n}]`)),caption:x(e,`caption`)})),l=c.map((e,t)=>{let n=s((t-1+o)%o),r=s((t+1)%o),i=t===0?` checked`:``,c=e.caption?`<span class="tt-gallery__slide-text">${v(e.caption)}</span>`:``;return`    <input class="tt-gallery__radio" type="radio" name="${a}" id="${s(t)}"${i}>
     <figure class="tt-gallery__slide">
       <div class="tt-gallery__frame">
-        <img class="tt-gallery__slide-img" src="${e.src}" alt="${e.alt}" loading="lazy" decoding="async" width="${T}" height="${E}" data-tt-zoom>
+        <img class="tt-gallery__slide-img" src="${e.src}" alt="${e.alt}" loading="lazy" decoding="async" width="${D}" height="${O}" data-tt-zoom>
         <label class="tt-gallery__nav tt-gallery__prev" for="${n}" aria-label="Previous image">&#8249;</label>
         <label class="tt-gallery__nav tt-gallery__next" for="${r}" aria-label="Next image">&#8250;</label>
       </div>
@@ -904,8 +909,8 @@ img[data-tt-zoom]{cursor:zoom-in}
       <img class="tt-gallery__thumb-img" src="${e.src}" alt="" loading="lazy" decoding="async">
     </label>`).join(`
 `);return`
-<section class="tt-widget tt-gallery" aria-label="${g(r)}">
-  <h3 class="tt-widget__heading tt-gallery__heading">${g(r)}</h3>
+<section class="tt-widget tt-gallery" aria-label="${v(r)}">
+  <h3 class="tt-widget__heading tt-gallery__heading">${v(r)}</h3>
   <div class="tt-gallery__slideshow">
     <div class="tt-gallery__stage">
 ${l}
@@ -914,31 +919,31 @@ ${l}
 ${u}
     </div>
   </div>
-</section>`.trim()}function M(e){let t=`video-browser`,n=x(e,t),r=v(n,`title`,t),i=b(n,`tabs`,t,1),a=`tt-vb-${k()}`,o=-1,s=0,c=[];for(let e=0;e<i.length&&s<3;e+=1){let n=i[e],r=v(n,`label`,`${t}.tabs[${e}]`),l=b(n,`videos`,`${t}.tabs[${e}]`,1),u=[];for(let n=0;n<l.length&&s<3;n+=1){let r=l[n];o+=1,s+=1;let i=S(r,`id`,`${t}.tabs[${e}].videos[${n}]`),c=v(r,`title`,`${t}.tabs[${e}].videos[${n}]`),d=v(r,`channel`,`${t}.tabs[${e}].videos[${n}]`),f=`https://i.ytimg.com/vi/${i}/hqdefault.jpg`,p=`https://www.youtube-nocookie.com/embed/${i}?autoplay=1&rel=0`,m=`${a}-${o}`,h=o===0?` checked`:``;u.push(`  <input class="tt-video-browser__radio" type="radio" name="${a}" id="${m}"${h}>
+</section>`.trim()}function F(e){let t=`video-browser`,n=C(e,t),r=b(n,`title`,t),i=S(n,`tabs`,t,1),a=`tt-vb-${M()}`,o=-1,s=0,c=[];for(let e=0;e<i.length&&s<3;e+=1){let n=i[e],r=b(n,`label`,`${t}.tabs[${e}]`),l=S(n,`videos`,`${t}.tabs[${e}]`,1),u=[];for(let n=0;n<l.length&&s<3;n+=1){let r=l[n];o+=1,s+=1;let i=w(r,`id`,`${t}.tabs[${e}].videos[${n}]`),c=b(r,`title`,`${t}.tabs[${e}].videos[${n}]`),d=b(r,`channel`,`${t}.tabs[${e}].videos[${n}]`),f=`https://i.ytimg.com/vi/${i}/hqdefault.jpg`,p=`https://www.youtube-nocookie.com/embed/${i}?autoplay=1&rel=0`,m=`${a}-${o}`,h=o===0?` checked`:``;u.push(`  <input class="tt-video-browser__radio" type="radio" name="${a}" id="${m}"${h}>
   <label class="tt-video-browser__tab" for="${m}">
-    <span class="tt-video-browser__tabtitle">${g(c)}</span>
-    <span class="tt-video-browser__tabchannel">${g(d)}</span>
+    <span class="tt-video-browser__tabtitle">${v(c)}</span>
+    <span class="tt-video-browser__tabchannel">${v(d)}</span>
   </label>
   <div class="tt-video-browser__preview">
-    <a class="tt-video-browser__facade" href="${g(p)}" data-tt-yt="${i}" data-tt-title="${g(c)}" target="_blank" rel="noopener" aria-label="Play ${g(c)} inline">
+    <a class="tt-video-browser__facade" href="${v(p)}" data-tt-yt="${i}" data-tt-title="${v(c)}" target="_blank" rel="noopener" aria-label="Play ${v(c)} inline">
       <span class="tt-video-browser__thumb">
-        <img class="tt-video-browser__poster" src="${g(f)}" alt="${g(c)}" loading="lazy" decoding="async" width="${D}" height="${ee}">
+        <img class="tt-video-browser__poster" src="${v(f)}" alt="${v(c)}" loading="lazy" decoding="async" width="${k}" height="${A}">
         <span class="tt-video-browser__play" aria-hidden="true"></span>
       </span>
     </a>
     <div class="tt-video-browser__previewmeta">
-      <span class="tt-video-browser__previewtitle">${g(c)}</span>
-      <span class="tt-video-browser__previewchannel">${g(d)}</span>
+      <span class="tt-video-browser__previewtitle">${v(c)}</span>
+      <span class="tt-video-browser__previewchannel">${v(d)}</span>
     </div>
-  </div>`)}u.length>0&&c.push(`  <p class="tt-video-browser__group">${g(r)}</p>\n${u.join(`
+  </div>`)}u.length>0&&c.push(`  <p class="tt-video-browser__group">${v(r)}</p>\n${u.join(`
 `)}`)}return`
-<section class="tt-widget tt-video-browser" aria-label="${g(r)}">
-  <h3 class="tt-widget__heading tt-video-browser__heading">${g(r)}</h3>
+<section class="tt-widget tt-video-browser" aria-label="${v(r)}">
+  <h3 class="tt-widget__heading tt-video-browser__heading">${v(r)}</h3>
   <div class="tt-video-browser__split">
 ${c.join(`
 `)}
   </div>
-</section>`.trim()}var N={featured:A,gallery:j,"video-browser":M};function P(e,t){if(!m(e))throw new h(`Unknown media widget type "${e}". Expected one of: ${p.join(`, `)}`);return N[e](t)}var F=`
+</section>`.trim()}var I={featured:N,gallery:P,"video-browser":F};function L(e,t){if(!g(e))throw new _(`Unknown media widget type "${e}". Expected one of: ${h.join(`, `)}`);return I[e](t)}var R=`
 .tt-widget.tt-featured,
 .tt-widget.tt-gallery,
 .tt-widget.tt-video-browser {
@@ -968,7 +973,7 @@ ${c.join(`
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: ${C} / ${w};
+  aspect-ratio: ${T} / ${E};
   object-fit: cover;
   background: linear-gradient(135deg, rgba(0, 229, 255, 0.1), rgba(80, 170, 227, 0.12));
 }
@@ -1034,7 +1039,7 @@ ${c.join(`
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: ${T} / ${E};
+  aspect-ratio: ${D} / ${O};
   object-fit: contain;
   background: linear-gradient(135deg, rgba(0, 229, 255, 0.06), rgba(0, 229, 255, 0.02));
 }
@@ -1111,7 +1116,7 @@ ${c.join(`
 .tt-gallery__thumb-img {
   display: block;
   width: 100%;
-  aspect-ratio: ${T} / ${E};
+  aspect-ratio: ${D} / ${O};
   object-fit: cover;
 }
 
@@ -1335,30 +1340,30 @@ ${c.join(`
   .tt-gallery__nav:hover { transform: translateY(-50%); }
   .tt-video-browser__facade:hover .tt-video-browser__play { transform: translate(-50%, -50%); }
 }
-`.trim(),I=[`callout`,`takeaways`,`comparison`,`steps`,`faq`,`timeline`,`stat-cards`,`pros-cons`,`glossary`,`pullquote`,`platform-tabs`,`spec-table`,`scorecard`,`accordion`];function L(e){return I.includes(e)}var R=[`featured`,`gallery`,`video-browser`];[...I,...R];var z=class extends Error{constructor(e){super(e),this.name=`WidgetError`}};function B(e){return e.replace(/&/g,`&amp;`).replace(/</g,`&lt;`).replace(/>/g,`&gt;`).replace(/"/g,`&quot;`).replace(/'/g,`&#039;`)}function V(e){return typeof e==`object`&&!!e&&!Array.isArray(e)}function H(e,t,n){let r=e[t];if(typeof r!=`string`||r.trim()===``)throw new z(`${n}: field "${t}" must be a non-empty string`);return r}function U(e,t){let n=e[t];return typeof n==`string`&&n.trim()!==``?n:void 0}function W(e,t,n){let r=e[t];if(typeof r!=`number`||!Number.isFinite(r))throw new z(`${n}: field "${t}" must be a finite number`);return r}function G(e,t){let n=e[t];return typeof n==`number`&&Number.isFinite(n)?n:void 0}function K(e,t,n){let r=e[t];if(!Array.isArray(r)||r.length===0)throw new z(`${n}: field "${t}" must be a non-empty array`);return r.map((e,r)=>{if(typeof e!=`string`||e.trim()===``)throw new z(`${n}: "${t}[${r}]" must be a non-empty string`);return e})}function q(e,t,n){let r=e[t];if(!Array.isArray(r)||r.length===0)throw new z(`${n}: field "${t}" must be a non-empty array`);return r.map((e,r)=>{if(!V(e))throw new z(`${n}: "${t}[${r}]" must be an object`);return e})}function J(e,t){if(!V(e))throw new z(`${t}: data must be an object`);return e}var Y=[`info`,`warning`,`success`,`tip`],X={info:`Info`,warning:`Warning`,success:`Success`,tip:`Tip`};function Z(e){let t=`callout`,n=J(e,t),r=H(n,`variant`,t);if(!Y.includes(r))throw new z(`${t}: "variant" must be one of ${Y.join(`, `)}`);let i=r,a=H(n,`title`,t),o=H(n,`body`,t);return`
-<aside class="tt-widget tt-callout tt-callout--${i}" data-ripple="true" data-spotlight="true" data-magnetic="true" role="note" aria-label="${B(X[i])}: ${B(a)}">
-  <span class="tt-callout__badge" aria-hidden="true">${B(X[i])}</span>
+`.trim(),z=[`callout`,`takeaways`,`comparison`,`steps`,`faq`,`timeline`,`stat-cards`,`pros-cons`,`glossary`,`pullquote`,`platform-tabs`,`spec-table`,`scorecard`,`accordion`];function B(e){return z.includes(e)}var ee=[`featured`,`gallery`,`video-browser`];[...z,...ee];var V=class extends Error{constructor(e){super(e),this.name=`WidgetError`}};function H(e){return e.replace(/&/g,`&amp;`).replace(/</g,`&lt;`).replace(/>/g,`&gt;`).replace(/"/g,`&quot;`).replace(/'/g,`&#039;`)}function U(e){return typeof e==`object`&&!!e&&!Array.isArray(e)}function W(e,t,n){let r=e[t];if(typeof r!=`string`||r.trim()===``)throw new V(`${n}: field "${t}" must be a non-empty string`);return r}function G(e,t){let n=e[t];return typeof n==`string`&&n.trim()!==``?n:void 0}function K(e,t,n){let r=e[t];if(typeof r!=`number`||!Number.isFinite(r))throw new V(`${n}: field "${t}" must be a finite number`);return r}function q(e,t){let n=e[t];return typeof n==`number`&&Number.isFinite(n)?n:void 0}function J(e,t,n){let r=e[t];if(!Array.isArray(r)||r.length===0)throw new V(`${n}: field "${t}" must be a non-empty array`);return r.map((e,r)=>{if(typeof e!=`string`||e.trim()===``)throw new V(`${n}: "${t}[${r}]" must be a non-empty string`);return e})}function Y(e,t,n){let r=e[t];if(!Array.isArray(r)||r.length===0)throw new V(`${n}: field "${t}" must be a non-empty array`);return r.map((e,r)=>{if(!U(e))throw new V(`${n}: "${t}[${r}]" must be an object`);return e})}function X(e,t){if(!U(e))throw new V(`${t}: data must be an object`);return e}var Z=[`info`,`warning`,`success`,`tip`],Q={info:`Info`,warning:`Warning`,success:`Success`,tip:`Tip`};function te(e){let t=`callout`,n=X(e,t),r=W(n,`variant`,t);if(!Z.includes(r))throw new V(`${t}: "variant" must be one of ${Z.join(`, `)}`);let i=r,a=W(n,`title`,t),o=W(n,`body`,t);return`
+<aside class="tt-widget tt-callout tt-callout--${i}" data-ripple="true" data-spotlight="true" data-magnetic="true" role="note" aria-label="${H(Q[i])}: ${H(a)}">
+  <span class="tt-callout__badge" aria-hidden="true">${H(Q[i])}</span>
   <div class="tt-callout__content">
-    <p class="tt-callout__title">${B(a)}</p>
-    <p class="tt-callout__body">${B(o)}</p>
+    <p class="tt-callout__title">${H(a)}</p>
+    <p class="tt-callout__body">${H(o)}</p>
   </div>
-</aside>`.trim()}function Q(e){let t=`takeaways`,n=J(e,t),r=H(n,`title`,t),i=K(n,`items`,t).map(e=>`    <li class="tt-takeaways__item">${B(e)}</li>`).join(`
+</aside>`.trim()}function ne(e){let t=`takeaways`,n=X(e,t),r=W(n,`title`,t),i=J(n,`items`,t).map(e=>`    <li class="tt-takeaways__item">${H(e)}</li>`).join(`
 `);return`
-<section class="tt-widget tt-takeaways" data-ripple="true" data-spotlight="true" data-magnetic="true" aria-label="${B(r)}">
-  <h3 class="tt-widget__heading tt-takeaways__heading">${B(r)}</h3>
+<section class="tt-widget tt-takeaways" data-ripple="true" data-spotlight="true" data-magnetic="true" aria-label="${H(r)}">
+  <h3 class="tt-widget__heading tt-takeaways__heading">${H(r)}</h3>
   <ul class="tt-takeaways__list">
 ${i}
   </ul>
-</section>`.trim()}function te(e){let t=`comparison`,n=J(e,t),r=H(n,`title`,t),i=K(n,`columns`,t),a=n.rows;if(!Array.isArray(a)||a.length===0)throw new z(`${t}: field "rows" must be a non-empty array`);let o=a.map((e,n)=>{if(!Array.isArray(e)||e.length===0)throw new z(`${t}: "rows[${n}]" must be a non-empty array`);if(e.length!==i.length)throw new z(`${t}: "rows[${n}]" has ${e.length} cells but there are ${i.length} columns`);return e.map((e,r)=>{if(typeof e!=`string`||e.trim()===``)throw new z(`${t}: "rows[${n}][${r}]" must be a non-empty string`);return e})}),s=i.map(e=>`        <th scope="col" class="tt-comparison__th">${B(e)}</th>`).join(`
-`),c=o.map(e=>{let[t,...n]=e,r=`        <th scope="row" class="tt-comparison__rowhead">${B(t??``)}</th>`,i=n.map(e=>`        <td class="tt-comparison__td">${B(e)}</td>`).join(`
+</section>`.trim()}function re(e){let t=`comparison`,n=X(e,t),r=W(n,`title`,t),i=J(n,`columns`,t),a=n.rows;if(!Array.isArray(a)||a.length===0)throw new V(`${t}: field "rows" must be a non-empty array`);let o=a.map((e,n)=>{if(!Array.isArray(e)||e.length===0)throw new V(`${t}: "rows[${n}]" must be a non-empty array`);if(e.length!==i.length)throw new V(`${t}: "rows[${n}]" has ${e.length} cells but there are ${i.length} columns`);return e.map((e,r)=>{if(typeof e!=`string`||e.trim()===``)throw new V(`${t}: "rows[${n}][${r}]" must be a non-empty string`);return e})}),s=i.map(e=>`        <th scope="col" class="tt-comparison__th">${H(e)}</th>`).join(`
+`),c=o.map(e=>{let[t,...n]=e,r=`        <th scope="row" class="tt-comparison__rowhead">${H(t??``)}</th>`,i=n.map(e=>`        <td class="tt-comparison__td">${H(e)}</td>`).join(`
 `);return`      <tr class="tt-comparison__row">\n${r}${i?`
 `+i:``}\n      </tr>`}).join(`
 `);return`
-<section class="tt-widget tt-comparison" data-ripple="true" data-spotlight="true" data-magnetic="true" aria-label="${B(r)}">
-  <h3 class="tt-widget__heading tt-comparison__heading">${B(r)}</h3>
+<section class="tt-widget tt-comparison" data-ripple="true" data-spotlight="true" data-magnetic="true" aria-label="${H(r)}">
+  <h3 class="tt-widget__heading tt-comparison__heading">${H(r)}</h3>
   <div class="tt-comparison__scroll">
     <table class="tt-comparison__table">
-      <caption class="tt-comparison__caption">${B(r)}</caption>
+      <caption class="tt-comparison__caption">${H(r)}</caption>
       <thead>
       <tr>
 ${s}
@@ -1369,27 +1374,27 @@ ${c}
       </tbody>
     </table>
   </div>
-</section>`.trim()}function ne(e){let t=`steps`,n=J(e,t),r=H(n,`title`,t),i=q(n,`steps`,t).map((e,n)=>{let r=H(e,`title`,`${t}.steps[${n}]`),i=H(e,`body`,`${t}.steps[${n}]`);return`    <li class="tt-steps__item">
+</section>`.trim()}function ie(e){let t=`steps`,n=X(e,t),r=W(n,`title`,t),i=Y(n,`steps`,t).map((e,n)=>{let r=W(e,`title`,`${t}.steps[${n}]`),i=W(e,`body`,`${t}.steps[${n}]`);return`    <li class="tt-steps__item">
       <span class="tt-steps__marker" aria-hidden="true"></span>
       <div class="tt-steps__content">
-        <p class="tt-steps__title">${B(r)}</p>
-        <p class="tt-steps__body">${B(i)}</p>
+        <p class="tt-steps__title">${H(r)}</p>
+        <p class="tt-steps__body">${H(i)}</p>
       </div>
     </li>`}).join(`
 `);return`
-<section class="tt-widget tt-steps" data-ripple="true" data-spotlight="true" data-magnetic="true" aria-label="${B(r)}">
-  <h3 class="tt-widget__heading tt-steps__heading">${B(r)}</h3>
+<section class="tt-widget tt-steps" data-ripple="true" data-spotlight="true" data-magnetic="true" aria-label="${H(r)}">
+  <h3 class="tt-widget__heading tt-steps__heading">${H(r)}</h3>
   <ol class="tt-steps__list">
 ${i}
   </ol>
-</section>`.trim()}function re(e){let t=`platform-tabs`,n=J(e,t),r=H(n,`title`,t),i=q(n,`tabs`,t),a=2166136261,o=r+i.map((e,t)=>String(e.os??t)).join(`|`);for(let e=0;e<o.length;e+=1)a=Math.imul(a^o.charCodeAt(e),16777619);let s=(a>>>0).toString(36),c=i.map((e,n)=>{let r=H(e,`os`,`${t}.tabs[${n}]`);return`      <label class="tt-platform-tabs__tab" data-ripple="true" data-spotlight="true" data-magnetic="true"><input type="radio" name="tt-platform-tabs-${s}" value="${n}"${n===0?` checked`:``}> ${B(r)}</label>`}).join(`
-`),l=i.map((e,n)=>{let r=H(e,`os`,`${t}.tabs[${n}]`),i=H(e,`code`,`${t}.tabs[${n}]`),a=U(e,`note`),o=U(e,`lang`),s=a?`        <p class="tt-platform-tabs__note">${B(a)}</p>\n`:``;return`      <div class="tt-platform-tabs__panel">
-        <h4 class="tt-platform-tabs__panel-os">${B(r)}</h4>
-${s}        <pre class="tt-platform-tabs__code"${o?` data-lang="${B(o)}"`:``}><code>${B(i)}</code></pre>
+</section>`.trim()}function ae(e){let t=`platform-tabs`,n=X(e,t),r=W(n,`title`,t),i=Y(n,`tabs`,t),a=2166136261,o=r+i.map((e,t)=>String(e.os??t)).join(`|`);for(let e=0;e<o.length;e+=1)a=Math.imul(a^o.charCodeAt(e),16777619);let s=(a>>>0).toString(36),c=i.map((e,n)=>{let r=W(e,`os`,`${t}.tabs[${n}]`);return`      <label class="tt-platform-tabs__tab" data-ripple="true" data-spotlight="true" data-magnetic="true"><input type="radio" name="tt-platform-tabs-${s}" value="${n}"${n===0?` checked`:``}> ${H(r)}</label>`}).join(`
+`),l=i.map((e,n)=>{let r=W(e,`os`,`${t}.tabs[${n}]`),i=W(e,`code`,`${t}.tabs[${n}]`),a=G(e,`note`),o=G(e,`lang`),s=a?`        <p class="tt-platform-tabs__note">${H(a)}</p>\n`:``;return`      <div class="tt-platform-tabs__panel">
+        <h4 class="tt-platform-tabs__panel-os">${H(r)}</h4>
+${s}        <pre class="tt-platform-tabs__code"${o?` data-lang="${H(o)}"`:``}><code>${H(i)}</code></pre>
       </div>`}).join(`
 `);return`
-<section class="tt-widget tt-platform-tabs" data-ripple="true" data-spotlight="true" data-magnetic="true" aria-label="${B(r)}">
-  <h3 class="tt-widget__heading tt-platform-tabs__heading">${B(r)}</h3>
+<section class="tt-widget tt-platform-tabs" data-ripple="true" data-spotlight="true" data-magnetic="true" aria-label="${H(r)}">
+  <h3 class="tt-widget__heading tt-platform-tabs__heading">${H(r)}</h3>
   <div class="tt-platform-tabs__inner">
     <div class="tt-platform-tabs__list" role="group" aria-label="Choose your platform">
 ${c}
@@ -1398,44 +1403,44 @@ ${c}
 ${l}
     </div>
   </div>
-</section>`.trim()}function ie(e){let t=J(e,`faq`),n=H(t,`title`,`faq`),r=q(t,`items`,`faq`).map((e,t)=>{let r=H(e,`q`,`faq.items[${t}]`),i=H(e,`a`,`faq.items[${t}]`);return`    <details class="tt-faq__item" name="${B(n)}">
-      <summary class="tt-faq__question" data-ripple="true" data-spotlight="true" data-magnetic="true">${B(r)}</summary>
-      <div class="tt-faq__answer">${B(i)}</div>
+</section>`.trim()}function oe(e){let t=X(e,`faq`),n=W(t,`title`,`faq`),r=Y(t,`items`,`faq`).map((e,t)=>{let r=W(e,`q`,`faq.items[${t}]`),i=W(e,`a`,`faq.items[${t}]`);return`    <details class="tt-faq__item" name="${H(n)}">
+      <summary class="tt-faq__question" data-ripple="true" data-spotlight="true" data-magnetic="true">${H(r)}</summary>
+      <div class="tt-faq__answer">${H(i)}</div>
     </details>`}).join(`
 `);return`
-<section class="tt-widget tt-faq" data-ripple="true" data-spotlight="true" data-magnetic="true" aria-label="${B(n)}">
-  <h3 class="tt-widget__heading tt-faq__heading">${B(n)}</h3>
+<section class="tt-widget tt-faq" data-ripple="true" data-spotlight="true" data-magnetic="true" aria-label="${H(n)}">
+  <h3 class="tt-widget__heading tt-faq__heading">${H(n)}</h3>
   <div class="tt-faq__list">
 ${r}
   </div>
-</section>`.trim()}function ae(e){let t=`timeline`,n=J(e,t),r=H(n,`title`,t),i=q(n,`events`,t).map((e,n)=>{let r=H(e,`label`,`${t}.events[${n}]`),i=H(e,`body`,`${t}.events[${n}]`);return`    <li class="tt-timeline__event">
+</section>`.trim()}function se(e){let t=`timeline`,n=X(e,t),r=W(n,`title`,t),i=Y(n,`events`,t).map((e,n)=>{let r=W(e,`label`,`${t}.events[${n}]`),i=W(e,`body`,`${t}.events[${n}]`);return`    <li class="tt-timeline__event">
       <span class="tt-timeline__dot" aria-hidden="true"></span>
       <div class="tt-timeline__content">
-        <p class="tt-timeline__label">${B(r)}</p>
-        <p class="tt-timeline__body">${B(i)}</p>
+        <p class="tt-timeline__label">${H(r)}</p>
+        <p class="tt-timeline__body">${H(i)}</p>
       </div>
     </li>`}).join(`
 `);return`
-<section class="tt-widget tt-timeline" data-ripple="true" data-spotlight="true" data-magnetic="true" aria-label="${B(r)}">
-  <h3 class="tt-widget__heading tt-timeline__heading">${B(r)}</h3>
+<section class="tt-widget tt-timeline" data-ripple="true" data-spotlight="true" data-magnetic="true" aria-label="${H(r)}">
+  <h3 class="tt-widget__heading tt-timeline__heading">${H(r)}</h3>
   <ol class="tt-timeline__list">
 ${i}
   </ol>
-</section>`.trim()}function oe(e){let t=`stat-cards`,n=J(e,t),r=H(n,`title`,t),i=q(n,`cards`,t).map((e,n)=>{let r=H(e,`value`,`${t}.cards[${n}]`),i=H(e,`label`,`${t}.cards[${n}]`),a=U(e,`source`),o=a?`\n      <p class="tt-stat-cards__source">${B(a)}</p>`:``;return`    <li class="tt-stat-cards__card" data-ripple="true" data-spotlight="true" data-magnetic="true">
-      <p class="tt-stat-cards__value">${B(r)}</p>
-      <p class="tt-stat-cards__label">${B(i)}</p>${o}
+</section>`.trim()}function ce(e){let t=`stat-cards`,n=X(e,t),r=W(n,`title`,t),i=Y(n,`cards`,t).map((e,n)=>{let r=W(e,`value`,`${t}.cards[${n}]`),i=W(e,`label`,`${t}.cards[${n}]`),a=G(e,`source`),o=a?`\n      <p class="tt-stat-cards__source">${H(a)}</p>`:``;return`    <li class="tt-stat-cards__card" data-ripple="true" data-spotlight="true" data-magnetic="true">
+      <p class="tt-stat-cards__value">${H(r)}</p>
+      <p class="tt-stat-cards__label">${H(i)}</p>${o}
     </li>`}).join(`
 `);return`
-<section class="tt-widget tt-stat-cards" data-ripple="true" data-spotlight="true" data-magnetic="true" aria-label="${B(r)}">
-  <h3 class="tt-widget__heading tt-stat-cards__heading">${B(r)}</h3>
+<section class="tt-widget tt-stat-cards" data-ripple="true" data-spotlight="true" data-magnetic="true" aria-label="${H(r)}">
+  <h3 class="tt-widget__heading tt-stat-cards__heading">${H(r)}</h3>
   <ul class="tt-stat-cards__grid">
 ${i}
   </ul>
-</section>`.trim()}function $(e){let t=`pros-cons`,n=J(e,t),r=H(n,`title`,t),i=K(n,`pros`,t),a=K(n,`cons`,t),o=i.map(e=>`      <li class="tt-pros-cons__item">${B(e)}</li>`).join(`
-`),s=a.map(e=>`      <li class="tt-pros-cons__item">${B(e)}</li>`).join(`
+</section>`.trim()}function le(e){let t=`pros-cons`,n=X(e,t),r=W(n,`title`,t),i=J(n,`pros`,t),a=J(n,`cons`,t),o=i.map(e=>`      <li class="tt-pros-cons__item">${H(e)}</li>`).join(`
+`),s=a.map(e=>`      <li class="tt-pros-cons__item">${H(e)}</li>`).join(`
 `);return`
-<section class="tt-widget tt-pros-cons" data-ripple="true" data-spotlight="true" data-magnetic="true" aria-label="${B(r)}">
-  <h3 class="tt-widget__heading tt-pros-cons__heading">${B(r)}</h3>
+<section class="tt-widget tt-pros-cons" data-ripple="true" data-spotlight="true" data-magnetic="true" aria-label="${H(r)}">
+  <h3 class="tt-widget__heading tt-pros-cons__heading">${H(r)}</h3>
   <div class="tt-pros-cons__columns">
     <div class="tt-pros-cons__col tt-pros-cons__col--pros">
       <p class="tt-pros-cons__colhead">Pros</p>
@@ -1450,55 +1455,55 @@ ${s}
       </ul>
     </div>
   </div>
-</section>`.trim()}function se(e){let t=`glossary`,n=J(e,t),r=H(n,`title`,t),i=q(n,`terms`,t).map((e,n)=>{let r=H(e,`term`,`${t}.terms[${n}]`),i=H(e,`def`,`${t}.terms[${n}]`);return`    <div class="tt-glossary__entry">
-      <dt class="tt-glossary__term">${B(r)}</dt>
-      <dd class="tt-glossary__def">${B(i)}</dd>
+</section>`.trim()}function ue(e){let t=`glossary`,n=X(e,t),r=W(n,`title`,t),i=Y(n,`terms`,t).map((e,n)=>{let r=W(e,`term`,`${t}.terms[${n}]`),i=W(e,`def`,`${t}.terms[${n}]`);return`    <div class="tt-glossary__entry">
+      <dt class="tt-glossary__term">${H(r)}</dt>
+      <dd class="tt-glossary__def">${H(i)}</dd>
     </div>`}).join(`
 `);return`
-<section class="tt-widget tt-glossary" data-ripple="true" data-spotlight="true" data-magnetic="true" aria-label="${B(r)}">
-  <h3 class="tt-widget__heading tt-glossary__heading">${B(r)}</h3>
+<section class="tt-widget tt-glossary" data-ripple="true" data-spotlight="true" data-magnetic="true" aria-label="${H(r)}">
+  <h3 class="tt-widget__heading tt-glossary__heading">${H(r)}</h3>
   <dl class="tt-glossary__list">
 ${i}
   </dl>
-</section>`.trim()}function ce(e){let t=`pullquote`,n=J(e,t),r=H(n,`quote`,t),i=n.attribution,a=typeof i==`string`&&i.trim()!==``?i:void 0,o=a?`\n  <figcaption class="tt-pullquote__attr">— ${B(a)}</figcaption>`:``;return`
+</section>`.trim()}function de(e){let t=`pullquote`,n=X(e,t),r=W(n,`quote`,t),i=n.attribution,a=typeof i==`string`&&i.trim()!==``?i:void 0,o=a?`\n  <figcaption class="tt-pullquote__attr">— ${H(a)}</figcaption>`:``;return`
 <figure class="tt-widget tt-pullquote" data-ripple="true" data-spotlight="true" data-magnetic="true">
-  <blockquote class="tt-pullquote__quote">${B(r)}</blockquote>${o}
-</figure>`.trim()}function le(e){let t=`spec-table`,n=J(e,t),r=H(n,`title`,t),i=q(n,`specs`,t).map((e,n)=>{let r=H(e,`label`,`${t}.specs[${n}]`),i=H(e,`value`,`${t}.specs[${n}]`);return`    <div class="tt-spec-table__row">
-      <dt class="tt-spec-table__label">${B(r)}</dt>
-      <dd class="tt-spec-table__value">${B(i)}</dd>
+  <blockquote class="tt-pullquote__quote">${H(r)}</blockquote>${o}
+</figure>`.trim()}function fe(e){let t=`spec-table`,n=X(e,t),r=W(n,`title`,t),i=Y(n,`specs`,t).map((e,n)=>{let r=W(e,`label`,`${t}.specs[${n}]`),i=W(e,`value`,`${t}.specs[${n}]`);return`    <div class="tt-spec-table__row">
+      <dt class="tt-spec-table__label">${H(r)}</dt>
+      <dd class="tt-spec-table__value">${H(i)}</dd>
     </div>`}).join(`
 `);return`
-<section class="tt-widget tt-spec-table" data-ripple="true" data-spotlight="true" data-magnetic="true" aria-label="${B(r)}">
-  <h3 class="tt-widget__heading tt-spec-table__heading">${B(r)}</h3>
+<section class="tt-widget tt-spec-table" data-ripple="true" data-spotlight="true" data-magnetic="true" aria-label="${H(r)}">
+  <h3 class="tt-widget__heading tt-spec-table__heading">${H(r)}</h3>
   <dl class="tt-spec-table__list">
 ${i}
   </dl>
-</section>`.trim()}function ue(e){let t=`scorecard`,n=J(e,t),r=H(n,`title`,t),i=q(n,`criteria`,t).map((e,n)=>{let r=H(e,`label`,`${t}.criteria[${n}]`),i=W(e,`score`,`${t}.criteria[${n}]`),a=G(e,`max`)??10;if(a<=0)throw new z(`${t}.criteria[${n}]: "max" must be greater than 0`);let o=U(e,`note`),s=Math.max(0,Math.min(100,i/a*100)),c=Number(s.toFixed(4)).toString(),l=Number(i.toFixed(2)).toString(),u=Number(a.toFixed(2)).toString(),d=B(`${r}: ${l} out of ${u}`),f=o?`\n      <p class="tt-scorecard__note">${B(o)}</p>`:``;return`    <li class="tt-scorecard__row">
+</section>`.trim()}function pe(e){let t=`scorecard`,n=X(e,t),r=W(n,`title`,t),i=Y(n,`criteria`,t).map((e,n)=>{let r=W(e,`label`,`${t}.criteria[${n}]`),i=K(e,`score`,`${t}.criteria[${n}]`),a=q(e,`max`)??10;if(a<=0)throw new V(`${t}.criteria[${n}]: "max" must be greater than 0`);let o=G(e,`note`),s=Math.max(0,Math.min(100,i/a*100)),c=Number(s.toFixed(4)).toString(),l=Number(i.toFixed(2)).toString(),u=Number(a.toFixed(2)).toString(),d=H(`${r}: ${l} out of ${u}`),f=o?`\n      <p class="tt-scorecard__note">${H(o)}</p>`:``;return`    <li class="tt-scorecard__row">
       <div class="tt-scorecard__head">
-        <span class="tt-scorecard__label">${B(r)}</span>
-        <span class="tt-scorecard__value"><span class="tt-scorecard__score">${B(l)}</span><span class="tt-scorecard__max">/${B(u)}</span></span>
+        <span class="tt-scorecard__label">${H(r)}</span>
+        <span class="tt-scorecard__value"><span class="tt-scorecard__score">${H(l)}</span><span class="tt-scorecard__max">/${H(u)}</span></span>
       </div>
       <div class="tt-scorecard__track" role="img" aria-label="${d}">
         <span class="tt-scorecard__fill" style="--tt-score:${c}"></span>
       </div>${f}
     </li>`}).join(`
 `);return`
-<section class="tt-widget tt-scorecard" data-ripple="true" data-spotlight="true" data-magnetic="true" aria-label="${B(r)}">
-  <h3 class="tt-widget__heading tt-scorecard__heading">${B(r)}</h3>
+<section class="tt-widget tt-scorecard" data-ripple="true" data-spotlight="true" data-magnetic="true" aria-label="${H(r)}">
+  <h3 class="tt-widget__heading tt-scorecard__heading">${H(r)}</h3>
   <ul class="tt-scorecard__list">
 ${i}
   </ul>
-</section>`.trim()}function de(e){let t=`accordion`,n=J(e,t),r=H(n,`title`,t),i=q(n,`items`,t).map((e,n)=>{let r=H(e,`summary`,`${t}.items[${n}]`),i=H(e,`body`,`${t}.items[${n}]`);return`    <details class="tt-accordion__item">
-      <summary class="tt-accordion__summary" data-ripple="true" data-spotlight="true" data-magnetic="true">${B(r)}</summary>
-      <div class="tt-accordion__body">${B(i)}</div>
+</section>`.trim()}function $(e){let t=`accordion`,n=X(e,t),r=W(n,`title`,t),i=Y(n,`items`,t).map((e,n)=>{let r=W(e,`summary`,`${t}.items[${n}]`),i=W(e,`body`,`${t}.items[${n}]`);return`    <details class="tt-accordion__item">
+      <summary class="tt-accordion__summary" data-ripple="true" data-spotlight="true" data-magnetic="true">${H(r)}</summary>
+      <div class="tt-accordion__body">${H(i)}</div>
     </details>`}).join(`
 `);return`
-<section class="tt-widget tt-accordion" data-ripple="true" data-spotlight="true" data-magnetic="true" aria-label="${B(r)}">
-  <h3 class="tt-widget__heading tt-accordion__heading">${B(r)}</h3>
+<section class="tt-widget tt-accordion" data-ripple="true" data-spotlight="true" data-magnetic="true" aria-label="${H(r)}">
+  <h3 class="tt-widget__heading tt-accordion__heading">${H(r)}</h3>
   <div class="tt-accordion__list">
 ${i}
   </div>
-</section>`.trim()}var fe={callout:Z,takeaways:Q,comparison:te,steps:ne,faq:ie,timeline:ae,"stat-cards":oe,"pros-cons":$,glossary:se,pullquote:ce,"platform-tabs":re,"spec-table":le,scorecard:ue,accordion:de};function pe(e,t){if(!L(e))throw new z(`Unknown widget type "${e}". Expected one of: ${I.join(`, `)}`);return fe[e](t)}var me=`.tt-widget {
+</section>`.trim()}var me={callout:te,takeaways:ne,comparison:re,steps:ie,faq:oe,timeline:se,"stat-cards":ce,"pros-cons":le,glossary:ue,pullquote:de,"platform-tabs":ae,"spec-table":fe,scorecard:pe,accordion:$};function he(e,t){if(!B(e))throw new V(`Unknown widget type "${e}". Expected one of: ${z.join(`, `)}`);return me[e](t)}var ge=`.tt-widget {
   --tt-bg: #0b0c1e;
   --tt-bg-raised: #11132a;
   --tt-border: #26294a;
@@ -2056,7 +2061,7 @@ ${i}
 @media (prefers-reduced-motion: reduce) {
   .tt-widget,
   .tt-widget * { transition: none !important; animation: none !important; }
-}`;({id:`blog`,canonicalPackage:`@theme.tools/blog`,tier:`core-workspace`,layer:`engines`,version:`1.0.0`,title:`ArticleDocument v1.0.0, Plate Studio & 100 Editorial Components`,summary:`Lossless Plate <-> ArticleDocument v1.0.0 serialization, citation/media/data validators, and 20 article fixtures.`,healthPath:`/api/health/blog`,requiredBindings:[`D1`,`R2`,`KV`]}).id;function he(e){return`
+}`;({id:`blog`,canonicalPackage:`@theme.tools/blog`,tier:`core-workspace`,layer:`engines`,version:`1.0.0`,title:`ArticleDocument v1.0.0, Plate Studio & 100 Editorial Components`,summary:`Lossless Plate <-> ArticleDocument v1.0.0 serialization, citation/media/data validators, and 20 article fixtures.`,healthPath:`/api/health/blog`,requiredBindings:[`D1`,`R2`,`KV`]}).id;function _e(e){return`
 <style>
   :host {
     display: block;
@@ -2130,5 +2135,5 @@ ${i}
     </ul>
   </nav>
 </div>
-`.trim()}export{P as a,u as c,F as i,l,me as n,f as o,pe as r,d as s,he as t,o as u};
-//# sourceMappingURL=theme-tools-blog-BYBAXuIE.js.map
+`.trim()}export{L as a,u as c,o as d,f,R as i,l,ge as n,m as o,he as r,d as s,_e as t,p as u};
+//# sourceMappingURL=theme-tools-blog-BnOjmf5e.js.map

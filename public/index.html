@@ -69,6 +69,7 @@
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Fira+Code:wght@400;700&family=Sora:wght@400;600;700&display=swap" /></noscript>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xterm/xterm@5.5.0/css/xterm.min.css" media="print" onload="this.media='all'" />
     <link rel="stylesheet" href="/styles.css?v=2945c6a-20260921v3" />
+    <link rel="stylesheet" href="/theme-tools-shell.css" />
     <script>
       history.scrollRestoration = 'manual';
       window.scrollTo(0, 0);
@@ -247,7 +248,7 @@
     </script>
   </head>
   <body data-page="home">
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="tt-skip" href="#main">Skip to content</a>
     <div class="reading-progress" role="presentation" aria-hidden="true"><div class="reading-progress-bar"></div></div>
     <div class="gh-letterbox gh-letterbox--top" aria-hidden="true"></div>
     <div class="gh-letterbox gh-letterbox--bottom" aria-hidden="true"></div>
@@ -259,20 +260,13 @@
       <span class="gh-scripture-whisper-mark" aria-hidden="true">✦</span>
       <p class="gh-scripture-whisper-verse" data-scripture-rotate>“For nothing is hidden that will not be made manifest.” — Luke 8:17</p>
     </aside>
-
-    <header class="site-header">
-      <a class="brand-lockup" href="/" aria-label="Ghost Signal — home" style="text-decoration:none;color:inherit;">
-        <img class="brand-logo" src="/logo-nav.png?v=2945c6a-1778550809" alt="Ghost Signal logo" width="34" height="34" fetchpriority="high" decoding="async" />
-        <div class="brand-mark">GHOST // SIGNAL</div>
-      </a>
-      <nav class="site-nav" aria-label="Primary">
-        <a href="#top" class="is-active" aria-current="page">Signal</a>
-        <a href="#transmissions">Transmissions</a>
-        <a href="/blog">Blog</a>
-        <a href="/docs">Docs</a>
-        <a href="/api/docs">API</a>
-      </nav>
-    </header>
+    <header class="tt-nav" data-theme-tools="site-nav">
+  <a class="tt-nav__brand" href="/" aria-label="GHOST // SIGNAL home">
+    <img class="tt-nav__logo" src="/logo-nav.png?v=2945c6a-1778550809" alt="Ghost Signal logo" width="34" height="34" decoding="async" />
+    <span class="tt-nav__word">GHOST // SIGNAL</span>
+  </a>
+  <nav class="tt-nav__links" aria-label="Primary"><a class="tt-nav__link" href="/" aria-current="page">Signal</a><a class="tt-nav__link" href="/transmissions">Transmissions</a><a class="tt-nav__link" href="/blog">Blog</a><a class="tt-nav__link" href="/docs">Docs</a><a class="tt-nav__link" href="/api/docs">API</a></nav>
+<a class="tt-nav__hotline" href="tel:+16016666602" aria-label="Call the Ghost Signal hotline at 601 666 6602">Call 666</a></header>
     <script type="speculationrules">
     {
       "prerender": [
@@ -4284,51 +4278,12 @@ WITHIN 30 DAYS FOR $22.00 CREDIT</pre>
       <div class="telemetry-pulse" aria-hidden="true"></div>
     </div>
 
-    <footer class="site-footer shell">
-      <p>ghost.claims &mdash; one sensor, one signal, one hotline.</p>
-      <div class="footer-social" aria-label="Social links">
-        <a href="https://x.com/HeyMegabyte" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X" data-platform="x">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        </a>
-        <a href="https://github.com/HeyMegabyte" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub" data-platform="github">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
-        </a>
-        <a href="https://www.linkedin.com/in/blzalewski" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn" data-platform="linkedin">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        </a>
-        <a href="https://www.instagram.com/heymegabyteofficial/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram" data-platform="instagram">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-        </a>
-        <a href="https://www.youtube.com/@HeyMegabyte" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube" data-platform="youtube">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-        </a>
-        <a href="https://www.facebook.com/HeyMegabyte" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook" data-platform="facebook">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-        </a>
-        <a href="https://www.reddit.com/user/HeyMegabyte/" target="_blank" rel="noopener" aria-label="Reddit" title="Reddit" data-platform="reddit">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 01-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 01.042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 014.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 01.14-.197.35.35 0 01.238-.042l2.906.617a1.214 1.214 0 011.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 00-.231.094.33.33 0 000 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 00.029-.463.33.33 0 00-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 00-.232-.095z"/></svg>
-        </a>
-        <a href="https://t.me/HeyMegabyte" target="_blank" rel="noopener" aria-label="Telegram" title="Telegram" data-platform="telegram">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-        </a>
-        <a href="https://www.threads.net/@heymegabyteofficial" target="_blank" rel="noopener" aria-label="Threads" title="Threads" data-platform="threads">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.96-.065-1.187.408-2.26 1.33-3.02.867-.714 2.042-1.11 3.305-1.116.93-.004 1.796.146 2.575.447-.009-.36-.042-.728-.101-1.1-.305-1.922-1.258-2.837-2.916-2.797-1.097.026-1.93.474-2.546 1.128l-1.504-1.295c.906-1.012 2.186-1.6 3.869-1.77.146-.015.295-.022.445-.023 1.31 0 2.36.404 3.148 1.128.91.835 1.43 2.088 1.55 3.737l.012.213c.063.088.124.178.182.271 1.111.78 1.915 1.715 2.383 2.787.744 1.707.799 4.47-1.26 6.482-1.768 1.729-3.95 2.504-7.076 2.528zm-.574-7.026c.068 0 .137.002.206.006 1.604.087 2.444 1.005 2.396 2.612-.044.99-.53 1.767-1.528 2.245-.65.312-1.43.448-2.18.448-.327 0-.647-.03-.95-.092-.855-.175-1.52-.578-1.878-1.136-.264-.413-.36-.87-.327-1.31.079-1.042.862-1.765 2.285-2.106.596-.139 1.262-.214 1.932-.234.132-.004.263-.005.395-.004z"/></svg>
-        </a>
-      </div>
-      <p>
-        <a href="/transmissions">Transmissions</a>
-        <span class="footer-sep">/</span>
-        <a href="/docs">Docs</a>
-        <span class="footer-sep">/</span>
-        <a href="/api/docs">API</a>
-        <span class="footer-sep">/</span>
-        <a href="/privacy">Privacy</a>
-        <span class="footer-sep">/</span>
-        <a href="/terms">Terms</a>
-        <span class="footer-sep">/</span>
-        <a href="mailto:hey@megabyte.space">Contact</a>
-      </p>
-    </footer>
+    <footer class="tt-footer" data-theme-tools="site-footer">
+  <div class="tt-footer__row">
+    <div class="tt-footer__note">ghost.claims // Public signal. Open data. Night archive.</div>
+    <nav class="tt-footer__links"><a href="/">Signal</a><a href="/transmissions">Transmissions</a><a href="/blog">Blog</a><a href="/docs">Docs</a><a href="/api/docs">API</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></nav>
+  </div>
+</footer>
 
     <!-- ═══ Feature Overlays ═══ -->
     <div id="seance-overlay" class="feature-overlay">

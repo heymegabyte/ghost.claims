@@ -20,7 +20,7 @@ test.describe("mobile", () => {
     await gotoHome(page, SEEDED_CUSTOM_RANGE);
 
     // Nav visible
-    await expect(page.locator(".site-nav")).toBeVisible();
+    await expect(page.locator(".tt-nav__links")).toBeVisible();
     await expect(page.getByRole("link", { name: "Signal" })).toBeVisible();
 
     // Range presets work
@@ -54,7 +54,7 @@ test("keyboard accessibility: skip link, nav tabs, timeline arrow keys, chat Esc
 
   // Skip link
   await page.keyboard.press("Tab");
-  await expect(page.locator(".skip-link")).toBeFocused();
+  await expect(page.locator(".tt-skip")).toBeFocused();
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(/#main$/);
 
@@ -113,9 +113,9 @@ test("web properties: manifest, robots, sitemap, security.txt, and cross-links",
   expect(await sitemap.text()).toContain("/docs");
 
   // Cross-links in footer
-  await expect(page.locator(".site-footer")).toContainText("ghost.claims");
-  await expect(page.locator(".site-footer a[href='/docs']")).toBeVisible();
-  await expect(page.locator(".site-footer a[href='/api/docs']")).toBeVisible();
+  await expect(page.locator(".tt-footer")).toContainText("ghost.claims");
+  await expect(page.locator(".tt-footer a[href='/docs']")).toBeVisible();
+  await expect(page.locator(".tt-footer a[href='/api/docs']")).toBeVisible();
 });
 
 test("featured Signal transmission is accessible and defers its video payload", async ({ page, request }) => {

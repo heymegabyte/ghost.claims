@@ -11,7 +11,7 @@ test("theme.tools Night Archive publishes fiction and reported memoir", async ({
   await expect(page.locator(".tt-post")).toHaveCount(5);
   await expect(page.locator(".tt-nav__logo")).toHaveAttribute("src", /\/logo-nav\.png/);
   await expect(page.locator(".tt-nav__links a")).toHaveText(["Signal", "Transmissions", "Blog", "Docs", "API"]);
-  await expect(page.getByRole("link", { name: "Blog" })).toHaveAttribute("aria-current", "page");
+  await expect(page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Blog" })).toHaveAttribute("aria-current", "page");
   await expect(page.getByText(/speculative horror and cultural criticism/i)).toBeVisible();
   await page.getByRole("link", { name: /The Clout War Above Heaven/ }).click();
   await expect(page).toHaveURL(/the-clout-war-above-heaven/);

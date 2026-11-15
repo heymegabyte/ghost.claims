@@ -18,8 +18,9 @@ describe("Night Archive", () => {
     expect(container.querySelectorAll(".tt-post")).toHaveLength(5);
     expect(screen.getByText(/speculative horror and cultural criticism/i)).toBeInTheDocument();
     expect(screen.getByAltText("Ghost Signal logo")).toHaveAttribute("src", expect.stringContaining("/logo-nav.png"));
-    expect(screen.getByRole("navigation").querySelectorAll("a")).toHaveLength(5);
-    expect(screen.getByRole("link", { name: "Blog" })).toHaveAttribute("aria-current", "page");
+    const primaryNavigation = screen.getByRole("navigation", { name: "Primary" });
+    expect(primaryNavigation.querySelectorAll("a")).toHaveLength(5);
+    expect(primaryNavigation.querySelector('a[href="/blog"]')).toHaveAttribute("aria-current", "page");
   });
 
   it("renders an article with the canonical web component and reading shell", () => {
