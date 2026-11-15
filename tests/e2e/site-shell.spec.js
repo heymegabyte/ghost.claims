@@ -10,17 +10,51 @@ const routes = [
 for (const viewport of [{ name: "desktop", width: 1440, height: 1000 }, { name: "phone", width: 390, height: 844 }]) {
   test(`canonical theme.tools shell is invariant on every route at ${viewport.name}`, async ({ page }) => {
     await page.setViewportSize(viewport);
-    let canonicalHeight;
+    let canonical;
     for (const route of routes) {
       await page.goto(route, { waitUntil: "domcontentloaded" });
+      await page.evaluate(() => document.fonts.ready);
       const nav = page.locator('[data-theme-tools="site-nav"]');
       await expect(nav).toBeVisible();
       await expect(nav.locator(".tt-nav__logo")).toHaveAttribute("src", /logo-nav\.png/);
+      await nav.locator(".tt-nav__logo").evaluate((image) => image.decode());
       await expect(nav.locator(".tt-nav__links a")).toHaveText(["Signal", "Transmissions", "Blog", "Docs", "API"]);
       await expect(nav).toHaveCSS("width", `${viewport.width}px`);
-      const height = Math.round((await nav.boundingBox()).height);
-      canonicalHeight ??= height;
-      expect(height).toBe(canonicalHeight);
+      // The active destination is intentionally route-aware. Remove only that state before
+      // comparing geometry and computed presentation so everything else must remain identical.
+      await nav.evaluate((element) => {
+        element.querySelectorAll("*").forEach((child) => {
+          child.style.setProperty("transition", "none", "important");
+          child.style.setProperty("animation", "none", "important");
+        });
+      });
+      await nav.locator('[aria-current="page"]').evaluateAll((links) => {
+        links.forEach((link) => link.removeAttribute("aria-current"));
+      });
+      const geometry = await nav.evaluate((element) => {
+        const properties = [
+          "alignItems", "backgroundImage", "borderBottomColor", "borderBottomWidth",
+          "boxShadow", "display", "fontFamily", "gap", "height", "justifyContent",
+          "minHeight", "paddingBottom", "paddingLeft", "paddingRight", "paddingTop", "width",
+        ];
+        const style = getComputedStyle(element);
+        const navStyle = Object.fromEntries(properties.map((property) => [property, style[property]]));
+        const childBoxes = [...element.querySelectorAll(":scope > *, .tt-nav__links > a")].map((child) => {
+          const box = child.getBoundingClientRect();
+          const childStyle = getComputedStyle(child);
+          return [
+            child.className, box.x, box.y, box.width, box.height,
+            childStyle.backgroundColor, childStyle.color, childStyle.fontFamily,
+            childStyle.fontSize, childStyle.fontWeight, childStyle.lineHeight,
+          ];
+        });
+        return { navStyle, childBoxes };
+      });
+
+      await nav.screenshot({ animations: "disabled" });
+      const snapshot = { geometry };
+      canonical ??= snapshot;
+      expect(snapshot, `${route} navbar differs from ${routes[0]} at ${viewport.name}`).toEqual(canonical);
       expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
     }
   });

@@ -123,6 +123,13 @@ test("featured Signal transmission is accessible and defers its video payload", 
 
   const section = page.getByTestId("the-signal-video");
   await expect(section.getByRole("heading", { name: "The Signal" })).toBeVisible();
+  await expect(section).toContainText("The high electric-field (EF) readings have continued");
+  await expect(section).toContainText("Hindu Temple apartment");
+
+  const followsFirstAlarm = await section.evaluate((signal) =>
+    signal.previousElementSibling?.querySelector("h2")?.textContent?.includes("The First Alarm"),
+  );
+  expect(followsFirstAlarm).toBe(true);
 
   const video = section.locator("video");
   await expect(video).toHaveAttribute("controls", "");
