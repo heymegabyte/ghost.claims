@@ -35,14 +35,31 @@ const nav = canonicalNav
 function articleBody(article: NightArchiveArticle): string {
   return article.sections.map((section, sectionIndex) => {
     const id = `${article.slug}-${sectionIndex + 1}`;
+    const isSources = section.heading?.startsWith("Sources and further") ?? false;
     const heading = section.heading ? `<h2 id="${id}">${section.heading}</h2>` : "";
-    const paragraphs = section.paragraphs.map((paragraph) => `<p>${paragraph}</p>`).join("");
+    const paragraphs = isSources
+      ? renderSourceLibrary(section.paragraphs)
+      : section.paragraphs.map((paragraph) => `<p>${paragraph}</p>`).join("");
     const quote = section.quote ? `<blockquote>${section.quote}</blockquote>` : "";
     const components = section.components?.map((component) => component.kind === "widget"
       ? renderWidget(component.type, component.data)
       : renderMedia(component.type, component.data)).join("") ?? "";
-    return `<section>${heading}${paragraphs}${quote}${components}</section>`;
+    return `<section${isSources ? ' class="night-sources" aria-labelledby="' + id + '"' : ""}>${heading}${paragraphs}${quote}${components}</section>`;
   }).join("");
+}
+
+function renderSourceLibrary(sources: readonly string[]): string {
+  const cards = sources.map((source) => {
+    const href = source.match(/href="([^"]+)"/)?.[1];
+    const host = href ? new URL(href).hostname.replace(/^www\./, "") : "Referenced archive";
+    const content = source
+      .replace(/^<span([^>]*)>/, "<div$1>")
+      .replace(/<\/span>$/, "</div>")
+      .replace(/<\/a>\.<\/div>$/, "</a></div>");
+    return `<li class="night-source-card">${content}<span class="night-source-domain">${host}</span><span class="night-source-arrow" aria-hidden="true">↗</span></li>`;
+  }).join("");
+
+  return `<div class="night-sources__masthead"><p class="night-sources__eyebrow">DOCUMENTATION // VERIFIED TRAILS</p><p class="night-sources__intro">Primary records, public agencies, trail stewards, and historical archives behind this field note.</p><span class="night-sources__count" aria-label="${sources.length} references"><strong>${String(sources.length).padStart(2, "0")}</strong> references</span></div><ol class="night-source-list">${cards}</ol><a class="night-sources__return" href="#main">Return to the transmission <span aria-hidden="true">↑</span></a>`;
 }
 
 function ArchiveIndex() {

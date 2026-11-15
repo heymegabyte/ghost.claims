@@ -48,6 +48,8 @@ test("Jungle Habitat memoir loads research, original photography, and canonical 
   await expect(page.getByText(/May 5, 2018 field footage and receipt/i)).toBeVisible();
   await expect(page.locator(".tt-gallery img")).toHaveCount(12);
   await expect(page.locator("[id^='jh-source-']")).toHaveCount(9);
+  await expect(page.locator(".night-source-card")).toHaveCount(9);
+  await expect(page.getByLabel("9 references")).toBeVisible();
   await expect(page.locator(".tt-nav__logo")).toHaveAttribute("src", /\/logo-nav\.png/);
   expect(errors).toEqual([]);
 });

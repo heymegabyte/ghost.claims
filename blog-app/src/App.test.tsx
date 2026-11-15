@@ -49,5 +49,7 @@ describe("Night Archive", () => {
     expect(container.querySelector(".tt-timeline")).not.toBeNull();
     expect(container.querySelector(".tt-gallery")).not.toBeNull();
     expect(container.querySelectorAll("[id^='jh-source-']")).toHaveLength(9);
+    expect(container.querySelectorAll(".night-source-card")).toHaveLength(9);
+    expect(screen.getByLabelText("9 references")).toBeInTheDocument();
   });
 });
