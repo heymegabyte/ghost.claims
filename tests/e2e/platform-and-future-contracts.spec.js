@@ -118,6 +118,22 @@ test("web properties: manifest, robots, sitemap, security.txt, and cross-links",
   await expect(page.locator(".site-footer a[href='/api/docs']")).toBeVisible();
 });
 
+test("featured Signal transmission is accessible and defers its video payload", async ({ page, request }) => {
+  await page.goto("/");
+
+  const section = page.getByTestId("the-signal-video");
+  await expect(section.getByRole("heading", { name: "The Signal" })).toBeVisible();
+
+  const video = section.locator("video");
+  await expect(video).toHaveAttribute("controls", "");
+  await expect(video).toHaveAttribute("preload", "none");
+  await expect(video.locator("source")).toHaveAttribute("src", "/the-signal.mp4");
+
+  const asset = await request.get("/the-signal.mp4", { headers: { Range: "bytes=0-1023" } });
+  expect([200, 206]).toContain(asset.status());
+  expect(asset.headers()["content-type"]).toContain("video/mp4");
+});
+
 test("future-ready dataset audit: snapshot, export, random all agree on one range", async ({ page, request }) => {
   await gotoHome(page, SEEDED_CUSTOM_RANGE);
 
