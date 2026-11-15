@@ -28,7 +28,7 @@ import {
 } from "./lib/snapshots";
 import { parse as parseYaml } from "yaml";
 import timelineYamlText from "./data/timeline.yaml";
-import { handleChat, getChatHistory } from "./lib/chat";
+import { handleChat, handleChatDetailed, getChatHistory } from "./lib/chat";
 import { buildGreetingTwiml, handleGather, getTransmissions, getTransmissionCount } from "./lib/twilio";
 import { storyMilestones, timelineAnnotations } from "./lib/timeline-events";
 import type { AppVariables, Env, TimelineData } from "./types";
@@ -1063,17 +1063,86 @@ app.openapi(timelineRoute, (c) => {
 });
 
 app.post("/api/v1/chat", async (c) => {
-  const body = await c.req.json<{ message?: string; sessionId?: string }>();
+  const body = await c.req.json<{ message?: string; sessionId?: string }>().catch(() => ({} as { message?: string; sessionId?: string }));
   const message = body.message?.trim();
   if (!message || message.length === 0 || message.length > 2000) {
     return c.json({ error: "Message must be 1-2000 characters.", code: "INVALID_MESSAGE" }, 400);
   }
 
-  const sessionId = body.sessionId || crypto.randomUUID();
+  const sessionId = normalizeSessionId(body.sessionId);
   const ip = c.req.header("cf-connecting-ip") ?? c.req.header("x-forwarded-for") ?? "unknown";
   const response = await handleChat(c.env, message, sessionId, ip);
 
   return c.json({ response, sessionId }, 200);
+});
+
+function normalizeSessionId(value?: string): string {
+  const candidate = value?.trim();
+  return candidate && candidate.length <= 128 && /^[a-zA-Z0-9_.:-]+$/.test(candidate)
+    ? candidate
+    : crypto.randomUUID();
+}
+
+function sseEvent(payload: unknown): Uint8Array {
+  return new TextEncoder().encode(`data: ${JSON.stringify(payload)}\n\n`);
+}
+
+app.post("/api/v1/chat/stream", async (c) => {
+  const body = await c.req.json<{ message?: string; sessionId?: string }>().catch(() => ({} as { message?: string; sessionId?: string }));
+  const message = body.message?.trim();
+  if (!message || message.length > 2000) {
+    return c.json({ error: "Message must be 1-2000 characters.", code: "INVALID_MESSAGE" }, 400);
+  }
+
+  const sessionId = normalizeSessionId(body.sessionId);
+  const ip = c.req.header("cf-connecting-ip") ?? c.req.header("x-forwarded-for") ?? "unknown";
+  const { response, messageId } = await handleChatDetailed(c.env, message, sessionId, ip);
+  const suggestions = ["What does the latest EMF reading show?", "Show me the public record", "How is my message stored?"];
+
+  const stream = new ReadableStream<Uint8Array>({
+    start(controller) {
+      controller.enqueue(sseEvent({ type: "start", messageId, sessionId }));
+      for (const chunk of response.match(/.{1,48}(?:\s|$)/g) ?? [response]) {
+        controller.enqueue(sseEvent({ type: "delta", text: chunk }));
+      }
+      controller.enqueue(sseEvent({ type: "suggestions", items: suggestions }));
+      controller.enqueue(sseEvent({ type: "done", messageId, sessionId, aborted: false }));
+      controller.close();
+    },
+  });
+
+  return new Response(stream, {
+    headers: {
+      "content-type": "text/event-stream; charset=utf-8",
+      "cache-control": "no-cache, no-transform",
+      "x-accel-buffering": "no",
+      "x-session-id": sessionId,
+    },
+  });
+});
+
+app.post("/api/v1/chat/feedback", async (c) => {
+  const body = await c.req.json<{ messageId?: string; sessionId?: string; rating?: number }>().catch(
+    () => ({} as { messageId?: string; sessionId?: string; rating?: number }),
+  );
+  const messageId = body.messageId?.trim();
+  const sessionId = body.sessionId?.trim();
+  if (!messageId || !sessionId || ![-1, 1].includes(body.rating ?? 0)) {
+    return c.json({ error: "messageId, sessionId, and a rating of -1 or 1 are required.", code: "INVALID_FEEDBACK" }, 400);
+  }
+
+  if (!c.env.EMF_DB) return c.json({ ok: true, stored: false }, 200);
+  try {
+    await c.env.EMF_DB.prepare(
+      `INSERT INTO chat_feedback (message_id, session_id, rating)
+       VALUES (?, ?, ?)
+       ON CONFLICT(message_id, session_id) DO UPDATE SET rating = excluded.rating, updated_at = datetime('now')`,
+    ).bind(messageId.slice(0, 128), sessionId.slice(0, 128), body.rating).run();
+    return c.json({ ok: true, stored: true }, 200);
+  } catch (error) {
+    console.warn("[chat] feedback persistence unavailable", error);
+    return c.json({ ok: true, stored: false }, 200);
+  }
 });
 
 app.get("/api/v1/chat/history/:sessionId", async (c) => {
@@ -1487,7 +1556,7 @@ app.get("/api/docs", (c) => {
       .replace(/'/g, "&#39;")
       .replace(/</g, "&lt;")}'
   ></script>
-  <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference@1.78.1/dist/browser/standalone.js"></script>
 </body>
 </html>`);
 });

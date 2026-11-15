@@ -37,7 +37,24 @@ export const publicReadRateLimit = createMiddleware<Bindings>(async (c, next) =>
   const minuteBucket = Math.floor(Date.now() / 60_000);
   const resetAt = (minuteBucket + 1) * 60;
   const key = `rate-limit:public:${ip}:${minuteBucket}`;
-  const current = Number.parseInt((await c.env.RATE_LIMIT_KV.get(key)) ?? "0", 10);
+  let current = 0;
+  try {
+    current = Number.parseInt((await c.env.RATE_LIMIT_KV.get(key)) ?? "0", 10);
+  } catch (error) {
+    // Rate limiting is a protective layer, not a reason to take the public API
+    // offline. A transient KV incident must not turn every sensor endpoint into
+    // a 500; continue without the counter and leave a diagnosable warning.
+    console.warn("[rate-limit] KV read failed; allowing request", {
+      error: error instanceof Error ? error.message : String(error),
+    });
+    await next();
+    c.header("access-control-allow-origin", "*");
+    c.header("access-control-allow-methods", "GET, OPTIONS");
+    c.header("access-control-allow-headers", "Content-Type");
+    c.header("access-control-expose-headers", "X-Request-ID");
+    c.header("x-ratelimit-status", "degraded");
+    return;
+  }
 
   if (current >= limit) {
     throw new ApiError("Rate limit exceeded. Slow down and try again in a minute.", 429, "RATE_LIMITED", {
@@ -46,7 +63,13 @@ export const publicReadRateLimit = createMiddleware<Bindings>(async (c, next) =>
     });
   }
 
-  await c.env.RATE_LIMIT_KV.put(key, String(current + 1), { expirationTtl: 120 });
+  try {
+    await c.env.RATE_LIMIT_KV.put(key, String(current + 1), { expirationTtl: 120 });
+  } catch (error) {
+    console.warn("[rate-limit] KV write failed; allowing request", {
+      error: error instanceof Error ? error.message : String(error),
+    });
+  }
 
   await next();
 

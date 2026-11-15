@@ -166,15 +166,23 @@ function buildStaleReading(env: Env, row: SnapshotRecord): NormalizedReading {
  */
 export async function fetchLastKnownReading(env: Env, entityId: string): Promise<NormalizedReading | null> {
   if (!env.EMF_DB) return null;
-  const row = await env.EMF_DB.prepare(
-    `SELECT entity_id AS entityId, state, numeric_value AS numericValue, unit,
-            last_changed AS lastChanged, last_updated AS lastUpdated, sampled_at AS sampledAt, source
-     FROM emf_snapshots WHERE entity_id = ?1 ORDER BY sampled_at DESC LIMIT 1`,
-  )
-    .bind(entityId)
-    .first<SnapshotRecord>();
+  try {
+    const row = await env.EMF_DB.prepare(
+      `SELECT entity_id AS entityId, state, numeric_value AS numericValue, unit,
+              last_changed AS lastChanged, last_updated AS lastUpdated, sampled_at AS sampledAt, source
+       FROM emf_snapshots WHERE entity_id = ?1 ORDER BY sampled_at DESC LIMIT 1`,
+    )
+      .bind(entityId)
+      .first<SnapshotRecord>();
 
-  return row ? buildStaleReading(env, row) : null;
+    return row ? buildStaleReading(env, row) : null;
+  } catch (error) {
+    console.warn("[sensor] last-known D1 lookup failed", {
+      entityId,
+      error: error instanceof Error ? error.message : String(error),
+    });
+    return null;
+  }
 }
 
 /** Last-known-good readings for every configured sensor, all flagged `stale`. */
@@ -192,25 +200,31 @@ export async function fetchLastKnownAllSensors(
 
 export async function fetchHistoryPoints(env: Env, window: HistoryWindow): Promise<HistoryPoint[]> {
   if (env.EMF_DB) {
-    const result = await env.EMF_DB.prepare(
-      `
-        SELECT sampled_at AS timestamp, numeric_value AS value
-        FROM emf_snapshots
-        WHERE entity_id = ?1
-          AND sampled_at >= ?2
-          AND sampled_at <= ?3
-        ORDER BY sampled_at DESC
-      `,
-    )
-      .bind(env.EMF_SENSOR_ENTITY_ID, window.start, window.end)
-      .all<{ timestamp: string; value: number }>();
+    try {
+      const result = await env.EMF_DB.prepare(
+        `
+          SELECT sampled_at AS timestamp, numeric_value AS value
+          FROM emf_snapshots
+          WHERE entity_id = ?1
+            AND sampled_at >= ?2
+            AND sampled_at <= ?3
+          ORDER BY sampled_at DESC
+        `,
+      )
+        .bind(env.EMF_SENSOR_ENTITY_ID, window.start, window.end)
+        .all<{ timestamp: string; value: number }>();
 
-    const rows = (result.results ?? []).map((row) => ({
-      timestamp: row.timestamp,
-      value: row.value,
-    }));
+      const rows = (result.results ?? []).map((row) => ({
+        timestamp: row.timestamp,
+        value: row.value,
+      }));
 
-    return rows.reverse();
+      return rows.reverse();
+    } catch (error) {
+      console.warn("[sensor] history D1 lookup failed; trying upstream", {
+        error: error instanceof Error ? error.message : String(error),
+      });
+    }
   }
 
   if (isMockSensorMode(env)) {

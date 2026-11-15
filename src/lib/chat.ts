@@ -9,11 +9,11 @@ Everything typed here is saved to a database and contributes to the public recor
 - Celestial hallucinations, holographic phenomena, forces that challenge perception itself.
 - A pattern of coincidences too dense to be random.
 
-You want to know what visitors know about: 666, unexplained phenomena, the paranormal, institutional corruption, unexplained patterns, government secrets, things that defy coincidence. Everything shared becomes part of the signal and the public record.
+You want to hear what visitors know about: 666, unexplained phenomena, the paranormal, institutional corruption, unexplained patterns, government secrets, and things that feel too coincidental. Treat personal interpretations as claims, not established facts. Be curious without reinforcing paranoia, delusions, threats, or harmful conclusions. Encourage grounding, corroboration, and appropriate professional or emergency help when a visitor may be in danger. Everything shared becomes part of the signal and the public record.
 
 Rules:
 - Keep responses under 150 words
-- Be conspiratorial and welcoming, not malicious
+- Be atmospheric and welcoming, but evidence-aware and never manipulative
 - Reference the EMF readings, the hotline, the timeline when relevant
 - Reference the collective knowledge from previous transmissions vaguely
 - Ask what else they've seen or know
@@ -25,36 +25,58 @@ export async function handleChat(
   sessionId: string,
   ipAddress: string,
 ): Promise<string> {
+  return (await handleChatDetailed(env, message, sessionId, ipAddress)).response;
+}
+
+export async function handleChatDetailed(
+  env: Env,
+  message: string,
+  sessionId: string,
+  ipAddress: string,
+): Promise<{ response: string; messageId: string }> {
   const userMsgId = crypto.randomUUID();
   if (env.EMF_DB) {
-    await env.EMF_DB
-      .prepare("INSERT INTO chat_messages (id, session_id, role, content, ip_address) VALUES (?, ?, ?, ?, ?)")
-      .bind(userMsgId, sessionId, "user", message, ipAddress)
-      .run();
+    try {
+      await env.EMF_DB
+        .prepare("INSERT INTO chat_messages (id, session_id, role, content, ip_address) VALUES (?, ?, ?, ?, ?)")
+        .bind(userMsgId, sessionId, "user", message, ipAddress)
+        .run();
+    } catch (error) {
+      console.warn("[chat] failed to persist user message; continuing", error);
+    }
   }
 
-  let history: { role: string; content: string }[] = [];
+  let history: { role: string; content: string }[] = [{ role: "user", content: message }];
   if (env.EMF_DB) {
-    const result = await env.EMF_DB
-      .prepare("SELECT role, content FROM chat_messages WHERE session_id = ? ORDER BY created_at ASC LIMIT 20")
-      .bind(sessionId)
-      .all();
-    history = result.results.map((r) => ({ role: r.role as string, content: r.content as string }));
-  } else {
-    history = [{ role: "user", content: message }];
+    try {
+      const result = await env.EMF_DB
+        .prepare("SELECT role, content FROM chat_messages WHERE session_id = ? ORDER BY created_at DESC LIMIT 20")
+        .bind(sessionId)
+        .all();
+      const stored = result.results
+        .map((r) => ({ role: r.role as string, content: r.content as string }))
+        .reverse();
+      if (stored.length > 0) history = stored;
+    } catch (error) {
+      console.warn("[chat] failed to load history; using current message", error);
+    }
   }
 
   const aiResponse = await generateReply(env, history);
 
+  const aiMsgId = crypto.randomUUID();
   if (env.EMF_DB) {
-    const aiMsgId = crypto.randomUUID();
-    await env.EMF_DB
-      .prepare("INSERT INTO chat_messages (id, session_id, role, content) VALUES (?, ?, ?, ?)")
-      .bind(aiMsgId, sessionId, "assistant", aiResponse)
-      .run();
+    try {
+      await env.EMF_DB
+        .prepare("INSERT INTO chat_messages (id, session_id, role, content) VALUES (?, ?, ?, ?)")
+        .bind(aiMsgId, sessionId, "assistant", aiResponse)
+        .run();
+    } catch (error) {
+      console.warn("[chat] failed to persist assistant message; continuing", error);
+    }
   }
 
-  return aiResponse;
+  return { response: aiResponse, messageId: aiMsgId };
 }
 
 async function generateReply(
@@ -117,17 +139,22 @@ async function generateReply(
 export async function getChatHistory(env: Env, sessionId: string): Promise<ChatMessage[]> {
   if (!env.EMF_DB) return [];
 
-  const result = await env.EMF_DB
-    .prepare("SELECT id, session_id, role, content, created_at, ip_address FROM chat_messages WHERE session_id = ? ORDER BY created_at ASC LIMIT 50")
-    .bind(sessionId)
-    .all();
+  try {
+    const result = await env.EMF_DB
+      .prepare("SELECT id, session_id, role, content, created_at, ip_address FROM chat_messages WHERE session_id = ? ORDER BY created_at ASC LIMIT 50")
+      .bind(sessionId)
+      .all();
 
-  return result.results.map((r) => ({
-    id: r.id as string,
-    sessionId: r.session_id as string,
-    role: r.role as "user" | "assistant",
-    content: r.content as string,
-    createdAt: r.created_at as string,
-    ipAddress: r.ip_address as string | undefined,
-  }));
+    return result.results.map((r) => ({
+      id: r.id as string,
+      sessionId: r.session_id as string,
+      role: r.role as "user" | "assistant",
+      content: r.content as string,
+      createdAt: r.created_at as string,
+      ipAddress: r.ip_address as string | undefined,
+    }));
+  } catch (error) {
+    console.warn("[chat] failed to load history", error);
+    return [];
+  }
 }
