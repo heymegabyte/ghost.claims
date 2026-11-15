@@ -153,6 +153,127 @@ export const articles: readonly NightArchiveArticle[] = [
     ],
   },
   {
+    slug: "jungle-habitat-dead-battery-safari-trails",
+    file: "FIELD NOTE 05 // JUNGLE HABITAT",
+    title: "Jungle Habitat: The Safari That Killed My Battery",
+    standfirst: "I went to ride the abandoned paths of a New Jersey safari park. The forest delivered old pavement, terrific trails, and a car that would not start.",
+    readingMinutes: 13,
+    genre: "reported memoir",
+    disclosure: "This reported memoir combines the author’s May 5, 2018 field footage and receipt with public records and trail-organization reporting. Personal impressions are identified as memory; historical and visitor information is linked to sources.",
+    sections: [
+      {
+        heading: "The battery chooses the ending",
+        paragraphs: [
+          "Jungle Habitat was pretty cool right up to the moment my car refused to start. I had spent the day moving through the former safari grounds in West Milford, New Jersey: forest closing over pavement, mountain-bike trails slipping away from old roads, and the odd feeling that an attraction built for cars had become better after cars were gone.",
+          "Then the battery died. Maybe I had played the music too loud. Maybe the battery was simply finished. The surviving receipt supplies the unromantic ending: a $214.83 replacement bought in West Milford on May 5, 2018. The ghosts, if present, did not contribute.",
+          "My two field clips remain online as <a href=\"/evidence-jungle-habitat-1.mp4\">the first ride</a> and <a href=\"/evidence-jungle-habitat-2.mp4\">the second ride</a>. The photographs in this essay are frames from that original footage, not stock images or simulated ruins.",
+        ],
+        components: [
+          { kind: "media", type: "featured", data: { src: "/video-poster-evidence-jungle-habitat-2.webp", alt: "A narrow paved trail bends through dense green forest at the former Jungle Habitat site", caption: "Original field footage, Jungle Habitat, May 5, 2018. The old paved alignments are now threaded through a living trail network." } },
+          { kind: "widget", type: "callout", data: { variant: "warning", title: "Field record // May 5, 2018", body: "The author’s archived receipt records a $214.83 replacement battery in West Milford after the visit. Practical lesson: carry a jump pack, and do not let the soundtrack outlast the car." } },
+        ],
+      },
+      {
+        heading: "A safari built for the windshield",
+        paragraphs: [
+          "Warner Bros. opened Jungle Habitat in 1972 as a drive-through wildlife park. The opening was advertised for July 15, 1972, and the attraction operated for only four seasons before closing in late 1976.<sup><a href=\"#jh-source-1\">1</a></sup><sup><a href=\"#jh-source-2\">2</a></sup> Visitors drove their own cars through animal areas, then entered a walk-through section—a suburban answer to safari, staged across the wooded Highlands.",
+          "The most durable number is the land itself: roughly 800 acres. New Jersey acquired and preserved the former park property in 1998; it is now administered as part of Long Pond Ironworks State Park.<sup><a href=\"#jh-source-1\">1</a></sup> That public ownership is why today’s visitor can ride into the old geography without buying a theme-park ticket.",
+          "The place attracts legend because its operating life was so short and its remains are so suggestive. But the official record is less supernatural and more interesting: a private entertainment landscape failed, the state preserved it, and volunteers helped turn its leftover circulation system into public recreation.",
+        ],
+        components: [
+          { kind: "widget", type: "stat-cards", data: { title: "Four lives of one landscape", cards: [
+            { value: "1972", label: "Jungle Habitat opens", source: "Historic newspaper advertisement" },
+            { value: "1976", label: "the safari park closes", source: "NJDEP and local archive" },
+            { value: "≈800", label: "acres preserved by New Jersey", source: "NJDEP" },
+            { value: "9–11 mi", label: "of present-day singletrack", source: "JORBA / Trailforks" },
+          ] } },
+          { kind: "widget", type: "timeline", data: { title: "From animal park to trail system", events: [
+            { label: "July 1972", body: "Jungle Habitat opens as a Warner Bros. drive-through safari and walk-through attraction." },
+            { label: "Late 1976", body: "The park closes after four operating seasons; animal relocation continues into 1977." },
+            { label: "1998", body: "New Jersey acquires and preserves the former park property." },
+            { label: "2016", body: "NJDEP seeks a partner for a purpose-built state mountain-bike park on the property." },
+            { label: "Today", body: "The land remains public, free to enter, and actively maintained as part of Long Pond Ironworks State Park." },
+          ] } },
+        ],
+      },
+      {
+        heading: "What happened when the gates closed",
+        paragraphs: [
+          "Closure stories often collapse into the claim that all the animals were simply abandoned. The local historical archive documents a more complicated and still grim transition: relocation ran from December 1976 into March 1977; hundreds remained in April; 1,075 animals were sold to International Animal Exchange; and roughly thirty animals died during the winter, prompting investigation of carcasses found on the property.<sup><a href=\"#jh-source-3\">3</a></sup> Those figures come from a specialist local archive and should be read as its reconstruction of contemporary records, not as folklore polished into certainty.",
+          "The land outlasted the attraction’s business model. Buildings, rides, and most formal facilities disappeared; NJDEP now describes what is left as remnant ruins.<sup><a href=\"#jh-source-1\">1</a></sup> The stronger artifact is the shape of movement: grades, paved segments, junctions, and broad corridors designed to guide visitors through spectacle.",
+          "That distinction matters on a bike. Not every modern trail is an original safari road. Riders move across a hybrid system: surviving pavement and service alignments from the park era, later singletrack, and volunteer-built connections. You are riding through former safari grounds, not following one perfectly preserved historic loop.",
+        ],
+        components: [
+          { kind: "widget", type: "comparison", data: { title: "The same ground, a different contract", columns: ["Then: Jungle Habitat", "Now: public trail system"], rows: [
+            ["Private drive-through attraction", "Public state parkland"],
+            ["Cars organized the experience", "Bikes and hikers set the pace"],
+            ["Animals displayed inside managed zones", "Wildlife encountered in its habitat"],
+            ["Ticketed spectacle", "No entrance fee"],
+            ["Four-season commercial run", "Long-term volunteer stewardship"],
+          ] } },
+        ],
+      },
+      {
+        heading: "The ride the forest invented",
+        paragraphs: [
+          "The New Jersey Off Road Bicycle Association describes nine to eleven miles of singletrack at Jungle Habitat, with options across skill levels.<sup><a href=\"#jh-source-4\">4</a></sup> NJDEP is more cautious and more useful: mountain biking is permitted on designated multi-use trails, the terrain includes miles of challenging riding, and the former park entrance off Airport Road is a popular starting point.<sup><a href=\"#jh-source-5\">5</a></sup>",
+          "My footage catches the essential rhythm: green tunnel, broken pavement, dirt, another bend, then a wider old alignment that suddenly makes the lost park legible. Motion blur is part of the evidence. These are not architectural surveys; they are what the place looked like while actually riding it.",
+          "The forest does not preserve Jungle Habitat as a museum. It edits. Roots fracture the road. Leaves soften edges. New trails choose lines the safari designers never imagined. The result is better than a static ruin because it requires participation: you understand the old circulation plan through your legs.",
+        ],
+        components: [
+          { kind: "media", type: "gallery", data: { title: "Original photography from the 2018 ride", images: [
+            { src: "/blog-media/jungle-habitat/trailhead.jpg", alt: "A narrow rocky dirt trail beside a fallen log in dense summer forest", caption: "Singletrack enters the forest. Original frame photograph, May 5, 2018." },
+            { src: "/blog-media/jungle-habitat/safari-road.jpg", alt: "An aging paved path curves beneath a bright green tree canopy", caption: "Old pavement bends out of sight. Original frame photograph, May 5, 2018." },
+            { src: "/blog-media/jungle-habitat/forest-ride.jpg", alt: "A long paved alignment runs through dense woodland", caption: "A surviving corridor makes the park’s former circulation visible. Original frame photograph, May 5, 2018." },
+            { src: "/blog-media/jungle-habitat/old-pavement.jpg", alt: "A sunlit old road bordered by ferns and thick vegetation", caption: "Vegetation reclaims the road edge. Original frame photograph, May 5, 2018." },
+            { src: "/blog-media/jungle-habitat/trail-canopy.jpg", alt: "A rough trail splits under a canopy of mature trees", caption: "The modern ride is a mix of remnant alignments and newer trail. Original frame photograph, May 5, 2018." },
+            { src: "/blog-media/jungle-habitat/deep-woods.jpg", alt: "A leaf-covered dirt trail extends deep into a green forest", caption: "Deep woods beyond the old attraction footprint. Original frame photograph, May 5, 2018." },
+          ] } },
+        ],
+      },
+      {
+        heading: "A second life built by volunteers",
+        paragraphs: [
+          "Jungle Habitat’s afterlife is not passive decay. JORBA volunteers maintain the trail system, publish conditions and maps, and continue work on routes including Tapwingo.<sup><a href=\"#jh-source-6\">6</a></sup> That labor is the difference between an abandoned property people trespass through and durable public infrastructure people can responsibly use.",
+          "The most important recent development reaches beyond nostalgia. The Stags trail, built by the New York–New Jersey Trail Conference and JORBA, is described as New Jersey’s first adaptive mountain-bike trail designed for riders with disabilities.<sup><a href=\"#jh-source-7\">7</a></sup> Its native-surface design connects Long Pond Ironworks and Norvin Green and follows accessibility-oriented trail standards.",
+          "A safari once arranged the landscape around who could afford to drive through it. The modern trail community is trying to widen who can move through the land under their own power. That is not a neat redemption story—access is never finished—but it is a real improvement written into the ground.",
+        ],
+      },
+      {
+        heading: "Before your own battery becomes the story",
+        paragraphs: [
+          "The park gate is generally open daily from sunrise to sunset, and NJDEP lists no entrance fee.<sup><a href=\"#jh-source-5\">5</a></sup> Conditions can change, so check the state park page and JORBA trail status before leaving. Download the map before you lose service. Stay on designated trails; motorcycles and ATVs are prohibited.",
+          "This is North Jersey woodland, not an inert ruin. NJDEP warns visitors about ticks and black bears; pets must be leashed. Bring water, repair tools, a charged phone, and—speaking from experience—a compact jump starter. Do not climb structures or treat remnant ruins as props.",
+          "The battery failure became the punch line, but the ride is what stayed with me: a commercial safari disappearing under one of New Jersey’s most interesting mountain-bike networks. Jungle Habitat does not need a supernatural legend. A forest turning obsolete entertainment infrastructure into public movement is strange enough.",
+        ],
+        components: [
+          { kind: "widget", type: "spec-table", data: { title: "Field guide", specs: [
+            { label: "Official area", value: "Long Pond Ironworks State Park" },
+            { label: "Common access", value: "Former Jungle Habitat entrance, Airport Road, West Milford" },
+            { label: "Hours", value: "Sunrise to sunset; verify before travel" },
+            { label: "Fee", value: "No entrance fee listed by NJDEP" },
+            { label: "Trail character", value: "Challenging multi-use trails; roughly 9–11 miles of singletrack" },
+            { label: "Bring", value: "Offline map, helmet, water, repair kit, tick protection, jump pack" },
+          ] } },
+        ],
+      },
+      {
+        heading: "Sources and further riding",
+        paragraphs: [
+          "<span id=\"jh-source-1\"><strong>1.</strong> <a href=\"https://dep.nj.gov/newsrel/16_0099/\">New Jersey Department of Environmental Protection, former Jungle Habitat property and mountain-bike park proposal</a>.</span>",
+          "<span id=\"jh-source-2\"><strong>2.</strong> <a href=\"https://www.digifind-it.com/wayne/data/newspapers/Wayne-Today/1972/1972-07-05.pdf\"><em>Wayne Today</em>, July 5, 1972, contemporary Jungle Habitat opening advertisement</a>.</span>",
+          "<span id=\"jh-source-3\"><strong>3.</strong> <a href=\"https://westmilfordjunglehabitat.com/history\">West Milford Jungle Habitat historical archive, closure and animal-relocation chronology</a>.</span>",
+          "<span id=\"jh-source-4\"><strong>4.</strong> <a href=\"https://jorba.org/parks/jungle-habitat-2/\">New Jersey Off Road Bicycle Association, Jungle Habitat trail overview and map links</a>.</span>",
+          "<span id=\"jh-source-5\"><strong>5.</strong> <a href=\"https://dep.nj.gov/parksandforests/state-park/long-pond-ironworks-state-park/\">NJDEP, Long Pond Ironworks State Park visitor information, rules, and safety</a>.</span>",
+          "<span id=\"jh-source-6\"><strong>6.</strong> <a href=\"https://jorba.org/jungle-habitat-work-on-tapwingo-continues/\">JORBA, continuing volunteer work on the Tapwingo trail</a>.</span>",
+          "<span id=\"jh-source-7\"><strong>7.</strong> <a href=\"https://jorba.org/stags-amtb-trail/\">JORBA, Stags adaptive mountain-bike trail</a>.</span>",
+          "<span id=\"jh-source-8\"><strong>8.</strong> <a href=\"https://www.westmilford.org/FCpdf/SUSTAINABLE%20ECONOMIC%20DEVELOPMENT%20PLAN%20Signed-09-02-21.pdf\">Township of West Milford, 2021 Sustainable Economic Development Plan</a>.</span>",
+          "<span id=\"jh-source-9\"><strong>9.</strong> <a href=\"https://dep.nj.gov/greenacres/trails-program-find-a-trail/\">NJDEP Green Acres, statewide trail finder and planning guidance</a>.</span>",
+        ],
+      },
+    ],
+  },
+  {
     slug: "the-panopticon-learned-to-pray",
     file: "FILE 01 // SURVEILLANCE",
     title: "The Panopticon Learned to Pray",
