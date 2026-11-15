@@ -10,5 +10,13 @@ export default defineConfig({
     outDir: resolve(import.meta.dirname, "../public/blog"),
     emptyOutDir: true,
     sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules/@theme.tools/blog")) return "theme-tools-blog";
+          if (id.includes("node_modules/react") || id.includes("node_modules/react-dom")) return "react-runtime";
+        },
+      },
+    },
   },
 });

@@ -4,10 +4,154 @@ export interface NightArchiveArticle {
   title: string;
   standfirst: string;
   readingMinutes: number;
-  sections: readonly { heading?: string; paragraphs: readonly string[]; quote?: string }[];
+  genre?: "fiction" | "reported memoir";
+  disclosure?: string;
+  sections: readonly {
+    heading?: string;
+    paragraphs: readonly string[];
+    quote?: string;
+    components?: readonly ArticleComponent[];
+  }[];
 }
 
+export type ArticleComponent =
+  | { kind: "widget"; type: "callout" | "comparison" | "timeline" | "stat-cards" | "spec-table"; data: unknown }
+  | { kind: "media"; type: "featured" | "gallery"; data: unknown };
+
 export const articles: readonly NightArchiveArticle[] = [
+  {
+    slug: "greystone-after-the-skunk",
+    file: "FIELD NOTE 04 // GREYSTONE",
+    title: "Greystone After the Skunk",
+    standfirst: "Twenty-five years after I first crossed into the abandoned wards, the papers, bathtubs, and one furious skunk still follow me through what became a public park.",
+    readingMinutes: 14,
+    genre: "reported memoir",
+    disclosure: "This reported memoir combines the author’s firsthand recollection with public records. Memories are identified as memories; institutional facts are linked to sources. No confidential patient paper is reproduced or attributed to an identifiable person.",
+    sections: [
+      {
+        heading: "The first trespass",
+        paragraphs: [
+          "About twenty-five years ago, I went into Greystone Park Psychiatric Hospital—not the hospital as it exists now, but the enormous abandoned campus that seemed to keep extending after every doorway. We entered building after building. Paint curled off the walls. Rooms held the residue of a system that had moved on without really cleaning up after itself.",
+          "In one building I found papers bearing a sentence I have never forgotten: <q>Someone refused to take their medication. Had to administer force.</q> I took the papers. I am not publishing them here: they concern a patient who cannot consent, and a remembered line is enough to convey the chill. This is my recollection, not a document independently authenticated for this article.",
+        ],
+        components: [
+          { kind: "media", type: "featured", data: { src: "/blog-media/greystone/exterior.webp", alt: "The central administration building at the New Jersey State Hospital at Morris Plains around 1899", caption: "Greystone’s administration building, ca. 1899. North Jersey History & Genealogy Center, item GS005. Used here for historical commentary; source linked in the references." } },
+          { kind: "widget", type: "callout", data: { variant: "warning", title: "A note on names and records", body: "Greystone’s records belong to real people. This essay quotes only the author’s memory of one anonymous line and does not publish the paper, a name, diagnosis, or identifying detail." } },
+        ],
+      },
+      {
+        heading: "Fifty bathtubs and one skunk",
+        paragraphs: [
+          "Then we found the bathtub room. My memory says there were roughly fifty tubs—an impossible congregation of porcelain, repeated until an ordinary fixture became industrial and frightening. I cannot verify the count. What the historical record can verify is that Greystone used hydrotherapy among a much wider catalog of treatments, alongside electroconvulsive therapy, insulin treatment, surgery, purgatives, and lobotomy.<sup><a href=\"#source-3\">3</a></sup>",
+          "The tubs made the scale of institutional life physical. At its postwar peak, Greystone held as many as 7,700 patients, according to the hospital’s own historical report.<sup><a href=\"#source-2\">2</a></sup> A place that large needed its own kitchens, farm, piggery, power plant, greenhouses, fire station, and post office. It was not one building so much as a walled civic organism.",
+          "And then we saw a skunk. All the architecture, all the nerve we had manufactured to enter, all the dark institutional history—none of it mattered. We freaked out and left. The skunk ended the expedition with the clean authority of a closing bell.",
+        ],
+        components: [
+          { kind: "widget", type: "stat-cards", data: { title: "Greystone by the numbers", cards: [
+            { value: "1876", label: "opened with 292 patients", source: "NJ Department of Health" },
+            { value: "7,700", label: "reported peak census in 1947", source: "Greystone annual report" },
+            { value: "700+", label: "original campus acreage", source: "NJ Department of Health" },
+            { value: "506", label: "beds in today’s hospital", source: "NJ Department of Health" },
+          ] } },
+          { kind: "media", type: "gallery", data: { title: "Inside the institution, ca. 1899", images: [
+            { src: "/blog-media/greystone/corridor.webp", alt: "A long ward corridor with chairs lining the walls at Greystone around 1899", caption: "Corridor, ca. 1899. North Jersey History & Genealogy Center, item GS022." },
+            { src: "/blog-media/greystone/drug-room.webp", alt: "Shelves and work surfaces in Greystone’s drug room around 1899", caption: "Drug room, ca. 1899. North Jersey History & Genealogy Center, item GS027." },
+            { src: "/blog-media/greystone/front-lawn.webp", alt: "Patients and staff walking on Greystone’s broad front lawn around 1899", caption: "Front lawn, ca. 1899. North Jersey History & Genealogy Center, item GS015." },
+          ] } },
+        ],
+      },
+      {
+        heading: "What the building was supposed to do",
+        paragraphs: [
+          "The terror of an abandoned asylum can flatten its history into a haunted-house story. Greystone began with a reform ideal. Dorothea Dix pressed New Jersey to establish a second state hospital; architect Samuel Sloan worked with physician Thomas Story Kirkbride’s plan for staggered wings, sunlight, ventilation, landscape, and separation by ward.<sup><a href=\"#source-1\">1</a></sup><sup><a href=\"#source-4\">4</a></sup>",
+          "The main structure was colossal. State sources describe it as the largest building in the United States until the Pentagon, or as having the nation’s largest single foundation until that point.<sup><a href=\"#source-2\">2</a></sup><sup><a href=\"#source-5\">5</a></sup> Those formulations are narrower and better supported than the legend that it was simply the world’s largest building.",
+          "Scale betrayed the ideal. Greystone opened on August 17, 1876 with 600 beds and 292 patients; by 1914, 2,412 people were crowded into space rated for 1,600.<sup><a href=\"#source-1\">1</a></sup> The state’s timeline records about 7,000 patients by the late 1940s. Air and landscape could not compensate for chronic overcrowding.",
+        ],
+        components: [
+          { kind: "widget", type: "comparison", data: { title: "From reform campus to overcrowded institution", columns: ["Moment", "Patients", "What the record says"], rows: [
+            ["1876 opening", "292", "600 beds available"],
+            ["1887", "800", "Exercise rooms converted to dormitories"],
+            ["1914", "2,412", "Rated capacity: 1,600"],
+            ["1939", "≈5,600", "Patients and staff sustained a vast campus"],
+            ["1947 peak", "≈7,700", "Highest census reported by Greystone"],
+            ["Modern hospital", "506 beds", "Current state facility"],
+          ] } },
+        ],
+      },
+      {
+        heading: "The return, around 2010",
+        paragraphs: [
+          "Years later, around 2010, I returned. Access was narrower and much of the campus I remembered was already gone or closed off. The new hospital had opened in 2008; state historic-preservation records say the last patients were relocated by 2009, leaving the Kirkbride building and support structures abandoned.<sup><a href=\"#source-4\">4</a></sup><sup><a href=\"#source-5\">5</a></sup>",
+          "Only selected areas were reachable. The feeling had changed. The first trip was reckless discovery; the second felt like visiting the gap between a decision and its final physical consequence.",
+          "I remember Richard Kalwa as someone who fought to keep Greystone open. I have not found a reliable public source that documents his precise role, so I leave that statement where it belongs: in my memory. The public record does document a broad Preserve Greystone campaign, a 2010 state preservation grant, redevelopment studies, seven reuse proposals, court efforts, and a 2015 rally attended by more than 300 people.<sup><a href=\"#source-4\">4</a></sup><sup><a href=\"#source-7\">7</a></sup>",
+        ],
+        components: [
+          { kind: "widget", type: "timeline", data: { title: "The long conversion of Greystone", events: [
+            { label: "1876", body: "The New Jersey State Lunatic Asylum at Morristown opens." },
+            { label: "1924", body: "The institution is renamed Greystone Park Psychiatric Hospital." },
+            { label: "2005", body: "Construction begins on the replacement hospital." },
+            { label: "2008", body: "The modern hospital opens; Central Park of Morris County is dedicated on former hospital land." },
+            { label: "2010", body: "A $50,000 New Jersey Historic Trust grant funds a reuse feasibility assessment." },
+            { label: "2013", body: "The state finances demolition and remediation; reuse proposals are rejected as unviable." },
+            { label: "2015", body: "The Kirkbride building is demolished after sustained preservation protests." },
+            { label: "2026", body: "Greystone marks 150 years; the modern 506-bed hospital remains active." },
+          ] } },
+        ],
+      },
+      {
+        heading: "The Ginsberg correction",
+        paragraphs: [
+          "For years I carried an image of Allen Ginsberg taking his medicine and pacing these grounds. It is a potent image—and the record says it is wrong. Ginsberg was not the Greystone patient. His mother, Naomi, was. Allen visited her there as a child in the 1930s.<sup><a href=\"#source-8\">8</a></sup><sup><a href=\"#source-9\">9</a></sup>",
+          "In a 1979 reading at the County College of Morris, Ginsberg recalled passing Greystone and described flashes of visiting his mother there at ages ten, twelve, and thirteen. He then read from <em>Kaddish</em>, the funeral poem shaped by Naomi’s illness and institutionalization.<sup><a href=\"#source-8\">8</a></sup>",
+          "A different American songwriter really was a patient: Woody Guthrie received treatment at Greystone in the late 1950s, when Huntington’s disease was still poorly understood. Preservation protesters sang <em>This Land Is Your Land</em> outside the Kirkbride building in 2015.<sup><a href=\"#source-7\">7</a></sup> The correction matters. Institutions already blur individual lives into census figures; memory should not finish the job by assigning one person’s confinement to another.",
+        ],
+        quote: "The honest version of a haunted place includes the moment when the storyteller admits which ghost he invented.",
+      },
+      {
+        heading: "From wards to volleyball courts",
+        paragraphs: [
+          "Today, athletes cross land that once belonged to the hospital. Central Park of Morris County is not a tiny memorial lawn but a 420-acre sports complex: four lighted synthetic fields, a 5K cross-country course, two regulation in-line hockey rinks, a softball field, two sand volleyball courts, a disc-golf course, a five-acre dog park, and more than eleven miles of trails.<sup><a href=\"#source-10\">10</a></sup>",
+          "Kickball and volleyball are not metaphors imposed by a writer; the Park Commission explicitly advertises both.<sup><a href=\"#source-10\">10</a></sup> The new Greystone hospital continues nearby as an active 506-bed state psychiatric facility.<sup><a href=\"#source-11\">11</a></sup> The old institution was not simply erased and replaced by a park. The campus was divided, repurposed, rebuilt, demolished in phases, and made to carry several meanings at once.",
+          "That may be the strangest return of all. A landscape designed around supervised movement now hosts voluntary motion: running, skating, kickball, volleyball. Where the state once counted bodies, a scoreboard now counts points. The history is not redeemed by recreation, but neither is it absent. It sits beneath every serve.",
+        ],
+        components: [
+          { kind: "widget", type: "spec-table", data: { title: "Central Park of Morris County today", specs: [
+            { label: "Area", value: "420 acres" },
+            { label: "Multi-use fields", value: "4 lighted synthetic-turf fields" },
+            { label: "Volleyball", value: "2 sand courts" },
+            { label: "Trails", value: "11+ miles" },
+            { label: "Cross-country", value: "5K course" },
+            { label: "Other facilities", value: "Hockey rinks, softball, disc golf, dog park, accessible playground" },
+          ] } },
+        ],
+      },
+      {
+        heading: "What remains",
+        paragraphs: [
+          "The original building is gone. Demolition began in April 2015 and was completed that fall; contemporary coverage placed the anticipated cost near $38 million, while state financing documents show a $50.73 million bond issue covering demolition, remediation, financing costs, and related work.<sup><a href=\"#source-6\">6</a></sup><sup><a href=\"#source-7\">7</a></sup>",
+          "What remains for me is smaller and less official: one line on a paper, a room multiplied into bathtubs, and a skunk that chased us out of history. The documents establish dates and scale. They cannot reproduce the sensation of standing where an institution had stopped functioning but had not yet disappeared.",
+          "Greystone’s story deserves more than ruin photography and more than a clean progress narrative. It contains reform, care, coercion, overcrowding, labor, medical change, preservation, demolition, and reuse. The park is real. The new hospital is real. So are the people whose private distress once became institutional paperwork. The least we can do is keep all three in the frame.",
+        ],
+      },
+      {
+        heading: "Sources and further reading",
+        paragraphs: [
+          "<span id=\"source-1\"><strong>1.</strong> <a href=\"https://nj.gov/health/documents/Greystone-150-Years.pdf\">New Jersey Department of Health, <em>Greystone Park Psychiatric Hospital Timeline, 1876–2026</em></a>.</span>",
+          "<span id=\"source-2\"><strong>2.</strong> <a href=\"https://www.nj.gov/health/integratedhealth/documents/hospitals/greystone/GPPH-2025-Annual-Board-Report.pdf\">Greystone Park Psychiatric Hospital, 2025 Annual Board Report</a>.</span>",
+          "<span id=\"source-3\"><strong>3.</strong> <a href=\"https://www.nj.gov/health/integratedhealth/hospitals/greystone/GPPH%20Psychology%20APA%20Internship%20Brochure%20for%202022-2023.pdf\">Greystone Psychology Internship Brochure: institutional history and treatment methods</a>.</span>",
+          "<span id=\"source-4\"><strong>4.</strong> <a href=\"https://www.nj.gov/dca/njht/funded/sitedetails/greystone.shtml\">New Jersey Historic Trust, Greystone site record and 2010 grant</a>.</span>",
+          "<span id=\"source-5\"><strong>5.</strong> <a href=\"https://nj.gov/humanservices/news/press/2007/approved/20071101.html\">New Jersey Department of Human Services, 2007 unveiling of the modern hospital</a>.</span>",
+          "<span id=\"source-6\"><strong>6.</strong> <a href=\"https://nj.gov/njbonds/pdf/2024_NJHCFFA_GreystoneParkPsychiatricHospital_POS.pdf\">NJ Health Care Facilities Financing Authority, Greystone financing documents</a>.</span>",
+          "<span id=\"source-7\"><strong>7.</strong> <a href=\"https://morristowngreen.com/2015/04/12/hundreds-rally-to-urge-halt-to-greystone-demolition/\">Kevin Coughlin, “Hundreds rally to urge halt to Greystone demolition,” <em>Morristown Green</em>, April 12, 2015</a>.</span>",
+          "<span id=\"source-8\"><strong>8.</strong> <a href=\"https://allenginsberg.org/2025/01/w-j-22-4/\">Allen Ginsberg’s 1979 County College of Morris reading and Greystone recollection</a>.</span>",
+          "<span id=\"source-9\"><strong>9.</strong> <a href=\"https://www.greystoneoralhistory.com/famous-people-at-greystone/\">Greystone Oral History Project, Naomi Ginsberg and family</a>.</span>",
+          "<span id=\"source-10\"><strong>10.</strong> <a href=\"https://www.morrisparks.net/parks_trails/central-park-of-morris-county/\">Morris County Park Commission, Central Park facilities and history</a>.</span>",
+          "<span id=\"source-11\"><strong>11.</strong> <a href=\"https://nj.gov/health/integratedhealth/hospitals/greystone/index.shtml\">New Jersey Department of Health, current Greystone Park Psychiatric Hospital</a>.</span>",
+          "<span id=\"source-12\"><strong>12.</strong> <a href=\"https://mmt.contentdm.oclc.org/digital/collection/p16100coll1\">North Jersey History & Genealogy Center, <em>Greystone Photo Album, circa 1899</em></a>. Historical images are held by the Morristown & Morris Township Public Library; consult its reproduction policy for reuse.</span>",
+        ],
+      },
+    ],
+  },
   {
     slug: "the-panopticon-learned-to-pray",
     file: "FILE 01 // SURVEILLANCE",

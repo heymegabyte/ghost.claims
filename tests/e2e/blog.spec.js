@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test("theme.tools Night Archive publishes three fictional horror essays", async ({ page }) => {
+test("theme.tools Night Archive publishes fiction and reported memoir", async ({ page }) => {
   const errors = [];
   page.on("console", (message) => { if (message.type() === "error") errors.push(message.text()); });
   page.on("pageerror", (error) => errors.push(error.message));
@@ -8,12 +8,32 @@ test("theme.tools Night Archive publishes three fictional horror essays", async 
 
   await page.goto("/blog");
   await expect(page).toHaveTitle(/Night Archive/);
-  await expect(page.locator(".tt-post")).toHaveCount(3);
+  await expect(page.locator(".tt-post")).toHaveCount(4);
+  await expect(page.locator(".tt-nav__logo")).toHaveAttribute("src", /\/logo-nav\.png/);
+  await expect(page.locator(".tt-nav__links a")).toHaveText(["Signal", "Transmissions", "Blog", "Docs", "API"]);
+  await expect(page.getByRole("link", { name: "Blog" })).toHaveAttribute("aria-current", "page");
   await expect(page.getByText(/speculative horror and cultural criticism/i)).toBeVisible();
   await page.getByRole("link", { name: /The Clout War Above Heaven/ }).click();
   await expect(page).toHaveURL(/the-clout-war-above-heaven/);
   await expect(page.locator("tt-article-reader")).toBeVisible();
   await expect(page.locator(".tt-article")).toContainText("Above the atmosphere, two ancient courts discovered metrics");
+  expect(errors).toEqual([]);
+});
+
+test("Greystone memoir loads research components, citations, and archival media", async ({ page }) => {
+  const errors = [];
+  page.on("console", (message) => { if (message.type() === "error") errors.push(message.text()); });
+  page.on("pageerror", (error) => errors.push(error.message));
+  page.on("response", (response) => { if (response.status() >= 400) errors.push(`${response.status()} ${response.url()}`); });
+
+  await page.goto("/blog/greystone-after-the-skunk");
+  await expect(page.locator(".tt-pagehead__title")).toHaveText("Greystone After the Skunk");
+  await expect(page.getByText(/firsthand recollection with public records/i)).toBeVisible();
+  await expect(page.locator(".tt-stat-cards")).toBeVisible();
+  await expect(page.locator(".tt-timeline")).toBeVisible();
+  await expect(page.locator(".tt-gallery img")).toHaveCount(6); // three slides plus three thumbnails
+  await expect(page.locator("[id^='source-']")).toHaveCount(12);
+  await expect(page.locator(".tt-nav__logo")).toHaveAttribute("src", /\/logo-nav\.png/);
   expect(errors).toEqual([]);
 });
 

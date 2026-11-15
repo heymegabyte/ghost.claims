@@ -1,4 +1,7 @@
 import { SITE_CSS, renderArticle, renderPageHeader, renderPostGrid, renderSiteNav } from "@theme.tools/blog/site";
+import { MEDIA_CSS, renderMedia } from "@theme.tools/blog/media";
+import { WIDGET_CSS, renderWidget } from "@theme.tools/blog/widgets";
+import { useEffect } from "react";
 import { articles, type NightArchiveArticle } from "./content";
 import { CanonicalMarkup } from "./theme-tools";
 import "./app.css";
@@ -8,16 +11,26 @@ import "./app.css";
 // two host-level @font-face declarations instead of issuing broken requests.
 const themeCss = SITE_CSS.slice(SITE_CSS.indexOf(":root{"));
 
-const nav = renderSiteNav({
+const canonicalNav = renderSiteNav({
   brand: "GHOST // SIGNAL",
   brandHref: "/",
   links: [
     { label: "Signal", href: "/" },
     { label: "Transmissions", href: "/transmissions" },
-    { label: "Night Archive", href: "/blog" },
+    { label: "Blog", href: "/blog" },
     { label: "Docs", href: "/docs" },
+    { label: "API", href: "/api/docs" },
   ],
 });
+
+// Keep theme.tools as the renderer while adapting its brand slot to the exact
+// production logo asset used by the canonical homepage shell.
+const nav = canonicalNav
+  .replace(
+    '<span class="tt-nav__mark" aria-hidden="true"></span>',
+    '<img class="tt-nav__logo" src="/logo-nav.png?v=2945c6a-1778550809" alt="Ghost Signal logo" width="34" height="34" decoding="async" />',
+  )
+  .replace('<a class="tt-nav__link" href="/blog">Blog</a>', '<a class="tt-nav__link" href="/blog" aria-current="page">Blog</a>');
 
 function articleBody(article: NightArchiveArticle): string {
   return article.sections.map((section, sectionIndex) => {
@@ -25,7 +38,10 @@ function articleBody(article: NightArchiveArticle): string {
     const heading = section.heading ? `<h2 id="${id}">${section.heading}</h2>` : "";
     const paragraphs = section.paragraphs.map((paragraph) => `<p>${paragraph}</p>`).join("");
     const quote = section.quote ? `<blockquote>${section.quote}</blockquote>` : "";
-    return `<section>${heading}${paragraphs}${quote}</section>`;
+    const components = section.components?.map((component) => component.kind === "widget"
+      ? renderWidget(component.type, component.data)
+      : renderMedia(component.type, component.data)).join("") ?? "";
+    return `<section>${heading}${paragraphs}${quote}${components}</section>`;
   }).join("");
 }
 
@@ -36,7 +52,7 @@ function ArchiveIndex() {
       description: article.standfirst,
       href: `/blog/${article.slug}`,
       tag: article.file.replace("FILE ", ""),
-      meta: `${article.readingMinutes} min transmission · Speculative fiction`,
+      meta: `${article.readingMinutes} min transmission · ${article.genre ?? "fiction"}`,
     })),
   });
 
@@ -61,7 +77,10 @@ function ArticlePage({ article }: { article: NightArchiveArticle }) {
   return <>
     <a className="night-back" href="/blog">← Night Archive</a>
     <CanonicalMarkup html={renderPageHeader({ kicker: article.file, title: article.title, lede: article.standfirst })} />
-    <aside className="night-disclosure" role="note"><strong>Fiction:</strong> This story uses supernatural and surveillance imagery as metaphor. It does not describe verified events or people.</aside>
+    <aside className="night-disclosure" role="note">
+      <strong>{article.genre === "reported memoir" ? "Editorial method:" : "Fiction:"}</strong>{" "}
+      {article.disclosure ?? "This story uses supernatural and surveillance imagery as metaphor. It does not describe verified events or people."}
+    </aside>
     <tt-article-reader article-title={article.title} reading-minutes={String(article.readingMinutes)} headings={JSON.stringify(headings)} />
     <CanonicalMarkup html={renderArticle(articleBody(article))} className="night-article" />
   </>;
@@ -71,8 +90,21 @@ export default function App() {
   const slug = window.location.pathname.match(/^\/blog\/([^/]+)\/?$/)?.[1];
   const article = slug ? articles.find((candidate) => candidate.slug === slug) : undefined;
 
+  useEffect(() => {
+    document.title = article ? `${article.title} — Ghost Signal` : "Night Archive — Ghost Signal";
+    let description = document.querySelector<HTMLMetaElement>('meta[name="description"]');
+    if (!description) {
+      description = document.createElement("meta");
+      description.name = "description";
+      document.head.append(description);
+    }
+    description.content = article?.standfirst ?? "Reported memoir and speculative stories from the Ghost Signal Night Archive.";
+  }, [article]);
+
   return <>
     <style>{themeCss}</style>
+    <style>{WIDGET_CSS}</style>
+    <style>{MEDIA_CSS}</style>
     <a className="tt-skip" href="#main">Skip to content</a>
     <CanonicalMarkup html={nav} />
     <main id="main" className="tt-shell night-shell">
