@@ -4,26 +4,41 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "check": "tsc --noEmit",
+    "build:blog": "vite build --config blog-app/vite.config.ts",
+    "check": "tsc --noEmit && tsc --noEmit -p blog-app/tsconfig.json",
     "check:performance": "node scripts/check-performance-budgets.mjs",
     "dev": "wrangler dev",
     "dev:e2e": "HOME=.wrangler/home XDG_CONFIG_HOME=.wrangler/config wrangler dev --local --port 8787 --test-scheduled --persist-to .wrangler/state/e2e --env-file .dev.vars.playwright",
-    "deploy": "wrangler deploy",
+    "deploy": "pnpm build:blog && wrangler deploy",
+    "test:unit": "vitest run --config blog-app/vitest.config.ts",
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:report": "playwright show-report"
   },
   "dependencies": {
+    "@theme.tools/blog": "file:vendor/theme-tools/theme.tools-blog-1.0.0.tgz",
+    "@theme-tools/shared-utils": "file:vendor/theme-tools/theme-tools-shared-utils-1.0.1.tgz",
     "@hono/swagger-ui": "^0",
     "@hono/zod-openapi": "^0",
     "hono": "^4",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "yaml": "^2.8.3",
     "zod": "^3"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4",
     "@playwright/test": "^1.56.1",
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "latest",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/node": "latest",
+    "@vitejs/plugin-react": "latest",
+    "jsdom": "^27.0.0",
     "typescript": "^5",
+    "vite": "latest",
+    "vitest": "latest",
     "wrangler": "^4"
   }
 }

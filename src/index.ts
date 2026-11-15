@@ -388,6 +388,7 @@ function transmissionsPageHtml(): string {
     <nav class="site-nav" aria-label="Primary">
       <a href="/">Signal</a>
       <a href="/transmissions" aria-current="page">Transmissions</a>
+      <a href="/blog">Blog</a>
       <a href="/docs">Docs</a>
       <a href="/api/docs">API</a>
     </nav>
@@ -397,6 +398,7 @@ function transmissionsPageHtml(): string {
     "prerender": [
       { "where": { "href_matches": "/" }, "eagerness": "moderate" },
       { "where": { "href_matches": "/docs" }, "eagerness": "moderate" },
+      { "where": { "href_matches": "/blog" }, "eagerness": "moderate" },
       { "where": { "href_matches": "/api/docs" }, "eagerness": "moderate" }
     ]
   }
@@ -1474,6 +1476,7 @@ app.get("/api/docs", (c) => {
     <nav class="site-nav" aria-label="Primary">
       <a href="/">Signal</a>
       <a href="/transmissions">Transmissions</a>
+      <a href="/blog">Blog</a>
       <a href="/docs">Docs</a>
       <a href="/api/docs" aria-current="page">API</a>
     </nav>
@@ -1496,6 +1499,7 @@ app.get("/api/docs", (c) => {
       "prerender": [
         { "where": { "href_matches": "/" }, "eagerness": "moderate" },
         { "where": { "href_matches": "/transmissions" }, "eagerness": "moderate" },
+        { "where": { "href_matches": "/blog" }, "eagerness": "moderate" },
         { "where": { "href_matches": "/docs" }, "eagerness": "moderate" }
       ]
     }
@@ -1701,7 +1705,17 @@ app.get("*", async (c) => {
     throw new ApiError(`Route GET ${pathname} was not found.`, 404, "NOT_FOUND");
   }
 
-  const assetPath = pathname === "/" ? "/index.html" : pathname === "/docs" ? "/docs.html" : pathname === "/privacy" ? "/privacy.html" : pathname === "/terms" ? "/terms.html" : pathname;
+  const assetPath = pathname === "/"
+    ? "/index.html"
+    : pathname === "/docs"
+      ? "/docs.html"
+      : pathname === "/blog" || (pathname.startsWith("/blog/") && !pathname.includes("."))
+        ? "/blog/index.html"
+        : pathname === "/privacy"
+          ? "/privacy.html"
+          : pathname === "/terms"
+            ? "/terms.html"
+            : pathname;
   const assetUrl = new URL(assetPath, url);
   let assetResponse = await c.env.ASSETS.fetch(new Request(assetUrl.toString(), { method: "GET" }));
 

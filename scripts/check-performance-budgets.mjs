@@ -1,4 +1,4 @@
-import { readFile, stat } from "node:fs/promises";
+import { readFile, readdir, stat } from "node:fs/promises";
 import { gzipSync } from "node:zlib";
 
 const budgets = {
@@ -13,6 +13,16 @@ let failed = false;
 for (const [file, limit] of Object.entries(budgets)) {
   const source = await readFile(file);
   const compressed = gzipSync(source, { level: 9 }).byteLength;
+  const status = compressed <= limit ? "PASS" : "FAIL";
+  if (status === "FAIL") failed = true;
+  console.log(`${status} ${file}: ${compressed} gzip bytes (budget ${limit})`);
+}
+
+const blogAssets = await readdir("public/blog/assets");
+for (const asset of blogAssets.filter((file) => file.endsWith(".js") || file.endsWith(".css"))) {
+  const file = `public/blog/assets/${asset}`;
+  const compressed = gzipSync(await readFile(file), { level: 9 }).byteLength;
+  const limit = asset.endsWith(".js") ? 100_000 : 10_000;
   const status = compressed <= limit ? "PASS" : "FAIL";
   if (status === "FAIL") failed = true;
   console.log(`${status} ${file}: ${compressed} gzip bytes (budget ${limit})`);
