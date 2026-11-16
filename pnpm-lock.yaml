@@ -716,7 +716,7 @@ packages:
     version: 1.0.1
 
   '@theme.tools/blog@file:vendor/theme-tools/theme.tools-blog-1.0.0.tgz':
-    resolution: {integrity: sha512-8JRMP9jDPH4c1+z8rx6uCAQLUSs6E0CLdEfips6fNed4ajkpuPa2AQOjbJj5PuqCK6mmCX+VYEgdiBa5hLgxhQ==, tarball: file:vendor/theme-tools/theme.tools-blog-1.0.0.tgz}
+    resolution: {integrity: sha512-gB8x+dVYjAFtLuHBLJ8/hFExaIE1OPQ7ilLDK9XPZYtqDDSWroWzl9df3vMeDg0lLb9ZrSqjP0vVlXFcXuetkw==, tarball: file:vendor/theme-tools/theme.tools-blog-1.0.0.tgz}
     version: 1.0.0
 
   '@tybys/wasm-util@0.10.4':

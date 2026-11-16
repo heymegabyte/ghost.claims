@@ -1,0 +1,298 @@
+{
+  "package": "@theme.tools/blog",
+  "version": "1.0.0+registry.9d5332d7",
+  "sourceCommit": "9d5332d7861b5bbaa30a3a5a19218d3a1912c6ca",
+  "componentTypes": [
+    "callout",
+    "takeaways",
+    "comparison",
+    "steps",
+    "faq",
+    "timeline",
+    "stat-cards",
+    "pros-cons",
+    "glossary",
+    "pullquote",
+    "platform-tabs",
+    "spec-table",
+    "scorecard",
+    "accordion",
+    "featured",
+    "gallery",
+    "video-browser",
+    "responsive-picture",
+    "cf-stream-embed",
+    "code-block",
+    "callout-block",
+    "breadcrumbs",
+    "audio-narration",
+    "author-bio",
+    "social-share",
+    "reading-progress",
+    "related-articles-grid",
+    "og-card-svg",
+    "article-reader"
+  ],
+  "components": [
+    {
+      "type": "callout",
+      "module": "widgets",
+      "cssVar": "WIDGET_CSS",
+      "description": "Coloured note/aside (info · warning · success · tip)."
+    },
+    {
+      "type": "takeaways",
+      "module": "widgets",
+      "cssVar": "WIDGET_CSS",
+      "description": "Key-takeaways bullet summary box."
+    },
+    {
+      "type": "comparison",
+      "module": "widgets",
+      "cssVar": "WIDGET_CSS",
+      "description": "Side-by-side comparison table of options."
+    },
+    {
+      "type": "steps",
+      "module": "widgets",
+      "cssVar": "WIDGET_CSS",
+      "description": "Ordered how-to step sequence."
+    },
+    {
+      "type": "faq",
+      "module": "widgets",
+      "cssVar": "WIDGET_CSS",
+      "description": "Accessible Q&A accordion (FAQPage-ready)."
+    },
+    {
+      "type": "timeline",
+      "module": "widgets",
+      "cssVar": "WIDGET_CSS",
+      "description": "Vertical dated timeline of events/milestones."
+    },
+    {
+      "type": "stat-cards",
+      "module": "widgets",
+      "cssVar": "WIDGET_CSS",
+      "description": "Grid of headline stat cards (value + label)."
+    },
+    {
+      "type": "pros-cons",
+      "module": "widgets",
+      "cssVar": "WIDGET_CSS",
+      "description": "Two-column pros vs cons list."
+    },
+    {
+      "type": "glossary",
+      "module": "widgets",
+      "cssVar": "WIDGET_CSS",
+      "description": "Term → definition glossary list."
+    },
+    {
+      "type": "pullquote",
+      "module": "widgets",
+      "cssVar": "WIDGET_CSS",
+      "description": "Emphasised pull-quote with optional attribution."
+    },
+    {
+      "type": "platform-tabs",
+      "module": "widgets",
+      "cssVar": "WIDGET_CSS",
+      "description": "Tabbed per-platform content (Windows/macOS/Linux)."
+    },
+    {
+      "type": "spec-table",
+      "module": "widgets",
+      "cssVar": "WIDGET_CSS",
+      "description": "Technical specification key/value table."
+    },
+    {
+      "type": "scorecard",
+      "module": "widgets",
+      "cssVar": "WIDGET_CSS",
+      "description": "Weighted scorecard with criteria + overall rating."
+    },
+    {
+      "type": "accordion",
+      "module": "widgets",
+      "cssVar": "WIDGET_CSS",
+      "description": "Generic expand/collapse accordion of sections."
+    },
+    {
+      "type": "featured",
+      "module": "media",
+      "cssVar": "MEDIA_CSS",
+      "description": "Hero / featured image with optional caption (CLS-safe 1200×630)."
+    },
+    {
+      "type": "gallery",
+      "module": "media",
+      "cssVar": "MEDIA_CSS",
+      "description": "Lightbox-ready responsive image gallery grid."
+    },
+    {
+      "type": "video-browser",
+      "module": "media",
+      "cssVar": "MEDIA_CSS",
+      "description": "Tabbed YouTube video browser with click-to-play facades."
+    },
+    {
+      "type": "responsive-picture",
+      "module": "multimedia",
+      "cssVar": "SELF_CONTAINED",
+      "description": "AVIF/WebP responsive <picture> with aspect-ratio CLS guard + optional caption."
+    },
+    {
+      "type": "cf-stream-embed",
+      "module": "multimedia",
+      "cssVar": "SELF_CONTAINED",
+      "description": "Cloudflare Stream video embed with optional transcript disclosure."
+    },
+    {
+      "type": "code-block",
+      "module": "multimedia",
+      "cssVar": "SELF_CONTAINED",
+      "description": "Syntax-labelled code block with filename + language header."
+    },
+    {
+      "type": "callout-block",
+      "module": "multimedia",
+      "cssVar": "SELF_CONTAINED",
+      "description": "Rich inline-HTML callout (info · tip · warning · alert · key-takeaways)."
+    },
+    {
+      "type": "breadcrumbs",
+      "module": "multimedia",
+      "cssVar": "SELF_CONTAINED",
+      "description": "schema.org BreadcrumbList trail (accepts a BreadcrumbItem[])."
+    },
+    {
+      "type": "audio-narration",
+      "module": "multimedia",
+      "cssVar": "SELF_CONTAINED",
+      "description": "Listen-to-this-article audio player with transcript/download links."
+    },
+    {
+      "type": "author-bio",
+      "module": "multimedia",
+      "cssVar": "SELF_CONTAINED",
+      "description": "Author bio card with avatar + sameAs entity badges (ORCID/GitHub/etc)."
+    },
+    {
+      "type": "social-share",
+      "module": "multimedia",
+      "cssVar": "SELF_CONTAINED",
+      "description": "Share-this-post bar (X · LinkedIn · Hacker News)."
+    },
+    {
+      "type": "reading-progress",
+      "module": "multimedia",
+      "cssVar": "SELF_CONTAINED",
+      "description": "Scroll-driven reading-progress bar (CSS scroll timeline; ignores data)."
+    },
+    {
+      "type": "related-articles-grid",
+      "module": "multimedia",
+      "cssVar": "SELF_CONTAINED",
+      "description": "Topic-cluster related-articles card grid (accepts a RelatedArticleConfig[])."
+    },
+    {
+      "type": "og-card-svg",
+      "module": "multimedia",
+      "cssVar": "SELF_CONTAINED",
+      "description": "Branded 1200×630 Open Graph card as inline SVG."
+    },
+    {
+      "type": "article-reader",
+      "module": "elements",
+      "cssVar": "SELF_CONTAINED",
+      "description": "<tt-article-reader> shadow-DOM reader shell with table-of-contents."
+    }
+  ],
+  "modules": {
+    "site": {
+      "ok": true,
+      "tenantId": "ghost.claims",
+      "packageName": "@theme.tools/blog",
+      "moduleSlug": "site",
+      "w3cTraceparentFormat": "00-32hex-16hex-01",
+      "langfuseFailOpenTimeoutMs": 2500,
+      "rfc9457ProblemDetailsSupported": true,
+      "tactileMicroInteractionsCount": 30,
+      "interactionStatesCount": 16,
+      "transitionDurationSeconds": 0.333,
+      "spec": {
+        "capabilityId": "blog",
+        "packageName": "@theme.tools/blog",
+        "moduleSlug": "site",
+        "w3cTraceparentFormat": "00-32hex-16hex-01",
+        "langfuseFailOpenTimeoutMs": 2500,
+        "rfc9457ProblemDetailsSupported": true,
+        "tactileMicroInteractionsCount": 30,
+        "interactionStatesCount": 16,
+        "transitionDurationSeconds": 0.333,
+        "requiresCloudflareContainers": false,
+        "deterministicDigest": 3687275616
+      },
+      "verifiedInteractionStateCount": 16,
+      "minApcaContrastLc": 60,
+      "checksum": 3125336134
+    },
+    "widgets": {
+      "ok": true,
+      "tenantId": "ghost.claims",
+      "packageName": "@theme.tools/blog",
+      "moduleSlug": "widgets",
+      "w3cTraceparentFormat": "00-32hex-16hex-01",
+      "langfuseFailOpenTimeoutMs": 2500,
+      "rfc9457ProblemDetailsSupported": true,
+      "tactileMicroInteractionsCount": 30,
+      "interactionStatesCount": 16,
+      "transitionDurationSeconds": 0.333,
+      "spec": {
+        "capabilityId": "blog",
+        "packageName": "@theme.tools/blog",
+        "moduleSlug": "widgets",
+        "w3cTraceparentFormat": "00-32hex-16hex-01",
+        "langfuseFailOpenTimeoutMs": 2500,
+        "rfc9457ProblemDetailsSupported": true,
+        "tactileMicroInteractionsCount": 30,
+        "interactionStatesCount": 16,
+        "transitionDurationSeconds": 0.333,
+        "requiresCloudflareContainers": false,
+        "deterministicDigest": 2566065784
+      },
+      "verifiedInteractionStateCount": 16,
+      "minApcaContrastLc": 60,
+      "checksum": 211571150
+    },
+    "media": {
+      "ok": true,
+      "tenantId": "ghost.claims",
+      "packageName": "@theme.tools/blog",
+      "moduleSlug": "media",
+      "w3cTraceparentFormat": "00-32hex-16hex-01",
+      "langfuseFailOpenTimeoutMs": 2500,
+      "rfc9457ProblemDetailsSupported": true,
+      "tactileMicroInteractionsCount": 30,
+      "interactionStatesCount": 16,
+      "transitionDurationSeconds": 0.333,
+      "spec": {
+        "capabilityId": "blog",
+        "packageName": "@theme.tools/blog",
+        "moduleSlug": "media",
+        "w3cTraceparentFormat": "00-32hex-16hex-01",
+        "langfuseFailOpenTimeoutMs": 2500,
+        "rfc9457ProblemDetailsSupported": true,
+        "tactileMicroInteractionsCount": 30,
+        "interactionStatesCount": 16,
+        "transitionDurationSeconds": 0.333,
+        "requiresCloudflareContainers": false,
+        "deterministicDigest": 3339770477
+      },
+      "verifiedInteractionStateCount": 16,
+      "minApcaContrastLc": 60,
+      "checksum": 1010817835
+    }
+  }
+}

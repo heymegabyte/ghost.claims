@@ -7,6 +7,8 @@ const budgets = {
   "public/app.js": 45_000,
   "public/features.js": 30_000,
   "public/performance.js": 4_000,
+  "public/theme-tools.css": 25_000,
+  "public/theme-tools-components.json": 3_000,
 };
 
 let failed = false;

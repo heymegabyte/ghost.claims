@@ -10,8 +10,9 @@
     "check:performance": "node scripts/check-performance-budgets.mjs",
     "dev": "wrangler dev",
     "dev:e2e": "HOME=.wrangler/home XDG_CONFIG_HOME=.wrangler/config wrangler dev --local --port 8787 --test-scheduled --persist-to .wrangler/state/e2e --env-file .dev.vars.playwright",
-    "deploy": "pnpm sync:theme && pnpm build:blog && wrangler deploy",
+    "deploy": "pnpm sync:theme && pnpm build:blog && pnpm test:theme-tools && wrangler deploy",
     "test:unit": "vitest run --config blog-app/vitest.config.ts",
+    "test:theme-tools": "vitest run --config blog-app/vitest.config.ts src/theme-tools-catalog.test.ts",
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:report": "playwright show-report"

@@ -18,6 +18,9 @@ The user approved the current production site on 2026-11-15 as the Figma-equival
 - Normalize accessibility, responsive behavior, active states, focus treatment, spacing, and performance across all public routes.
 - Run ten evidence-based visual inspection and repair passes across every public page at desktop and mobile sizes.
 - Extend automated tests so navbar structure and visual invariants cannot drift again.
+- Upgrade the pinned package artifact to the approved canonical theme.tools source revision that exposes the unified component registry.
+- Load the complete site, widget, and media catalog on every public surface and dispatch editorial components through `renderComponent` rather than parallel local registries.
+- Publish a machine-readable component/version manifest so production provenance and module invariants are inspectable.
 
 ## Scope
 

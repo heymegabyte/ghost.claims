@@ -19,6 +19,10 @@ Every page presents the same logo, `GHOST // SIGNAL` wordmark, five links in the
 - Keep content, API bindings, sensor charts, chat, transmissions data, and product effects in ghost.claims.
 - Do not edit the dirty canonical theme.tools checkout. Any missing framework-neutral shell compiler is an upstream follow-up, not copied reusable implementation.
 
+## Full-catalog convergence
+
+The consumer pins a reproducible tarball built from canonical theme.tools commit `9d5332d7861b5bbaa30a3a5a19218d3a1912c6ca` in an isolated clean worktree. The unified `components-registry` is the only editorial widget/media dispatcher. `SITE_CSS` and `ALL_BLOG_CSS` are generated into one shared catalog stylesheet loaded before product-specific composition CSS on every route. Product code retains only content, routes, data bindings, and Ghost Signal-specific compositions. A generated JSON manifest records exact source provenance, every available component type, and runtime invariant results.
+
 ## Ten-pass visual loop
 
 Each pass captures all routes at 1440×1000 and 390×844 and reviews: shell/navbar; hierarchy; spacing/grid; typography; component convergence; interaction/focus; accessibility/contrast; responsive behavior; loading/error stability; and final regression/performance polish. Repairs are re-captured before the next pass.

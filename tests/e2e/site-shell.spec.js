@@ -67,3 +67,16 @@ test("canonical shell exposes keyboard navigation and theme.tools footer", async
   await expect(page.locator('[data-theme-tools="site-footer"]')).toContainText("ghost.claims");
   await expect(page.locator(".tt-nav__brand")).toHaveAttribute("href", "/");
 });
+
+test("full theme.tools catalog and provenance manifest are public", async ({ request }) => {
+  const stylesheet = await request.get("/theme-tools.css");
+  expect(stylesheet.ok()).toBe(true);
+  expect(await stylesheet.text()).toContain(".tt-widget");
+
+  const manifest = await request.get("/theme-tools-components.json");
+  expect(manifest.ok()).toBe(true);
+  const catalog = await manifest.json();
+  expect(catalog.sourceCommit).toBe("9d5332d7861b5bbaa30a3a5a19218d3a1912c6ca");
+  expect(catalog.componentTypes).toContain("article-reader");
+  expect(catalog.componentTypes.length).toBeGreaterThanOrEqual(29);
+});

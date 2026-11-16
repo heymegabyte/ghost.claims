@@ -1,16 +1,10 @@
-import { SITE_CSS, renderArticle, renderPageHeader, renderPostGrid } from "@theme.tools/blog/site";
-import { MEDIA_CSS, renderMedia } from "@theme.tools/blog/media";
-import { WIDGET_CSS, renderWidget } from "@theme.tools/blog/widgets";
+import { renderArticle, renderPageHeader, renderPostGrid } from "@theme.tools/blog/site";
+import { renderComponent } from "@theme.tools/blog/components-registry";
 import { useEffect } from "react";
 import { articles, type NightArchiveArticle } from "./content";
 import { CanonicalMarkup } from "./theme-tools";
 import { GHOST_SIGNAL_SHELL_CSS, renderGhostSignalFooter, renderGhostSignalNav, renderGhostSignalSkipLink } from "../../src/site-shell";
 import "./app.css";
-
-// The shared stylesheet optionally advertises self-hosted brand fonts. Ghost
-// Signal deliberately uses the package's system fallbacks, so omit only those
-// two host-level @font-face declarations instead of issuing broken requests.
-const themeCss = SITE_CSS.slice(SITE_CSS.indexOf(":root{"));
 
 const nav = renderGhostSignalNav("/blog");
 
@@ -23,9 +17,7 @@ function articleBody(article: NightArchiveArticle): string {
       ? renderSourceLibrary(section.paragraphs)
       : section.paragraphs.map((paragraph) => `<p>${paragraph}</p>`).join("");
     const quote = section.quote ? `<blockquote>${section.quote}</blockquote>` : "";
-    const components = section.components?.map((component) => component.kind === "widget"
-      ? renderWidget(component.type, component.data)
-      : renderMedia(component.type, component.data)).join("") ?? "";
+    const components = section.components?.map((component) => renderComponent(component.type, component.data)).join("") ?? "";
     return `<section${isSources ? ' class="night-sources" aria-labelledby="' + id + '"' : ""}>${heading}${paragraphs}${quote}${components}</section>`;
   }).join("");
 }
@@ -101,10 +93,7 @@ export default function App() {
   }, [article]);
 
   return <>
-    <style>{themeCss}</style>
     <style>{GHOST_SIGNAL_SHELL_CSS}</style>
-    <style>{WIDGET_CSS}</style>
-    <style>{MEDIA_CSS}</style>
     <CanonicalMarkup html={renderGhostSignalSkipLink()} />
     <CanonicalMarkup html={nav} />
     <main id="main" className="tt-shell night-shell">

@@ -261,6 +261,7 @@ function transmissionsPageHtml(): string {
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Sora:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/theme-tools.css" />
   <link rel="stylesheet" href="/styles.css" />
   <link rel="stylesheet" href="/theme-tools-shell.css" />
   <style>
@@ -1361,6 +1362,7 @@ app.get("/api/docs", (c) => {
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Fira+Code:wght@400;500;700&family=Sora:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/theme-tools.css" />
   <link rel="stylesheet" href="/styles.css?v=20260501-reveal" />
   <link rel="stylesheet" href="/theme-tools-shell.css" />
   <style>
