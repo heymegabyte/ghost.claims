@@ -260,7 +260,7 @@ function transmissionsPageHtml(): string {
   <meta name="theme-color" content="#060610" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Sora:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/theme-tools.css" />
   <link rel="stylesheet" href="/styles.css" />
   <link rel="stylesheet" href="/theme-tools-shell.css" />
@@ -268,8 +268,8 @@ function transmissionsPageHtml(): string {
     .tx-layout { padding-top: 1rem; padding-bottom: 3rem; }
     .tx-hero {
       text-align: center; padding: 2rem 0 2.5rem;
-      background: radial-gradient(ellipse at 50% 50%, rgba(255, 23, 68, 0.08), transparent 60%);
-      border-bottom: 1px solid rgba(255, 23, 68, 0.15);
+      background: radial-gradient(ellipse at 50% 50%, rgba(0, 229, 255, 0.08), transparent 60%);
+      border-bottom: 1px solid var(--tt-line);
       margin-bottom: 2rem;
     }
     .tx-hero h1 {
@@ -283,13 +283,13 @@ function transmissionsPageHtml(): string {
     .tx-stat-val { color: var(--accent-cyan); font-weight: 700; font-size: 1.2rem; display: block; }
     .tx-synopsis {
       padding: 1.5rem 2rem; margin-bottom: 2rem;
-      border: 1px solid rgba(124, 58, 237, 0.2);
+      border: 1px solid var(--tt-line);
       border-radius: var(--radius-panel);
       background: var(--bg-panel);
     }
     .tx-synopsis h2 {
       font-family: var(--font-display); font-size: 1.1rem;
-      color: var(--accent-purple); margin-bottom: 0.75rem;
+      color: var(--tt-cyan); margin-bottom: 0.75rem;
     }
     .tx-synopsis ul {
       list-style: none; padding: 0;
@@ -319,7 +319,7 @@ function transmissionsPageHtml(): string {
       background: var(--bg-panel); transition: border-color 0.3s;
       cursor: pointer;
     }
-    .tx-card:hover { border-color: rgba(255, 23, 68, 0.3); }
+    .tx-card:hover { border-color: var(--tt-line-2); }
     .tx-card-header {
       display: flex; justify-content: space-between; align-items: center;
       margin-bottom: 0.5rem;
@@ -1361,28 +1361,28 @@ app.get("/api/docs", (c) => {
   <link rel="manifest" href="/site.webmanifest" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Fira+Code:wght@400;500;700&family=Sora:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/theme-tools.css" />
   <link rel="stylesheet" href="/styles.css?v=20260501-reveal" />
   <link rel="stylesheet" href="/theme-tools-shell.css" />
   <style>
     @view-transition { navigation: auto; }
     :root {
-      --gs-bg: #060610;
-      --gs-bg-2: #0a0a1a;
-      --gs-cyan: #00E5FF;
-      --gs-blue: #50AAE3;
-      --gs-violet: #7C3AED;
-      --gs-red: #ff1744;
-      --gs-text: #e7e7ef;
-      --gs-muted: #9aa0b4;
-      --gs-line: rgba(255,255,255,0.08);
+      --gs-bg: var(--tt-ink);
+      --gs-bg-2: var(--tt-panel);
+      --gs-cyan: var(--tt-cyan);
+      --gs-blue: var(--tt-cyan-deep);
+      --gs-violet: var(--tt-cyan-deep);
+      --gs-red: var(--tt-cyan);
+      --gs-text: var(--tt-text);
+      --gs-muted: var(--tt-muted);
+      --gs-line: var(--tt-line);
     }
     html, body[data-page="api-docs"] {
       margin: 0;
-      background: #060610;
+      background: var(--tt-ink);
       color: var(--gs-text);
-      font-family: 'Sora', system-ui, sans-serif;
+      font-family: var(--tt-sans);
     }
     body[data-page="api-docs"] a { color: var(--gs-cyan); }
     /* Reuse the homepage .site-header brand lockup so the nav is identical across routes */
@@ -1393,7 +1393,7 @@ app.get("/api/docs", (c) => {
       padding: 2.4rem 1.5rem 2rem;
       background:
         radial-gradient(900px 240px at 8% -20%, rgba(0,229,255,0.18), transparent 60%),
-        radial-gradient(700px 260px at 92% 0%, rgba(124,58,237,0.18), transparent 65%),
+        radial-gradient(700px 260px at 92% 0%, rgba(42,167,199,0.12), transparent 65%),
         linear-gradient(180deg, var(--gs-bg-2), var(--gs-bg));
       border-bottom: 1px solid var(--gs-line);
       view-transition-name: page-banner;
@@ -1401,16 +1401,16 @@ app.get("/api/docs", (c) => {
     .gs-banner-shell { max-width: 1200px; margin: 0 auto; }
     .gs-banner .eyebrow {
       display: inline-block;
-      font-family: 'Fira Code', monospace; font-size: 11px;
+      font-family: var(--tt-mono); font-size: 11px;
       letter-spacing: 0.22em; text-transform: uppercase;
       color: var(--gs-cyan); margin: 0 0 0.5rem;
       padding: 0.25rem 0.6rem;
-      border: 1px solid rgba(0,229,255,0.35); border-radius: 999px;
+      border: 1px solid var(--tt-line-2); border-radius: 12px;
       background: rgba(0,229,255,0.04);
     }
     .gs-banner h1 {
       margin: 0 0 0.5rem;
-      font-family: 'Cinzel', serif;
+      font-family: var(--tt-sans);
       font-size: clamp(1.8rem, 4vw, 2.6rem);
       font-weight: 700; letter-spacing: 0.01em;
       background: linear-gradient(135deg, #fff 0%, #b9bccd 60%, var(--gs-cyan) 100%);
@@ -1427,8 +1427,8 @@ app.get("/api/docs", (c) => {
     .gs-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1rem; }
     .gs-chip {
       display: inline-flex; align-items: center; gap: 8px;
-      padding: 6px 12px; border: 1px solid var(--gs-line); border-radius: 999px;
-      background: rgba(255,255,255,0.02); font-family: 'Fira Code', monospace; font-size: 12px;
+      padding: 6px 12px; border: 1px solid var(--gs-line); border-radius: 12px;
+      background: rgba(255,255,255,0.02); font-family: var(--tt-mono); font-size: 12px;
       transition: border-color 0.2s, background 0.2s;
     }
     .gs-chip:hover { border-color: rgba(0,229,255,0.4); background: rgba(0,229,255,0.05); }
@@ -1438,9 +1438,9 @@ app.get("/api/docs", (c) => {
     .gs-chip.rf .dot { background: var(--gs-violet); color: var(--gs-violet); }
     .gs-spec-pill {
       display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1rem;
-      padding: 0.45rem 0.95rem; border-radius: 999px;
+      padding: 0.45rem 0.95rem; border-radius: 12px;
       border: 1px solid rgba(0,229,255,0.4);
-      color: var(--gs-cyan); font-family: 'Fira Code', monospace; font-size: 12px;
+      color: var(--gs-cyan); font-family: var(--tt-mono); font-size: 12px;
       text-decoration: none; transition: background 0.2s, transform 0.2s;
     }
     .gs-spec-pill:hover { background: rgba(0,229,255,0.08); transform: translateY(-1px); }
@@ -1514,8 +1514,8 @@ app.get("/api/docs", (c) => {
           --scalar-radius: 10px;
           --scalar-radius-lg: 14px;
           --scalar-radius-xl: 18px;
-          --scalar-font: 'Sora', system-ui, sans-serif;
-          --scalar-font-code: 'Fira Code', ui-monospace, monospace;
+          --scalar-font: 'Space Grotesk', system-ui, sans-serif;
+          --scalar-font-code: 'JetBrains Mono', ui-monospace, monospace;
         }
         .dark-mode {
           --scalar-color-1: #e7e7ef;
@@ -1524,10 +1524,10 @@ app.get("/api/docs", (c) => {
           --scalar-background-3: #0f0f24;
         }
         .sidebar { background: linear-gradient(180deg, #08081a, #060610) !important; border-right: 1px solid rgba(255,255,255,0.06) !important; }
-        .show-api-client-button { background: linear-gradient(135deg, #00E5FF, #7C3AED) !important; color: #060610 !important; border: 0 !important; }
+        .show-api-client-button { background: linear-gradient(135deg, #00E5FF, #2AA7C7) !important; color: #060610 !important; border: 0 !important; }
         .scalar-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.04), 0 30px 60px -30px rgba(0,229,255,0.15) !important; }
         h1.section-header, h2.section-header { letter-spacing: -0.01em; }
-        .badge { font-family: 'Fira Code', monospace !important; letter-spacing: 0.04em; }
+        .badge { font-family: 'JetBrains Mono', monospace !important; letter-spacing: 0.04em; }
       `,
       metaData: {
         title: "Ghost Signal API Reference",

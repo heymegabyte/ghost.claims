@@ -23,6 +23,8 @@ The user approved the current production site on 2026-11-15 as the Figma-equival
 - Publish a machine-readable component/version manifest so production provenance and module invariants are inspectable.
 - Reconcile the canonical structured engineering post with the React Night Archive so both editorial generations share one publication, route system, and theme.tools reading experience.
 - Blend the blog's isolated crimson horror treatment with the approved site's cyan signal language while retaining red as a restrained Night Archive editorial accent.
+- Make the canonical theme.tools default theme authoritative across every public surface by removing the later Ghost-specific palette, typography, radius, navigation, and background overrides that currently win in the cascade.
+- Retain product-specific content layout, sensor visualizations, evidence media, and data bindings while sourcing visual tokens and shared shell geometry directly from theme.tools.
 
 ## Scope
 

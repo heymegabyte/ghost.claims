@@ -14,5 +14,9 @@
 - [x] Integrate the canonical structured engineering post with the React journal and preserve all five Night Archive articles.
 - [x] Converge the journal theme on the approved Ghost Signal cyan system while retaining a restrained Night Archive accent.
 - [x] Verify index and all six article routes at desktop and mobile widths with zero missing component tokens.
+- [x] Remove the custom shell fork and let the canonical theme.tools navigation/footer geometry own every route.
+- [x] Alias legacy product tokens to theme.tools defaults and remove the competing red/purple site palette.
+- [x] Converge the blog, transmissions, API banner, legal pages, and documentation typography and control geometry on the default theme.
+- [x] Verify every public route visually at desktop and mobile widths after default-theme convergence.
 - [x] Run type, unit, build, performance, accessibility, and complete E2E validation; classify the unrelated repository-wide parallel failures with evidence.
 - [ ] Commit, push, deploy, verify production, and record rollback evidence.
