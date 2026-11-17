@@ -1,7 +1,22 @@
-import { renderArticle, renderPageHeader, renderPostGrid } from "@theme.tools/blog/site";
+import { extractHeadings, readingMinutes, renderMarkdown } from "@theme.tools/blog/markdown";
+import {
+  renderArticle,
+  renderBackToTop,
+  renderBreadcrumb,
+  renderCoverStory,
+  renderEditorsNote,
+  renderEvidenceBadge,
+  renderMasthead,
+  renderPageHeader,
+  renderPostGrid,
+  renderReadingProgress,
+  renderShareRow,
+  renderTableOfContents,
+  renderTagList,
+} from "@theme.tools/blog/site";
 import { renderComponent } from "@theme.tools/blog/components-registry";
 import { useEffect } from "react";
-import { articles, type NightArchiveArticle } from "./content";
+import { articles, canonicalPosts, type CanonicalBlogPost, type NightArchiveArticle } from "./content";
 import { CanonicalMarkup } from "./theme-tools";
 import { GHOST_SIGNAL_SHELL_CSS, renderGhostSignalFooter, renderGhostSignalNav, renderGhostSignalSkipLink } from "../../src/site-shell";
 import "./app.css";
@@ -47,14 +62,78 @@ function ArchiveIndex() {
     })),
   });
 
+  const cover = canonicalPosts[0];
+
   return <>
+    <CanonicalMarkup html={renderMasthead({
+      title: "GHOST SIGNAL JOURNAL",
+      tagline: "Field reports, strange histories, and systems observed after dark.",
+      meta: "EST. 2026 · NEW JERSEY · SIX TRANSMISSIONS RECOVERED",
+    })} className="journal-masthead" />
+    <CanonicalMarkup html={renderCoverStory({
+      kicker: "SYSTEM DOSSIER // ARCHITECTURE & ENGINEERING",
+      title: cover.title,
+      dek: cover.description,
+      byline: cover.author,
+      meta: `${cover.date} · ${readingMinutes(cover.body)} min read`,
+      href: `/blog/${cover.slug}`,
+      image: { src: "/evidence-radiation-tdr.webp", alt: "Sensor telemetry display glowing against a dark field" },
+      cta: "Open the dossier →",
+    })} className="journal-cover" />
+    <CanonicalMarkup html={renderEditorsNote({
+      kicker: "FROM THE ARCHIVE",
+      heading: "One signal, two frequencies.",
+      body: "<p>The journal now brings the technical record and the Night Archive together: documented systems beside reported memory, cultural criticism, and speculative horror. The formats differ; the editorial promise does not—state what is known, label what is remembered, and never disguise metaphor as evidence.</p>",
+      signature: "— Ghost Signal",
+    })} className="journal-note" />
     <CanonicalMarkup html={renderPageHeader({
       kicker: "NIGHT ARCHIVE // FILES RECOVERED AFTER MIDNIGHT",
       title: "Stories for the watched.",
-      lede: "Field notes from imagined systems that watch, rank, rehearse, and consume us—until spectacle feels like fate and the script starts wearing a human face.",
-    })} />
+      lede: "Reported memory and speculative stories about systems that watch, rank, rehearse, and consume us—until spectacle feels like fate.",
+    })} className="journal-archive-heading" />
     <aside className="night-disclosure" role="note"><strong>Editorial note:</strong> Night Archive is speculative horror and cultural criticism. Its cosmic forces, conspiracies, and characters are fictional metaphors, not claims about real people or events.</aside>
     <CanonicalMarkup html={cards} className="night-grid" />
+  </>;
+}
+
+function renderCanonicalBody(post: CanonicalBlogPost): string {
+  let html = renderMarkdown(post.body);
+
+  for (const figure of post.figures) {
+    const figureMarkup = `<figure class="journal-figure">${figure.svg}<figcaption>${figure.caption}</figcaption></figure>`;
+    html = html.replace(`<p>{{figure:${figure.id}}}</p>`, figureMarkup);
+  }
+
+  for (const widget of post.widgets) {
+    const data = widget.type === "featured"
+      ? { ...(widget.data as Record<string, unknown>), src: "/evidence-radiation-tdr.webp" }
+      : widget.data;
+    html = html.replace(`<p>{{widget:${widget.id}}}</p>`, renderComponent(widget.type, data));
+  }
+
+  return html;
+}
+
+function CanonicalArticlePage({ post }: { post: CanonicalBlogPost }) {
+  const headings = extractHeadings(post.body);
+  const meta = `${post.date} · ${readingMinutes(post.body)} min read · ${post.difficulty}`;
+
+  return <>
+    <CanonicalMarkup html={renderReadingProgress()} />
+    <CanonicalMarkup html={renderBreadcrumb({ items: [
+      { label: "Ghost Signal", href: "/" },
+      { label: "Journal", href: "/blog" },
+      { label: post.title },
+    ] })} />
+    <CanonicalMarkup html={renderPageHeader({ kicker: `${post.desk.toUpperCase()} // ${post.format.toUpperCase()} // ${meta}`, title: post.title, lede: post.description })} />
+    <div className="journal-article-tools">
+      <CanonicalMarkup html={renderEvidenceBadge(post.evidence)} />
+      <CanonicalMarkup html={renderTagList({ tags: post.tags, label: "Filed under" })} />
+    </div>
+    <CanonicalMarkup html={renderTableOfContents({ headings, label: "Inside this dossier" })} />
+    <CanonicalMarkup html={renderArticle(renderCanonicalBody(post))} className="night-article journal-technical-article" />
+    <CanonicalMarkup html={renderShareRow({ url: `https://ghost.claims/blog/${post.slug}`, title: post.title, label: "Transmit this dossier" })} />
+    <CanonicalMarkup html={renderBackToTop()} />
   </>;
 }
 
@@ -80,24 +159,25 @@ function ArticlePage({ article }: { article: NightArchiveArticle }) {
 export default function App() {
   const slug = window.location.pathname.match(/^\/blog\/([^/]+)\/?$/)?.[1];
   const article = slug ? articles.find((candidate) => candidate.slug === slug) : undefined;
+  const canonicalPost = slug ? canonicalPosts.find((candidate) => candidate.slug === slug) : undefined;
 
   useEffect(() => {
-    document.title = article ? `${article.title} — Ghost Signal` : "Night Archive — Ghost Signal";
+    document.title = article ? `${article.title} — Ghost Signal` : canonicalPost ? `${canonicalPost.title} — Ghost Signal` : "Ghost Signal Journal";
     let description = document.querySelector<HTMLMetaElement>('meta[name="description"]');
     if (!description) {
       description = document.createElement("meta");
       description.name = "description";
       document.head.append(description);
     }
-    description.content = article?.standfirst ?? "Reported memoir and speculative stories from the Ghost Signal Night Archive.";
-  }, [article]);
+    description.content = article?.standfirst ?? canonicalPost?.description ?? "Field reports, strange histories, systems dossiers, and speculative stories from Ghost Signal.";
+  }, [article, canonicalPost]);
 
   return <>
     <style>{GHOST_SIGNAL_SHELL_CSS}</style>
     <CanonicalMarkup html={renderGhostSignalSkipLink()} />
     <CanonicalMarkup html={nav} />
     <main id="main" className="tt-shell night-shell">
-      {slug ? (article ? <ArticlePage article={article} /> : <NotFound />) : <ArchiveIndex />}
+      {slug ? (article ? <ArticlePage article={article} /> : canonicalPost ? <CanonicalArticlePage post={canonicalPost} /> : <NotFound />) : <ArchiveIndex />}
     </main>
     <CanonicalMarkup html={renderGhostSignalFooter()} />
   </>;

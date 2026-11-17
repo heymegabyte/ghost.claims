@@ -9,6 +9,12 @@ Create a product-specific configuration containing brand, links, and active-rout
 
 Page content remains in its current runtime to avoid a high-risk framework rewrite: static pages stay static, interactive homepage behavior stays in its existing scripts, Hono owns server-rendered routes, Scalar owns the API explorer, and React/Vite owns the blog. The migration consolidates presentation contracts, not application execution.
 
+## Unified journal
+
+The blog index uses theme.tools' magazine primitives to become one publication rather than two competing implementations. The canonical structured engineering post is the cover story; the five existing narrative and reported pieces remain the Night Archive below it. Both formats resolve through the same React route shell and full theme.tools component registry. The technical post retains its canonical JSON source and renders Markdown, figures, evidence provenance, tags, table of contents, sharing, and structured widgets through package exports rather than duplicated local templates.
+
+The visual bridge uses the approved production canvas and electric cyan as the publication-wide identity. Crimson remains a secondary editorial signal for Night Archive disclosures and source archives. Typography, surface elevation, navigation, focus, responsive behavior, and motion remain shared across both desks.
+
 ## Navigation invariant
 
 Every page presents the same logo, `GHOST // SIGNAL` wordmark, five links in the same order, dimensions, spacing, responsive overflow behavior, focus appearance, and route-aware `aria-current`. Legal pages receive the missing Blog link and linked brand. Mobile keeps all destinations reachable without hiding the entire navigation.

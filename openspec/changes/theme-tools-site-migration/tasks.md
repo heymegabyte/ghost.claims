@@ -11,5 +11,8 @@
 - [x] Add a catalog contract gate covering registry breadth, dispatch, and module invariants.
 - [x] Add navbar and cross-route contract tests.
 - [x] Execute and document ten desktop/mobile visual inspection and repair passes.
+- [x] Integrate the canonical structured engineering post with the React journal and preserve all five Night Archive articles.
+- [x] Converge the journal theme on the approved Ghost Signal cyan system while retaining a restrained Night Archive accent.
+- [x] Verify index and all six article routes at desktop and mobile widths with zero missing component tokens.
 - [x] Run type, unit, build, performance, accessibility, and complete E2E validation; classify the unrelated repository-wide parallel failures with evidence.
 - [ ] Commit, push, deploy, verify production, and record rollback evidence.

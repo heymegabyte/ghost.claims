@@ -21,10 +21,12 @@ The user approved the current production site on 2026-11-15 as the Figma-equival
 - Upgrade the pinned package artifact to the approved canonical theme.tools source revision that exposes the unified component registry.
 - Load the complete site, widget, and media catalog on every public surface and dispatch editorial components through `renderComponent` rather than parallel local registries.
 - Publish a machine-readable component/version manifest so production provenance and module invariants are inspectable.
+- Reconcile the canonical structured engineering post with the React Night Archive so both editorial generations share one publication, route system, and theme.tools reading experience.
+- Blend the blog's isolated crimson horror treatment with the approved site's cyan signal language while retaining red as a restrained Night Archive editorial accent.
 
 ## Scope
 
-Public routes: `/`, `/transmissions`, `/docs`, `/api/docs`, `/privacy`, `/terms`, `/blog`, and all five published blog article routes. API JSON/text endpoints are behavior-preserving and outside visual migration scope.
+Public routes: `/`, `/transmissions`, `/docs`, `/api/docs`, `/privacy`, `/terms`, `/blog`, all five Night Archive article routes, and the recovered `/blog/sensor-telemetry-web-dossier` route. API JSON/text endpoints are behavior-preserving and outside visual migration scope.
 
 ## Reuse classification
 

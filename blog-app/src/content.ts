@@ -1,3 +1,5 @@
+import sensorTelemetryPost from "../../content/posts/sensor-telemetry-web-dossier.json";
+
 export interface NightArchiveArticle {
   slug: string;
   file: string;
@@ -17,6 +19,39 @@ export interface NightArchiveArticle {
 export type ArticleComponent =
   | { kind: "widget"; type: "callout" | "comparison" | "timeline" | "stat-cards" | "spec-table"; data: unknown }
   | { kind: "media"; type: "featured" | "gallery"; data: unknown };
+
+export interface CanonicalBlogPost {
+  readonly slug: string;
+  readonly title: string;
+  readonly description: string;
+  readonly date: string;
+  readonly author: string;
+  readonly tags: readonly string[];
+  readonly desk: string;
+  readonly difficulty: string;
+  readonly format: string;
+  readonly body: string;
+  readonly evidence: {
+    readonly kind: "hands-on" | "researched";
+    readonly summary: string;
+    readonly date?: string;
+    readonly environment?: string;
+    readonly limitations: string;
+  };
+  readonly figures: readonly {
+    readonly id: string;
+    readonly svg: string;
+    readonly alt: string;
+    readonly caption: string;
+  }[];
+  readonly widgets: readonly {
+    readonly id: string;
+    readonly type: string;
+    readonly data: unknown;
+  }[];
+}
+
+export const canonicalPosts: readonly CanonicalBlogPost[] = [sensorTelemetryPost as CanonicalBlogPost];
 
 export const articles: readonly NightArchiveArticle[] = [
   {

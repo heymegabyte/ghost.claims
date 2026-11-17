@@ -10,17 +10,32 @@ afterEach(() => {
   window.history.replaceState({}, "", "/blog");
 });
 
-describe("Night Archive", () => {
+describe("Ghost Signal Journal", () => {
   it("renders the canonical theme.tools post grid from structured content", () => {
     window.history.replaceState({}, "", "/blog");
     const { container } = render(<App />);
+    expect(screen.getByText("GHOST SIGNAL JOURNAL")).toBeInTheDocument();
     expect(screen.getByText("Stories for the watched.")).toBeInTheDocument();
     expect(container.querySelectorAll(".tt-post")).toHaveLength(5);
+    expect(screen.getByRole("link", { name: /Acoustic & Electromagnetic Anomaly Telemetry/i })).toHaveAttribute("href", "/blog/sensor-telemetry-web-dossier");
     expect(screen.getByText(/speculative horror and cultural criticism/i)).toBeInTheDocument();
     expect(screen.getByAltText("Ghost Signal logo")).toHaveAttribute("src", expect.stringContaining("/logo-nav.png"));
     const primaryNavigation = screen.getByRole("navigation", { name: "Primary" });
     expect(primaryNavigation.querySelectorAll("a")).toHaveLength(5);
     expect(primaryNavigation.querySelector('a[href="/blog"]')).toHaveAttribute("aria-current", "page");
+  });
+
+  it("integrates the canonical engineering blog post with theme.tools editorial components", () => {
+    window.history.replaceState({}, "", "/blog/sensor-telemetry-web-dossier");
+    const { container } = render(<App />);
+    expect(screen.getByRole("heading", { level: 1, name: /Acoustic & Electromagnetic Anomaly Telemetry/i })).toBeInTheDocument();
+    expect(screen.getByRole("navigation", { name: "Breadcrumb" })).toBeInTheDocument();
+    expect(screen.getByText(/Hands-on architectural verification/i)).toBeInTheDocument();
+    expect(container.querySelector(".tt-toc")).not.toBeNull();
+    expect(container.querySelector(".tt-stat-cards")).not.toBeNull();
+    expect(container.querySelector(".tt-comparison")).not.toBeNull();
+    const unresolvedTokens = [...container.querySelectorAll("p")].filter((paragraph) => /^\{\{(?:widget|figure):[^}]+\}\}$/.test(paragraph.textContent?.trim() ?? ""));
+    expect(unresolvedTokens).toHaveLength(0);
   });
 
   it("renders an article with the canonical web component and reading shell", () => {
