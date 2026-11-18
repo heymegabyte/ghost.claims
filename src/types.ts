@@ -5,6 +5,8 @@ export interface Env {
   AI?: Ai;
   HASS_SERVER: string;
   HASS_TOKEN: string;
+  HASS_ACCESS_CLIENT_ID?: string;
+  HASS_ACCESS_CLIENT_SECRET?: string;
   MOCK_SENSOR_MODE?: string;
   TEST_HELPERS_ENABLED?: string;
   EMF_SENSOR_ENTITY_ID: string;

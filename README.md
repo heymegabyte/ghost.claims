@@ -311,14 +311,16 @@ pnpm check
 pnpm dev
 ```
 
-The dev server runs at `http://127.0.0.1:8787/`. The Worker reads from a local mock unless `EMF_SENSOR_HASS_URL` and `EMF_SENSOR_HASS_TOKEN` are set in `.dev.vars`.
+The dev server runs at `http://127.0.0.1:8787/`. The Worker reads from Home Assistant when `HASS_SERVER` and `HASS_TOKEN` are set in `.dev.vars`; use `MOCK_SENSOR_MODE=1` for deterministic local sensor data.
 
 ### Environment Variables
 
 | Variable | Description | Default |
 |---|---|---|
-| `EMF_SENSOR_HASS_URL` | Home Assistant base URL | unset (mock mode) |
-| `EMF_SENSOR_HASS_TOKEN` | Home Assistant long-lived access token | unset |
+| `HASS_SERVER` | Home Assistant base URL | `https://connect.tomy.house` |
+| `HASS_TOKEN` | Home Assistant long-lived access token | unset |
+| `HASS_ACCESS_CLIENT_ID` | Cloudflare Access service-token client ID for a protected Home Assistant origin | unset |
+| `HASS_ACCESS_CLIENT_SECRET` | Cloudflare Access service-token secret paired with the client ID | unset |
 | `EMF_SENSOR_ENTITY_ID` | EMF magnitude entity in Home Assistant | `sensor.gq_emf390_emf_mg` |
 | `EF_SENSOR_ENTITY_ID` | Electric-field entity | `sensor.gq_emf390_ef_v_m` |
 | `RF_SENSOR_ENTITY_ID` | RF density entity | `sensor.gq_emf390_rf_total_density_mw_m2` |

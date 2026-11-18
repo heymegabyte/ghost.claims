@@ -20,10 +20,7 @@ async function homeAssistantFetch<T>(env: Env, path: string, searchParams?: URLS
   }
 
   const response = await fetch(url, {
-    headers: {
-      authorization: `Bearer ${env.HASS_TOKEN}`,
-      "content-type": "application/json",
-    },
+    headers: buildHomeAssistantHeaders(env),
   });
 
   if (!response.ok) {
@@ -35,6 +32,23 @@ async function homeAssistantFetch<T>(env: Env, path: string, searchParams?: URLS
   }
 
   return (await response.json()) as T;
+}
+
+export function buildHomeAssistantHeaders(env: Env): Record<string, string> {
+  const headers: Record<string, string> = {
+    authorization: `Bearer ${env.HASS_TOKEN}`,
+    "content-type": "application/json",
+  };
+
+  const accessClientId = env.HASS_ACCESS_CLIENT_ID?.trim();
+  const accessClientSecret = env.HASS_ACCESS_CLIENT_SECRET?.trim();
+
+  if (accessClientId && accessClientSecret) {
+    headers["CF-Access-Client-Id"] = accessClientId;
+    headers["CF-Access-Client-Secret"] = accessClientSecret;
+  }
+
+  return headers;
 }
 
 function getFriendlyName(env: Env, state: HomeAssistantState): string {
