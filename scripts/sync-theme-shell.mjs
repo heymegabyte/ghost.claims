@@ -8,12 +8,13 @@ const pages = [
   ["public/privacy.html", "/privacy"],
   ["public/terms.html", "/terms"],
 ];
+const themeToolsStylesheetHref = "/theme-tools.css?v=theme-tools-blog-1.0.2";
 
 for (const [file, pathname] of pages) {
   const source = await readFile(file, "utf8");
   const withCatalog = source.includes("/theme-tools.css")
-    ? source
-    : source.replace(/(<link rel="stylesheet" href="\/styles\.css[^>]*>)/, '<link rel="stylesheet" href="/theme-tools.css" />\n    $1');
+    ? source.replace(/\/theme-tools\.css(?:\?[^"']*)?/g, themeToolsStylesheetHref)
+    : source.replace(/(<link rel="stylesheet" href="\/styles\.css[^>]*>)/, `<link rel="stylesheet" href="${themeToolsStylesheetHref}" />\n    $1`);
   const withStylesheet = withCatalog.includes("/theme-tools-shell.css")
     ? withCatalog
     : withCatalog.replace(/(<link rel="stylesheet" href="\/styles\.css[^>]*>)/, '$1\n    <link rel="stylesheet" href="/theme-tools-shell.css" />');
