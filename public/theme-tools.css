@@ -85,7 +85,7 @@ main{min-height:58vh}
   box-shadow:0 0 20px rgba(0,229,255,.6),0 0 0 1px rgba(0,229,255,.3) inset}
 .tt-nav__word{white-space:nowrap}
 .tt-nav__links{display:flex;align-items:center;gap:22px;font-size:14px;color:var(--tt-muted)}
-.tt-nav__link{transition:color .15s var(--tt-ease)}
+.tt-nav__link{display:inline-flex;align-items:center;min-height:44px;transition:color .15s var(--tt-ease)}
 .tt-nav__link:hover{color:var(--tt-text)}
 .tt-nav__cta{padding:8px 15px;border:1px solid var(--tt-cyan);border-radius:10px;color:#02121a!important;
   font-weight:600;background:linear-gradient(100deg,var(--tt-cyan),var(--tt-cyan-deep));box-shadow:0 0 22px rgba(0,229,255,.4)}
