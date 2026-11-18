@@ -261,7 +261,7 @@ function transmissionsPageHtml(): string {
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.2" />
+  <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.4" />
   <link rel="stylesheet" href="/styles.css" />
   <link rel="stylesheet" href="/theme-tools-shell.css" />
   <style>
@@ -1334,7 +1334,7 @@ app.get("/api/docs", (c) => {
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.2" />
+  <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.4" />
   <link rel="stylesheet" href="/styles.css?v=20260501-reveal" />
   <link rel="stylesheet" href="/theme-tools-shell.css" />
   <style>
@@ -1356,7 +1356,7 @@ app.get("/api/docs", (c) => {
       color: var(--gs-text);
       font-family: var(--tt-sans);
     }
-    body[data-page="api-docs"] a { color: var(--gs-cyan); }
+    body[data-page="api-docs"] :is(.gs-banner, .scalar-app, .scalar-api-reference) a { color: var(--gs-cyan); }
     /* Reuse the homepage .site-header brand lockup so the nav is identical across routes */
     body[data-page="api-docs"] .site-header {
       view-transition-name: site-header;

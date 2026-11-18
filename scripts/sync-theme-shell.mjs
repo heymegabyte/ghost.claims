@@ -8,7 +8,7 @@ const pages = [
   ["public/privacy.html", "/privacy"],
   ["public/terms.html", "/terms"],
 ];
-const themeToolsStylesheetHref = "/theme-tools.css?v=theme-tools-blog-1.0.2";
+const themeToolsStylesheetHref = "/theme-tools.css?v=theme-tools-blog-1.0.4";
 
 for (const [file, pathname] of pages) {
   const source = await readFile(file, "utf8");

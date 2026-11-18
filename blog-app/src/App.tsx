@@ -6,6 +6,7 @@ import {
   renderCoverStory,
   renderEditorsNote,
   renderEvidenceBadge,
+  renderJournalNotice,
   renderMasthead,
   renderPageHeader,
   renderPostGrid,
@@ -82,7 +83,7 @@ function ArchiveIndex() {
       title: "GHOST SIGNAL JOURNAL",
       tagline: "Field reports, strange histories, and systems observed after dark.",
       meta: "EST. 2026 · NEW JERSEY · SIX TRANSMISSIONS RECOVERED",
-    })} className="journal-masthead" />
+    })} />
     <CanonicalMarkup html={renderCoverStory({
       kicker: "SYSTEM DOSSIER // ARCHITECTURE & ENGINEERING",
       title: cover.title,
@@ -92,20 +93,23 @@ function ArchiveIndex() {
       href: `/blog/${cover.slug}`,
       image: { src: "/evidence-radiation-tdr.webp", alt: "Sensor telemetry display glowing against a dark field" },
       cta: "Open the dossier →",
-    })} className="journal-cover" />
+    })} />
     <CanonicalMarkup html={renderEditorsNote({
       kicker: "FROM THE ARCHIVE",
       heading: "One signal, two frequencies.",
       body: "<p>The journal now brings the technical record and the Night Archive together: documented systems beside reported memory, cultural criticism, and speculative horror. The formats differ; the editorial promise does not—state what is known, label what is remembered, and never disguise metaphor as evidence.</p>",
       signature: "— Ghost Signal",
-    })} className="journal-note" />
+    })} />
     <CanonicalMarkup html={renderPageHeader({
       kicker: "NIGHT ARCHIVE // FILES RECOVERED AFTER MIDNIGHT",
       title: "Stories for the watched.",
       lede: "Reported memory and speculative stories about systems that watch, rank, rehearse, and consume us—until spectacle feels like fate.",
-    })} className="journal-archive-heading" />
-    <aside className="night-disclosure" role="note"><strong>Editorial note:</strong> Night Archive is speculative horror and cultural criticism. Its cosmic forces, conspiracies, and characters are fictional metaphors, not claims about real people or events.</aside>
-    <CanonicalMarkup html={cards} className="night-grid" />
+    })} />
+    <CanonicalMarkup html={renderJournalNotice({
+      label: "Editorial note:",
+      body: "Night Archive is speculative horror and cultural criticism. Its cosmic forces, conspiracies, and characters are fictional metaphors, not claims about real people or events.",
+    })} />
+    <CanonicalMarkup html={cards} />
   </>;
 }
 
@@ -144,7 +148,7 @@ function CanonicalArticlePage({ post }: { post: CanonicalBlogPost }) {
       <CanonicalMarkup html={renderTagList({ tags: post.tags, label: "Filed under" })} />
     </div>
     <CanonicalMarkup html={renderTableOfContents({ headings, label: "Inside this dossier" })} />
-    <CanonicalMarkup html={renderArticle(renderCanonicalBody(post))} className="night-article journal-technical-article" />
+    <CanonicalMarkup html={renderArticle(renderCanonicalBody(post))} className="tt-journal__article journal-technical-article" />
     <CanonicalMarkup html={renderShareRow({ url: `https://ghost.claims/blog/${post.slug}`, title: post.title, label: "Transmit this dossier" })} />
     <CanonicalMarkup html={renderBackToTop()} />
   </>;
@@ -158,14 +162,14 @@ function ArticlePage({ article }: { article: NightArchiveArticle }) {
   }));
 
   return <>
-    <a className="night-back" href="/blog">← Night Archive</a>
+    <a className="tt-back" href="/blog">← Ghost Signal Journal</a>
     <CanonicalMarkup html={renderPageHeader({ kicker: article.file, title: article.title, lede: article.standfirst })} />
-    <aside className="night-disclosure" role="note">
-      <strong>{article.genre === "reported memoir" ? "Editorial method:" : "Fiction:"}</strong>{" "}
-      {article.disclosure ?? "This story uses supernatural and surveillance imagery as metaphor. It does not describe verified events or people."}
-    </aside>
+    <CanonicalMarkup html={renderJournalNotice({
+      label: article.genre === "reported memoir" ? "Editorial method:" : "Fiction:",
+      body: article.disclosure ?? "This story uses supernatural and surveillance imagery as metaphor. It does not describe verified events or people.",
+    })} />
     <tt-article-reader article-title={article.title} reading-minutes={String(article.readingMinutes)} headings={JSON.stringify(headings)} />
-    <CanonicalMarkup html={renderArticle(articleBody(article))} className="night-article" />
+    <CanonicalMarkup html={renderArticle(articleBody(article))} className="tt-journal__article" />
   </>;
 }
 
@@ -175,7 +179,7 @@ export default function App() {
   const canonicalPost = slug ? canonicalPosts.find((candidate) => candidate.slug === slug) : undefined;
 
   useEffect(() => {
-    document.title = article ? `${article.title} — Ghost Signal` : canonicalPost ? `${canonicalPost.title} — Ghost Signal` : "Ghost Signal Journal";
+    document.title = article ? `${article.title} — Ghost Signal` : canonicalPost ? `${canonicalPost.title} — Ghost Signal` : "Ghost Signal Journal — Night Archive";
     let description = document.querySelector<HTMLMetaElement>('meta[name="description"]');
     if (!description) {
       description = document.createElement("meta");
@@ -189,7 +193,7 @@ export default function App() {
     <style>{GHOST_SIGNAL_SHELL_CSS}</style>
     <CanonicalMarkup html={renderGhostSignalSkipLink()} />
     <CanonicalMarkup html={nav} />
-    <main id="main" className="tt-shell night-shell">
+    <main id="main" className="tt-journal">
       {slug ? (article ? <ArticlePage article={article} /> : canonicalPost ? <CanonicalArticlePage post={canonicalPost} /> : <NotFound />) : <ArchiveIndex />}
     </main>
     <CanonicalMarkup html={renderGhostSignalFooter()} />

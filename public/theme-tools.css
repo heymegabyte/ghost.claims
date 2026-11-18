@@ -428,6 +428,33 @@ main{min-height:58vh}
 .tt-pagehead{max-width:var(--tt-maxw);margin:0 auto;padding:64px 24px 8px}
 .tt-pagehead__title{font-size:clamp(2rem,5vw,3rem);letter-spacing:-.03em;margin:12px 0 0;font-weight:800;color:var(--tt-heading)}
 
+/* Cohesive publication skin for journals embedded in a product site. The journal keeps its
+   editorial hierarchy while inheriting the same dense cyan panel language as dashboards/docs. */
+.tt-journal{max-width:var(--tt-maxw);margin:0 auto;padding:clamp(36px,6vw,72px) 24px 88px;
+  background:radial-gradient(circle at 8% 8%,rgba(0,229,255,.07),transparent 28%),
+             radial-gradient(circle at 92% 30%,rgba(0,229,255,.04),transparent 24%)}
+.tt-journal .tt-masthead{padding:30px 24px 22px;margin-bottom:24px;border:1px solid var(--tt-line-2);
+  border-radius:var(--tt-radius);background:linear-gradient(145deg,rgba(0,229,255,.08),var(--tt-panel) 55%,rgba(255,255,255,.015));
+  box-shadow:0 24px 80px -54px rgba(0,229,255,.65)}
+.tt-journal .tt-masthead__title{font-size:clamp(2.4rem,6.5vw,4.9rem)}
+.tt-journal .tt-cover{padding:clamp(22px,3vw,34px);margin-bottom:28px;border:1px solid var(--tt-line-2);
+  border-radius:var(--tt-radius);background:linear-gradient(145deg,rgba(0,229,255,.075),var(--tt-panel) 52%,rgba(255,255,255,.015))}
+.tt-journal .tt-ednote{margin:0 0 28px;padding:clamp(26px,4vw,44px);border:1px solid var(--tt-line);
+  border-left:3px solid var(--tt-cyan);border-radius:var(--tt-radius);background:var(--tt-panel)}
+.tt-journal .tt-pagehead{max-width:none;margin:0 0 24px;padding:clamp(28px,4vw,48px);border:1px solid var(--tt-line-2);
+  border-radius:var(--tt-radius);background:linear-gradient(145deg,rgba(0,229,255,.08),var(--tt-panel) 64%)}
+.tt-journal .tt-pagehead__title{font-size:clamp(2.5rem,7vw,5.8rem);line-height:.94;text-wrap:balance}
+.tt-journal .tt-posts{gap:18px}
+.tt-journal .tt-post{min-height:16rem;background:linear-gradient(160deg,rgba(0,229,255,.045),var(--tt-panel) 45%)}
+.tt-journal__notice{max-width:760px;margin:0 0 28px;padding:16px 18px;border:1px solid var(--tt-line);
+  border-left:3px solid var(--tt-cyan);border-radius:0 var(--tt-radius-sm) var(--tt-radius-sm) 0;
+  background:linear-gradient(90deg,rgba(0,229,255,.075),var(--tt-panel));color:var(--tt-muted);line-height:1.65}
+.tt-journal__notice strong{color:var(--tt-text)}
+.tt-journal__article>.tt-article{margin-top:20px;padding:clamp(28px,5vw,56px);border:1px solid var(--tt-line);
+  border-radius:var(--tt-radius);background:linear-gradient(160deg,rgba(0,229,255,.035),var(--tt-panel) 20%)}
+@media(max-width:760px){.tt-journal{padding-inline:14px}.tt-journal .tt-cover{padding:18px}
+  .tt-journal .tt-pagehead{padding:26px 20px}.tt-journal__article>.tt-article{padding:24px 18px}}
+
 /* Article shell --------------------------------------------------------- */
 .tt-article{max-width:720px;margin:0 auto;padding:56px 24px}
 .tt-article h1{font-size:clamp(2rem,5vw,3rem);letter-spacing:-.03em;color:var(--tt-heading);font-weight:800}
