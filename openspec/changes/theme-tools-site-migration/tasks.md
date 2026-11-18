@@ -19,4 +19,4 @@
 - [x] Converge the blog, transmissions, API banner, legal pages, and documentation typography and control geometry on the default theme.
 - [x] Verify every public route visually at desktop and mobile widths after default-theme convergence.
 - [x] Run type, unit, build, performance, accessibility, and complete E2E validation; classify the unrelated repository-wide parallel failures with evidence.
-- [ ] Commit, push, deploy, verify production, and record rollback evidence.
+- [x] Commit, push, deploy, verify production, and record rollback evidence.
