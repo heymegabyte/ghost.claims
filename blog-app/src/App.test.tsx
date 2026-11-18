@@ -25,6 +25,14 @@ describe("Ghost Signal Journal", () => {
     expect(primaryNavigation.querySelector('a[href="/blog"]')).toHaveAttribute("aria-current", "page");
   });
 
+  it("renders article references through the canonical theme.tools source library", () => {
+    window.history.replaceState({}, "", "/blog/greystone-after-the-skunk");
+    const { container } = render(<App />);
+    expect(container.querySelector(".tt-sources")).toBeInTheDocument();
+    expect(container.querySelectorAll(".tt-source-card").length).toBeGreaterThan(5);
+    expect(container.querySelector(".night-sources")).not.toBeInTheDocument();
+  });
+
   it("integrates the canonical engineering blog post with theme.tools editorial components", () => {
     window.history.replaceState({}, "", "/blog/sensor-telemetry-web-dossier");
     const { container } = render(<App />);
@@ -65,7 +73,7 @@ describe("Ghost Signal Journal", () => {
     expect(container.querySelector(".tt-timeline")).not.toBeNull();
     expect(container.querySelector(".tt-gallery")).not.toBeNull();
     expect(container.querySelectorAll("[id^='jh-source-']")).toHaveLength(9);
-    expect(container.querySelectorAll(".night-source-card")).toHaveLength(9);
+    expect(container.querySelectorAll(".tt-source-card")).toHaveLength(9);
     expect(screen.getByLabelText("9 references")).toBeInTheDocument();
   });
 });
