@@ -51,7 +51,7 @@ export interface NormalizedReading {
   cache: {
     maxAgeSeconds: number;
     staleWhileRevalidateSeconds: number;
-    strategy: "cloudflare-cache-api";
+    strategy: "direct-no-store" | "last-known-good";
   };
 }
 

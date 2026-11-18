@@ -90,7 +90,7 @@ const CurrentSchema = z
     cache: z.object({
       maxAgeSeconds: z.number(),
       staleWhileRevalidateSeconds: z.number(),
-      strategy: z.literal("cloudflare-cache-api"),
+      strategy: z.enum(["direct-no-store", "last-known-good"]),
     }),
   })
   .openapi("GhostEmfCurrent");
@@ -545,8 +545,8 @@ app.openapi(metaRoute, (c) =>
       docsUrl: `${getSiteUrl(c.env)}/docs`,
       openApiUrl: `${getSiteUrl(c.env)}/api/v1/openapi.json`,
       polling: {
-        recommendedIntervalMs: 3000,
-        currentCacheTtlSeconds: getCurrentCacheTtl(c.env),
+        recommendedIntervalMs: 1000,
+        currentCacheTtlSeconds: 0,
         historyCacheTtlSeconds: getHistoryCacheTtl(c.env),
         entropyCacheTtlSeconds: getEntropyCacheTtl(c.env),
       },
@@ -583,27 +583,13 @@ const currentRoute = createRoute({
 app.use("/api/v1/ghost-emf/*", publicReadRateLimit);
 
 app.openapi(currentRoute, async (c) => {
-  const ttl = getCurrentCacheTtl(c.env);
-  const cacheKey = new Request(new URL("/__cache/ghost-emf/current", c.req.url).toString(), {
-    method: "GET",
-  });
-  const cached = await readCachedJson<z.infer<typeof CurrentSchema>>(cacheKey);
-
-  if (cached) {
-    const response = c.json(cached, 200);
-    response.headers.set("cache-control", `public, max-age=${ttl}, stale-while-revalidate=15`);
-    response.headers.set("x-cache-status", "HIT");
-    return response;
-  }
-
   try {
     const reading = await fetchCurrentReading(c.env);
     const response = c.json(reading, 200);
-    const cacheControl = `public, max-age=${ttl}, stale-while-revalidate=15`;
-
-    response.headers.set("cache-control", cacheControl);
-    response.headers.set("x-cache-status", "MISS");
-    writeCachedJson(cacheKey, reading, cacheControl, c.executionCtx);
+    response.headers.set("cache-control", "no-store, no-cache, must-revalidate");
+    response.headers.set("cdn-cache-control", "no-store");
+    response.headers.set("cloudflare-cdn-cache-control", "no-store");
+    response.headers.set("x-cache-status", "BYPASS");
 
     return response;
   } catch {
@@ -649,19 +635,6 @@ const sensorsRoute = createRoute({
 });
 
 app.openapi(sensorsRoute, async (c) => {
-  const ttl = getCurrentCacheTtl(c.env);
-  const cacheKey = new Request(new URL("/__cache/sensors/all", c.req.url).toString(), {
-    method: "GET",
-  });
-  const cached = await readCachedJson<z.infer<typeof AllSensorsSchema>>(cacheKey);
-
-  if (cached) {
-    const response = c.json(cached, 200);
-    response.headers.set("cache-control", `public, max-age=${ttl}, stale-while-revalidate=15`);
-    response.headers.set("x-cache-status", "HIT");
-    return response;
-  }
-
   try {
     const readings = await fetchAllSensors(c.env);
     // fetchAllSensors swallows per-sensor failures and returns nulls; treat an all-null
@@ -681,11 +654,10 @@ app.openapi(sensorsRoute, async (c) => {
     }
 
     const response = c.json(readings, 200);
-    const cacheControl = `public, max-age=${ttl}, stale-while-revalidate=15`;
-
-    response.headers.set("cache-control", cacheControl);
-    response.headers.set("x-cache-status", "MISS");
-    writeCachedJson(cacheKey, readings, cacheControl, c.executionCtx);
+    response.headers.set("cache-control", "no-store, no-cache, must-revalidate");
+    response.headers.set("cdn-cache-control", "no-store");
+    response.headers.set("cloudflare-cdn-cache-control", "no-store");
+    response.headers.set("x-cache-status", "BYPASS");
 
     return response;
   } catch {

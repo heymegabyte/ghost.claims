@@ -1,5 +1,4 @@
 import { ApiError } from "./errors";
-import { getCurrentCacheTtl } from "./config";
 import { buildMockHistoryPoints, buildMockReading, isMockSensorMode } from "./mock-sensor";
 import type { Env, HistoryPoint, HistoryWindow, HomeAssistantState, NormalizedReading, SnapshotRecord } from "../types";
 
@@ -95,9 +94,9 @@ export async function fetchSensorReading(env: Env, entityId: string): Promise<No
     source: "home-assistant",
     sampledAt: new Date().toISOString(),
     cache: {
-      maxAgeSeconds: getCurrentCacheTtl(env),
-      staleWhileRevalidateSeconds: 15,
-      strategy: "cloudflare-cache-api",
+      maxAgeSeconds: 0,
+      staleWhileRevalidateSeconds: 0,
+      strategy: "direct-no-store",
     },
   };
 }
@@ -167,9 +166,9 @@ function buildStaleReading(env: Env, row: SnapshotRecord): NormalizedReading {
     stale: true,
     staleSince: row.sampledAt,
     cache: {
-      maxAgeSeconds: getCurrentCacheTtl(env),
-      staleWhileRevalidateSeconds: 15,
-      strategy: "cloudflare-cache-api",
+      maxAgeSeconds: 0,
+      staleWhileRevalidateSeconds: 0,
+      strategy: "last-known-good",
     },
   };
 }

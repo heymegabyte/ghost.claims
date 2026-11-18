@@ -1,4 +1,3 @@
-import { getCurrentCacheTtl } from "./config";
 import type { Env, HistoryPoint, HistoryWindow, NormalizedReading, SnapshotRecord } from "../types";
 
 function getDeterministicValueAt(date: Date): number {
@@ -28,9 +27,9 @@ export function buildMockReading(env: Env, date = new Date()): NormalizedReading
     source: "home-assistant",
     sampledAt: timestamp,
     cache: {
-      maxAgeSeconds: getCurrentCacheTtl(env),
-      staleWhileRevalidateSeconds: 15,
-      strategy: "cloudflare-cache-api",
+      maxAgeSeconds: 0,
+      staleWhileRevalidateSeconds: 0,
+      strategy: "direct-no-store",
     },
   };
 }
