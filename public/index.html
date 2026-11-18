@@ -68,7 +68,7 @@
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" onload="this.rel='stylesheet'" />
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" /></noscript>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xterm/xterm@5.5.0/css/xterm.min.css" media="print" onload="this.media='all'" />
-    <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.4" />
+    <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.5" />
     <link rel="stylesheet" href="/styles.css?v=2945c6a-20260921v3" />
     <link rel="stylesheet" href="/theme-tools-shell.css" />
     <script>
@@ -447,9 +447,9 @@
             Query the data.
           </p>
           <div class="hero-actions">
-            <a class="button button-primary" href="#manifesto">Read the Story</a>
-            <a class="button button-ghost" href="#chart-panel">Explore Data</a>
-            <button type="button" id="open-chat" class="button button-outline">Ask the Signal</button>
+            <a class="tt-btn tt-btn--primary" href="#manifesto">Read the Story</a>
+            <a class="tt-btn tt-btn--ghost" href="#chart-panel">Explore Data</a>
+            <button type="button" id="open-chat" class="tt-btn tt-btn--ghost">Ask the Signal</button>
           </div>
           <ul class="signal-list" aria-label="Quick facts">
             <li>Live EMF readings, edge-cached on Cloudflare</li>
@@ -573,7 +573,7 @@
       </section>
 
       <hr class="section-divider" aria-hidden="true" />
-      <section class="shell panel chart-panel reveal-section bx-zoom bx-pulse-ring" id="chart-panel" data-testid="chart-panel">
+      <section class="shell tt-panel chart-panel reveal-section bx-zoom bx-pulse-ring" id="chart-panel" data-testid="chart-panel">
         <div class="chart-header">
           <div class="chart-header-left">
             <h2 class="chart-title">EMF Signal Explorer</h2>
@@ -662,7 +662,7 @@
           </div>
 
           <div class="listen-feature-control">
-            <button id="sonify-toggle" type="button" class="button button-primary listen-feature-button" aria-label="Listen to the Ghost — toggle sonified EMF audio">Press to Listen</button>
+            <button id="sonify-toggle" type="button" class="tt-btn tt-btn--primary listen-feature-button" aria-label="Listen to the Ghost — toggle sonified EMF audio">Press to Listen</button>
             <p class="listen-feature-hint">Headphones. Loud. Right now.</p>
           </div>
 
@@ -694,7 +694,7 @@
         </div>
       </section>
 
-      <section class="shell panel dev-quickstart reveal-section bx-from-right" id="dev-quickstart" data-testid="dev-quickstart" aria-label="Developer quickstart">
+      <section class="shell tt-panel dev-quickstart reveal-section bx-from-right" id="dev-quickstart" data-testid="dev-quickstart" aria-label="Developer quickstart">
         <header class="dev-quickstart-header">
           <p class="eyebrow">Developer quickstart</p>
           <h2>Poll it in seconds</h2>
@@ -732,9 +732,9 @@
               <h3>Snapshot export</h3>
               <p class="dossier-feature-body">Pull every persisted reading as JSON, CSV, or Excel. Same data the chart reads &mdash; no auth, no rate cap on `/snapshot`.</p>
               <div class="hero-actions">
-                <a id="snapshot-json-link" class="button button-ghost" href="/api/v1/ghost-emf/snapshot">JSON</a>
-                <a id="snapshot-csv-link" class="button button-ghost" href="/api/v1/ghost-emf/export?format=csv">CSV</a>
-                <a id="snapshot-excel-link" class="button button-ghost" href="/api/v1/ghost-emf/export?format=excel">Excel</a>
+                <a id="snapshot-json-link" class="tt-btn tt-btn--ghost" href="/api/v1/ghost-emf/snapshot">JSON</a>
+                <a id="snapshot-csv-link" class="tt-btn tt-btn--ghost" href="/api/v1/ghost-emf/export?format=csv">CSV</a>
+                <a id="snapshot-excel-link" class="tt-btn tt-btn--ghost" href="/api/v1/ghost-emf/export?format=excel">Excel</a>
               </div>
               <figure class="codeblock" aria-label="Google Sheets IMPORTDATA formula">
                 <header class="codeblock-chrome">
@@ -3924,7 +3924,7 @@ WITHIN 30 DAYS FOR $22.00 CREDIT</pre>
       </section>
 
       <hr class="section-divider" aria-hidden="true" />
-      <section class="shell panel newsletter-section reveal-section bx-from-left" data-testid="newsletter-section">
+      <section class="shell tt-panel newsletter-section reveal-section bx-from-left" data-testid="newsletter-section">
         <div class="panel-copy">
           <p class="eyebrow">SUBSCRIBE // SIGNAL DISPATCH</p>
           <h2 class="glitch-text" data-text="The Signal Dispatch">The Signal Dispatch</h2>
@@ -3951,7 +3951,7 @@ WITHIN 30 DAYS FOR $22.00 CREDIT</pre>
                 aria-label="Email address for newsletter"
                 maxlength="254"
               />
-              <button type="submit" class="button button-primary" id="newsletter-submit">Subscribe</button>
+              <button type="submit" class="tt-btn tt-btn--primary" id="newsletter-submit">Subscribe</button>
             </div>
             <input
               id="newsletter-website"
@@ -4314,10 +4314,10 @@ WITHIN 30 DAYS FOR $22.00 CREDIT</pre>
     <div id="debate-overlay" class="feature-overlay">
       <div class="feature-overlay-header"><span class="feature-overlay-title">AI Debate Arena</span><button class="feature-overlay-close" data-action="close-debate" aria-label="Close">&times;</button></div>
       <div class="debate-topics">
-        <button class="button button-ghost" data-debate-topic="True entropy from a public EMF sensor">EMF Entropy</button>
-        <button class="button button-ghost" data-debate-topic="AI hotline as public record">AI Hotline</button>
-        <button class="button button-ghost" data-debate-topic="Time travelers and clandestine surveillance">Surveillance</button>
-        <button class="button button-ghost" data-debate-topic="Ghost Signal Entropy Science">Entropy Science</button>
+        <button class="tt-btn tt-btn--ghost" data-debate-topic="True entropy from a public EMF sensor">EMF Entropy</button>
+        <button class="tt-btn tt-btn--ghost" data-debate-topic="AI hotline as public record">AI Hotline</button>
+        <button class="tt-btn tt-btn--ghost" data-debate-topic="Time travelers and clandestine surveillance">Surveillance</button>
+        <button class="tt-btn tt-btn--ghost" data-debate-topic="Ghost Signal Entropy Science">Entropy Science</button>
       </div>
       <div class="debate-scoreboard">
         <span>Signal AI: <strong class="debate-score-a">0</strong></span>
@@ -4325,8 +4325,8 @@ WITHIN 30 DAYS FOR $22.00 CREDIT</pre>
       </div>
       <div class="debate-transcript"></div>
       <div class="debate-vote-row">
-        <button class="button button-primary" data-vote="for">Vote Signal</button>
-        <button class="button button-red" data-vote="against">Vote Shadow</button>
+        <button class="tt-btn tt-btn--primary" data-vote="for">Vote Signal</button>
+        <button class="tt-btn tt-btn--ghost debate-vote-shadow" data-vote="against">Vote Shadow</button>
       </div>
     </div>
 
@@ -4336,12 +4336,12 @@ WITHIN 30 DAYS FOR $22.00 CREDIT</pre>
         <div class="casino-game">
           <h3>Entropy Dice</h3>
           <p class="casino-dice-result" style="font-size:4rem;line-height:1;">&#x1F3B2;</p>
-          <button class="button button-primary" data-action="roll-dice">Roll</button>
+          <button class="tt-btn tt-btn--primary" data-action="roll-dice">Roll</button>
         </div>
         <div class="casino-game">
           <h3>Ghost Coin</h3>
           <p class="casino-coin-result" style="font-size:1.5rem;font-weight:700;">--</p>
-          <button class="button button-ghost" data-action="flip-coin">Flip</button>
+          <button class="tt-btn tt-btn--ghost" data-action="flip-coin">Flip</button>
         </div>
       </div>
       <p class="casino-streak"></p>
@@ -4368,8 +4368,8 @@ WITHIN 30 DAYS FOR $22.00 CREDIT</pre>
           Upload Photo <input type="file" accept="image/*" class="glitch-file-input" />
         </label>
         <label>Intensity <input type="range" min="0" max="1" step="0.05" value="0.5" class="glitch-intensity" /></label>
-        <button class="button button-ghost" data-action="reglitch">Re-Glitch (new EMF)</button>
-        <button class="button button-primary" data-action="download-glitch">Download</button>
+        <button class="tt-btn tt-btn--ghost" data-action="reglitch">Re-Glitch (new EMF)</button>
+        <button class="tt-btn tt-btn--primary" data-action="download-glitch">Download</button>
       </div>
       <canvas class="glitch-canvas" width="800" height="600"></canvas>
     </div>

@@ -165,7 +165,7 @@
         ).join("");
       }
 
-      return '<div class="tx-card' + cls + '" data-expandable>' +
+      return '<div class="tt-panel tx-card' + cls + '" data-expandable>' +
         '<div class="tx-card-header">' +
         '<span class="tx-card-type ' + typeCls + '">' + typeLabel + '</span>' +
         '<span class="tx-card-time">' + timeStr + '</span>' +

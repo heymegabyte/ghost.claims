@@ -18,8 +18,8 @@ importers:
         specifier: file:vendor/theme-tools/theme-tools-shared-utils-1.0.1.tgz
         version: file:vendor/theme-tools/theme-tools-shared-utils-1.0.1.tgz
       '@theme.tools/blog':
-        specifier: file:vendor/theme-tools/theme.tools-blog-1.0.4.tgz
-        version: file:vendor/theme-tools/theme.tools-blog-1.0.4.tgz
+        specifier: file:vendor/theme-tools/theme.tools-blog-1.0.5.tgz
+        version: file:vendor/theme-tools/theme.tools-blog-1.0.5.tgz
       hono:
         specifier: ^4
         version: 4.12.14
@@ -715,9 +715,9 @@ packages:
     resolution: {integrity: sha512-qx7pr9mBVcAu2UkoeEn4wILmo//W8KeGfmV0dvX/Jj8Y/Gmf2zyNAElgvV4UiGzaegkUkM3fd4iZSOfpGvteGw==, tarball: file:vendor/theme-tools/theme-tools-shared-utils-1.0.1.tgz}
     version: 1.0.1
 
-  '@theme.tools/blog@file:vendor/theme-tools/theme.tools-blog-1.0.4.tgz':
-    resolution: {integrity: sha512-ktHLUVBO8dPGgeuaWPeOpBnIjByKGOfpkLa4J/8yEN0QeuTts/GKlisXwPAQRqq5wLh2jAwhJicQfZOZqQ0fZg==, tarball: file:vendor/theme-tools/theme.tools-blog-1.0.4.tgz}
-    version: 1.0.4
+  '@theme.tools/blog@file:vendor/theme-tools/theme.tools-blog-1.0.5.tgz':
+    resolution: {integrity: sha512-JvopvGrr691S9N/X5As8A+PJoEp9oGm+bMdN0njFytrxWcnNolhU/TZa71lj7UGsDCyeZVEzEvJMJhGdFSQ6FA==, tarball: file:vendor/theme-tools/theme.tools-blog-1.0.5.tgz}
+    version: 1.0.5
 
   '@tybys/wasm-util@0.10.4':
     resolution: {integrity: sha512-W3c4gRigFS0T/Ma4qIYF3GDAc5AQdHb1yL5znJT1Zv1YaD9Kitx656wBjvr19qbiosmZT8lWDM5BEMynUqX65A==}
@@ -1801,7 +1801,7 @@ snapshots:
 
   '@theme-tools/shared-utils@file:vendor/theme-tools/theme-tools-shared-utils-1.0.1.tgz': {}
 
-  '@theme.tools/blog@file:vendor/theme-tools/theme.tools-blog-1.0.4.tgz':
+  '@theme.tools/blog@file:vendor/theme-tools/theme.tools-blog-1.0.5.tgz':
     dependencies:
       '@theme-tools/shared-utils': 1.0.1
 

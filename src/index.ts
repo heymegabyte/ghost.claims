@@ -261,20 +261,15 @@ function transmissionsPageHtml(): string {
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.4" />
+  <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.5" />
   <link rel="stylesheet" href="/styles.css" />
   <link rel="stylesheet" href="/theme-tools-shell.css" />
   <style>
     .tx-layout { padding-top: 1rem; padding-bottom: 3rem; }
     .tx-hero {
-      text-align: center; padding: 2rem 0 2.5rem;
+      text-align: center;
       background: radial-gradient(ellipse at 50% 50%, rgba(0, 229, 255, 0.08), transparent 60%);
-      border-bottom: 1px solid var(--tt-line);
       margin-bottom: 2rem;
-    }
-    .tx-hero h1 {
-      font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.5rem);
-      font-weight: 700; margin-top: 0.5rem;
     }
     .tx-stats {
       display: flex; gap: 1.5rem; justify-content: center; margin-top: 1rem;
@@ -282,10 +277,7 @@ function transmissionsPageHtml(): string {
     }
     .tx-stat-val { color: var(--accent-cyan); font-weight: 700; font-size: 1.2rem; display: block; }
     .tx-synopsis {
-      padding: 1.5rem 2rem; margin-bottom: 2rem;
-      border: 1px solid var(--tt-line);
-      border-radius: var(--radius-panel);
-      background: var(--bg-panel);
+      margin-bottom: 2rem;
     }
     .tx-synopsis h2 {
       font-family: var(--font-display); font-size: 1.1rem;
@@ -302,11 +294,7 @@ function transmissionsPageHtml(): string {
       display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap;
     }
     .tx-filter-btn {
-      padding: 0.4rem 1rem; border-radius: var(--radius-button);
-      border: 1px solid var(--line); background: transparent;
-      color: var(--text-muted); font-family: var(--font-mono);
-      font-size: 0.75rem; cursor: pointer; transition: all 0.2s;
-      text-transform: uppercase; letter-spacing: 0.1em;
+      font-size: 0.75rem;
     }
     .tx-filter-btn:hover, .tx-filter-btn.active {
       border-color: var(--accent-cyan); color: var(--accent-cyan);
@@ -396,11 +384,11 @@ function transmissionsPageHtml(): string {
   }
   </script>
 
-  <main id="main" class="shell tx-layout">
-    <div class="tx-hero">
-      <p class="eyebrow">PUBLIC RECORD // MEP TRANSMISSIONS</p>
-      <h1>Transmission Log</h1>
-      <p style="color: var(--text-muted); max-width: 50ch; margin: 0.5rem auto 0; font-size: 0.92rem;">
+  <main id="main" class="tt-journal tx-layout">
+    <header class="tt-pagehead tx-hero">
+      <p class="tt-kicker">PUBLIC RECORD // MEP TRANSMISSIONS</p>
+      <h1 class="tt-pagehead__title">Transmission Log</h1>
+      <p class="tt-lede">
         Every call and chat — recorded, transcribed, and published.
         The Multiverse-Entropy Provider hides nothing.
       </p>
@@ -409,21 +397,21 @@ function transmissionsPageHtml(): string {
         <div><span class="tx-stat-val" id="tx-total-chats">--</span> chats</div>
         <div><span class="tx-stat-val" id="tx-total">--</span> total entries</div>
       </div>
-    </div>
+    </header>
 
-    <div class="tx-synopsis" id="tx-synopsis">
+    <section class="tt-panel tx-synopsis" id="tx-synopsis">
       <h2>What People Are Talking About</h2>
       <ul id="tx-topics">
         <li>Loading transmission analysis...</li>
       </ul>
-    </div>
+    </section>
 
     <div class="tx-filters" id="tx-filters">
-      <button class="tx-filter-btn active" data-filter="all">All</button>
-      <button class="tx-filter-btn" data-filter="call">Calls Only</button>
-      <button class="tx-filter-btn" data-filter="chat">Chats Only</button>
-      <button class="tx-filter-btn" data-filter="significant">Significant Only</button>
-      <button class="tx-filter-btn" data-filter="show-all">Include Minor</button>
+      <button class="tt-btn tt-btn--ghost tx-filter-btn active" data-filter="all">All</button>
+      <button class="tt-btn tt-btn--ghost tx-filter-btn" data-filter="call">Calls Only</button>
+      <button class="tt-btn tt-btn--ghost tx-filter-btn" data-filter="chat">Chats Only</button>
+      <button class="tt-btn tt-btn--ghost tx-filter-btn" data-filter="significant">Significant Only</button>
+      <button class="tt-btn tt-btn--ghost tx-filter-btn" data-filter="show-all">Include Minor</button>
     </div>
 
     <div class="tx-list" id="tx-list">
@@ -1334,7 +1322,7 @@ app.get("/api/docs", (c) => {
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.4" />
+  <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.5" />
   <link rel="stylesheet" href="/styles.css?v=20260501-reveal" />
   <link rel="stylesheet" href="/theme-tools-shell.css" />
   <style>
@@ -1433,7 +1421,7 @@ app.get("/api/docs", (c) => {
   ${renderGhostSignalNav("/api/docs")}
   <section class="gs-banner" id="main">
     <div class="gs-banner-shell">
-      <p class="eyebrow">API // PUBLIC SIGNAL</p>
+      <p class="tt-kicker">API // PUBLIC SIGNAL</p>
       <h1>Build on the Ghost Signal</h1>
       <p>Public, read-only, edge-cached API for real-time EMF/EF/RF sensor data, entropy analysis, transmissions, and AI chat. Try every endpoint live, copy as curl/JS/Python, or wire it into Google Sheets.</p>
       <div class="gs-chips" aria-label="Sensor entities">

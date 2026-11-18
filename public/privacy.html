@@ -28,7 +28,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.4" />
+    <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.5" />
     <link rel="stylesheet" href="/styles.css?v=20260501-reveal" />
     <link rel="stylesheet" href="/theme-tools-shell.css" />
     <script>
@@ -62,15 +62,17 @@
   <nav class="tt-nav__links" aria-label="Primary"><a class="tt-nav__link" href="/">Signal</a><a class="tt-nav__link" href="/transmissions">Transmissions</a><a class="tt-nav__link" href="/blog">Blog</a><a class="tt-nav__link" href="/docs">Docs</a><a class="tt-nav__link" href="/api/docs">API</a></nav>
 </header>
 
-    <main id="main" class="shell legal-layout">
-      <section class="legal-hero panel">
-        <p class="eyebrow">Legal</p>
-        <h1><span class="gradient-text">Privacy Policy</span></h1>
-        <p class="legal-updated">Last updated: April 24, 2026</p>
-      </section>
+    <main id="main" class="tt-journal">
+      <header class="tt-pagehead">
+        <p class="tt-kicker">Legal</p>
+        <h1 class="tt-pagehead__title">Privacy Policy</h1>
+        <p class="tt-lede">Last updated: April 24, 2026</p>
+      </header>
 
-      <article class="legal-body panel">
-        <section class="legal-section">
+      <div class="tt-journal__article">
+        <article class="tt-article">
+          <div class="body">
+        <section>
           <h2>The short version</h2>
           <p>
             The Ghost Signal is a free, public service. We don't sell your data. We don't use tracking cookies.
@@ -78,7 +80,7 @@
           </p>
         </section>
 
-        <section class="legal-section">
+        <section>
           <h2>Who operates this service</h2>
           <p>
             ghost.claims is operated by Brian Zalewski as a public-interest project under the Megabyte Labs
@@ -86,7 +88,7 @@
           </p>
         </section>
 
-        <section class="legal-section">
+        <section>
           <h2>Data we collect</h2>
 
           <h3>Sensor data</h3>
@@ -122,7 +124,7 @@
           </p>
         </section>
 
-        <section class="legal-section">
+        <section>
           <h2>Data we do not collect</h2>
           <ul>
             <li>No tracking cookies or advertising identifiers</li>
@@ -132,7 +134,7 @@
           </ul>
         </section>
 
-        <section class="legal-section">
+        <section>
           <h2>How we use your data</h2>
           <ul>
             <li><strong>Sensor data:</strong> Published openly for scientific and educational purposes</li>
@@ -142,7 +144,7 @@
           </ul>
         </section>
 
-        <section class="legal-section">
+        <section>
           <h2>Third-party services</h2>
           <p>This service uses the following third-party providers:</p>
           <ul>
@@ -153,7 +155,7 @@
           <p>Each provider operates under its own privacy policy. We select providers that align with responsible data practices.</p>
         </section>
 
-        <section class="legal-section">
+        <section>
           <h2>Data retention</h2>
           <p>
             Sensor data is retained indefinitely as a public scientific record. Chat messages and call transcripts are
@@ -161,7 +163,7 @@
           </p>
         </section>
 
-        <section class="legal-section">
+        <section>
           <h2>Your rights</h2>
           <p>You have the right to:</p>
           <ul>
@@ -172,7 +174,7 @@
           </ul>
         </section>
 
-        <section class="legal-section">
+        <section>
           <h2>Children's privacy</h2>
           <p>
             This service is not directed at children under 13. We do not knowingly collect personal information from
@@ -180,14 +182,16 @@
           </p>
         </section>
 
-        <section class="legal-section">
+        <section>
           <h2>Changes to this policy</h2>
           <p>
             We may update this policy as the service evolves. Material changes will be noted on this page with an
             updated revision date. Continued use of the service constitutes acceptance of the current policy.
           </p>
         </section>
-      </article>
+          </div>
+        </article>
+      </div>
     </main>
 
     <footer class="tt-footer" data-theme-tools="site-footer">

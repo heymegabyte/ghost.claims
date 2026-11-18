@@ -28,7 +28,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.4" />
+    <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.5" />
     <link rel="stylesheet" href="/styles.css?v=20260501-reveal" />
     <link rel="stylesheet" href="/theme-tools-shell.css" />
     <script>
@@ -82,18 +82,18 @@
     }
     </script>
 
-    <main id="main" class="shell docs-layout">
-      <section class="docs-hero panel">
-        <p class="eyebrow">Developer docs · v1</p>
-        <h1 class="glitch-text" data-text="Build on the Ghost Signal."><span class="gradient-text">Build on the Ghost Signal.</span></h1>
-        <p class="lede">
+    <main id="main" class="tt-journal">
+      <header class="tt-pagehead">
+        <p class="tt-kicker">Developer docs · v1</p>
+        <h1 class="tt-pagehead__title">Build on the Ghost Signal.</h1>
+        <p class="tt-lede">
           Public, read-only, edge-cached API. Three sensor axes (EMF, EF, RF), live transmission feed,
           entropy analysis, AI chat, newsletter, and reproducible random numbers derived from electromagnetic phenomena.
         </p>
         <div class="hero-actions">
-          <a class="button button-primary" href="/api/docs">Open Interactive Reference →</a>
-          <a class="button button-secondary" href="#quickstart">Quickstart</a>
-          <a class="button button-ghost" href="/api/v1/openapi.json">openapi.json</a>
+          <a class="tt-btn tt-btn--primary" href="/api/docs">Open Interactive Reference →</a>
+          <a class="tt-btn tt-btn--ghost" href="#quickstart">Quickstart</a>
+          <a class="tt-btn tt-btn--ghost" href="/api/v1/openapi.json">openapi.json</a>
         </div>
         <ul class="docs-hero-stats" aria-label="API capabilities at a glance">
           <li><strong>3</strong><span>sensor axes</span></li>
@@ -101,10 +101,10 @@
           <li><strong>1/min</strong><span>D1 snapshots</span></li>
           <li><strong>0</strong><span>auth required</span></li>
         </ul>
-      </section>
+      </header>
 
-      <section class="panel docs-base-url">
-        <p class="eyebrow">Base URL</p>
+      <section class="tt-panel docs-base-url">
+        <p class="tt-kicker">Base URL</p>
         <pre class="docs-url-block"><code><span class="tok-str">https://ghost.claims</span></code></pre>
         <div class="docs-sensor-grid">
           <div class="docs-sensor-chip docs-sensor-emf">
@@ -132,31 +132,31 @@
       <hr class="section-divider" aria-hidden="true" />
 
       <section class="docs-section-head">
-        <p class="eyebrow">What you can build</p>
-        <h2><span class="gradient-text">From dashboards to entropy art</span></h2>
-        <p class="lede">Four real projects worth shipping with this signal.</p>
+        <p class="tt-kicker">What you can build</p>
+        <h2>From dashboards to entropy art</h2>
+        <p class="tt-lede">Four real projects worth shipping with this signal.</p>
       </section>
 
       <div class="docs-usecase-grid">
-        <article class="panel usecase-card">
+        <article class="tt-panel usecase-card">
           <div class="usecase-icon" aria-hidden="true">📡</div>
           <h3>Live EMF dashboard</h3>
           <p>Poll <code>/api/v1/sensors</code> every 3s. Plot EMF/EF/RF on a single chart with downsampled history.</p>
           <a class="usecase-link" href="/api/docs#tag/sensors">Sensor endpoints →</a>
         </article>
-        <article class="panel usecase-card">
+        <article class="tt-panel usecase-card">
           <div class="usecase-icon" aria-hidden="true">🎲</div>
           <h3>Reproducible random</h3>
           <p>Hash a window of EMF snapshots into a deterministic uint32. Use it for art, lotteries, or test fixtures.</p>
           <a class="usecase-link" href="/api/docs#tag/exports">Random &amp; exports →</a>
         </article>
-        <article class="panel usecase-card">
+        <article class="tt-panel usecase-card">
           <div class="usecase-icon" aria-hidden="true">📊</div>
           <h3>Google Sheets feed</h3>
           <p>One <code>=IMPORTDATA()</code> cell pulls every reading. Auto-refreshes hourly. No code, no auth.</p>
           <a class="usecase-link" href="#quickstart">See formula →</a>
         </article>
-        <article class="panel usecase-card">
+        <article class="tt-panel usecase-card">
           <div class="usecase-icon" aria-hidden="true">📞</div>
           <h3>Live transmission feed</h3>
           <p>Stream every hotline call and chat message into your app via <code>/api/v1/transmissions/live</code>.</p>
@@ -167,13 +167,13 @@
       <hr class="section-divider" aria-hidden="true" />
 
       <section class="docs-section-head" id="endpoint-categories">
-        <p class="eyebrow">Endpoint map</p>
-        <h2><span class="gradient-text">Three families, one OpenAPI spec</span></h2>
-        <p class="lede">Skim the surface here, then jump into the live reference for schemas and try-it-out.</p>
+        <p class="tt-kicker">Endpoint map</p>
+        <h2>Three families, one OpenAPI spec</h2>
+        <p class="tt-lede">Skim the surface here, then jump into the live reference for schemas and try-it-out.</p>
       </section>
 
       <div class="docs-family-grid">
-        <article class="panel family-card family-card-cyan">
+        <article class="tt-panel family-card family-card-cyan">
           <header>
             <span class="family-tag">Sensor data</span>
             <span class="family-count">6 endpoints</span>
@@ -190,7 +190,7 @@
           <a class="family-cta" href="/api/docs#tag/sensors">Open in reference →</a>
         </article>
 
-        <article class="panel family-card family-card-violet">
+        <article class="tt-panel family-card family-card-violet">
           <header>
             <span class="family-tag">Exports &amp; derived</span>
             <span class="family-count">4 endpoints</span>
@@ -205,7 +205,7 @@
           <a class="family-cta" href="/api/docs#tag/exports">Open in reference →</a>
         </article>
 
-        <article class="panel family-card family-card-red">
+        <article class="tt-panel family-card family-card-red">
           <header>
             <span class="family-tag">Transmissions &amp; chat</span>
             <span class="family-count">5 endpoints</span>
@@ -225,8 +225,8 @@
       <hr class="section-divider" aria-hidden="true" />
 
       <section class="two-up">
-        <article class="panel">
-          <p class="eyebrow">Caching</p>
+        <article class="tt-panel">
+          <p class="tt-kicker">Caching</p>
           <h2>Cloudflare in front of Home Assistant</h2>
           <p>Edge-cached at Cloudflare to protect the upstream sensor. Cache behavior varies by data center.</p>
           <ul class="signal-list">
@@ -238,8 +238,8 @@
           </ul>
         </article>
 
-        <article class="panel">
-          <p class="eyebrow">Rate limits &amp; tracing</p>
+        <article class="tt-panel">
+          <p class="tt-kicker">Rate limits &amp; tracing</p>
           <h2>Public, but not abusable</h2>
           <p>Read-only and rate-limited per IP via KV counters. Every response carries tracing headers.</p>
           <ul class="signal-list">
@@ -254,9 +254,9 @@
 
       <hr class="section-divider" aria-hidden="true" />
 
-      <section class="panel" id="quickstart">
-        <p class="eyebrow">Quickstart</p>
-        <h2><span class="gradient-text">Start polling in seconds</span></h2>
+      <section class="tt-panel" id="quickstart">
+        <p class="tt-kicker">Quickstart</p>
+        <h2>Start polling in seconds</h2>
         <div class="docs-examples">
           <div class="docs-example">
             <span class="docs-example-label">curl</span>
@@ -302,13 +302,13 @@ sensors <span class="tok-op">=</span> <span class="tok-cls">requests</span>.<spa
         </div>
       </section>
 
-      <section class="docs-cta panel">
+      <section class="docs-cta tt-panel">
         <div>
-          <p class="eyebrow">Ready to ship</p>
-          <h2><span class="gradient-text">Open the live reference</span></h2>
+          <p class="tt-kicker">Ready to ship</p>
+          <h2>Open the live reference</h2>
           <p>Schemas, parameters, response examples, and one-click try-it-out for every endpoint.</p>
         </div>
-        <a class="button button-primary" href="/api/docs">Open Interactive Reference →</a>
+        <a class="tt-btn tt-btn--primary" href="/api/docs">Open Interactive Reference →</a>
       </section>
     </main>
 

@@ -1267,7 +1267,7 @@ const GhostFeatures = (() => {
       if (permissionButton) return;
       permissionButton = document.createElement("button");
       permissionButton.type = "button";
-      permissionButton.className = "button button-ghost detector-enable-btn";
+      permissionButton.className = "tt-btn tt-btn--ghost detector-enable-btn";
       permissionButton.textContent = "Enable Phone Sensors";
       permissionButton.setAttribute("aria-label", "Enable phone motion and magnetometer sensors for ghost detection");
       const head = panel.querySelector(".listen-feature-detector-head") || panel;

@@ -427,6 +427,14 @@ main{min-height:58vh}
 /* Page header (blog index / 404) ---------------------------------------- */
 .tt-pagehead{max-width:var(--tt-maxw);margin:0 auto;padding:64px 24px 8px}
 .tt-pagehead__title{font-size:clamp(2rem,5vw,3rem);letter-spacing:-.03em;margin:12px 0 0;font-weight:800;color:var(--tt-heading)}
+.tt-panel{padding:clamp(22px,3vw,34px);border:1px solid var(--tt-line);border-radius:var(--tt-radius);
+  background:linear-gradient(145deg,rgba(0,229,255,.045),var(--tt-panel) 58%,rgba(255,255,255,.012));
+  box-shadow:0 28px 80px -64px rgba(0,229,255,.7)}
+.tt-panel+.tt-panel{margin-top:20px}
+.tt-panel__title{margin:8px 0 0;color:var(--tt-heading);font-size:clamp(1.35rem,3vw,2rem);letter-spacing:-.025em}
+.tt-panel__body{margin-top:14px;color:var(--tt-body);line-height:1.7}
+.tt-panel__body>:first-child{margin-top:0}.tt-panel__body>:last-child{margin-bottom:0}
+.tt-panel__actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
 
 /* Cohesive publication skin for journals embedded in a product site. The journal keeps its
    editorial hierarchy while inheriting the same dense cyan panel language as dashboards/docs. */

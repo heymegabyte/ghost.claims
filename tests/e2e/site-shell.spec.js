@@ -76,7 +76,7 @@ test("full theme.tools catalog and provenance manifest are public", async ({ req
   const manifest = await request.get("/theme-tools-components.json");
   expect(manifest.ok()).toBe(true);
   const catalog = await manifest.json();
-  expect(catalog.sourceCommit).toBe("aefcd52426e3ed7fb7ca96c13e6b293c0728d75d");
+  expect(catalog.sourceCommit).toBe("748a389c6a9ca9d745c050c1ccd2a64a07f51a3e");
   expect(catalog.componentTypes).toContain("article-reader");
   expect(catalog.componentTypes.length).toBeGreaterThanOrEqual(29);
 });
