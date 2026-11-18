@@ -68,7 +68,7 @@
     if (featuresPromise) return featuresPromise;
     featuresPromise = new Promise((resolve, reject) => {
       const script = document.createElement("script");
-      script.src = "/features.js?v=20261114";
+      script.src = "/features.js?v=20261118-live-edge";
       script.async = true;
       script.onload = resolve;
       script.onerror = reject;

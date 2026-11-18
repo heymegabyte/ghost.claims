@@ -10,6 +10,16 @@ const GhostFeatures = (() => {
     return n;
   };
 
+  async function readLiveEmf() {
+    const sharedReading = await window.GhostLiveData?.current?.();
+    if (sharedReading) return Math.max(0, Number(sharedReading.numericValue ?? 0));
+
+    const response = await fetch("/api/v1/ghost-emf/current", { cache: "no-store" });
+    if (!response.ok) throw new Error(`Live EMF request failed (${response.status})`);
+    const reading = await response.json();
+    return Math.max(0, Number(reading.numericValue ?? 0));
+  }
+
   /* ═══════════════════════════════════════════════
      #1 — LIVE EMF SÉANCE MODE
      Full-screen dark overlay with live EMF-reactive visuals
@@ -34,9 +44,7 @@ const GhostFeatures = (() => {
 
     async function fetchEMF() {
       try {
-        const r = await fetch("/api/v1/ghost-emf/current");
-        const d = await r.json();
-        return d.numericValue ?? 0;
+        return await readLiveEmf();
       } catch { return 0; }
     }
 
@@ -667,9 +675,7 @@ const GhostFeatures = (() => {
         if (pollInterval) clearInterval(pollInterval);
         pollInterval = setInterval(async () => {
           try {
-            const r = await fetch("/api/v1/ghost-emf/current");
-            const d = await r.json();
-            applyEmf(Math.max(0, d.numericValue ?? 0));
+            applyEmf(await readLiveEmf());
           } catch {}
         }, 1000);
 
@@ -766,9 +772,7 @@ const GhostFeatures = (() => {
     setInterval(async () => {
       if (playing) return;
       try {
-        const r = await fetch("/api/v1/ghost-emf/current");
-        const d = await r.json();
-        const v = Math.max(0, d.numericValue ?? 0);
+        const v = await readLiveEmf();
         smoothedEmf = smoothedEmf * 0.7 + (v / 5) * 0.3; // crude normalise for idle viz
       } catch {}
     }, 3000);
@@ -1302,9 +1306,7 @@ const GhostFeatures = (() => {
     /* ── remote poll w/ EMA + tighter cadence ─────────────── */
     async function pollRemote() {
       try {
-        const r = await fetch("/api/v1/ghost-emf/current", { cache: "no-store" });
-        const d = await r.json();
-        const v = Math.max(0, Number(d.numericValue ?? 0));
+        const v = await readLiveEmf();
         smoothedRemote = smoothedRemote * 0.6 + v * 0.4;
         if (remoteReading) remoteReading.textContent = smoothedRemote.toFixed(3);
         renderMeter();
@@ -1680,9 +1682,7 @@ const GhostFeatures = (() => {
 
     async function fetchEMFSeed() {
       try {
-        const r = await fetch("/api/v1/ghost-emf/current");
-        const d = await r.json();
-        emfSeed = d.numericValue ?? 0;
+        emfSeed = await readLiveEmf();
       } catch { emfSeed = Math.random() * 5; }
     }
 
@@ -1834,9 +1834,7 @@ const GhostFeatures = (() => {
 
     async function fetchGhostActivity() {
       try {
-        const r = await fetch("/api/v1/ghost-emf/current");
-        const d = await r.json();
-        const base = d.numericValue ?? 0;
+        const base = await readLiveEmf();
         states.forEach((s) => {
           ghostActivity[s.abbr] = base + (Math.random() - 0.5) * 2;
         });

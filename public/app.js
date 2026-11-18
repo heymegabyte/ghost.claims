@@ -1483,16 +1483,34 @@ function markSensorLive() {
   document.querySelectorAll(".status-grid .status-card").forEach((c) => c.removeAttribute("data-stale"));
 }
 
-async function loadCurrent() {
+let currentLoadPromise = null;
+let latestSensorPayload = null;
+let latestSensorReceivedAt = 0;
+
+function loadCurrent() {
+  if (currentLoadPromise) return currentLoadPromise;
+  currentLoadPromise = loadCurrentOnce().finally(() => {
+    currentLoadPromise = null;
+  });
+  return currentLoadPromise;
+}
+
+async function loadCurrentOnce() {
   let res;
   try {
-    res = await fetch("/api/v1/sensors", { headers: { accept: "application/json" } });
+    res = await fetch("/api/v1/sensors", {
+      cache: "no-store",
+      headers: { accept: "application/json" },
+    });
   } catch {
     markSensorOffline(null, false);
     return;
   }
   if (!res.ok) { markSensorOffline(null, false); return; }
   const d = await res.json();
+  latestSensorPayload = d;
+  latestSensorReceivedAt = Date.now();
+  window.dispatchEvent(new CustomEvent("ghost:sensors", { detail: d }));
 
   const hasAny = !!(d.emf || d.ef || d.rf);
   const stale = !!d.stale || !!(d.emf && d.emf.stale);
@@ -1529,7 +1547,18 @@ async function loadCurrent() {
       : `${d.rf.friendlyName} reporting ${d.rf.state}.`;
     if (teleRfEl) teleRfEl.textContent = Number(d.rf.numericValue).toFixed(3);
   }
+
+  return d;
 }
+
+window.GhostLiveData = Object.freeze({
+  async current() {
+    if (!latestSensorPayload || Date.now() - latestSensorReceivedAt > 1250) {
+      await loadCurrent();
+    }
+    return latestSensorPayload?.emf ?? null;
+  },
+});
 
 /* Preset window length in ms — used to retarget the chart at the last real data when offline. */
 function presetDurationMs(preset) {
@@ -3352,8 +3381,25 @@ if (document.body.dataset.page === "home") {
     setInterval(() => loadFeed(true).catch(() => {}), 5000);
   }
 
-  // Auto-refresh
-  setInterval(() => loadCurrent().catch(() => {}), 2000);
+  // Keep the edge reading within one sensor tick of Home Assistant. Pause while
+  // hidden, refresh immediately on return, and never overlap upstream requests.
+  const livePollInterval = Math.max(500, Number(state.meta?.polling?.recommendedIntervalMs) || 1000);
+  let livePollTimer = null;
+  const scheduleLivePoll = () => {
+    clearTimeout(livePollTimer);
+    if (document.hidden) return;
+    livePollTimer = setTimeout(async () => {
+      await loadCurrent().catch(() => {});
+      scheduleLivePoll();
+    }, livePollInterval);
+  };
+  document.addEventListener("visibilitychange", () => {
+    clearTimeout(livePollTimer);
+    if (!document.hidden) {
+      loadCurrent().catch(() => {}).finally(scheduleLivePoll);
+    }
+  });
+  scheduleLivePoll();
   setInterval(() => {
     refreshPreset();
     loadHistory().catch(() => {});
