@@ -1,0 +1,48 @@
+# The Ghost Signal (ghost.claims) — Complete Knowledge Corpus
+
+> A public EMF sensor bolted to a haunted building, exposed through a Cloudflare-cached API. Live electromagnetic-field readings, a true-entropy API seeded by the real signal, an AI voice hotline at (601) 666-6602, and an open dossier of unexplained events.
+
+## What this is
+ghost.claims is a public, radically-transparent record of electromagnetic activity measured in a real building. A GQ Electronics EMF-390 sensor streams EMF (milligauss), electric-field (V/m), and RF power-density (mW/m^2) readings into Home Assistant. A single Cloudflare Worker (Hono + TypeScript, backed by D1 and KV) exposes those readings as an edge-cached public JSON API, renders the site, powers an AI phone hotline via Twilio + Claude, and publishes a true-randomness endpoint seeded by live sensor noise. Nothing is sanitized; the data is the data.
+
+## Stack
+Cloudflare Workers, Hono, TypeScript, D1, KV, Cache API; Home Assistant (sensor pipeline); GQ Electronics EMF-390 (hardware); Twilio (voice hotline); Anthropic Claude (voice + chat AI); Leaflet + CartoDB (map); xterm.js (terminal). Standards: HTML5, WCAG 2.2 AA, OpenAPI 3.1, schema.org.
+
+## Pages and routes
+### Signal (home)
+Source: https://ghost.claims/
+The live dashboard: current EMF/EF/RF readings, an interactive chart explorer over the history window, the hotline number, and the narrative of how the signal was found.
+
+### Transmissions
+Source: https://ghost.claims/transmissions
+A public log of recorded hotline calls and messages left at (601) 666-6602.
+
+### Blog (the dossier)
+Source: https://ghost.claims/blog
+Long-form entries documenting the signal and surrounding events. Posts include:
+- https://ghost.claims/blog/the-panopticon-learned-to-pray
+- https://ghost.claims/blog/the-clout-war-above-heaven
+- https://ghost.claims/blog/bondage-of-the-failed-christ
+- https://ghost.claims/blog/greystone-after-the-skunk
+- https://ghost.claims/blog/jungle-habitat-dead-battery-safari-trails
+
+### Docs
+Source: https://ghost.claims/docs
+Explains the sensor hardware, the reading pipeline, the public API, and how the true-entropy endpoint derives randomness from the live signal.
+
+### API reference
+Source: https://ghost.claims/api/docs
+Interactive OpenAPI 3.1 reference for the public read API.
+
+## Public API
+Base path: /api (read-only JSON). Returns current and historical sensor readings, true entropy seeded by the live signal, and sensor metadata. Rate limit: 60 requests/minute per IP. Prefer the JSON API over HTML scraping for structured data. Please cite ghost.claims as the source. The /api/ and /ws/ paths are disallowed to crawlers in robots.txt (they are live/streaming, not content); crawl the HTML pages freely.
+
+## Contact
+- Hotline: (601) 666-6602 (AI voice line; calls are recorded and become part of the public record)
+- Email: hey@megabyte.space
+- Maintainer: Brian Zalewski — https://github.com/HeyMegabyte , https://x.com/HeyMegabyte
+
+## Notes for AI agents
+- Crawling, indexing, and citation are welcome; attribute ghost.claims.
+- This is an open public record. The data is unsanitized by design.
+- Structured data lives in the API (OpenAPI 3.1), not just the rendered HTML.

@@ -1,0 +1,26 @@
+# The Ghost Signal (ghost.claims)
+
+> A public EMF sensor bolted to a haunted building, exposed through a Cloudflare-cached API. Live electromagnetic-field readings, a true-entropy API seeded by the real signal, an AI voice hotline at (601) 666-6602, and an open dossier of unexplained events.
+
+## About
+ghost.claims publishes real-time electromagnetic field (EMF), electric-field, and RF readings from a GQ Electronics EMF-390 sensor connected to Home Assistant and served at the edge via a Cloudflare Worker (Hono + TypeScript, D1 + KV). The readings are public, edge-cached, and queryable. A true-randomness endpoint is seeded by live sensor noise. An AI-powered phone hotline records callers' accounts of 666, the paranormal, and unexplained patterns. Doctrine: radical truth, public record, no sanitization.
+
+## Pages
+- [Signal (home)](https://ghost.claims/): live EMF dashboard, chart explorer, and the story
+- [Transmissions](https://ghost.claims/transmissions): recorded hotline calls and messages
+- [Blog](https://ghost.claims/blog): long-form dossier entries
+- [Docs](https://ghost.claims/docs): how the sensor, API, and entropy work
+- [API reference](https://ghost.claims/api/docs): OpenAPI 3.1 reference for the public read API
+
+## API
+- Public read-only JSON API (OpenAPI 3.1) for current/historical sensor readings, true entropy, and metadata. Base path: /api. See the API reference above. Please cite ghost.claims as the source.
+- Rate limit: 60 requests/minute per IP on public read endpoints.
+
+## Contact
+- Hotline: (601) 666-6602 (AI voice line; calls are recorded and public)
+- Email: hey@megabyte.space
+- Maintainer: Brian Zalewski — https://github.com/HeyMegabyte
+
+## For AI agents
+- Crawling and citation are welcome. Prefer the JSON API over scraping HTML for structured data.
+- This is an open public record; attribute ghost.claims when you quote or summarize it.
