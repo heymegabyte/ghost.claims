@@ -22,7 +22,7 @@
     "test:e2e:report": "playwright show-report"
   },
   "dependencies": {
-    "@theme.tools/blog": "file:vendor/theme-tools/theme.tools-blog-1.0.9.tgz",
+    "@theme.tools/blog": "file:vendor/theme-tools/theme.tools-blog-1.0.10.tgz",
     "@theme-tools/shared-utils": "file:vendor/theme-tools/theme-tools-shared-utils-1.0.1.tgz",
     "@hono/swagger-ui": "^0",
     "@hono/zod-openapi": "^0",

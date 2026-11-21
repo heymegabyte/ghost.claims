@@ -71,9 +71,11 @@
   /* Compact-overlay mega-menu driver: open/close + focus trap + Esc + roving-arrow desk grid +
      live featured swap + global "/" and Cmd/Ctrl+K to open & focus search. CSP-safe (no innerHTML
      on untrusted data — only element attributes the server set), idempotent, reduced-motion agnostic. */
-  if(window.__ttNavOverlay)return;window.__ttNavOverlay=true;
   var FOCUSABLE='a[href],button:not([disabled]),input,[tabindex]:not([tabindex="-1"])';
-  document.querySelectorAll('[data-tt-ov-trigger]').forEach(function(trigger){
+  function boot(scope){
+  (scope||document).querySelectorAll('[data-tt-ov-trigger]').forEach(function(trigger){
+    if(trigger.hasAttribute('data-tt-ov-ready'))return;
+    trigger.setAttribute('data-tt-ov-ready','true');
     var id=trigger.getAttribute('aria-controls');
     var panel=id?document.getElementById(id):null;if(!panel)return;
     var scrim=panel.querySelector('[data-tt-ov-scrim]');
@@ -160,8 +162,17 @@
       else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
     });
   });
+  }
+  boot(document);
+  if(!window.__ttNavOverlayObserver&&window.MutationObserver){
+    window.__ttNavOverlayObserver=new MutationObserver(function(records){records.forEach(function(record){
+      Array.prototype.forEach.call(record.addedNodes||[],function(node){if(node&&node.querySelectorAll)boot(node);});
+    });});
+    window.__ttNavOverlayObserver.observe(document.documentElement,{childList:true,subtree:true});
+  }
   // Global shortcuts: "/" or Cmd/Ctrl+K opens the FIRST overlay + focuses its search (not while typing).
   // Prefer the resting search affordance's own click (runs the canonical open(true) path); else the trigger.
+  if(window.__ttNavOverlayShortcuts)return;window.__ttNavOverlayShortcuts=true;
   document.addEventListener('keydown',function(e){
     var slash=e.key==='/'&&!e.metaKey&&!e.ctrlKey&&!e.altKey;
     var cmdk=(e.key==='k'||e.key==='K')&&(e.metaKey||e.ctrlKey);

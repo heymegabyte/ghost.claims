@@ -1,12 +1,13 @@
 # Canonical theme.tools artifacts
 
 The Ghost Signal blog consumes immutable packages built from
-`heymegabyte/theme.tools` revision `0f9ea6abc9db8c6480362180027198bf0d3bba51`.
-The 1.0.9 JSON mega-navbar, centered full-width shell, command search, account affordance, and gallery enhancements are recorded by source patch SHA-256
-`09f8f19ecd8e53488d3af4c19a21df77e1a06285ff94fb0ca0beaf0b06bf887a`.
+`heymegabyte/theme.tools` revision `0333a6d9d9aa22095498f19aa61a4f467260a7d6`.
+The 1.0.10 JSON mega-navbar, centered full-width shell, command search, account affordance, client-rendered navigation enhancement, and gallery enhancements are recorded by source patch SHA-256
+`1cf77628e6054290ade3bc7fd2593dd72a488d693b0729ebe28bc25f36ec7015`.
 
 | Artifact | SHA-256 |
 | --- | --- |
+| `theme.tools-blog-1.0.10.tgz` | `23a11293b4994e7e219ef8828fbc3062dbbe43fe8a2c1a8653199e440afbefdd` |
 | `theme.tools-blog-1.0.9.tgz` | `0abb9553ec09b8a008b332df660c57c555f241f87de364a822d39e770dc88135` |
 | `theme.tools-blog-1.0.8.tgz` | `eda8da13b91cc7e1d7786a1683ab4770642e008fb619597d2437d03ecccacde0` |
 | `theme.tools-blog-1.0.7.tgz` | `61428bb445739833978410f2ed31ab68ee35ee911ef7e8e1c33e76c93d2d1a26` |

@@ -93,10 +93,10 @@ test("full theme.tools catalog and provenance manifest are public", async ({ req
   const manifest = await request.get("/theme-tools-components.json");
   expect(manifest.ok()).toBe(true);
   const catalog = await manifest.json();
-  expect(catalog.version).toBe("1.0.9");
-  expect(catalog.sourceCommit).toBe("0f9ea6abc9db8c6480362180027198bf0d3bba51");
-  expect(catalog.sourcePatchSha256).toBe("09f8f19ecd8e53488d3af4c19a21df77e1a06285ff94fb0ca0beaf0b06bf887a");
-  expect(catalog.artifactSha256).toBe("0abb9553ec09b8a008b332df660c57c555f241f87de364a822d39e770dc88135");
+  expect(catalog.version).toBe("1.0.10");
+  expect(catalog.sourceCommit).toBe("0333a6d9d9aa22095498f19aa61a4f467260a7d6");
+  expect(catalog.sourcePatchSha256).toBe("1cf77628e6054290ade3bc7fd2593dd72a488d693b0729ebe28bc25f36ec7015");
+  expect(catalog.artifactSha256).toBe("23a11293b4994e7e219ef8828fbc3062dbbe43fe8a2c1a8653199e440afbefdd");
   expect(catalog.componentTypes).toContain("article-reader");
   expect(catalog.componentTypes.length).toBeGreaterThanOrEqual(29);
 });

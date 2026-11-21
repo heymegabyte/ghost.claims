@@ -20,7 +20,7 @@ const pages = [
   ["public/privacy.html", "/privacy"],
   ["public/terms.html", "/terms"],
 ];
-const themeToolsStylesheetHref = "/theme-tools.css?v=theme-tools-blog-1.0.9";
+const themeToolsStylesheetHref = "/theme-tools.css?v=theme-tools-blog-1.0.10";
 
 for (const [file, pathname] of pages) {
   const source = await readFile(file, "utf8");
