@@ -466,6 +466,8 @@ function renderTimeline() {
     timelineTrackEl.append(item);
   });
   initTimelineReveal();
+  // Timeline cards arrive after the initial page enhancement pass.
+  initGalleryLightbox();
   // Hard fallback so no timeline items get stuck at opacity 0
   setTimeout(() => {
     document.querySelectorAll(".tl-item:not(.is-visible)").forEach((n) => n.classList.add("is-visible"));
@@ -480,6 +482,11 @@ function selectTimelineEvent(index) {
 /* ── Chat ── */
 
 const SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (window.customElements && !customElements.get("tt-ai-chat-shell")) {
+  customElements.define("tt-ai-chat-shell", class ThemeToolsAiChatShell extends HTMLElement {
+    connectedCallback() { this.setAttribute("data-theme-tools", "ai-chat-shell"); }
+  });
+}
 let chatRecognition = null;
 let chatRecognitionActive = false;
 const chatAttachments = [];
@@ -1233,11 +1240,32 @@ function initChatVoice() {
     chatMicEl.setAttribute("aria-pressed", "false");
     chatMicEl.setAttribute("aria-label", "Start voice input");
   };
-  chatRecognition.onerror = stopRecording;
+  chatRecognition.onerror = (event) => {
+    stopRecording();
+    const reason = event?.error === "not-allowed"
+      ? "Microphone permission was denied. Allow microphone access and try again."
+      : event?.error === "no-speech"
+        ? "No speech was detected. Try again and speak after the listening pulse appears."
+        : "Voice input stopped. Try again or type your message.";
+    chatMicEl.title = reason;
+    if (chatStatusTextEl) chatStatusTextEl.textContent = reason;
+  };
   chatRecognition.onend = stopRecording;
   chatMicEl.addEventListener("click", () => {
     if (chatRecognitionActive) chatRecognition?.stop();
-    else { try { chatRecognition.lang = chatPrefs.lang || "en-US"; chatRecognition.start(); } catch {} }
+    else {
+      try {
+        chatMicEl.title = "Listening… click again to stop";
+        if (chatStatusTextEl) chatStatusTextEl.textContent = "Listening…";
+        chatRecognition.lang = chatPrefs.lang || "en-US";
+        chatRecognition.start();
+      } catch (error) {
+        stopRecording();
+        chatMicEl.title = "Voice input could not start. Check microphone permission and try again.";
+        if (chatStatusTextEl) chatStatusTextEl.textContent = "Microphone unavailable";
+        console.warn("[chat] voice input failed to start", error);
+      }
+    }
   });
 }
 
@@ -2289,11 +2317,20 @@ function renderPlateLightbox() {
 /* ── Generic Gallery Lightbox ── */
 
 function initGalleryLightbox() {
-  const triggers = $$("[data-zoomable][data-gallery]");
+  // Every meaningful page image belongs to the page gallery unless a component
+  // has already assigned a more specific gallery. Decorative and thumbnail
+  // images stay inert so keyboard users do not encounter duplicate controls.
+  $$("main img:not([data-gallery])").forEach((img) => {
+    if (img.closest('[aria-hidden="true"], .tt-gallery__thumbs, .avatar-thumbs')) return;
+    img.setAttribute("data-zoomable", "");
+    img.setAttribute("data-gallery", "page-media");
+  });
+  const triggers = $$("[data-zoomable][data-gallery]:not([data-gallery-ready])");
   if (!triggers.length) return;
 
   const groups = new Map();
   triggers.forEach((img) => {
+    img.setAttribute("data-gallery-ready", "");
     const key = img.getAttribute("data-gallery");
     if (!key) return;
     if (!groups.has(key)) groups.set(key, []);

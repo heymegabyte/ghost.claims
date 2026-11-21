@@ -2,6 +2,7 @@
   const MIN_SIGNIFICANT_LENGTH = 20;
   let allEntries = [];
   let currentFilter = "all";
+  const expandedKeys = new Set();
 
   function setText(id, value) {
     const el = document.getElementById(id);
@@ -165,7 +166,7 @@
         ).join("");
       }
 
-      return '<div class="tt-panel tx-card' + cls + '" data-expandable>' +
+      return '<div class="tt-panel tx-card' + cls + (expandedKeys.has(g.key) ? ' expanded' : '') + '" data-expandable data-transmission-key="' + esc(g.key) + '">' +
         '<div class="tx-card-header">' +
         '<span class="tx-card-type ' + typeCls + '">' + typeLabel + '</span>' +
         '<span class="tx-card-time">' + timeStr + '</span>' +
@@ -185,7 +186,10 @@
   const txListEl = document.getElementById("tx-list");
   if (txListEl) txListEl.addEventListener("click", function(e) {
     const card = e.target.closest(".tx-card");
-    if (card) card.classList.toggle("expanded");
+    if (card) {
+      expandedKeys.add(card.dataset.transmissionKey);
+      card.classList.add("expanded");
+    }
   });
 
   const txFiltersEl = document.getElementById("tx-filters");

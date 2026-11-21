@@ -20,3 +20,13 @@
 - [x] Verify every public route visually at desktop and mobile widths after default-theme convergence.
 - [x] Run type, unit, build, performance, accessibility, and complete E2E validation; classify the unrelated repository-wide parallel failures with evidence.
 - [x] Commit, push, deploy, verify production, and record rollback evidence.
+- [x] Generate and validate digest-bound Worker/browser evidence for the constrained EMF chart interaction; keep publication and production verification distinct from this changed local tree.
+- [x] Add and consume the theme.tools JSON navigation/logo contract with a full-width shell and centered inner rail.
+- [x] Remove the homepage Transmission Log and stabilize all live-reading geometry.
+- [x] Converge the AI chat on a theme.tools custom-element surface, shorten its launcher label, and verify microphone states.
+- [x] Make transmission expansion persistent across refreshes and prevent user-opened records from collapsing.
+- [x] Recompose entropy, random-number, Kickstarter-concept, and manifesto sections responsively and verify desktop/mobile visuals.
+- [x] Extend the canonical theme.tools overlay navbar with a typed account/profile affordance and complete portable JSON validation.
+- [x] Configure Ghost Signal's grouped mega menu, command search, specialty actions, featured content, and operator affordance from one shared data object.
+- [x] Load the canonical navigation controller on every static, Hono, and React surface and verify the same full-width geometry, markup, keyboard behavior, and mobile layout.
+- [ ] Pack the exact tested theme.tools artifact, update Ghost Signal provenance, run release gates, deploy the exact commit, and verify production.

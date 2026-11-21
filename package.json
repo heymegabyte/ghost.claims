@@ -13,12 +13,16 @@
     "deploy": "pnpm sync:theme && pnpm build:blog && pnpm test:theme-tools && wrangler deploy",
     "test:unit": "vitest run --config blog-app/vitest.config.ts",
     "test:theme-tools": "vitest run --config blog-app/vitest.config.ts src/theme-tools-catalog.test.ts",
+    "test:requirement-evidence": "node --test test/requirement-evidence.test.mjs",
+    "verify:requirement-evidence": "node scripts/verify-requirement-evidence.mjs",
+    "verify:runtime-boundary": "node scripts/verify-runtime-boundary.mjs",
+    "test:runtime-boundary-evidence": "node --test test/runtime-boundary-evidence.test.mjs",
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:report": "playwright show-report"
   },
   "dependencies": {
-    "@theme.tools/blog": "file:vendor/theme-tools/theme.tools-blog-1.0.5.tgz",
+    "@theme.tools/blog": "file:vendor/theme-tools/theme.tools-blog-1.0.9.tgz",
     "@theme-tools/shared-utils": "file:vendor/theme-tools/theme-tools-shared-utils-1.0.1.tgz",
     "@hono/swagger-ui": "^0",
     "@hono/zod-openapi": "^0",
@@ -29,6 +33,7 @@
     "zod": "^3"
   },
   "devDependencies": {
+    "@theme-tools/testing": "file:vendor/theme-tools/theme-tools-testing-1.0.0.tgz",
     "@cloudflare/workers-types": "^4",
     "@playwright/test": "^1.56.1",
     "@testing-library/jest-dom": "latest",

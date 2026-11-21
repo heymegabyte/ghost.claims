@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-11-20T00:00:00.000Z",
+  "records": [
+    {
+      "id": "ghost-claims-i02-adoption",
+      "requirementId": "i02-requirement-release-evidence",
+      "capabilityId": "portfolio-traceability",
+      "origin": {
+        "kind": "rule",
+        "reference": "pinned-shared-platform-policy",
+        "revision": "75f4661c9335bf63c077476bb327cec51dc0fc88"
+      },
+      "implementation": {
+        "repository": "ghost-claims",
+        "revision": "8835fdd83ea5fec42f0a5c83ef87714716c72ffc",
+        "paths": [
+          "docs/requirement-evidence.json",
+          "scripts/verify-requirement-evidence.mjs",
+          "test/requirement-evidence.test.mjs"
+        ],
+        "planningPaths": [
+          "docs/requirement-evidence.json"
+        ]
+      },
+      "checks": [],
+      "status": "planned"
+    }
+  ]
+}

@@ -124,6 +124,16 @@ events:
     imageAlt: "Dismantled Gothic church architecture with stained glass"
     imageCaption: "Diocese of Paterson · exorcism declined"
 
+  - id: american-spirits-pew
+    date: "2024-06-02T00:00:00Z"
+    title: "American Spirits in the Pew"
+    body: "The preacher literally started hooting like a Native American. I said: they don't want us thinking we are smoking American Spirits. Why? Satanic rubbish. Give us the Marlboros. This is a personal recollection, preserved here as part of the signal narrative—not a claim about Native traditions or a factual allegation about the preacher."
+    category: narrative
+    severity: 4
+    image: "/story/american-spirits-marlboro-pew.webp"
+    imageAlt: "An American Spirit cigarette pack and a red-and-white cigarette pack resting on a dark church pew"
+    imageCaption: "American Spirits and Marlboros · an editorial still life"
+
   - id: usb-bridge-online
     date: "2026-04-03T02:47:58Z"
     title: "First EMF Signal"
@@ -183,4 +193,3 @@ events:
     image: "/dream-doom.webp"
     imageAlt: "First-person view in a hellish DOOM arena, lone pistol in hand, a distant figure walking away"
     imageCaption: "Backlash · the unsolved mystery"
-

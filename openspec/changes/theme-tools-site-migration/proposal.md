@@ -25,6 +25,11 @@ The user approved the current production site on 2026-11-15 as the Figma-equival
 - Blend the blog's isolated crimson horror treatment with the approved site's cyan signal language while retaining red as a restrained Night Archive editorial accent.
 - Make the canonical theme.tools default theme authoritative across every public surface by removing the later Ghost-specific palette, typography, radius, navigation, and background overrides that currently win in the cascade.
 - Retain product-specific content layout, sensor visualizations, evidence media, and data bindings while sourcing visual tokens and shared shell geometry directly from theme.tools.
+- Bind the Cloudflare Worker bundle and browser assets to a constrained-device interaction receipt for the EMF history chart, using the canonical theme.tools runtime-boundary verifier.
+- Replace the remaining product-local navigation and AI-chat presentation forks with JSON-configured theme.tools contracts while preserving Ghost Signal data and interaction bindings.
+- Remove the duplicate homepage Transmission Log, stabilize live-reading geometry, and recompose the entropy, random-number, Kickstarter-concept, and manifesto sections as responsive theme.tools-aligned layouts.
+- Make transmission records persistently expandable and voice input observable, accessible, and testable.
+- Promote the navbar into a full-width theme.tools mega-menu shell with a compact resting state, command-search access, an account/profile affordance, curated route groups, and identical behavior across every Ghost Signal surface.
 
 ## Scope
 

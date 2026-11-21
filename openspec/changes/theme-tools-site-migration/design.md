@@ -25,6 +25,8 @@ The homepage, legal pages, docs, transmissions, API reference, and React journal
 
 Every page presents the same logo, `GHOST // SIGNAL` wordmark, five links in the same order, dimensions, spacing, responsive overflow behavior, focus appearance, and route-aware `aria-current`. Legal pages receive the missing Blog link and linked brand. Mobile keeps all destinations reachable without hiding the entire navigation.
 
+The final shell uses the canonical compact-overlay mega-menu variant. Its edge-to-edge header contains the logo and wordmark on the left; Explore and command-search controls, route utilities, and a circular operator/profile affordance remain on the right. Opening Explore presents grouped Signal, Records, Journal, and Developer destinations with featured context, quick actions, and latest material. The same serializable configuration is rendered by static generation, Hono, and React. JavaScript is progressive enhancement: destinations remain available without it, while focus trapping, Escape, keyboard grid navigation, `/`, and Command/Ctrl+K are supplied by the shared theme.tools controller.
+
 ## Theme.tools boundaries
 
 - Reuse site navigation, page header, article, post grid, media, widgets, and shared utility contracts from the pinned packages.
@@ -46,3 +48,11 @@ Changes are additive and reversible. Build the new shared shell assets, replace 
 ## Verification
 
 `pnpm check`, `pnpm test:unit`, `pnpm build:blog`, `pnpm check:performance`, full Playwright E2E, route visual audit, keyboard checks, reduced-motion checks, production browser verification, and clean-worktree confirmation.
+
+The EMF chart boundary is verified from an exact Wrangler dry-run Worker bundle plus digest-bound static browser assets. Five fresh 390×844 browser contexts use 4× CPU slowdown and Fast 3G shaping, activate a preset-range button through the real local Worker/D1 fixture, and record update latency, keyboard focus preservation, URL state, canvas visibility, browser errors, and serious/critical Axe findings. This is intentionally a main-thread interaction: the bounded canvas redraw is product-specific, synchronous presentation with no optional SDK fan-out, while data authority remains in the Worker API.
+
+## JSON navigation and AI surface convergence
+
+The shared navbar accepts a validated serializable configuration containing brand text, brand URL, logo image metadata, navigation links, layout, and accessible labels. Ghost Signal keeps only that JSON data and route-aware active state; theme.tools owns the markup and full-width shell with a centered inner rail. The existing chat IDs and Worker endpoints remain stable, while a theme.tools custom-element host and canonical visual tokens own the panel surface. Browser speech recognition remains progressive enhancement with explicit permission, listening, unavailable, and error feedback.
+
+The homepage removes its duplicate transmission archive because `/transmissions` remains the canonical record. Dynamic reading cards reserve numeric space to prevent layout shifts. The entropy explanation becomes a responsive text-and-carousel split; the random-number and alarm-clock sections clearly label metaphysical mechanisms as the project's theory and Kickstarter concept rather than verified physics or an active sale.

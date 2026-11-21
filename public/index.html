@@ -68,7 +68,7 @@
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" onload="this.rel='stylesheet'" />
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" /></noscript>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xterm/xterm@5.5.0/css/xterm.min.css" media="print" onload="this.media='all'" />
-    <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.5" />
+    <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.9" />
     <link rel="stylesheet" href="/styles.css?v=2945c6a-20260921v3" />
     <link rel="stylesheet" href="/theme-tools-shell.css" />
     <script>
@@ -261,12 +261,91 @@
       <span class="gh-scripture-whisper-mark" aria-hidden="true">✦</span>
       <p class="gh-scripture-whisper-verse" data-scripture-rotate>“For nothing is hidden that will not be made manifest.” — Luke 8:17</p>
     </aside>
-    <header class="tt-nav" data-theme-tools="site-nav">
+    <header class="tt-nav tt-nav--overlay tt-nav--full" data-theme-tools="site-nav" data-tt-nav-root data-tt-nav-uid="ttnav-1">
   <a class="tt-nav__brand" href="/" aria-label="GHOST // SIGNAL home">
-    <img class="tt-nav__logo" src="/logo-nav.png?v=2945c6a-1778550809" alt="Ghost Signal logo" width="34" height="34" decoding="async" />
+    <img class="tt-nav__logo" src="/logo-nav.png?v=2945c6a-1778550809" alt="Ghost Signal logo" width="34" height="34" decoding="async">
     <span class="tt-nav__word">GHOST // SIGNAL</span>
   </a>
-  <nav class="tt-nav__links" aria-label="Primary"><a class="tt-nav__link" href="/" aria-current="page">Signal</a><a class="tt-nav__link" href="/transmissions">Transmissions</a><a class="tt-nav__link" href="/blog">Blog</a><a class="tt-nav__link" href="/docs">Docs</a><a class="tt-nav__link" href="/api/docs">API</a></nav>
+  <div class="tt-nav__actions">
+    <button type="button" id="ttnav-1-ovt" class="tt-nav__ov-trigger" aria-haspopup="dialog" aria-expanded="false" aria-controls="ttnav-1-ov" data-tt-ov-trigger>
+    <span class="tt-nav__ov-grid" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    <span class="tt-nav__ov-label">Explore</span>
+    <svg class="tt-nav__ov-chev" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true" focusable="false"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <noscript><a class="tt-nav__ov-nojs" href="/">Explore</a></noscript><a class="tt-nav__ov-search" href="/blog" aria-label="Search" data-tt-ov-searchbtn>
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="5.2" stroke="currentColor" stroke-width="1.7"/><path d="M12 12l3.6 3.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+  </a>
+  <div class="tt-ov" id="ttnav-1-ov" role="dialog" aria-modal="true" aria-label="Explore Ghost Signal" data-tt-ov-panel hidden>
+    <div class="tt-ov__scrim" data-tt-ov-scrim></div>
+    <div class="tt-ov__sheet" role="document">
+      <div class="tt-ov__top">
+        <form class="tt-ov__search" role="search" method="get" action="/blog">
+        <span class="tt-ov__search-ic" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="5.2" stroke="currentColor" stroke-width="1.6"/><path d="M12 12l3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+        <input class="tt-ov__search-input" type="search" name="q" placeholder="Search signals, records, and field notes…" aria-label="Search signals, records, and field notes…" autocomplete="off" data-tt-ov-search>
+        <button class="tt-ov__search-go" type="submit">Search</button>
+      </form>
+        <button type="button" class="tt-ov__close" data-tt-ov-close aria-label="Close menu"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+      </div>
+      <div class="tt-ov__body">
+        <nav class="tt-ov__desks" aria-label="Sections">
+          <p class="tt-ov__col-label">All 4 sections</p>
+          <div class="tt-ov__grid" role="menu" aria-label="Sections">
+          <a class="tt-ov__card" role="menuitem" href="/" aria-current="page" data-tt-ov-card="0" data-tt-ov-fsrc="/evidence-radiation-tdr.webp" data-tt-ov-falt="Ghost Signal electromagnetic sensor display" data-tt-ov-fhref="/#live" data-tt-ov-ftitle="Read the live electromagnetic field" data-tt-ov-fkicker="Live now" tabindex="-1">
+      <span class="tt-ov__card-head"><span class="tt-ov__card-ic" aria-hidden="true">◉</span><span class="tt-ov__card-name">Signal</span><span class="tt-ov__card-count" aria-hidden="true">3</span><span class="tt-sr-only"> — 3 articles</span></span>
+      <span class="tt-ov__card-blurb">Live electromagnetic readings, entropy, and the core public experiment.</span>
+    </a>
+          <a class="tt-ov__card" role="menuitem" href="/transmissions" data-tt-ov-card="1" data-tt-ov-fsrc="/story/time-travelers.webp" data-tt-ov-falt="Figures crossing a luminous field" data-tt-ov-fhref="/transmissions" data-tt-ov-ftitle="Open the public transmission record" data-tt-ov-fkicker="Public record" tabindex="-1">
+      <span class="tt-ov__card-head"><span class="tt-ov__card-ic" aria-hidden="true">⌁</span><span class="tt-ov__card-name">Records</span><span class="tt-ov__card-count" aria-hidden="true">3</span><span class="tt-sr-only"> — 3 articles</span></span>
+      <span class="tt-ov__card-blurb">Public calls, the evidence timeline, and recorded transmissions.</span>
+    </a>
+          <a class="tt-ov__card" role="menuitem" href="/blog" data-tt-ov-card="2" data-tt-ov-fsrc="/story/old-car.webp" data-tt-ov-falt="Abandoned car in a dark landscape" data-tt-ov-fhref="/blog" data-tt-ov-ftitle="Enter the Ghost Signal Journal" data-tt-ov-fkicker="Night Archive" tabindex="-1">
+      <span class="tt-ov__card-head"><span class="tt-ov__card-ic" aria-hidden="true">✦</span><span class="tt-ov__card-name">Journal</span><span class="tt-ov__card-count" aria-hidden="true">3</span><span class="tt-sr-only"> — 3 articles</span></span>
+      <span class="tt-ov__card-blurb">Reported memory, strange histories, engineering dossiers, and Night Archive field notes.</span>
+    </a>
+          <a class="tt-ov__card" role="menuitem" href="/docs" data-tt-ov-card="3" data-tt-ov-fsrc="/story/scientist.webp" data-tt-ov-falt="Scientist studying a luminous instrument" data-tt-ov-fhref="/docs" data-tt-ov-ftitle="Build with the Ghost Signal API" data-tt-ov-fkicker="Open data" tabindex="-1">
+      <span class="tt-ov__card-head"><span class="tt-ov__card-ic" aria-hidden="true">&lt;/&gt;</span><span class="tt-ov__card-name">Developers</span><span class="tt-ov__card-count" aria-hidden="true">3</span><span class="tt-sr-only"> — 3 articles</span></span>
+      <span class="tt-ov__card-blurb">Integrate the public sensor, inspect schemas, and use the documented API.</span>
+    </a>
+          </div>
+        </nav>
+        <div class="tt-ov__aside">
+          <a class="tt-ov__featured" href="/#live" data-tt-ov-featured aria-label="Read the live electromagnetic field" data-tt-ov-flabel="Read the live electromagnetic field">
+          <span class="tt-ov__fmedia">
+            <img class="tt-ov__fimg" src="/evidence-radiation-tdr.webp" alt="Ghost Signal electromagnetic sensor display" loading="lazy" decoding="async" width="520" height="300" data-tt-ov-fimg>
+            <span class="tt-ov__fscrim">
+              <span class="tt-ov__fkicker" data-tt-ov-fkicker>Live now</span>
+              <span class="tt-ov__fcue" aria-hidden="true">Read the story →</span>
+            </span>
+          </span>
+          <span class="tt-ov__ftitle" data-tt-ov-ftitle>Read the live electromagnetic field</span>
+        </a>
+          <div class="tt-ov__latest">
+          <p class="tt-ov__col-label">Latest</p>
+          <ul class="tt-ov__latest-list" role="menu" aria-label="Latest">
+            <li role="none"><a class="tt-ov__latest-item" role="menuitem" href="/blog/sensor-telemetry-web-dossier" tabindex="-1"><span class="tt-ov__latest-title">Sensor telemetry web dossier</span><span class="tt-ov__latest-meta">Engineering dossier</span></a></li>
+            <li role="none"><a class="tt-ov__latest-item" role="menuitem" href="/blog/greystone-after-the-skunk" tabindex="-1"><span class="tt-ov__latest-title">Greystone after the institution</span><span class="tt-ov__latest-meta">New Jersey field note</span></a></li>
+            <li role="none"><a class="tt-ov__latest-item" role="menuitem" href="/blog/jungle-habitat-dead-battery-safari-trails" tabindex="-1"><span class="tt-ov__latest-title">Jungle Habitat after the safari</span><span class="tt-ov__latest-meta">Trail report</span></a></li>
+          </ul>
+        </div>
+        </div>
+        <div class="tt-ov__rail"><a class="tt-ov__cta" href="/#live" data-tt-ov-link>
+          <span class="tt-ov__cta-kicker">Live edge</span>
+          <span class="tt-ov__cta-title">Read the field right now</span>
+          <span class="tt-ov__cta-blurb">Open the live sensor, copy entropy, or inspect the source API.</span>
+          <span class="tt-ov__cta-go">Open live signal</span>
+        </a><div class="tt-ov__quick">
+          <p class="tt-ov__col-label">Quick actions</p>
+          <ul class="tt-ov__quick-list" role="menu" aria-label="Quick actions">
+            <li role="none"><a class="tt-ov__quick-item" role="menuitem" href="/#chat-widget" tabindex="-1"><span class="tt-ov__quick-ic" aria-hidden="true">AI</span><span class="tt-ov__quick-label">Ask Signal AI</span><span class="tt-ov__quick-sub">Open the chat</span></a></li>
+            <li role="none"><a class="tt-ov__quick-item" role="menuitem" href="tel:+16016666602" tabindex="-1"><span class="tt-ov__quick-ic" aria-hidden="true">☎</span><span class="tt-ov__quick-label">Call the hotline</span><span class="tt-ov__quick-sub">(601) 666-6602</span></a></li>
+            <li role="none"><a class="tt-ov__quick-item" role="menuitem" href="/api/docs" tabindex="-1"><span class="tt-ov__quick-ic" aria-hidden="true">{}</span><span class="tt-ov__quick-label">API reference</span><span class="tt-ov__quick-sub">Schemas and endpoints</span></a></li>
+          </ul>
+        </div></div>
+      </div>
+    </div>
+  </div>
+    <nav class="tt-nav__links" aria-label="Utilities"><a class="tt-nav__link" href="/#chat-widget">AI</a><a class="tt-nav__link tt-nav__cta" href="tel:+16016666602">Call</a><a class="tt-nav__account" href="/#manifesto" aria-label="Open the operator manifesto" title="Open the operator manifesto"><img class="tt-nav__avatar" src="/apple-touch-icon.png?v=2945c6a-1778550809" alt="Ghost Signal operator" width="34" height="34" decoding="async"></a></nav>
+  </div>
 </header>
     <script type="speculationrules">
     {
@@ -545,13 +624,99 @@
         </div>
       </section>
 
-      <section class="shell bridge-section bridge-section--indented reveal-section bx-from-left" aria-label="How the ghost became an entropy source">
+      <section class="shell bridge-section bridge-section--indented entropy-explainer reveal-section bx-from-left" aria-label="How the ghost became an entropy source">
         <div class="bridge-copy bridge-copy--indented">
           <p class="eyebrow">THE ARC</p>
           <h2>Why Does a Ghost Make Good Entropy?</h2>
           <p>A deterministic algorithm generates numbers from a fixed seed. You can reproduce it. Predict it. Control it. A ghost cannot be seeded. Whatever is producing these EMF fluctuations operates outside the systems I trust. The sensor captures that. The API exposes it. If the readings are truly affected by something non-physical, then every random number this site generates is the first ghost-seeded entropy in production anywhere on the internet.</p>
           <p>That's not a marketing claim. That's the experiment. The sensor is live. The data is public. You can prove it wrong.</p>
         </div>
+        <!-- theme-tools:entropy-gallery:start -->
+        <section class="tt-widget tt-gallery" aria-label="Visual field notes">
+  <h3 class="tt-widget__heading tt-gallery__heading">Visual field notes</h3>
+  <div class="tt-gallery__slideshow">
+    <div class="tt-gallery__stage">
+    <input class="tt-gallery__radio" type="radio" name="tt-gal-mwqzle56-1" id="tt-gal-mwqzle56-1-0" checked>
+    <figure class="tt-gallery__slide">
+      <div class="tt-gallery__frame">
+        <img class="tt-gallery__slide-img" src="/story/lightning-bolt.webp" alt="Lightning crossing a dark horizon" loading="lazy" decoding="async" width="1200" height="630" data-tt-zoom>
+        <label class="tt-gallery__nav tt-gallery__prev" for="tt-gal-mwqzle56-1-4"><span aria-hidden="true">&#8249;</span><span class="tt-sr-only">Previous image</span></label>
+        <label class="tt-gallery__nav tt-gallery__next" for="tt-gal-mwqzle56-1-1"><span aria-hidden="true">&#8250;</span><span class="tt-sr-only">Next image</span></label>
+      </div>
+      <figcaption class="tt-gallery__slide-cap">
+        <span class="tt-gallery__count">1 / 5</span><span class="tt-gallery__slide-text">Electromagnetic disturbance</span>
+      </figcaption>
+    </figure>
+    <input class="tt-gallery__radio" type="radio" name="tt-gal-mwqzle56-1" id="tt-gal-mwqzle56-1-1">
+    <figure class="tt-gallery__slide">
+      <div class="tt-gallery__frame">
+        <img class="tt-gallery__slide-img" src="/story/time-travelers.webp" alt="Illustrated time-travel imagery" loading="lazy" decoding="async" width="1200" height="630" data-tt-zoom>
+        <label class="tt-gallery__nav tt-gallery__prev" for="tt-gal-mwqzle56-1-0"><span aria-hidden="true">&#8249;</span><span class="tt-sr-only">Previous image</span></label>
+        <label class="tt-gallery__nav tt-gallery__next" for="tt-gal-mwqzle56-1-2"><span aria-hidden="true">&#8250;</span><span class="tt-sr-only">Next image</span></label>
+      </div>
+      <figcaption class="tt-gallery__slide-cap">
+        <span class="tt-gallery__count">2 / 5</span><span class="tt-gallery__slide-text">The time-travel hypothesis</span>
+      </figcaption>
+    </figure>
+    <input class="tt-gallery__radio" type="radio" name="tt-gal-mwqzle56-1" id="tt-gal-mwqzle56-1-2">
+    <figure class="tt-gallery__slide">
+      <div class="tt-gallery__frame">
+        <img class="tt-gallery__slide-img" src="/story/scientist.webp" alt="A scientist working beside experimental equipment" loading="lazy" decoding="async" width="1200" height="630" data-tt-zoom>
+        <label class="tt-gallery__nav tt-gallery__prev" for="tt-gal-mwqzle56-1-1"><span aria-hidden="true">&#8249;</span><span class="tt-sr-only">Previous image</span></label>
+        <label class="tt-gallery__nav tt-gallery__next" for="tt-gal-mwqzle56-1-3"><span aria-hidden="true">&#8250;</span><span class="tt-sr-only">Next image</span></label>
+      </div>
+      <figcaption class="tt-gallery__slide-cap">
+        <span class="tt-gallery__count">3 / 5</span><span class="tt-gallery__slide-text">Measure the theory</span>
+      </figcaption>
+    </figure>
+    <input class="tt-gallery__radio" type="radio" name="tt-gal-mwqzle56-1" id="tt-gal-mwqzle56-1-3">
+    <figure class="tt-gallery__slide">
+      <div class="tt-gallery__frame">
+        <img class="tt-gallery__slide-img" src="/story/old-car.webp" alt="An old car documented as part of the field record" loading="lazy" decoding="async" width="1200" height="630" data-tt-zoom>
+        <label class="tt-gallery__nav tt-gallery__prev" for="tt-gal-mwqzle56-1-2"><span aria-hidden="true">&#8249;</span><span class="tt-sr-only">Previous image</span></label>
+        <label class="tt-gallery__nav tt-gallery__next" for="tt-gal-mwqzle56-1-4"><span aria-hidden="true">&#8250;</span><span class="tt-sr-only">Next image</span></label>
+      </div>
+      <figcaption class="tt-gallery__slide-cap">
+        <span class="tt-gallery__count">4 / 5</span><span class="tt-gallery__slide-text">The record keeps moving</span>
+      </figcaption>
+    </figure>
+    <input class="tt-gallery__radio" type="radio" name="tt-gal-mwqzle56-1" id="tt-gal-mwqzle56-1-4">
+    <figure class="tt-gallery__slide">
+      <div class="tt-gallery__frame">
+        <img class="tt-gallery__slide-img" src="/story/american-spirits-marlboro-pew.webp" alt="Cigarette packs documented on a dark church pew" loading="lazy" decoding="async" width="1200" height="630" data-tt-zoom>
+        <label class="tt-gallery__nav tt-gallery__prev" for="tt-gal-mwqzle56-1-3"><span aria-hidden="true">&#8249;</span><span class="tt-sr-only">Previous image</span></label>
+        <label class="tt-gallery__nav tt-gallery__next" for="tt-gal-mwqzle56-1-0"><span aria-hidden="true">&#8250;</span><span class="tt-sr-only">Next image</span></label>
+      </div>
+      <figcaption class="tt-gallery__slide-cap">
+        <span class="tt-gallery__count">5 / 5</span><span class="tt-gallery__slide-text">Objects inside the narrative</span>
+      </figcaption>
+    </figure>
+    </div>
+    <div class="tt-gallery__thumbs">
+    <label class="tt-gallery__thumb" for="tt-gal-mwqzle56-1-0">
+      <img class="tt-gallery__thumb-img" src="/story/lightning-bolt.webp" alt="" loading="lazy" decoding="async">
+      <span class="tt-sr-only">Show image 1 of 5: Lightning crossing a dark horizon</span>
+    </label>
+    <label class="tt-gallery__thumb" for="tt-gal-mwqzle56-1-1">
+      <img class="tt-gallery__thumb-img" src="/story/time-travelers.webp" alt="" loading="lazy" decoding="async">
+      <span class="tt-sr-only">Show image 2 of 5: Illustrated time-travel imagery</span>
+    </label>
+    <label class="tt-gallery__thumb" for="tt-gal-mwqzle56-1-2">
+      <img class="tt-gallery__thumb-img" src="/story/scientist.webp" alt="" loading="lazy" decoding="async">
+      <span class="tt-sr-only">Show image 3 of 5: A scientist working beside experimental equipment</span>
+    </label>
+    <label class="tt-gallery__thumb" for="tt-gal-mwqzle56-1-3">
+      <img class="tt-gallery__thumb-img" src="/story/old-car.webp" alt="" loading="lazy" decoding="async">
+      <span class="tt-sr-only">Show image 4 of 5: An old car documented as part of the field record</span>
+    </label>
+    <label class="tt-gallery__thumb" for="tt-gal-mwqzle56-1-4">
+      <img class="tt-gallery__thumb-img" src="/story/american-spirits-marlboro-pew.webp" alt="" loading="lazy" decoding="async">
+      <span class="tt-sr-only">Show image 5 of 5: Cigarette packs documented on a dark church pew</span>
+    </label>
+    </div>
+  </div>
+</section>
+        <!-- theme-tools:entropy-gallery:end -->
         <div class="bridge-stat-row">
           <div class="bridge-stat">
             <span class="bridge-stat-val">Cloudflare</span>
@@ -755,7 +920,8 @@
             <article class="dossier-entropy-card">
               <p class="eyebrow">DERIVE // ENTROPY</p>
               <h3>Random number</h3>
-              <p class="dossier-feature-body">Every second the sensor captures electromagnetic fluctuations no algorithm seeded. A SHA-256 of the snapshot window yields a reproducible BigInt &mdash; the first ghost-seeded entropy live on the public web.</p>
+              <p class="dossier-feature-body">Copy a number derived from the latest public EMF window. The project&rsquo;s theory is that powerful control systems &mdash; and the angels, demons, spirits, or jinn described in the narrative &mdash; can disturb the measured field. In a splitting, rewindable universe, an ordinary seeded generator would replay the same output; a newly changed physical reading would not.</p>
+              <p class="dossier-feature-body">If the latest &ldquo;work&rdquo; event changes what the detector sees, this number changes with it. That makes the output an auditable experiment in fresh physical input, not proof that any supernatural mechanism exists and not a substitute for a cryptographically certified random-number service.</p>
               <div class="entropy-number-row">
                 <p id="random-number" class="metric metric-small">--</p>
                 <button id="copy-entropy" type="button" class="entropy-copy-btn" aria-label="Copy random number" title="Copy to clipboard">
@@ -767,6 +933,21 @@
             </article>
           </div>
         </div>
+      </section>
+
+      <section class="shell tt-panel multiverse-alarm-section reveal-section bx-from-right" aria-labelledby="multiverse-alarm-heading">
+        <div class="multiverse-alarm-copy">
+          <p class="eyebrow">KICKSTARTER CONCEPT // LATEST INTEL</p>
+          <h2 id="multiverse-alarm-heading">An alarm clock for breaking multiverse bondage</h2>
+          <p>Imagine an alarm that does not fire from a perfectly repeatable schedule. It continually mixes background EMF readings into a bounded wake-time offset, so the latest physical signal can alter the morning&rsquo;s result. The project theory asks whether deep-space time-travel conflict, spiritual activity, or any other late-arriving disturbance could leave a signature in that field.</p>
+          <p>In that story, the newest intelligence matters most: a changed background reading might nudge the alarm onto a different branch and, as the theory puts it, help you &ldquo;jerk off the Planck grid or what-have-you.&rdquo; In engineering terms, it would be an experimental EMF-conditioned alarm with strict safety limits, a deterministic fallback, and a visible audit trail.</p>
+          <p class="card-note">Concept only. No scientific claim, medical claim, or active Kickstarter sale is being represented yet.</p>
+          <a class="tt-btn tt-btn--primary" href="#newsletter-form">Join the Kickstarter waitlist</a>
+        </div>
+        <figure class="multiverse-alarm-visual">
+          <img src="/story/time-travelers.webp" alt="Time-travel imagery representing an alarm conditioned by the latest EMF signal" width="720" height="720" loading="lazy" decoding="async" data-zoomable data-gallery="entropy-story">
+          <figcaption>Concept visualization: the latest signal changes the branch.</figcaption>
+        </figure>
       </section>
 
       <section class="cinema-chapter reveal-section bx-blur" aria-label="Chapter I — The Signal">
@@ -3976,61 +4157,14 @@ WITHIN 30 DAYS FOR $22.00 CREDIT</pre>
         </div>
       </section>
 
-      <!-- ─── Transmissions (merged Feed + Log) ──────────────────────────── -->
-      <section id="transmissions" class="transmissions-section reveal-section" aria-labelledby="transmissions-h" data-testid="live-feed">
-        <div class="shell tx-layout tx-card-frame">
-          <div class="gh-chapter-divider" aria-hidden="true">
-            <span>VII.</span><span>Public Record</span>
-          </div>
-          <div class="tx-hero">
-            <div class="tx-hero-row">
-              <p class="eyebrow">PUBLIC RECORD // MEP TRANSMISSIONS</p>
-              <span class="feed-live-indicator" id="tx-live-indicator">
-                <span class="pulse-dot-inline"></span>
-                <span id="feed-status">LIVE</span>
-              </span>
-            </div>
-            <h2 id="transmissions-h">Transmission Log</h2>
-            <p class="tx-hero-sub">
-              Every call and chat &mdash; recorded, transcribed, published in real time. The Multiverse-Entropy Provider hides nothing.
-            </p>
-            <div class="tx-stats">
-              <div><span class="tx-stat-val" id="tx-total-calls">--</span> calls</div>
-              <div><span class="tx-stat-val" id="tx-total-chats">--</span> chats</div>
-              <div><span class="tx-stat-val" id="tx-total">--</span> total entries</div>
-              <div><span class="tx-stat-val" id="feed-total">0</span> live <span class="tx-stat-since" id="tx-last-update"></span></div>
-            </div>
-          </div>
-
-          <div class="tx-synopsis" id="tx-synopsis">
-            <h3>What people are talking about</h3>
-            <ul id="tx-topics">
-              <li>Loading transmission analysis&hellip;</li>
-            </ul>
-          </div>
-
-          <div class="tx-filters" id="tx-filters" role="toolbar" aria-label="Filter transmissions">
-            <button class="tx-filter-btn active" data-filter="all">All</button>
-            <button class="tx-filter-btn" data-filter="call">Calls Only</button>
-            <button class="tx-filter-btn" data-filter="chat">Chats Only</button>
-            <button class="tx-filter-btn" data-filter="significant">Significant Only</button>
-            <button class="tx-filter-btn" data-filter="show-all">Include Minor</button>
-          </div>
-
-          <div class="tx-list" id="tx-list">
-            <div class="tx-empty">Loading transmissions&hellip;</div>
-          </div>
-        </div>
-      </section>
-
     </main>
 
-    <div id="chat-widget" class="chat-widget chat-widget--pane" data-testid="chat-widget">
+    <tt-ai-chat-shell id="chat-widget" class="chat-widget chat-widget--pane" data-testid="chat-widget">
       <button id="chat-toggle" class="chat-toggle" aria-label="Open signal chat" aria-expanded="false" aria-controls="chat-panel">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
         </svg>
-        <span class="chat-toggle-label">Signal AI</span>
+        <span class="chat-toggle-label">AI</span>
         <span class="chat-toggle-kbd" aria-hidden="true">⌘K</span>
       </button>
       <div id="chat-backdrop" class="chat-backdrop" aria-hidden="true"></div>
@@ -4227,7 +4361,7 @@ WITHIN 30 DAYS FOR $22.00 CREDIT</pre>
           </div>
         </div>
       </aside>
-    </div>
+    </tt-ai-chat-shell>
 
     <div class="telemetry-strip" aria-label="Live signal telemetry" data-testid="telemetry-strip">
       <div class="telemetry-item">
@@ -4396,5 +4530,6 @@ WITHIN 30 DAYS FOR $22.00 CREDIT</pre>
     </dialog>
     <script src="/performance.js?v=20261118-live-edge" defer></script>
     <script type="module" src="/app.js?v=20261118-live-edge"></script>
-</body>
+  <script src="/theme-tools-nav.js" defer></script>
+  </body>
 </html>

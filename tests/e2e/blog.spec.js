@@ -60,3 +60,20 @@ test("blog remains readable on a phone", async ({ page }) => {
   await expect(page.locator(".tt-pagehead__title")).toHaveText("Bondage of the Failed Christ");
   await expect(page.locator("tt-article-reader")).toBeVisible();
 });
+
+test("article pictures open as one keyboard-operable theme.tools lightbox gallery", async ({ page }) => {
+  await page.goto("/blog/greystone-after-the-skunk");
+  const zoomable = page.locator("img[data-tt-zoom]");
+  await expect(zoomable.first()).toBeVisible();
+  await zoomable.first().focus();
+  await page.keyboard.press("Enter");
+  await expect(page.getByRole("dialog", { name: "Image gallery" })).toBeVisible();
+  await page.locator(".tt-lightbox__img").evaluate((image) => image.decode());
+  expect(await page.locator(".tt-lightbox__img").evaluate((image) => image.naturalWidth)).toBeGreaterThan(0);
+  await expect(page.locator(".tt-lightbox__count")).toHaveText(/1 \/ \d+/);
+  await page.keyboard.press("ArrowRight");
+  await expect(page.locator(".tt-lightbox__count")).toHaveText(/2 \/ \d+/);
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("dialog", { name: "Image gallery" })).toHaveCount(0);
+  await expect(zoomable.first()).toBeFocused();
+});

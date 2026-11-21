@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "packageContract": "@theme.tools/blog",
+  "editorContract": "@theme.tools/blog/editor",
+  "repository": "ghost.claims",
+  "domain": "ghost.claims",
+  "updatedAt": "2026-11-19T01:58:55.542Z",
+  "files": [
+    "content/posts/sensor-telemetry-web-dossier.json"
+  ]
+}

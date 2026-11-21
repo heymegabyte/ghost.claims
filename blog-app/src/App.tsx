@@ -15,6 +15,7 @@ import {
   renderSourceLibrary,
   renderTableOfContents,
   renderTagList,
+  installImageLightbox,
 } from "@theme.tools/blog/site";
 import { renderComponent } from "@theme.tools/blog/components-registry";
 import { useEffect } from "react";
@@ -26,7 +27,7 @@ import "./app.css";
 const nav = renderGhostSignalNav("/blog");
 
 function articleBody(article: NightArchiveArticle): string {
-  return article.sections.map((section, sectionIndex) => {
+  const html = article.sections.map((section, sectionIndex) => {
     const id = `${article.slug}-${sectionIndex + 1}`;
     const isSources = section.heading?.startsWith("Sources and further") ?? false;
     if (isSources) {
@@ -38,6 +39,7 @@ function articleBody(article: NightArchiveArticle): string {
     const components = section.components?.map((component) => renderComponent(component.type, component.data)).join("") ?? "";
     return `<section>${heading}${paragraphs}${quote}${components}</section>`;
   }).join("");
+  return html.replace(/<img(?![^>]*data-tt-zoom)/g, '<img data-tt-zoom');
 }
 
 function renderArticleSourceLibrary(heading: string, headingId: string, sources: readonly string[]): string {
@@ -128,7 +130,7 @@ function renderCanonicalBody(post: CanonicalBlogPost): string {
     html = html.replace(`<p>{{widget:${widget.id}}}</p>`, renderComponent(widget.type, data));
   }
 
-  return html;
+  return html.replace(/<img(?![^>]*data-tt-zoom)/g, '<img data-tt-zoom');
 }
 
 function CanonicalArticlePage({ post }: { post: CanonicalBlogPost }) {
@@ -188,6 +190,8 @@ export default function App() {
     }
     description.content = article?.standfirst ?? canonicalPost?.description ?? "Field reports, strange histories, systems dossiers, and speculative stories from Ghost Signal.";
   }, [article, canonicalPost]);
+
+  useEffect(() => installImageLightbox(document), [article, canonicalPost]);
 
   return <>
     <style>{GHOST_SIGNAL_SHELL_CSS}</style>

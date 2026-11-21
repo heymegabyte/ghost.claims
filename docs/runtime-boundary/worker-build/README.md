@@ -1,0 +1,1 @@
+This folder contains the built output assets for the worker "ghost-megabyte-space" generated at 2026-11-21T14:29:06.070Z.

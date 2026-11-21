@@ -28,7 +28,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.5" />
+    <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.9" />
     <link rel="stylesheet" href="/styles.css?v=20260501-reveal" />
     <link rel="stylesheet" href="/theme-tools-shell.css" />
     <script>
@@ -64,12 +64,91 @@
     <div class="noise"></div>
     <div class="scanlines" aria-hidden="true"></div>
     <canvas class="orb-canvas" id="orb-canvas" aria-hidden="true"></canvas>
-    <header class="tt-nav" data-theme-tools="site-nav">
+    <header class="tt-nav tt-nav--overlay tt-nav--full" data-theme-tools="site-nav" data-tt-nav-root data-tt-nav-uid="ttnav-2">
   <a class="tt-nav__brand" href="/" aria-label="GHOST // SIGNAL home">
-    <img class="tt-nav__logo" src="/logo-nav.png?v=2945c6a-1778550809" alt="Ghost Signal logo" width="34" height="34" decoding="async" />
+    <img class="tt-nav__logo" src="/logo-nav.png?v=2945c6a-1778550809" alt="Ghost Signal logo" width="34" height="34" decoding="async">
     <span class="tt-nav__word">GHOST // SIGNAL</span>
   </a>
-  <nav class="tt-nav__links" aria-label="Primary"><a class="tt-nav__link" href="/">Signal</a><a class="tt-nav__link" href="/transmissions">Transmissions</a><a class="tt-nav__link" href="/blog">Blog</a><a class="tt-nav__link" href="/docs" aria-current="page">Docs</a><a class="tt-nav__link" href="/api/docs">API</a></nav>
+  <div class="tt-nav__actions">
+    <button type="button" id="ttnav-2-ovt" class="tt-nav__ov-trigger" aria-haspopup="dialog" aria-expanded="false" aria-controls="ttnav-2-ov" data-tt-ov-trigger>
+    <span class="tt-nav__ov-grid" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    <span class="tt-nav__ov-label">Explore</span>
+    <svg class="tt-nav__ov-chev" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true" focusable="false"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <noscript><a class="tt-nav__ov-nojs" href="/">Explore</a></noscript><a class="tt-nav__ov-search" href="/blog" aria-label="Search" data-tt-ov-searchbtn>
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="5.2" stroke="currentColor" stroke-width="1.7"/><path d="M12 12l3.6 3.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+  </a>
+  <div class="tt-ov" id="ttnav-2-ov" role="dialog" aria-modal="true" aria-label="Explore Ghost Signal" data-tt-ov-panel hidden>
+    <div class="tt-ov__scrim" data-tt-ov-scrim></div>
+    <div class="tt-ov__sheet" role="document">
+      <div class="tt-ov__top">
+        <form class="tt-ov__search" role="search" method="get" action="/blog">
+        <span class="tt-ov__search-ic" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="5.2" stroke="currentColor" stroke-width="1.6"/><path d="M12 12l3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+        <input class="tt-ov__search-input" type="search" name="q" placeholder="Search signals, records, and field notes…" aria-label="Search signals, records, and field notes…" autocomplete="off" data-tt-ov-search>
+        <button class="tt-ov__search-go" type="submit">Search</button>
+      </form>
+        <button type="button" class="tt-ov__close" data-tt-ov-close aria-label="Close menu"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+      </div>
+      <div class="tt-ov__body">
+        <nav class="tt-ov__desks" aria-label="Sections">
+          <p class="tt-ov__col-label">All 4 sections</p>
+          <div class="tt-ov__grid" role="menu" aria-label="Sections">
+          <a class="tt-ov__card" role="menuitem" href="/" data-tt-ov-card="0" data-tt-ov-fsrc="/evidence-radiation-tdr.webp" data-tt-ov-falt="Ghost Signal electromagnetic sensor display" data-tt-ov-fhref="/#live" data-tt-ov-ftitle="Read the live electromagnetic field" data-tt-ov-fkicker="Live now" tabindex="-1">
+      <span class="tt-ov__card-head"><span class="tt-ov__card-ic" aria-hidden="true">◉</span><span class="tt-ov__card-name">Signal</span><span class="tt-ov__card-count" aria-hidden="true">3</span><span class="tt-sr-only"> — 3 articles</span></span>
+      <span class="tt-ov__card-blurb">Live electromagnetic readings, entropy, and the core public experiment.</span>
+    </a>
+          <a class="tt-ov__card" role="menuitem" href="/transmissions" data-tt-ov-card="1" data-tt-ov-fsrc="/story/time-travelers.webp" data-tt-ov-falt="Figures crossing a luminous field" data-tt-ov-fhref="/transmissions" data-tt-ov-ftitle="Open the public transmission record" data-tt-ov-fkicker="Public record" tabindex="-1">
+      <span class="tt-ov__card-head"><span class="tt-ov__card-ic" aria-hidden="true">⌁</span><span class="tt-ov__card-name">Records</span><span class="tt-ov__card-count" aria-hidden="true">3</span><span class="tt-sr-only"> — 3 articles</span></span>
+      <span class="tt-ov__card-blurb">Public calls, the evidence timeline, and recorded transmissions.</span>
+    </a>
+          <a class="tt-ov__card" role="menuitem" href="/blog" data-tt-ov-card="2" data-tt-ov-fsrc="/story/old-car.webp" data-tt-ov-falt="Abandoned car in a dark landscape" data-tt-ov-fhref="/blog" data-tt-ov-ftitle="Enter the Ghost Signal Journal" data-tt-ov-fkicker="Night Archive" tabindex="-1">
+      <span class="tt-ov__card-head"><span class="tt-ov__card-ic" aria-hidden="true">✦</span><span class="tt-ov__card-name">Journal</span><span class="tt-ov__card-count" aria-hidden="true">3</span><span class="tt-sr-only"> — 3 articles</span></span>
+      <span class="tt-ov__card-blurb">Reported memory, strange histories, engineering dossiers, and Night Archive field notes.</span>
+    </a>
+          <a class="tt-ov__card" role="menuitem" href="/docs" aria-current="page" data-tt-ov-card="3" data-tt-ov-fsrc="/story/scientist.webp" data-tt-ov-falt="Scientist studying a luminous instrument" data-tt-ov-fhref="/docs" data-tt-ov-ftitle="Build with the Ghost Signal API" data-tt-ov-fkicker="Open data" tabindex="-1">
+      <span class="tt-ov__card-head"><span class="tt-ov__card-ic" aria-hidden="true">&lt;/&gt;</span><span class="tt-ov__card-name">Developers</span><span class="tt-ov__card-count" aria-hidden="true">3</span><span class="tt-sr-only"> — 3 articles</span></span>
+      <span class="tt-ov__card-blurb">Integrate the public sensor, inspect schemas, and use the documented API.</span>
+    </a>
+          </div>
+        </nav>
+        <div class="tt-ov__aside">
+          <a class="tt-ov__featured" href="/#live" data-tt-ov-featured aria-label="Read the live electromagnetic field" data-tt-ov-flabel="Read the live electromagnetic field">
+          <span class="tt-ov__fmedia">
+            <img class="tt-ov__fimg" src="/evidence-radiation-tdr.webp" alt="Ghost Signal electromagnetic sensor display" loading="lazy" decoding="async" width="520" height="300" data-tt-ov-fimg>
+            <span class="tt-ov__fscrim">
+              <span class="tt-ov__fkicker" data-tt-ov-fkicker>Live now</span>
+              <span class="tt-ov__fcue" aria-hidden="true">Read the story →</span>
+            </span>
+          </span>
+          <span class="tt-ov__ftitle" data-tt-ov-ftitle>Read the live electromagnetic field</span>
+        </a>
+          <div class="tt-ov__latest">
+          <p class="tt-ov__col-label">Latest</p>
+          <ul class="tt-ov__latest-list" role="menu" aria-label="Latest">
+            <li role="none"><a class="tt-ov__latest-item" role="menuitem" href="/blog/sensor-telemetry-web-dossier" tabindex="-1"><span class="tt-ov__latest-title">Sensor telemetry web dossier</span><span class="tt-ov__latest-meta">Engineering dossier</span></a></li>
+            <li role="none"><a class="tt-ov__latest-item" role="menuitem" href="/blog/greystone-after-the-skunk" tabindex="-1"><span class="tt-ov__latest-title">Greystone after the institution</span><span class="tt-ov__latest-meta">New Jersey field note</span></a></li>
+            <li role="none"><a class="tt-ov__latest-item" role="menuitem" href="/blog/jungle-habitat-dead-battery-safari-trails" tabindex="-1"><span class="tt-ov__latest-title">Jungle Habitat after the safari</span><span class="tt-ov__latest-meta">Trail report</span></a></li>
+          </ul>
+        </div>
+        </div>
+        <div class="tt-ov__rail"><a class="tt-ov__cta" href="/#live" data-tt-ov-link>
+          <span class="tt-ov__cta-kicker">Live edge</span>
+          <span class="tt-ov__cta-title">Read the field right now</span>
+          <span class="tt-ov__cta-blurb">Open the live sensor, copy entropy, or inspect the source API.</span>
+          <span class="tt-ov__cta-go">Open live signal</span>
+        </a><div class="tt-ov__quick">
+          <p class="tt-ov__col-label">Quick actions</p>
+          <ul class="tt-ov__quick-list" role="menu" aria-label="Quick actions">
+            <li role="none"><a class="tt-ov__quick-item" role="menuitem" href="/#chat-widget" tabindex="-1"><span class="tt-ov__quick-ic" aria-hidden="true">AI</span><span class="tt-ov__quick-label">Ask Signal AI</span><span class="tt-ov__quick-sub">Open the chat</span></a></li>
+            <li role="none"><a class="tt-ov__quick-item" role="menuitem" href="tel:+16016666602" tabindex="-1"><span class="tt-ov__quick-ic" aria-hidden="true">☎</span><span class="tt-ov__quick-label">Call the hotline</span><span class="tt-ov__quick-sub">(601) 666-6602</span></a></li>
+            <li role="none"><a class="tt-ov__quick-item" role="menuitem" href="/api/docs" tabindex="-1"><span class="tt-ov__quick-ic" aria-hidden="true">{}</span><span class="tt-ov__quick-label">API reference</span><span class="tt-ov__quick-sub">Schemas and endpoints</span></a></li>
+          </ul>
+        </div></div>
+      </div>
+    </div>
+  </div>
+    <nav class="tt-nav__links" aria-label="Utilities"><a class="tt-nav__link" href="/#chat-widget">AI</a><a class="tt-nav__link tt-nav__cta" href="tel:+16016666602">Call</a><a class="tt-nav__account" href="/#manifesto" aria-label="Open the operator manifesto" title="Open the operator manifesto"><img class="tt-nav__avatar" src="/apple-touch-icon.png?v=2945c6a-1778550809" alt="Ghost Signal operator" width="34" height="34" decoding="async"></a></nav>
+  </div>
 </header>
     <script type="speculationrules">
     {
@@ -320,5 +399,6 @@ sensors <span class="tok-op">=</span> <span class="tok-cls">requests</span>.<spa
 </footer>
 
     <script type="module" src="/app.js?v=20260501-reveal"></script>
+    <script src="/theme-tools-nav.js" defer></script>
   </body>
 </html>

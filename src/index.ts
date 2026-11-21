@@ -261,7 +261,7 @@ function transmissionsPageHtml(): string {
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.5" />
+  <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.8" />
   <link rel="stylesheet" href="/styles.css" />
   <link rel="stylesheet" href="/theme-tools-shell.css" />
   <style>
@@ -422,6 +422,7 @@ function transmissionsPageHtml(): string {
   ${renderGhostSignalFooter()}
 
   <script src="/transmissions.js"></script>
+  <script src="/theme-tools-nav.js"></script>
 </body>
 </html>`;
 }
@@ -1322,7 +1323,7 @@ app.get("/api/docs", (c) => {
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.5" />
+  <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.8" />
   <link rel="stylesheet" href="/styles.css?v=20260501-reveal" />
   <link rel="stylesheet" href="/theme-tools-shell.css" />
   <style>
@@ -1500,6 +1501,7 @@ app.get("/api/docs", (c) => {
   ></script>
   <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference@1.78.1/dist/browser/standalone.js"></script>
   ${renderGhostSignalFooter()}
+  <script src="/theme-tools-nav.js"></script>
 </body>
 </html>`);
 });

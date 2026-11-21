@@ -13,6 +13,18 @@ const TARGET = process.env.PROD_URL || "/";
 const MIN_EVENTS = 16;
 
 test.describe("timeline evidence images", () => {
+  test("American Spirits recollection is placed in the chronology and opens in the page gallery", async ({ page }) => {
+    await page.goto("/");
+    const card = page.locator(".tl-card", { hasText: "American Spirits in the Pew" });
+    await expect(card).toContainText("Give us the Marlboros");
+    const image = card.locator("img");
+    await expect(image).toHaveAttribute("src", "/story/american-spirits-marlboro-pew.webp");
+    await image.click();
+    await expect(page.getByRole("dialog", { name: "Image viewer" })).toBeVisible();
+    const enlarged = page.locator("#gallery-lightbox .gallery-lightbox-stage img");
+    await enlarged.evaluate((element: HTMLImageElement) => element.decode());
+    expect(await enlarged.evaluate((element: HTMLImageElement) => element.naturalWidth)).toBeGreaterThan(0);
+  });
   test("every timeline entry renders a related image", async ({ page }) => {
     await page.goto(TARGET, { waitUntil: "domcontentloaded" });
 

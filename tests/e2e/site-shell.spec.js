@@ -18,8 +18,12 @@ for (const viewport of [{ name: "desktop", width: 1440, height: 1000 }, { name: 
       await expect(nav).toBeVisible();
       await expect(nav.locator(".tt-nav__logo")).toHaveAttribute("src", /logo-nav\.png/);
       await nav.locator(".tt-nav__logo").evaluate((image) => image.decode());
-      await expect(nav.locator(".tt-nav__links a")).toHaveText(["Signal", "Transmissions", "Blog", "Docs", "API"]);
-      expect((await nav.boundingBox())?.width).toBeLessThanOrEqual(viewport.width);
+      await expect(nav.locator(".tt-nav__links > .tt-nav__link")).toHaveText(["AI", "Call"]);
+      await expect(nav.locator(".tt-ov__card")).toHaveCount(4);
+      await expect(nav.locator(".tt-nav__account")).toHaveAttribute("aria-label", "Open the operator manifesto");
+      const navBox = await nav.boundingBox();
+      expect(navBox?.x).toBe(0);
+      expect(navBox?.width).toBe(viewport.width);
       // The active destination is intentionally route-aware. Remove only that state before
       // comparing geometry and computed presentation so everything else must remain identical.
       await nav.evaluate((element) => {
@@ -68,6 +72,19 @@ test("canonical shell exposes keyboard navigation and theme.tools footer", async
   await expect(page.locator(".tt-nav__brand")).toHaveAttribute("href", "/");
 });
 
+test("mega menu opens, supports command search, and restores focus", async ({ page }) => {
+  await page.goto("/docs");
+  const trigger = page.getByRole("button", { name: "Explore" });
+  await trigger.click();
+  await expect(page.getByRole("dialog", { name: "Explore Ghost Signal" })).toBeVisible();
+  await expect(page.locator(".tt-ov__card")).toHaveCount(4);
+  await expect(page.locator(".tt-ov__card").first()).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(trigger).toBeFocused();
+  await page.keyboard.press("ControlOrMeta+K");
+  await expect(page.locator("[data-tt-ov-search]")).toBeFocused();
+});
+
 test("full theme.tools catalog and provenance manifest are public", async ({ request }) => {
   const stylesheet = await request.get("/theme-tools.css");
   expect(stylesheet.ok()).toBe(true);
@@ -76,7 +93,10 @@ test("full theme.tools catalog and provenance manifest are public", async ({ req
   const manifest = await request.get("/theme-tools-components.json");
   expect(manifest.ok()).toBe(true);
   const catalog = await manifest.json();
-  expect(catalog.sourceCommit).toBe("748a389c6a9ca9d745c050c1ccd2a64a07f51a3e");
+  expect(catalog.version).toBe("1.0.9");
+  expect(catalog.sourceCommit).toBe("0f9ea6abc9db8c6480362180027198bf0d3bba51");
+  expect(catalog.sourcePatchSha256).toBe("09f8f19ecd8e53488d3af4c19a21df77e1a06285ff94fb0ca0beaf0b06bf887a");
+  expect(catalog.artifactSha256).toBe("0abb9553ec09b8a008b332df660c57c555f241f87de364a822d39e770dc88135");
   expect(catalog.componentTypes).toContain("article-reader");
   expect(catalog.componentTypes.length).toBeGreaterThanOrEqual(29);
 });
