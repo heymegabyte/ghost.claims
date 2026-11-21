@@ -13,10 +13,10 @@ export const GHOST_THEME_TOOLS_CSS = `${siteCssWithoutOptionalFonts}\n${ALL_BLOG
 
 export const GHOST_THEME_TOOLS_MANIFEST = {
   package: "@theme.tools/blog",
-  version: "1.0.10",
-  sourceCommit: "0333a6d9d9aa22095498f19aa61a4f467260a7d6",
-  sourcePatchSha256: "1cf77628e6054290ade3bc7fd2593dd72a488d693b0729ebe28bc25f36ec7015",
-  artifactSha256: "23a11293b4994e7e219ef8828fbc3062dbbe43fe8a2c1a8653199e440afbefdd",
+  version: "1.0.11",
+  sourceCommit: "43906c2b246f8efc7404e04fe161a113246addaa",
+  sourcePatchSha256: "2bf8516016df2a25ccd7efd581506ce9754b68ba0bf5bfbfcc97784acb6d37da",
+  artifactSha256: "f392e3d83ab67fd7f368a0ff5c355aec72ae62843f353ad0edf8dbf14c552690",
   componentTypes: COMPONENT_TYPES,
   components: BLOG_COMPONENT_MANIFEST,
   modules: {
