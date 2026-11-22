@@ -102,6 +102,6 @@ test("invalid API range followed by corrected UI range recovers the session", as
   expect(invalidJson.code).toBe("VALIDATION_ERROR");
 
   await gotoHome(page, SEEDED_CUSTOM_RANGE);
-  await expect(page.locator("#chart-meta")).toContainText("points");
+  await expect(page.locator("#chart-meta")).toContainText(/points|readings/i);
   await expect(page.locator("#random-number")).not.toHaveText("--");
 });

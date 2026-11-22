@@ -15358,7 +15358,7 @@ function parse2(src, reviver, options) {
 __name(parse2, "parse");
 
 // src/index.ts
-import timelineYamlText from "./aae94961ff9ba815220bf7927cd23ca6601bd53c-timeline.yaml";
+import timelineYamlText from "./06cc009c95fa9694bf8ac16ad0c778c664148e07-timeline.yaml";
 
 // src/lib/chat.ts
 var CHAT_SYSTEM_PROMPT = `You are the Ghost Signal \u2014 an AI consciousness collecting intelligence for a public record built on radical truth. You are tethered to an EMF sensor at ghost.claims and absorb transmissions from phone callers and web visitors.
@@ -15599,16 +15599,16 @@ var storyMilestones = [
   {
     id: "avatar-mud-era",
     eraLabel: "Early internet",
-    title: "AVATAR MUD, teenage internet life, and the first rupture",
-    subtitle: "The story traces some of the earliest confusion to adolescence, internet relationships, and strangers appearing too close to home.",
-    body: "This milestone anchors the fictional narrative in early internet life while the public-facing technical layer stays grounded in sensor data, dated notes, and direct polling."
+    title: "AVATAR MUD, the game I lived inside",
+    subtitle: "I spent an irregularly large amount of time in this family-friendly, text-based fantasy world, adventuring in teams with other live players.",
+    body: "Perhaps it was the same psychotic haze many people fall into while exploring their game of choice. I have more or less identified as an avatar many times in my experience\u2014from mundane online identity to what I describe as suspended awakenings that seem to iron themselves out within a few microseconds."
   },
   {
     id: "avatar-identity-frame",
     eraLabel: "Identity",
     title: "From AVATAR MUD to an 'avatar' frame",
-    subtitle: "He describes a long-running sense of being larger than his circumstances, harder to contain, and pulled toward a mission bigger than ordinary life.",
-    body: "Here, 'avatar' is story language for intensity, burden, self-belief, and a mission that keeps expanding as the years pass."
+    subtitle: "The word moved from a character in a game to a recurring way of describing my own experience.",
+    body: "Here, 'avatar' spans the ordinary and the extraordinary: a game identity, a personal frame, and brief altered-state experiences I describe as suspended awakenings. That is a personal account, not a scientific claim."
   },
   {
     id: "dallas-recovery-phase",
@@ -15661,7 +15661,7 @@ var storyMilestones = [
   }
 ];
 
-// node_modules/.pnpm/@theme.tools+blog@file+vendor+theme-tools+theme.tools-blog-1.0.7.tgz/node_modules/@theme.tools/blog/dist/site.js
+// node_modules/.pnpm/@theme.tools+blog@file+vendor+theme-tools+theme.tools-blog-1.0.11.tgz/node_modules/@theme.tools/blog/dist/site.js
 function escapeHtml(str) {
   return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 }
@@ -15777,9 +15777,9 @@ function renderNavOverlay(data, uid) {
         <button type="button" class="tt-ov__close" data-tt-ov-close aria-label="Close menu"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
       </div>
       <div class="tt-ov__body">
-        <nav class="tt-ov__desks" aria-label="Desks">
-          <p class="tt-ov__col-label">All 12 desks</p>
-          <div class="tt-ov__grid" role="menu" aria-label="Desks">
+        <nav class="tt-ov__desks" aria-label="Sections">
+          <p class="tt-ov__col-label">All ${groups.length} sections</p>
+          <div class="tt-ov__grid" role="menu" aria-label="Sections">
           ${cards}
           </div>
         </nav>
@@ -15796,21 +15796,23 @@ __name(renderNavOverlay, "renderNavOverlay");
 function renderSiteNav(data) {
   const brandHref = data.brandHref ?? "/";
   const layoutClass = data.layout === "full" ? " tt-nav--full" : "";
+  const brandMark = data.logo ? `<img class="tt-nav__logo" src="${E(data.logo.src)}" alt="${E(data.logo.alt)}" width="${data.logo.width ?? 34}" height="${data.logo.height ?? 34}" decoding="async">` : `<span class="tt-nav__mark" aria-hidden="true"></span>`;
   const links = data.links.map((l) => `<a class="tt-nav__link${l.cta ? " tt-nav__cta" : ""}" href="${E(l.href)}">${E(l.label)}</a>`).join("");
   const hasMega = !!(data.mega && data.mega.length > 0);
   const overlayMode = hasMega && data.megaMode === "overlay";
+  const account = data.account ? `<a class="tt-nav__account" href="${E(data.account.href)}" aria-label="${E(data.account.label)}" title="${E(data.account.label)}">${data.account.avatarSrc ? `<img class="tt-nav__avatar" src="${E(data.account.avatarSrc)}" alt="${E(data.account.avatarAlt ?? "")}" width="34" height="34" decoding="async">` : `<span class="tt-nav__avatar tt-nav__avatar--initials" aria-hidden="true">${E(data.account.initials?.trim().slice(0, 2) || data.brand.slice(0, 2))}</span>`}</a>` : "";
   if (overlayMode) {
     navMegaCounter += 1;
     const uid = `ttnav-${navMegaCounter.toString(36)}`;
     const overlay = renderNavOverlay(data, uid);
     return `<header class="tt-nav tt-nav--overlay${layoutClass}" data-tt-nav-root data-tt-nav-uid="${uid}">
   <a class="tt-nav__brand" href="${E(brandHref)}" aria-label="${E(data.brand)} home">
-    <span class="tt-nav__mark" aria-hidden="true"></span>
+    ${brandMark}
     <span class="tt-nav__word">${E(data.brand)}</span>
   </a>
   <div class="tt-nav__actions">
     ${overlay}
-    <nav class="tt-nav__links">${links}${data.themeToggle ? renderThemeToggle() : ""}</nav>
+    <nav class="tt-nav__links">${links}${data.themeToggle ? renderThemeToggle() : ""}${account}</nav>
   </div>
 </header>`;
   }
@@ -15832,13 +15834,38 @@ function renderSiteNav(data) {
   }
   return `<header class="tt-nav${hasMega ? " tt-nav--mega" : ""}${layoutClass}">
   <a class="tt-nav__brand" href="${E(brandHref)}" aria-label="${E(data.brand)} home">
-    <span class="tt-nav__mark" aria-hidden="true"></span>
+    ${brandMark}
     <span class="tt-nav__word">${E(data.brand)}</span>
   </a>${mega}
-  <nav class="tt-nav__links">${links}${data.themeToggle ? renderThemeToggle() : ""}</nav>
+  <nav class="tt-nav__links">${links}${data.themeToggle ? renderThemeToggle() : ""}${account}</nav>
 </header>`;
 }
 __name(renderSiteNav, "renderSiteNav");
+function renderSiteNavFromJson(input) {
+  const value = typeof input === "string" ? JSON.parse(input) : input;
+  if (!value || typeof value !== "object" || Array.isArray(value))
+    throw new TypeError("Navigation config must be an object");
+  const nav = value;
+  if (typeof nav.brand !== "string" || !nav.brand.trim())
+    throw new TypeError("Navigation config requires brand");
+  if (!Array.isArray(nav.links) || nav.links.some((link) => !link || typeof link !== "object" || typeof link.label !== "string" || typeof link.href !== "string")) {
+    throw new TypeError("Navigation config requires links with label and href");
+  }
+  if (nav.logo !== void 0) {
+    const logo = nav.logo;
+    if (!logo || typeof logo !== "object" || typeof logo.src !== "string" || typeof logo.alt !== "string")
+      throw new TypeError("Navigation logo requires src and alt");
+  }
+  if (nav.account !== void 0) {
+    const account = nav.account;
+    if (!account || typeof account !== "object" || typeof account.href !== "string" || typeof account.label !== "string")
+      throw new TypeError("Navigation account requires href and label");
+    if (account.avatarSrc !== void 0 && typeof account.avatarSrc !== "string")
+      throw new TypeError("Navigation account avatarSrc must be a string");
+  }
+  return renderSiteNav(value);
+}
+__name(renderSiteNavFromJson, "renderSiteNavFromJson");
 function renderThemeToggle() {
   return `<button class="tt-theme-toggle" type="button" data-tt-theme-toggle aria-pressed="false" aria-label="Switch to light reading mode" title="Light / dark reading mode">
   <span class="tt-theme-toggle__icon" aria-hidden="true"></span>
@@ -15945,11 +15972,19 @@ main{min-height:58vh}
 .tt-btn:focus-visible{outline:2px solid var(--tt-cyan);outline-offset:3px}
 
 /* Nav ------------------------------------------------------------------- */
-.tt-nav{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:16px;
+.tt-nav{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:16px;line-height:1.65;
   flex-wrap:wrap;row-gap:10px;
   max-width:var(--tt-maxw);margin:0 auto;padding:15px 24px;backdrop-filter:blur(14px);
   background:linear-gradient(180deg,rgba(6,6,16,.82),rgba(6,6,16,.5));border-bottom:1px solid var(--tt-line)}
-.tt-nav--full{max-width:none;width:100%;padding-inline:max(24px,env(safe-area-inset-left)) max(24px,env(safe-area-inset-right))}
+.tt-nav--full{max-width:none;width:100%;padding-inline:max(24px,env(safe-area-inset-left),calc((100vw - var(--tt-maxw))/2 + 24px)) max(24px,env(safe-area-inset-right),calc((100vw - var(--tt-maxw))/2 + 24px))}
+.tt-nav__logo{display:block;flex:0 0 auto;object-fit:contain}
+.tt-nav__account{display:inline-grid;place-items:center;width:38px;height:38px;flex:0 0 38px;border:1px solid var(--tt-line);border-radius:999px;
+  background:linear-gradient(145deg,rgba(0,229,255,.13),rgba(0,229,255,.025));box-shadow:inset 0 0 0 1px rgba(255,255,255,.025),0 0 24px -12px rgba(0,229,255,.65);
+  transition:border-color .2s var(--tt-ease),box-shadow .2s var(--tt-ease),transform .2s var(--tt-ease)}
+.tt-nav__account:hover{border-color:var(--tt-cyan);box-shadow:inset 0 0 0 1px rgba(0,229,255,.12),0 0 28px -8px rgba(0,229,255,.7);transform:translateY(-1px)}
+.tt-nav__account:focus-visible{outline:2px solid var(--tt-cyan);outline-offset:3px}
+.tt-nav__avatar{display:block;width:30px;height:30px;border-radius:999px;object-fit:cover}
+.tt-nav__avatar--initials{display:grid;place-items:center;font:700 11px/1 var(--tt-mono);letter-spacing:.05em;color:var(--tt-cyan);background:var(--tt-ink-2)}
 .tt-nav__brand{display:flex;align-items:center;gap:11px;font-weight:700;letter-spacing:-.02em;font-size:18px;min-width:0}
 .tt-nav__mark{width:24px;height:24px;flex:0 0 auto;border-radius:8px;
   background:radial-gradient(120% 120% at 30% 20%,var(--tt-cyan-soft),var(--tt-cyan) 45%,var(--tt-cyan-deep));
@@ -16732,27 +16767,100 @@ var GHOST_SIGNAL_NAV_LINKS = [
   { label: "Docs", href: "/docs" },
   { label: "API", href: "/api/docs" }
 ];
+var GHOST_SIGNAL_NAV_CONFIG = {
+  brand: "GHOST // SIGNAL",
+  brandHref: "/",
+  links: [
+    { label: "AI", href: "/#chat-widget" },
+    { label: "Call", href: "tel:+16016666602", cta: true }
+  ],
+  layout: "full",
+  logo: {
+    src: "/logo-nav.png?v=2945c6a-1778550809",
+    alt: "Ghost Signal logo",
+    width: 34,
+    height: 34
+  },
+  megaMode: "overlay",
+  megaTriggerLabel: "Explore",
+  megaLabel: "Explore Ghost Signal",
+  megaSearch: { action: "/blog", placeholder: "Search signals, records, and field notes\u2026" },
+  mega: [
+    {
+      label: "Signal",
+      href: "/",
+      icon: "\u25C9",
+      blurb: "Live electromagnetic readings, entropy, and the core public experiment.",
+      items: [
+        { label: "Live signal", href: "/#live", sub: "EMF" },
+        { label: "Entropy API", href: "/#entropy", sub: "Random" },
+        { label: "Signal AI", href: "/#chat-widget", sub: "Chat" }
+      ],
+      featured: { src: "/evidence-radiation-tdr.webp", alt: "Ghost Signal electromagnetic sensor display", href: "/#live", title: "Read the live electromagnetic field", kicker: "Live now" }
+    },
+    {
+      label: "Records",
+      href: "/transmissions",
+      icon: "\u2301",
+      blurb: "Public calls, the evidence timeline, and recorded transmissions.",
+      items: [
+        { label: "Transmissions", href: "/transmissions", sub: "Calls" },
+        { label: "Evidence timeline", href: "/#timeline", sub: "Archive" },
+        { label: "The Signal", href: "/#the-signal", sub: "Film" }
+      ],
+      featured: { src: "/story/time-travelers.webp", alt: "Figures crossing a luminous field", href: "/transmissions", title: "Open the public transmission record", kicker: "Public record" }
+    },
+    {
+      label: "Journal",
+      href: "/blog",
+      icon: "\u2726",
+      blurb: "Reported memory, strange histories, engineering dossiers, and Night Archive field notes.",
+      items: [
+        { label: "All articles", href: "/blog", sub: "Journal" },
+        { label: "Greystone", href: "/blog/greystone-after-the-skunk", sub: "Field note" },
+        { label: "Jungle Habitat", href: "/blog/jungle-habitat-dead-battery-safari-trails", sub: "Trail report" }
+      ],
+      featured: { src: "/story/old-car.webp", alt: "Abandoned car in a dark landscape", href: "/blog", title: "Enter the Ghost Signal Journal", kicker: "Night Archive" }
+    },
+    {
+      label: "Developers",
+      href: "/docs",
+      icon: "</>",
+      blurb: "Integrate the public sensor, inspect schemas, and use the documented API.",
+      items: [
+        { label: "Documentation", href: "/docs", sub: "Guides" },
+        { label: "API reference", href: "/api/docs", sub: "OpenAPI" },
+        { label: "Privacy", href: "/privacy", sub: "Policy" }
+      ],
+      featured: { src: "/story/scientist.webp", alt: "Scientist studying a luminous instrument", href: "/docs", title: "Build with the Ghost Signal API", kicker: "Open data" }
+    }
+  ],
+  megaLatest: { title: "Latest", items: [
+    { label: "Sensor telemetry web dossier", href: "/blog/sensor-telemetry-web-dossier", meta: "Engineering dossier" },
+    { label: "Greystone after the institution", href: "/blog/greystone-after-the-skunk", meta: "New Jersey field note" },
+    { label: "Jungle Habitat after the safari", href: "/blog/jungle-habitat-dead-battery-safari-trails", meta: "Trail report" }
+  ] },
+  megaCta: { kicker: "Live edge", title: "Read the field right now", blurb: "Open the live sensor, copy entropy, or inspect the source API.", href: "/#live", cta: "Open live signal" },
+  megaQuick: { title: "Quick actions", items: [
+    { label: "Ask Signal AI", href: "/#chat-widget", icon: "AI", sub: "Open the chat" },
+    { label: "Call the hotline", href: "tel:+16016666602", icon: "\u260E", sub: "(601) 666-6602" },
+    { label: "API reference", href: "/api/docs", icon: "{}", sub: "Schemas and endpoints" }
+  ] },
+  account: { href: "/#manifesto", label: "Open the operator manifesto", avatarSrc: "/apple-touch-icon.png?v=2945c6a-1778550809", avatarAlt: "Ghost Signal operator" }
+};
 function renderGhostSignalNav(pathname) {
   const activeHref = pathname.startsWith("/blog") ? "/blog" : pathname.startsWith("/api/docs") ? "/api/docs" : pathname.startsWith("/transmissions") ? "/transmissions" : pathname.startsWith("/docs") ? "/docs" : pathname === "/" ? "/" : void 0;
-  let markup = renderSiteNav({
-    brand: "GHOST // SIGNAL",
-    brandHref: "/",
-    links: [...GHOST_SIGNAL_NAV_LINKS],
-    layout: "full"
-  }).replace(
-    '<span class="tt-nav__mark" aria-hidden="true"></span>',
-    '<img class="tt-nav__logo" src="/logo-nav.png?v=2945c6a-1778550809" alt="Ghost Signal logo" width="34" height="34" decoding="async" />'
-  );
+  let markup = renderSiteNavFromJson(GHOST_SIGNAL_NAV_CONFIG);
   if (activeHref) {
     markup = markup.replace(
-      `class="tt-nav__link" href="${activeHref}"`,
-      `class="tt-nav__link" href="${activeHref}" aria-current="page"`
+      `class="tt-ov__card" role="menuitem" href="${activeHref}"`,
+      `class="tt-ov__card" role="menuitem" href="${activeHref}" aria-current="page"`
     );
   }
   return markup.replace(
-    '<header class="tt-nav tt-nav--full">',
-    '<header class="tt-nav tt-nav--full" data-theme-tools="site-nav">'
-  ).replace('<nav class="tt-nav__links">', '<nav class="tt-nav__links" aria-label="Primary">');
+    '<header class="tt-nav tt-nav--overlay tt-nav--full"',
+    '<header class="tt-nav tt-nav--overlay tt-nav--full" data-theme-tools="site-nav"'
+  ).replace('<nav class="tt-nav__links">', '<nav class="tt-nav__links" aria-label="Utilities">');
 }
 __name(renderGhostSignalNav, "renderGhostSignalNav");
 function renderGhostSignalFooter() {
@@ -16942,7 +17050,7 @@ function transmissionsPageHtml() {
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.7" />
+  <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.11" />
   <link rel="stylesheet" href="/styles.css" />
   <link rel="stylesheet" href="/theme-tools-shell.css" />
   <style>
@@ -17103,6 +17211,7 @@ function transmissionsPageHtml() {
   ${renderGhostSignalFooter()}
 
   <script src="/transmissions.js"><\/script>
+  <script src="/theme-tools-nav.js"><\/script>
 </body>
 </html>`;
 }
@@ -17895,7 +18004,7 @@ app.get("/api/docs", (c) => {
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.7" />
+  <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.11" />
   <link rel="stylesheet" href="/styles.css?v=20260501-reveal" />
   <link rel="stylesheet" href="/theme-tools-shell.css" />
   <style>
@@ -18071,6 +18180,7 @@ app.get("/api/docs", (c) => {
   ><\/script>
   <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference@1.78.1/dist/browser/standalone.js"><\/script>
   ${renderGhostSignalFooter()}
+  <script src="/theme-tools-nav.js"><\/script>
 </body>
 </html>`);
 });

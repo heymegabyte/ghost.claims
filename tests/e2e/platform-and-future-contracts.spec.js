@@ -19,12 +19,14 @@ test.describe("mobile", () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await gotoHome(page, SEEDED_CUSTOM_RANGE);
 
-    // Nav visible
-    await expect(page.locator(".tt-nav__links")).toBeVisible();
-    await expect(page.getByRole("link", { name: "Signal" })).toBeVisible();
+    // Compact nav exposes the same destinations through its menu.
+    await expect(page.locator(".tt-nav__links")).toBeHidden();
+    await page.getByRole("button", { name: "Explore", exact: true }).click();
+    await expect(page.getByRole("link", { name: "Signal", exact: true })).toBeVisible();
+    await page.getByRole("button", { name: "Close menu" }).click();
 
     // Range presets work
-    await page.getByRole("button", { name: "7 days" }).click();
+    await page.getByRole("button", { name: "7d", exact: true }).click();
     await expect(page).toHaveURL(/range=7d/);
 
     // Chat toggle visible and functional
@@ -37,10 +39,10 @@ test.describe("mobile", () => {
 
     // Timeline scrollable with nodes
     await waitForTimelineReady(page);
-    await expect(page.locator("#timeline-container")).toBeVisible();
+    await expect(page.locator("#timeline-track")).toBeVisible();
 
     // Hotline number visible
-    await expect(page.locator("[data-testid='hotline-number']")).toContainText("(601) 666-6602");
+    await expect(page.locator(".six-six-six-close .hotline-number")).toContainText("(601) 666-6602");
 
     // Docs link navigates
     await page.getByRole("link", { name: "Docs" }).click();
@@ -48,7 +50,7 @@ test.describe("mobile", () => {
   });
 });
 
-test("keyboard accessibility: skip link, nav tabs, timeline arrow keys, chat Escape close", async ({ page }) => {
+test("keyboard accessibility: skip link, nav focus, semantic timeline, chat Escape close", async ({ page }) => {
   await gotoHome(page, SEEDED_CUSTOM_RANGE);
   await waitForTimelineReady(page);
 
@@ -70,22 +72,8 @@ test("keyboard accessibility: skip link, nav tabs, timeline arrow keys, chat Esc
   await page.keyboard.press("Escape");
   await expect(page.locator("#chat-panel")).toHaveAttribute("aria-hidden", "true");
 
-  // Timeline keyboard navigation
-  const timelineContainer = page.locator("#timeline-container");
-  await timelineContainer.focus();
-
-  await page.keyboard.press("Home");
-  await expect(page.locator(".timeline-node").first()).toHaveClass(/is-active/);
-
-  await page.keyboard.press("ArrowRight");
-  await expect(page.locator(".timeline-node").nth(1)).toHaveClass(/is-active/);
-
-  await page.keyboard.press("End");
-  await expect(page.locator(".timeline-node").last()).toHaveClass(/is-active/);
-
-  await page.keyboard.press("ArrowLeft");
-  const count = await page.locator(".timeline-node").count();
-  await expect(page.locator(".timeline-node").nth(count - 2)).toHaveClass(/is-active/);
+  await expect(page.locator("#timeline-track")).toHaveAttribute("role", "list");
+  await expect(page.locator("#timeline-track .tl-item").first()).toHaveAttribute("role", "listitem");
 });
 
 test("web properties: manifest, robots, sitemap, security.txt, and cross-links", async ({ page, request }) => {
@@ -93,8 +81,8 @@ test("web properties: manifest, robots, sitemap, security.txt, and cross-links",
   await expect(page.locator("head link[rel='manifest']")).toHaveAttribute("href", "/site.webmanifest");
 
   const manifest = await getJson(request, "/site.webmanifest");
-  expect(manifest.name).toBe("ghost.claims");
-  expect(manifest.shortcuts).toHaveLength(2);
+  expect(manifest.name).toBe("The Ghost Signal");
+  expect(manifest.shortcuts).toHaveLength(4);
 
   const robots = await request.get("/robots.txt");
   expect(robots.ok()).toBeTruthy();

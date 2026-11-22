@@ -1,4 +1,4 @@
-import { readFile, readdir, stat } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import { gzipSync } from "node:zlib";
 
 const budgets = {
@@ -29,10 +29,6 @@ for (const asset of blogAssets.filter((file) => file.endsWith(".js") || file.end
   if (status === "FAIL") failed = true;
   console.log(`${status} ${file}: ${compressed} gzip bytes (budget ${limit})`);
 }
-
-const heroBytes = (await stat("public/hero-bg.mp4")).size;
-if (heroBytes > 2_000_000) failed = true;
-console.log(`${heroBytes <= 2_000_000 ? "PASS" : "FAIL"} public/hero-bg.mp4: ${heroBytes} bytes (budget 2000000)`);
 
 const html = await readFile("public/index.html", "utf8");
 const eagerImages = [...html.matchAll(/<img\b[^>]*>/gi)].filter(([tag]) => !/loading=["']lazy["']/i.test(tag));

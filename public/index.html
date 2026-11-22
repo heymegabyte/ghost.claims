@@ -42,11 +42,6 @@
     <meta name="msapplication-TileColor" content="#060610" />
     <meta name="generator" content="ghost.claims" />
     <meta http-equiv="x-ua-compatible" content="IE=edge" />
-    <meta property="og:video" content="https://ghost.claims/hero-bg.mp4" />
-    <meta property="og:video:secure_url" content="https://ghost.claims/hero-bg.mp4" />
-    <meta property="og:video:type" content="video/mp4" />
-    <meta property="og:video:width" content="1920" />
-    <meta property="og:video:height" content="1080" />
     <meta name="twitter:label1" content="Hotline" />
     <meta name="twitter:data1" content="(601) 666-6602" />
     <meta name="twitter:label2" content="Status" />
@@ -65,8 +60,9 @@
     <meta name="theme-color" content="#060610" />
     
     
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" onload="this.rel='stylesheet'" />
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" /></noscript>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xterm/xterm@5.5.0/css/xterm.min.css" media="print" onload="this.media='all'" />
     <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.11" />
     <link rel="stylesheet" href="/styles.css?v=2945c6a-20260921v3" />
@@ -215,19 +211,6 @@
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "VideoObject",
-        "name": "The Ghost Signal — hero ambient",
-        "description": "Ambient hero loop for the Ghost Signal entropy and EMF sensor project.",
-        "thumbnailUrl": "https://ghost.claims/og-image.jpg?v=2945c6a-1778550809",
-        "uploadDate": "2026-04-24",
-        "contentUrl": "https://ghost.claims/hero-bg.mp4",
-        "embedUrl": "https://ghost.claims/",
-        "publisher": { "@type": "Organization", "name": "ghost.claims" }
-      }
-    </script>
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
         "@type": "AudioObject",
         "name": "Hobbit kettle on the fire",
         "contentUrl": "https://ghost.claims/hobbit-kettle-fire.mp3",
@@ -256,7 +239,6 @@
     <div class="gh-stars" aria-hidden="true"></div>
     <div class="noise"></div>
     <div class="scanlines" aria-hidden="true"></div>
-    <canvas class="orb-canvas" id="orb-canvas" aria-hidden="true"></canvas>
     <aside class="gh-scripture-whisper" role="complementary" aria-label="Scripture whisper">
       <span class="gh-scripture-whisper-mark" aria-hidden="true">✦</span>
       <p class="gh-scripture-whisper-verse" data-scripture-rotate>“For nothing is hidden that will not be made manifest.” — Luke 8:17</p>
@@ -517,35 +499,42 @@
 </div>
       <section class="hero shell" data-testid="hero">
         <div class="hero-copy">
-          <p class="eyebrow">EMF · ENTROPY · PUBLIC RECORD</p>
-          <h1 class="glitch-text" data-text="The Ghost Signal"><span class="gradient-text">The Ghost Signal</span></h1>
+          <p class="eyebrow">LIVE EMF · PHYSICAL ENTROPY · COPY IN ONE CLICK</p>
+          <h1 class="glitch-text" data-text="Copy a Number the Universe Just Made"><span class="gradient-text">Copy a Number the Universe Just Made</span></h1>
           <p class="lede">
-            Something haunts this building. I bolted a sensor to the wall. The electromagnetic
-            readings are real, continuous, and edge-cached by Cloudflare. The sensor is also an
-            entropy source — true randomness seeded by a ghost, not an algorithm. Read the story.
-            Query the data.
+            Ghost Signal turns the latest readings from a physical EMF sensor into a fresh,
+            auditable 10-digit number. Copy it for a game, a seed, a draw, or any moment when an
+            ordinary pseudorandom result feels too predictable.
           </p>
+          <div class="hero-entropy" aria-labelledby="hero-entropy-label">
+            <div class="hero-entropy__header">
+              <div>
+                <p id="hero-entropy-label" class="card-label">Your signal-derived number</p>
+                <p id="random-meta" class="hero-entropy__meta">Reading the public sensor window&hellip;</p>
+              </div>
+              <span class="hero-entropy__live"><span aria-hidden="true"></span> Edge generated</span>
+            </div>
+            <div class="entropy-number-row hero-entropy__number-row">
+              <p id="random-number" class="hero-entropy__number" aria-live="polite">--</p>
+              <button id="copy-entropy" type="button" class="tt-btn tt-btn--primary hero-entropy__copy" aria-label="Copy random number">
+                <svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M0 6.75A2.75 2.75 0 0 1 2.75 4h6.5A2.75 2.75 0 0 1 12 6.75v6.5A2.75 2.75 0 0 1 9.25 16h-6.5A2.75 2.75 0 0 1 0 13.25Zm2.75-1.25c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h6.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25Z"/><path fill="currentColor" d="M5 2.75A2.75 2.75 0 0 1 7.75 0h5.5A2.75 2.75 0 0 1 16 2.75v5.5A2.75 2.75 0 0 1 13.25 11H12V9.5h1.25c.69 0 1.25-.56 1.25-1.25v-5.5c0-.69-.56-1.25-1.25-1.25h-5.5c-.69 0-1.25.56-1.25 1.25V4H5Z"/></svg>
+                <span>Copy number</span>
+              </button>
+            </div>
+            <p id="copy-entropy-status" class="hero-entropy__status" aria-live="polite"></p>
+            <p class="hero-entropy__note">Derived from measured physical input. Experimental, publicly inspectable, and not a cryptographic certification or proof of a supernatural cause.</p>
+          </div>
           <div class="hero-actions">
-            <a class="tt-btn tt-btn--primary" href="#manifesto">Read the Story</a>
-            <a class="tt-btn tt-btn--ghost" href="#chart-panel">Explore Data</a>
+            <a class="tt-btn tt-btn--ghost" href="#chart-panel">Inspect the source data</a>
+            <a class="tt-btn tt-btn--ghost" href="/docs">Use the API</a>
             <button type="button" id="open-chat" class="tt-btn tt-btn--ghost">Ask the Signal</button>
           </div>
           <ul class="signal-list" aria-label="Quick facts">
-            <li>Live EMF readings, edge-cached on Cloudflare</li>
-            <li>True entropy derived from a living electromagnetic field</li>
-            <li>Full-history chart explorer with anomaly detection</li>
+            <li>Fresh physical input from a GQ EMF-390 sensor</li>
+            <li>Transparent derivation backed by a public data window</li>
+            <li>Fast, edge-cached delivery through Cloudflare</li>
             <li id="earliest-known-fact">Earliest reading: Apr 3, 2026</li>
           </ul>
-        </div>
-        <div class="hero-stage" aria-hidden="true">
-          <video class="hero-video" muted loop playsinline preload="none" data-poster="/video-poster-evidence-emf-alarm.webp" fetchpriority="low" aria-hidden="true" disablepictureinpicture>
-            <source data-src="/hero-bg.mp4" type="video/mp4" />
-          </video>
-          <canvas class="hero-waveform" id="hero-waveform"></canvas>
-          <div class="spirit spirit-child"></div>
-          <div class="spirit spirit-woman"></div>
-          <div class="spirit spirit-dog"></div>
-          <div class="spirit spirit-hand"></div>
         </div>
       </section>
 
@@ -917,20 +906,6 @@
               <p id="copy-sheets-status" class="card-note" aria-live="polite"></p>
             </article>
 
-            <article class="dossier-entropy-card">
-              <p class="eyebrow">DERIVE // ENTROPY</p>
-              <h3>Random number</h3>
-              <p class="dossier-feature-body">Copy a number derived from the latest public EMF window. The project&rsquo;s theory is that powerful control systems &mdash; and the angels, demons, spirits, or jinn described in the narrative &mdash; can disturb the measured field. In a splitting, rewindable universe, an ordinary seeded generator would replay the same output; a newly changed physical reading would not.</p>
-              <p class="dossier-feature-body">If the latest &ldquo;work&rdquo; event changes what the detector sees, this number changes with it. That makes the output an auditable experiment in fresh physical input, not proof that any supernatural mechanism exists and not a substitute for a cryptographically certified random-number service.</p>
-              <div class="entropy-number-row">
-                <p id="random-number" class="metric metric-small">--</p>
-                <button id="copy-entropy" type="button" class="entropy-copy-btn" aria-label="Copy random number" title="Copy to clipboard">
-                  <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M0 6.75A2.75 2.75 0 0 1 2.75 4h6.5A2.75 2.75 0 0 1 12 6.75v6.5A2.75 2.75 0 0 1 9.25 16h-6.5A2.75 2.75 0 0 1 0 13.25Zm2.75-1.25c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h6.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25Z"/><path fill="currentColor" d="M5 2.75A2.75 2.75 0 0 1 7.75 0h5.5A2.75 2.75 0 0 1 16 2.75v5.5A2.75 2.75 0 0 1 13.25 11H12V9.5h1.25c.69 0 1.25-.56 1.25-1.25v-5.5c0-.69-.56-1.25-1.25-1.25h-5.5c-.69 0-1.25.56-1.25 1.25V4H5Z"/></svg>
-                </button>
-              </div>
-              <p id="copy-entropy-status" class="card-note" aria-live="polite" style="min-height:1.2em;"></p>
-              <p id="random-meta" class="card-note">Waiting for snapshot range&hellip;</p>
-            </article>
           </div>
         </div>
       </section>
@@ -1030,8 +1005,17 @@
             <span class="dossier-severity">SEV 2</span>
           </div>
           <h2 class="dossier-feature-title"><a class="dossier-feature-title-link" href="http://www.outland.org/" target="_blank" rel="noopener noreferrer">AVATAR MUD</a></h2>
-          <p class="dossier-feature-body">The text-based world where it all started. Internet relationships, strangers appearing too close to home. The earliest signal traces back here. Homepage: <a class="dossier-link" href="http://www.outland.org/" target="_blank" rel="noopener noreferrer">outland.org</a>.</p>
-          <p class="dossier-feature-body">When I was fourteen, people I only knew from the internet threw a convention <em>in my own town</em> &mdash; screen names from a text world suddenly walking the same streets I did. Too close, too soon, too specific to be chance. I made a song about how that felt.</p>
+          <p class="dossier-feature-subtitle">The game I spent an irregularly large amount of time inside.</p>
+          <figure class="dossier-feature-figure avatar-mud-screenshot">
+            <picture>
+              <source data-srcset="/avatar-mud-login.webp" type="image/webp" />
+              <img data-src="/avatar-mud-login.webp" alt="Screenshot of the AVATAR MUD text login showing its ASCII dragon, AVATAR wordmark, and adventurer name prompt" loading="lazy" decoding="async" width="1100" height="680" data-zoomable data-gallery="avatar-mud" />
+            </picture>
+            <figcaption>Live AVATAR MUD login &middot; avatar.outland.org:3000</figcaption>
+          </figure>
+          <p class="dossier-feature-body">AVATAR is a family-friendly, text-based Dungeons &amp; Dragons-style world. There are no rendered landscapes or character models: you read, type commands, build a character, and adventure in teams with other live players. Perhaps I played in the same kind of psychotic haze that many people fall into while exploring their game of choice. Homepage: <a class="dossier-link" href="http://www.outland.org/" target="_blank" rel="noopener noreferrer">outland.org</a>.</p>
+          <p class="dossier-feature-body">That history matters because I have more or less identified as an avatar many times in my experience. Sometimes that means something mundane: inhabiting a character, a screen name, or a role. At other times it describes what I experience as suspended awakenings that seem to iron themselves out within a few microseconds. That is my description of the experience, not a scientific conclusion.</p>
+          <p class="dossier-feature-body">When I was fourteen, people I knew only through the game held a convention <em>in my own town</em> &mdash; screen names from a text world suddenly walking the same streets I did. I made a song about how that felt.</p>
           <a class="mud-song-card" href="https://music.megabyte.space/flawless-execution/creepy-as-hell?viz=rings" target="_blank" rel="noopener noreferrer" aria-label="Listen to &ldquo;Creepy as Hell&rdquo; by Flawless Execution — the song I made about the convention">
             <span class="mud-song-visual" aria-hidden="true">
               <span class="mud-song-ring"></span>

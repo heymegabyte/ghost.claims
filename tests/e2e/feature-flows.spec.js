@@ -13,74 +13,28 @@ test.beforeEach(async ({ request }) => {
   await seedSnapshots(request, SEEDED_FULL_RANGE);
 });
 
-test("timeline navigator: click nodes, verify detail panel updates with event content", async ({ page }) => {
+test("timeline renders the complete chronological record with evidence", async ({ page }) => {
   await gotoHome(page, SEEDED_CUSTOM_RANGE);
   await waitForTimelineReady(page);
 
-  const nodes = page.locator(".timeline-node");
-  const nodeCount = await nodes.count();
-  expect(nodeCount).toBeGreaterThanOrEqual(5);
-
-  // Click first node
-  await nodes.first().click();
-  await expect(nodes.first()).toHaveClass(/is-active/);
-  await expect(page.locator(".timeline-detail-title")).toBeVisible();
-  await expect(page.locator(".timeline-detail-body")).toBeVisible();
-  await expect(page.locator(".timeline-detail-date")).toBeVisible();
-  await expect(page.locator(".timeline-detail-category")).toBeVisible();
-
-  const firstTitle = await page.locator(".timeline-detail-title").textContent();
-
-  // Click a different node
-  await nodes.nth(2).click();
-  await expect(nodes.nth(2)).toHaveClass(/is-active/);
-  await expect(nodes.first()).not.toHaveClass(/is-active/);
-  const secondTitle = await page.locator(".timeline-detail-title").textContent();
-  expect(secondTitle).not.toBe(firstTitle);
-
-  // Each node has a dot, label, and date
-  const firstNode = nodes.first();
-  await expect(firstNode.locator(".timeline-node-dot")).toBeVisible();
-  await expect(firstNode.locator(".timeline-node-label")).toBeVisible();
-  await expect(firstNode.locator(".timeline-node-date")).toBeVisible();
+  const items = page.locator(".tl-item");
+  expect(await items.count()).toBeGreaterThanOrEqual(5);
+  await expect(items.first().locator(".tl-title")).toBeVisible();
+  await expect(items.first().locator(".tl-date")).toBeVisible();
+  await expect(items.first().locator(".tl-cat")).toBeVisible();
+  await expect(items.first().locator(".tl-body")).toBeVisible();
+  await expect(items.locator(".tl-thumb")).toHaveCount(await items.count());
 });
 
-test("timeline keyboard navigation: ArrowRight, ArrowLeft, Home, End traverse events", async ({ page }) => {
+test("timeline is a semantic, non-collapsing list", async ({ page }) => {
   await gotoHome(page, SEEDED_CUSTOM_RANGE);
   await waitForTimelineReady(page);
 
-  const container = page.locator("#timeline-container");
-  await container.focus();
-
-  const nodes = page.locator(".timeline-node");
-  const total = await nodes.count();
-
-  // Home goes to first
-  await page.keyboard.press("Home");
-  await expect(nodes.first()).toHaveClass(/is-active/);
-  const firstTitle = await page.locator(".timeline-detail-title").textContent();
-
-  // ArrowRight advances
-  await page.keyboard.press("ArrowRight");
-  await expect(nodes.nth(1)).toHaveClass(/is-active/);
-  const nextTitle = await page.locator(".timeline-detail-title").textContent();
-  expect(nextTitle).not.toBe(firstTitle);
-
-  // ArrowDown also advances (alias)
-  await page.keyboard.press("ArrowDown");
-  await expect(nodes.nth(2)).toHaveClass(/is-active/);
-
-  // End goes to last
-  await page.keyboard.press("End");
-  await expect(nodes.nth(total - 1)).toHaveClass(/is-active/);
-
-  // ArrowLeft goes back
-  await page.keyboard.press("ArrowLeft");
-  await expect(nodes.nth(total - 2)).toHaveClass(/is-active/);
-
-  // ArrowUp also goes back (alias)
-  await page.keyboard.press("ArrowUp");
-  await expect(nodes.nth(total - 3)).toHaveClass(/is-active/);
+  const track = page.locator("#timeline-track");
+  await expect(track).toHaveAttribute("role", "list");
+  const items = track.locator(".tl-item");
+  await expect(items.first()).toHaveAttribute("role", "listitem");
+  await expect(items.last()).toBeVisible();
 });
 
 test("chat widget: open via toggle, open via hero button, close via X, close via Escape", async ({ page }) => {
@@ -158,30 +112,16 @@ test("hotline section: phone number visible with correct tel: href, section cont
   await gotoHome(page, SEEDED_CUSTOM_RANGE);
 
   // Hotline section visible
-  const hotlineSection = page.locator("[data-testid='hotline-section']");
+  const hotlineSection = page.locator(".six-six-six-close");
   await expect(hotlineSection).toBeVisible();
 
   // Phone number link
-  const phoneLink = page.locator("[data-testid='hotline-number']");
+  const phoneLink = hotlineSection.locator(".hotline-number");
   await expect(phoneLink).toContainText("(601) 666-6602");
   await expect(phoneLink).toHaveAttribute("href", "tel:+16016666602");
 
   // Hotline content
-  await expect(hotlineSection).toContainText("Everything you say becomes part of the signal");
-  await expect(hotlineSection).toContainText("The Hotline");
-
-  // Nav also has the 666 hotline link
-  const navHotline = page.locator(".tt-nav__hotline");
-  await expect(navHotline).toHaveAttribute("href", "tel:+16016666602");
-  await expect(navHotline).toContainText("666");
-
-  // Hero also has the call button
-  const heroCallBtn = page.locator(".hero-actions a.button-red");
-  await expect(heroCallBtn).toContainText("(601) 666-6602");
-  await expect(heroCallBtn).toHaveAttribute("href", "tel:+16016666602");
-
-  // Transmission count card exists
-  await expect(page.locator("#transmission-count")).toBeVisible();
+  await expect(hotlineSection).toContainText("The hotline is open");
 
   expectNoConsoleErrors(consoleErrors);
 });

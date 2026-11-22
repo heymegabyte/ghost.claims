@@ -21,16 +21,16 @@ export const storyMilestones: StoryMilestone[] = [
   {
     id: "avatar-mud-era",
     eraLabel: "Early internet",
-    title: "AVATAR MUD, teenage internet life, and the first rupture",
-    subtitle: "The story traces some of the earliest confusion to adolescence, internet relationships, and strangers appearing too close to home.",
-    body: "This milestone anchors the fictional narrative in early internet life while the public-facing technical layer stays grounded in sensor data, dated notes, and direct polling.",
+    title: "AVATAR MUD, the game I lived inside",
+    subtitle: "I spent an irregularly large amount of time in this family-friendly, text-based fantasy world, adventuring in teams with other live players.",
+    body: "Perhaps it was the same psychotic haze many people fall into while exploring their game of choice. I have more or less identified as an avatar many times in my experience—from mundane online identity to what I describe as suspended awakenings that seem to iron themselves out within a few microseconds.",
   },
   {
     id: "avatar-identity-frame",
     eraLabel: "Identity",
     title: "From AVATAR MUD to an 'avatar' frame",
-    subtitle: "He describes a long-running sense of being larger than his circumstances, harder to contain, and pulled toward a mission bigger than ordinary life.",
-    body: "Here, 'avatar' is story language for intensity, burden, self-belief, and a mission that keeps expanding as the years pass.",
+    subtitle: "The word moved from a character in a game to a recurring way of describing my own experience.",
+    body: "Here, 'avatar' spans the ordinary and the extraordinary: a game identity, a personal frame, and brief altered-state experiences I describe as suspended awakenings. That is a personal account, not a scientific claim.",
   },
   {
     id: "dallas-recovery-phase",

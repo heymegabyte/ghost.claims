@@ -1885,129 +1885,6 @@ function initTimelineReveal() {
   items.forEach((item) => observer.observe(item));
 }
 
-/* ── Floating Orbs — ambient particle system ── */
-
-function initOrbs() {
-  const canvas = $("orb-canvas");
-  if (!canvas || !(canvas instanceof HTMLCanvasElement)) return;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return;
-
-  const orbs = [];
-  const ORB_COUNT = 18;
-
-  function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener("resize", resize);
-
-  for (let i = 0; i < ORB_COUNT; i++) {
-    const isWhite = Math.random() > 0.35;
-    orbs.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      r: 2 + Math.random() * 4,
-      dx: (Math.random() - 0.5) * 0.3,
-      dy: -0.15 - Math.random() * 0.25,
-      alpha: 0.05 + Math.random() * 0.15,
-      color: isWhite
-        ? `rgba(240, 230, 255, VAL)`
-        : `rgba(${Math.random() > 0.5 ? "255, 23, 68" : "124, 58, 237"}, VAL)`,
-      pulse: Math.random() * Math.PI * 2,
-      pulseSpeed: 0.008 + Math.random() * 0.012,
-    });
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (const orb of orbs) {
-      orb.x += orb.dx;
-      orb.y += orb.dy;
-      orb.pulse += orb.pulseSpeed;
-
-      if (orb.y < -20) { orb.y = canvas.height + 20; orb.x = Math.random() * canvas.width; }
-      if (orb.x < -20) orb.x = canvas.width + 20;
-      if (orb.x > canvas.width + 20) orb.x = -20;
-
-      const a = orb.alpha * (0.5 + 0.5 * Math.sin(orb.pulse));
-      const c = orb.color.replace("VAL", String(a));
-
-      ctx.beginPath();
-      ctx.arc(orb.x, orb.y, orb.r, 0, Math.PI * 2);
-      ctx.fillStyle = c;
-      ctx.fill();
-
-      // Glow
-      ctx.beginPath();
-      ctx.arc(orb.x, orb.y, orb.r * 3, 0, Math.PI * 2);
-      ctx.fillStyle = orb.color.replace("VAL", String(a * 0.15));
-      ctx.fill();
-    }
-    requestAnimationFrame(draw);
-  }
-  draw();
-}
-
-/* ── Hero Waveform — real-time EMF-style oscilloscope ── */
-
-function initWaveform() {
-  const canvas = $("hero-waveform");
-  if (!canvas || !(canvas instanceof HTMLCanvasElement)) return;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return;
-
-  let phase = 0;
-
-  function resize() {
-    const rect = canvas.parentElement.getBoundingClientRect();
-    const dpr = devicePixelRatio || 1;
-    canvas.width = Math.round(rect.width * dpr);
-    canvas.height = Math.round(rect.height * dpr);
-    canvas.style.width = rect.width + "px";
-    canvas.style.height = rect.height + "px";
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  }
-  resize();
-  window.addEventListener("resize", resize);
-
-  function draw() {
-    const w = canvas.width / (devicePixelRatio || 1);
-    const h = canvas.height / (devicePixelRatio || 1);
-    ctx.clearRect(0, 0, w, h);
-
-    phase += 0.015;
-
-    // Draw 3 waveforms — one for each sensor axis
-    const waves = [
-      { color: "rgba(255, 23, 68, 0.25)", freq: 0.008, amp: 0.2, speed: 1, offset: 0 },
-      { color: "rgba(124, 58, 237, 0.2)", freq: 0.012, amp: 0.15, speed: 1.3, offset: 2 },
-      { color: "rgba(0, 229, 255, 0.15)", freq: 0.006, amp: 0.25, speed: 0.7, offset: 4 },
-    ];
-
-    for (const wave of waves) {
-      ctx.beginPath();
-      ctx.strokeStyle = wave.color;
-      ctx.lineWidth = 1.5;
-      ctx.lineJoin = "round";
-
-      for (let x = 0; x <= w; x += 2) {
-        const noise = Math.sin(x * 0.05 + phase * 3) * 0.03;
-        const y = h * 0.5 +
-          Math.sin(x * wave.freq + phase * wave.speed + wave.offset) * h * wave.amp +
-          Math.sin(x * wave.freq * 2.7 + phase * wave.speed * 1.8) * h * wave.amp * 0.3 +
-          noise * h;
-        x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-      }
-      ctx.stroke();
-    }
-
-    requestAnimationFrame(draw);
-  }
-  draw();
-}
-
 /* ── Scroll Reveal ── */
 
 function initScrollReveal() {
@@ -2889,9 +2766,6 @@ if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => { navigator.serviceWorker.register("/sw.js").catch(() => {}); });
 }
 
-// Floating orbs and hero waveform disabled — perpetual rAF loops tanked FPS
-// initOrbs();
-// initWaveform();
 initScrollReveal();
 initStorySlider();
 initAvatarSpread();

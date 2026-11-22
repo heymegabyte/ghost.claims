@@ -23,14 +23,16 @@ test("hero, status grid, and 'Enter the Signal' button opens chat widget", async
   // Hero section loads with glitch text
   const hero = page.locator("[data-testid='hero']");
   await expect(hero).toBeVisible();
-  await expect(hero.locator(".glitch-text")).toHaveText("The Ghost Signal");
-  await expect(hero.locator(".eyebrow")).toContainText("SIGNAL // 666");
+  await expect(hero.locator(".glitch-text")).toHaveText("Copy a Number the Universe Just Made");
+  await expect(hero.locator(".eyebrow")).toContainText("PHYSICAL ENTROPY");
+  await expect(hero.locator("#random-number")).not.toHaveText("--");
+  await expect(hero.locator("#copy-entropy")).toHaveAccessibleName("Copy random number");
 
   // Status grid: 4 cards populated
   const grid = page.locator("[data-testid='status-grid']");
-  await expect(grid.locator(".status-card")).toHaveCount(4);
+  await expect(grid.locator(".status-card")).toHaveCount(5);
   await expect(page.locator("#current-value")).not.toHaveText("--");
-  await expect(page.locator("#current-state")).toContainText("reporting");
+  await expect(page.locator("#current-state")).toContainText(/reporting|sample|offline/i);
   await expect(page.locator("#entropy-value")).toContainText("bits");
   await expect(page.locator("#signal-age")).not.toHaveText("--");
 
@@ -54,16 +56,16 @@ test("preset range buttons update URL, chart metadata, and export links", async 
   await page.getByRole("button", { name: "24h" }).click();
   await expect(page).toHaveURL(/range=24h/);
 
-  await page.getByRole("button", { name: "7 days" }).click();
+  await page.getByRole("button", { name: "7d", exact: true }).click();
   await expect(page).toHaveURL(/range=7d/);
   await expect(page.locator("#export-csv-link")).toHaveAttribute("href", /format=csv/);
 
-  await page.getByRole("button", { name: "30 days" }).click();
+  await page.getByRole("button", { name: "30d", exact: true }).click();
   await expect(page).toHaveURL(/range=30d/);
 
-  await page.getByRole("button", { name: "All" }).click();
+  await page.locator(".range-button[data-range='all']").click();
   await expect(page).toHaveURL(/range=all/);
-  await expect(page.locator("#chart-meta")).toContainText("points");
+  await expect(page.locator("#chart-meta")).toContainText(/points|readings/i);
 
   // Active button styling follows selection
   await expect(page.locator(".range-button[data-range='all']")).toHaveClass(/is-active/);
@@ -78,7 +80,7 @@ test("custom range form updates chart, sheets formula, and page URL", async ({ p
   await page.getByRole("button", { name: "Apply" }).click();
 
   await expect(page).toHaveURL(/start=.*end=.*/);
-  await expect(page.locator("#chart-meta")).toContainText("points");
+  await expect(page.locator("#chart-meta")).toContainText(/points|readings/i);
   await expect(page.locator("#sheets-formula")).toContainText("IMPORTDATA");
   await expect(page.locator("#snapshot-json-link")).toHaveAttribute("href", /start=.*end=.*/);
 

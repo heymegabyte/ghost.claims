@@ -1,6 +1,6 @@
 import { test, expect, Page } from "@playwright/test";
 
-const PROD = process.env.PROD_URL || "https://ghost.claims";
+const PROD = process.env.PROD_URL || "http://127.0.0.1:8787";
 
 const BREAKPOINTS = [
   { name: "iphone-se", width: 375, height: 667 },
@@ -101,7 +101,7 @@ test.describe("Plate Section TDD Verification", () => {
   test("JCSAVES plate floats right inline with passage on desktop", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto("/", { waitUntil: "domcontentloaded" });
-    const figure = page.locator('figure.dossier-feature-figure--float-right:has(img[src*="jcsaves"])').first();
+    const figure = page.locator('figure.dossier-feature-figure--float-right:has(img[data-src*="jcsaves"])').first();
     await figure.scrollIntoViewIfNeeded();
     await expect(figure).toBeVisible();
     await page.waitForLoadState("load");
@@ -145,14 +145,12 @@ test.describe("Plate Section TDD Verification", () => {
 
   test("'O' avatar card has resonance/time-traveler narrative", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" });
-    const card = page.locator('figure.avatar-frame-card:has(img[src="/story/o.webp"])').first();
-    await card.scrollIntoViewIfNeeded();
-    await expect(card).toBeVisible();
+    const card = page.locator('li.avatar-slide:has(img[data-src="/story/o.webp"])').first();
+    await expect(card).toBeAttached();
     await expect(card).toContainText("nanostructures");
     await expect(card).toContainText("resonance");
     await expect(card).toContainText("time travelers");
-    const isMinimal = await card.evaluate((el) => el.classList.contains("avatar-frame-card-minimal"));
-    expect(isMinimal).toBe(false);
+    await expect(card).toHaveAttribute("data-slide-index", "11");
   });
 
   test.describe("Console clean at all breakpoints", () => {

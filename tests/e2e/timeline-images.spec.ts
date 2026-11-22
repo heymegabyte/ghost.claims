@@ -13,6 +13,23 @@ const TARGET = process.env.PROD_URL || "/";
 const MIN_EVENTS = 16;
 
 test.describe("timeline evidence images", () => {
+  test("AVATAR MUD uses an authentic terminal screenshot in the feature and chronology", async ({ page }) => {
+    await page.goto(TARGET, { waitUntil: "domcontentloaded" });
+
+    const feature = page.locator(".dossier-feature--avatar-mud");
+    await expect(feature).toContainText("family-friendly, text-based Dungeons & Dragons-style world");
+    await expect(feature).toContainText("teams with other live players");
+    const featureImage = feature.locator(".avatar-mud-screenshot img");
+    await featureImage.scrollIntoViewIfNeeded();
+    await expect(featureImage).toHaveAttribute("src", "/avatar-mud-login.webp");
+    await expect.poll(() => featureImage.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBe(1100);
+
+    const timelineCard = page.locator(".tl-card", { hasText: "AVATAR MUD" }).first();
+    const timelineImage = timelineCard.locator("img");
+    await timelineImage.scrollIntoViewIfNeeded();
+    await expect(timelineImage).toHaveAttribute("src", "/avatar-mud-login.webp");
+  });
+
   test("American Spirits recollection is placed in the chronology and opens in the page gallery", async ({ page }) => {
     await page.goto("/");
     const card = page.locator(".tl-card", { hasText: "American Spirits in the Pew" });

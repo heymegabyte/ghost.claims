@@ -72,6 +72,22 @@ test("canonical shell exposes keyboard navigation and theme.tools footer", async
   await expect(page.locator(".tt-nav__brand")).toHaveAttribute("href", "/");
 });
 
+test("homepage leads with the copyable entropy number and no hero-stage animation", async ({ page }) => {
+  const candleRequests = [];
+  page.on("request", (request) => {
+    if (request.url().includes("hero-bg.mp4")) candleRequests.push(request.url());
+  });
+
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  await page.waitForTimeout(500);
+  const hero = page.getByTestId("hero");
+  await expect(hero).toContainText("Copy a Number the Universe Just Made");
+  await expect(hero.locator("#random-number")).toBeVisible();
+  await expect(hero.locator("#copy-entropy")).toHaveAccessibleName("Copy random number");
+  await expect(page.locator(".hero-stage, .hero-video, #orb-canvas, .gh-candle-flame")).toHaveCount(0);
+  expect(candleRequests).toEqual([]);
+});
+
 test("mega menu opens, supports command search, and restores focus", async ({ page }) => {
   await page.goto("/docs");
   const trigger = page.getByRole("button", { name: "Explore" });

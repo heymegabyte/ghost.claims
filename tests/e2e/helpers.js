@@ -55,7 +55,7 @@ export async function waitForHomepageReady(page) {
 
 export async function waitForTimelineReady(page) {
   await expect(page.locator("#timeline-track")).not.toBeEmpty();
-  await expect(page.locator(".timeline-node")).toHaveCount({ minimum: 1 });
+  await expect.poll(() => page.locator(".tl-item").count()).toBeGreaterThan(0);
 }
 
 export function trackConsoleErrors(page) {
