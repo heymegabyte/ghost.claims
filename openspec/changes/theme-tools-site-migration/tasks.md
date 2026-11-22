@@ -30,3 +30,5 @@
 - [x] Configure Ghost Signal's grouped mega menu, command search, specialty actions, featured content, and operator affordance from one shared data object.
 - [x] Load the canonical navigation controller on every static, Hono, and React surface and verify the same full-width geometry, markup, keyboard behavior, and mobile layout.
 - [ ] Pack the exact tested theme.tools artifact, update Ghost Signal provenance, run release gates, deploy the exact commit, and verify production.
+- [x] Implement the approved full-page entropy hero, dominant copy widget, CTA hierarchy, and bounded spectral WebGL background.
+- [x] Verify the hero at desktop/mobile widths, keyboard and reduced-motion modes, no-WebGL fallback, performance budgets, production APIs, and clipboard interaction.

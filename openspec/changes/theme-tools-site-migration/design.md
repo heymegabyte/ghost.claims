@@ -56,3 +56,11 @@ The EMF chart boundary is verified from an exact Wrangler dry-run Worker bundle 
 The shared navbar accepts a validated serializable configuration containing brand text, brand URL, logo image metadata, navigation links, layout, and accessible labels. Ghost Signal keeps only that JSON data and route-aware active state; theme.tools owns the markup and full-width shell with a centered inner rail. The existing chat IDs and Worker endpoints remain stable, while a theme.tools custom-element host and canonical visual tokens own the panel surface. Browser speech recognition remains progressive enhancement with explicit permission, listening, unavailable, and error feedback.
 
 The homepage removes its duplicate transmission archive because `/transmissions` remains the canonical record. Dynamic reading cards reserve numeric space to prevent layout shifts. The entropy explanation becomes a responsive text-and-carousel split; the random-number and alarm-clock sections clearly label metaphysical mechanisms as the project's theory and Kickstarter concept rather than verified physics or an active sale.
+
+## Full-page entropy hero
+
+The homepage begins with a full-viewport, two-column composition: the product promise and CTA hierarchy occupy the editorial rail, while a large instrument-like entropy card makes the copy action the primary task. The existing random-number endpoint, IDs, clipboard behavior, live metadata, and scientific disclaimer remain unchanged.
+
+A product-specific canvas runs behind the content. A dependency-free fragment shader builds slow spectral fog, refracted cyan/violet light, particulate grain, and a central ghost-like void without loading textures or blocking the main content. Rendering caps device pixel ratio, pauses when the hero or document is hidden, and responds to element resize. Reduced-motion users receive a single static frame; devices without WebGL receive the same layered CSS fallback. The canvas is decorative, excluded from the accessibility tree, and never gates content or interaction.
+
+The hero is at least one small-viewport height after navigation, keeps CTA targets at least 44px, preserves keyboard order and visible focus, avoids content shift while sensor data resolves, and collapses to a single readable column on narrow screens.

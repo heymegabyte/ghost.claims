@@ -72,7 +72,7 @@ test("canonical shell exposes keyboard navigation and theme.tools footer", async
   await expect(page.locator(".tt-nav__brand")).toHaveAttribute("href", "/");
 });
 
-test("homepage leads with the copyable entropy number and no hero-stage animation", async ({ page }) => {
+test("homepage uses the theme.tools hero with a copyable entropy instrument", async ({ page }) => {
   const candleRequests = [];
   page.on("request", (request) => {
     if (request.url().includes("hero-bg.mp4")) candleRequests.push(request.url());
@@ -81,11 +81,30 @@ test("homepage leads with the copyable entropy number and no hero-stage animatio
   await page.goto("/", { waitUntil: "domcontentloaded" });
   await page.waitForTimeout(500);
   const hero = page.getByTestId("hero");
-  await expect(hero).toContainText("Copy a Number the Universe Just Made");
+  await expect(hero).toContainText("Copy a Multiverse-Leading Random Number");
+  await expect(hero.locator(".tt-hero[data-theme-tools='homepage-hero']")).toBeVisible();
+  await expect(hero.locator(".tt-hero__lead")).toBeVisible();
+  await expect(hero.locator(".tt-hero__visual")).toBeVisible();
   await expect(hero.locator("#random-number")).toBeVisible();
   await expect(hero.locator("#copy-entropy")).toHaveAccessibleName("Copy random number");
   await expect(page.locator(".hero-stage, .hero-video, #orb-canvas, .gh-candle-flame")).toHaveCount(0);
+  await expect(hero.locator("#spectral-hero-canvas")).toBeVisible();
+  await expect.poll(() => hero.getAttribute("data-webgl")).toMatch(/ready|fallback/);
   expect(candleRequests).toEqual([]);
+});
+
+test("homepage hero preserves its content and static fallback under reduced motion", async ({ browser }) => {
+  const context = await browser.newContext({
+    baseURL: "http://127.0.0.1:8787",
+    reducedMotion: "reduce",
+  });
+  const page = await context.newPage();
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  const hero = page.getByTestId("hero");
+  await expect(hero.getByRole("heading", { level: 1 })).toBeVisible();
+  await expect(hero.locator("#copy-entropy")).toBeVisible();
+  await expect(hero.locator(".spectral-hero-fallback")).toBeAttached();
+  await context.close();
 });
 
 test("mega menu opens, supports command search, and restores focus", async ({ page }) => {

@@ -23,7 +23,7 @@ test("hero, status grid, and 'Enter the Signal' button opens chat widget", async
   // Hero section loads with glitch text
   const hero = page.locator("[data-testid='hero']");
   await expect(hero).toBeVisible();
-  await expect(hero.locator(".glitch-text")).toHaveText("Copy a Number the Universe Just Made");
+  await expect(hero.locator(".glitch-text")).toHaveText("Copy a Multiverse-Leading Random Number");
   await expect(hero.locator(".eyebrow")).toContainText("PHYSICAL ENTROPY");
   await expect(hero.locator("#random-number")).not.toHaveText("--");
   await expect(hero.locator("#copy-entropy")).toHaveAccessibleName("Copy random number");

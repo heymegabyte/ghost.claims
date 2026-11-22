@@ -76,3 +76,30 @@ The site SHALL use the theme.tools compact-overlay mega-menu on every public HTM
 - **GIVEN** the homepage, a Worker-rendered route, and a React blog route
 - **WHEN** their resting headers and open overlays are inspected
 - **THEN** they derive from the same serializable configuration and expose equivalent logo, controls, account affordance, groups, featured content, responsive layout, and accessibility attributes.
+
+### Requirement: the above-the-fold experience centers the entropy action
+
+The homepage SHALL present a viewport-filling hero whose dominant interactive task is copying the current signal-derived random number, with supporting product context and direct routes to source data, API documentation, and AI chat.
+
+The desktop layout SHALL use the complete first viewport below the canonical navigation without cropping the headline, CTA rail, copy instrument, or primary copy control.
+
+#### Scenario: copying the generated number
+
+- **GIVEN** the random endpoint has returned a valid value
+- **WHEN** a visitor activates the primary copy control with pointer or keyboard
+- **THEN** the exact displayed value is copied, an accessible confirmation is announced, and the hero geometry does not shift.
+
+### Requirement: spectral WebGL is ambient and performance-bounded
+
+The hero SHALL render its ghost-like atmosphere as progressive enhancement that does not block content, interaction, accessibility, or recovery when graphics acceleration is unavailable.
+
+#### Scenario: reduced motion or unavailable WebGL
+
+- **GIVEN** reduced motion is requested or a WebGL context cannot be created
+- **WHEN** the hero loads
+- **THEN** all content and controls remain available over a legible static spectral fallback with no repeated animation work.
+
+#### Scenario: the hero leaves the viewport
+
+- **WHEN** the hero is no longer visible or the document becomes hidden
+- **THEN** animation frames stop until visibility returns.

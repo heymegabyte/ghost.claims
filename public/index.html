@@ -65,7 +65,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xterm/xterm@5.5.0/css/xterm.min.css" media="print" onload="this.media='all'" />
     <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.11" />
-    <link rel="stylesheet" href="/styles.css?v=2945c6a-20260921v3" />
+    <link rel="stylesheet" href="/styles.css?v=20261122-entropy-hero" />
     <link rel="stylesheet" href="/theme-tools-shell.css" />
     <script>
       history.scrollRestoration = 'manual';
@@ -497,19 +497,35 @@
   </div>
 
 </div>
-      <section class="hero shell" data-testid="hero">
-        <div class="hero-copy">
-          <p class="eyebrow">LIVE EMF · PHYSICAL ENTROPY · COPY IN ONE CLICK</p>
-          <h1 class="glitch-text" data-text="Copy a Number the Universe Just Made"><span class="gradient-text">Copy a Number the Universe Just Made</span></h1>
-          <p class="lede">
-            Ghost Signal turns the latest readings from a physical EMF sensor into a fresh,
-            auditable 10-digit number. Copy it for a game, a seed, a draw, or any moment when an
-            ordinary pseudorandom result feels too predictable.
-          </p>
-          <div class="hero-entropy" aria-labelledby="hero-entropy-label">
+      <section class="hero" data-testid="hero" aria-labelledby="hero-title">
+        <canvas id="spectral-hero-canvas" class="spectral-hero-canvas" aria-hidden="true"></canvas>
+        <div class="spectral-hero-fallback" aria-hidden="true"></div>
+        <div class="spectral-hero-vignette" aria-hidden="true"></div>
+        <div class="hero-copy shell tt-hero" data-theme-tools="homepage-hero">
+          <div class="hero-message tt-hero__lead">
+            <p class="eyebrow hero-kicker"><span aria-hidden="true"></span> LIVE EMF · PHYSICAL ENTROPY · EDGE GENERATED</p>
+            <h1 id="hero-title" class="glitch-text tt-hero__title" data-text="Copy a Multiverse-Leading Random Number"><span class="gradient-text">Copy a Multiverse-Leading Random Number</span></h1>
+            <p class="lede">
+              A physical EMF sensor changes with the room, the building, and the moment. Ghost Signal
+              turns that living field into a fresh, auditable number for every decision that deserves
+              more than an ordinary algorithm.
+            </p>
+            <div class="hero-actions" aria-label="Explore Ghost Signal">
+              <a class="tt-btn tt-btn--primary" href="#chart-panel">Inspect the source</a>
+              <a class="tt-btn tt-btn--ghost" href="/docs">Build with the API</a>
+              <button type="button" id="open-chat" class="tt-btn tt-btn--ghost">Ask the Signal</button>
+            </div>
+            <ul class="signal-list" aria-label="Quick facts">
+              <li>Fresh physical input from a GQ EMF-390 sensor</li>
+              <li>Transparent derivation from a public data window</li>
+              <li id="earliest-known-fact">Earliest reading: Apr 3, 2026</li>
+            </ul>
+          </div>
+          <div class="hero-entropy tt-hero__visual" aria-labelledby="hero-entropy-label">
+            <p class="hero-entropy__overline">THE NUMBER AT THE EDGE OF NOW</p>
             <div class="hero-entropy__header">
               <div>
-                <p id="hero-entropy-label" class="card-label">Your signal-derived number</p>
+                <p id="hero-entropy-label" class="card-label">Your multiverse-leading random number</p>
                 <p id="random-meta" class="hero-entropy__meta">Reading the public sensor window&hellip;</p>
               </div>
               <span class="hero-entropy__live"><span aria-hidden="true"></span> Edge generated</span>
@@ -518,24 +534,17 @@
               <p id="random-number" class="hero-entropy__number" aria-live="polite">--</p>
               <button id="copy-entropy" type="button" class="tt-btn tt-btn--primary hero-entropy__copy" aria-label="Copy random number">
                 <svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M0 6.75A2.75 2.75 0 0 1 2.75 4h6.5A2.75 2.75 0 0 1 12 6.75v6.5A2.75 2.75 0 0 1 9.25 16h-6.5A2.75 2.75 0 0 1 0 13.25Zm2.75-1.25c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h6.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25Z"/><path fill="currentColor" d="M5 2.75A2.75 2.75 0 0 1 7.75 0h5.5A2.75 2.75 0 0 1 16 2.75v5.5A2.75 2.75 0 0 1 13.25 11H12V9.5h1.25c.69 0 1.25-.56 1.25-1.25v-5.5c0-.69-.56-1.25-1.25-1.25h-5.5c-.69 0-1.25.56-1.25 1.25V4H5Z"/></svg>
-                <span>Copy number</span>
+                <span>Copy this number</span>
               </button>
             </div>
             <p id="copy-entropy-status" class="hero-entropy__status" aria-live="polite"></p>
-            <p class="hero-entropy__note">Derived from measured physical input. Experimental, publicly inspectable, and not a cryptographic certification or proof of a supernatural cause.</p>
+            <p class="hero-entropy__note">Derived from measured physical input and publicly inspectable. Experimental: this is not cryptographic certification or proof of a supernatural cause.</p>
+            <div class="hero-entropy__proof" aria-label="Generation properties">
+              <span>10 digits</span><span>Physical seed</span><span>Public provenance</span>
+            </div>
           </div>
-          <div class="hero-actions">
-            <a class="tt-btn tt-btn--ghost" href="#chart-panel">Inspect the source data</a>
-            <a class="tt-btn tt-btn--ghost" href="/docs">Use the API</a>
-            <button type="button" id="open-chat" class="tt-btn tt-btn--ghost">Ask the Signal</button>
-          </div>
-          <ul class="signal-list" aria-label="Quick facts">
-            <li>Fresh physical input from a GQ EMF-390 sensor</li>
-            <li>Transparent derivation backed by a public data window</li>
-            <li>Fast, edge-cached delivery through Cloudflare</li>
-            <li id="earliest-known-fact">Earliest reading: Apr 3, 2026</li>
-          </ul>
         </div>
+        <a class="hero-scroll-cue" href="#chart-panel" aria-label="Continue to live sensor readings"><span aria-hidden="true"></span> Live field below</a>
       </section>
 
       <section class="shell status-grid" data-testid="status-grid" aria-label="Signal status">
@@ -4513,7 +4522,7 @@ WITHIN 30 DAYS FOR $22.00 CREDIT</pre>
       <p class="lightbox-attribution" hidden></p>
     </dialog>
     <script src="/performance.js?v=20261118-live-edge" defer></script>
-    <script type="module" src="/app.js?v=20261118-live-edge"></script>
+    <script type="module" src="/app.js?v=20261122-entropy-hero"></script>
   <script src="/theme-tools-nav.js" defer></script>
   </body>
 </html>

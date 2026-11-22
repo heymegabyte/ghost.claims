@@ -7,6 +7,8 @@
 
 Ghost Signal currently renders four visually similar but independently implemented shells: static HTML pages, Hono-rendered transmissions, Hono-rendered API reference, and the React/Vite blog. The navbar differs in markup, dimensions, active-state handling, mobile behavior, and link inventory. Legal pages omit Blog and do not link the logo home. Reusable theme.tools components are used only by the blog, leaving the remaining pages as product-local presentation forks.
 
+The user approved a bounded visual departure for the homepage hero on 2026-11-22. The recorded delta artifact is `openspec/approvals/full-page-entropy-hero.md`; it preserves product identity and data contracts while authorizing the new full-page composition and spectral WebGL field.
+
 ## Approved design
 
 The user approved the current production site on 2026-11-15 as the Figma-equivalent artifact. This is a convergence migration, not a rebrand: the existing Ghost Signal identity, dark spectral palette, logo, typography character, content, and behaviors remain the visual source of truth.
@@ -30,6 +32,7 @@ The user approved the current production site on 2026-11-15 as the Figma-equival
 - Remove the duplicate homepage Transmission Log, stabilize live-reading geometry, and recompose the entropy, random-number, Kickstarter-concept, and manifesto sections as responsive theme.tools-aligned layouts.
 - Make transmission records persistently expandable and voice input observable, accessible, and testable.
 - Promote the navbar into a full-width theme.tools mega-menu shell with a compact resting state, command-search access, an account/profile affordance, curated route groups, and identical behavior across every Ghost Signal surface.
+- Re-architect the homepage above the fold as a viewport-filling entropy hero with clear CTAs, a dominant copyable “multiverse-leading” random-number instrument, and a performant spectral WebGL atmosphere with accessible fallbacks.
 
 ## Scope
 
