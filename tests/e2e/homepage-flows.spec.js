@@ -36,6 +36,16 @@ test("hero, status grid, and 'Enter the Signal' button opens chat widget", async
   await expect(page.locator("#entropy-value")).toContainText("bits");
   await expect(page.locator("#signal-age")).not.toHaveText("--");
 
+  // Lifted live-data cards remain inside the grid's padded visual runway.
+  const firstCard = grid.locator(".status-card").first();
+  await firstCard.hover();
+  const hoverBounds = await grid.evaluate((element) => {
+    const gridBox = element.getBoundingClientRect();
+    const cardBox = element.querySelector(".status-card").getBoundingClientRect();
+    return { gridTop: gridBox.top, cardTop: cardBox.top };
+  });
+  expect(hoverBounds.cardTop).toBeGreaterThan(hoverBounds.gridTop);
+
   // "Enter the Signal" opens the chat panel
   const chatPanel = page.locator("#chat-panel");
   await expect(chatPanel).toHaveAttribute("aria-hidden", "true");

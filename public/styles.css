@@ -14150,3 +14150,8 @@ tt-ai-chat-shell { display: block; }
   .chat-toggle { min-width: 64px; }
   .chat-toggle-kbd { display: none; }
 }
+
+/* Hover runway: lifted live-data cards retain a visible top edge and glow. */
+.status-grid {
+  padding-block-start: max(0.375rem, env(safe-area-inset-top));
+}
