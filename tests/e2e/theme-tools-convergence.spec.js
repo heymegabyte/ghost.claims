@@ -65,3 +65,25 @@ test("entropy split becomes a full-width mobile stack", async ({ page }) => {
   const carousel = page.locator(".entropy-explainer .tt-gallery");
   expect((await carousel.boundingBox())?.width).toBeGreaterThan(340);
 });
+
+test("auditory signal cards and singleton data export stay centered", async ({ page }) => {
+  await page.goto("/");
+  const cards = page.locator(".listen-feature-legend-card");
+  await expect(cards).toHaveCount(3);
+  await expect(cards.locator("strong")).toHaveText(["Drone.", "Harmonic.", "Whisper."]);
+  for (const card of await cards.all()) {
+    const alignment = await card.evaluate((element) => ({
+      textAlign: getComputedStyle(element).textAlign,
+      titleDisplay: getComputedStyle(element.querySelector("strong")).display,
+      titleAlign: getComputedStyle(element.querySelector("strong")).textAlign,
+    }));
+    expect(alignment).toEqual({ textAlign: "center", titleDisplay: "block", titleAlign: "center" });
+  }
+
+  const singleton = await page.locator(".dossier-entropy-grid").evaluate((element) => {
+    const grid = element.getBoundingClientRect();
+    const card = element.firstElementChild.getBoundingClientRect();
+    return { left: card.left - grid.left, right: grid.right - card.right };
+  });
+  expect(Math.abs(singleton.left - singleton.right)).toBeLessThan(1);
+});

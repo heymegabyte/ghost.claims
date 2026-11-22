@@ -34,3 +34,5 @@
 - [x] Verify the hero at desktop/mobile widths, keyboard and reduced-motion modes, no-WebGL fallback, performance budgets, production APIs, and clipboard interaction.
 - [x] Reduce every resting navbar to the brand plus one Browse trigger while retaining the complete overlay navigation.
 - [x] Complete five visual convergence passes and verify desktop, mobile, keyboard, reduced-motion, and cross-route invariants.
+- [x] Center and visually converge the Drone, Harmonic, and Whisper panels through five refinement passes.
+- [x] Center singleton homepage grids, including “Take the data with you,” without constraining full-row content.

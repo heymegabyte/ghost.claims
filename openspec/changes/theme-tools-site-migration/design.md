@@ -7,6 +7,10 @@
 
 The canonical resting header exposes only the existing brand anchor and one `Browse` trigger. Search, AI, call, profile, and every destination remain available inside the theme.tools overlay rather than competing in the resting bar. Five visual convergence passes refine the trigger's silhouette, surface depth, icon rhythm, interaction states, and responsive/reduced-motion finish without forking the overlay implementation.
 
+## Centered signal panels and singleton grids
+
+The auditory legend uses three equally weighted, centered signal cards with title, frequency, and description on distinct lines. Five convergence passes cover alignment, hierarchy, surface depth, signal-specific accents, and responsive interaction polish. Homepage card grids with exactly one child collapse their reserved columns and center that child at a readable maximum width; multi-card and intentional full-row layouts remain unchanged.
+
 ## Approach
 
 Create a product-specific configuration containing brand, links, and active-route rules, then use the pinned theme.tools renderer as the canonical markup source. Build-time generation supplies static pages; Hono routes consume the same serialized shell; the React blog imports the same configuration. A small Ghost Signal token adapter maps theme.tools semantic variables onto the approved production palette.
