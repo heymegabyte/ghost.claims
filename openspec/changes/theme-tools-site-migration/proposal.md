@@ -3,6 +3,8 @@
 **Architect:** codex
 **Architect Role:** assigned
 
+On 2026-11-22 the product owner approved a bounded navigation delta: retain the Ghost Signal brand and reduce the resting navbar to one `Browse` overlay trigger, removing the separate search, AI, call, and account controls. The overlay remains the complete navigation surface.
+
 ## Why
 
 Ghost Signal currently renders four visually similar but independently implemented shells: static HTML pages, Hono-rendered transmissions, Hono-rendered API reference, and the React/Vite blog. The navbar differs in markup, dimensions, active-state handling, mobile behavior, and link inventory. Legal pages omit Blog and do not link the logo home. Reusable theme.tools components are used only by the blog, leaving the remaining pages as product-local presentation forks.

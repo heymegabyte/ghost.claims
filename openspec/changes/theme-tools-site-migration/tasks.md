@@ -32,3 +32,5 @@
 - [ ] Pack the exact tested theme.tools artifact, update Ghost Signal provenance, run release gates, deploy the exact commit, and verify production.
 - [x] Implement the approved full-page entropy hero, dominant copy widget, CTA hierarchy, and bounded spectral WebGL background.
 - [x] Verify the hero at desktop/mobile widths, keyboard and reduced-motion modes, no-WebGL fallback, performance budgets, production APIs, and clipboard interaction.
+- [x] Reduce every resting navbar to the brand plus one Browse trigger while retaining the complete overlay navigation.
+- [x] Complete five visual convergence passes and verify desktop, mobile, keyboard, reduced-motion, and cross-route invariants.

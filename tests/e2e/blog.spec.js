@@ -10,7 +10,8 @@ test("theme.tools Night Archive publishes fiction and reported memoir", async ({
   await expect(page).toHaveTitle(/Night Archive/);
   await expect(page.locator(".tt-post")).toHaveCount(5);
   await expect(page.locator(".tt-nav__logo")).toHaveAttribute("src", /\/logo-nav\.png/);
-  await expect(page.locator(".tt-nav__links > .tt-nav__link")).toHaveText(["AI", "Call"]);
+  await expect(page.locator(".tt-nav__links > .tt-nav__link")).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "Browse" })).toBeVisible();
   await expect(page.locator('.tt-ov__card[href="/blog"]')).toHaveAttribute("aria-current", "page");
   await expect(page.getByText(/speculative horror and cultural criticism/i)).toBeVisible();
   await page.getByRole("link", { name: /The Clout War Above Heaven/ }).click();

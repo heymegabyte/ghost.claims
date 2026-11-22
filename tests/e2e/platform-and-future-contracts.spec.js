@@ -21,7 +21,7 @@ test.describe("mobile", () => {
 
     // Compact nav exposes the same destinations through its menu.
     await expect(page.locator(".tt-nav__links")).toBeHidden();
-    await page.getByRole("button", { name: "Explore", exact: true }).click();
+    await page.getByRole("button", { name: "Browse", exact: true }).click();
     await expect(page.getByRole("link", { name: "Signal", exact: true })).toBeVisible();
     await page.getByRole("button", { name: "Close menu" }).click();
 

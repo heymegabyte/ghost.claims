@@ -40,8 +40,9 @@ for (const [file, pathname] of pages) {
   const next = withFooter.includes('/theme-tools-nav.js')
     ? withFooter
     : withFooter.replace('</body>', '  <script src="/theme-tools-nav.js" defer></script>\n  </body>');
-  if (!next.includes('data-theme-tools="site-nav"')) throw new Error(`Theme shell synchronization failed for ${file}`);
-  if (next !== source) await writeFile(file, next);
+  const normalized = next.replace(/^[ \t]+$/gm, "");
+  if (!normalized.includes('data-theme-tools="site-nav"')) throw new Error(`Theme shell synchronization failed for ${file}`);
+  if (normalized !== source) await writeFile(file, normalized);
 }
 
 await writeFile("public/theme-tools-shell.css", `${GHOST_SIGNAL_SHELL_CSS.trim()}\n`);

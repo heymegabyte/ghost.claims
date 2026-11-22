@@ -18,9 +18,10 @@ for (const viewport of [{ name: "desktop", width: 1440, height: 1000 }, { name: 
       await expect(nav).toBeVisible();
       await expect(nav.locator(".tt-nav__logo")).toHaveAttribute("src", /logo-nav\.png/);
       await nav.locator(".tt-nav__logo").evaluate((image) => image.decode());
-      await expect(nav.locator(".tt-nav__links > .tt-nav__link")).toHaveText(["AI", "Call"]);
+      await expect(nav.locator(".tt-nav__links > .tt-nav__link")).toHaveCount(0);
+      await expect(nav.locator(".tt-nav__ov-search, .tt-nav__account")).toHaveCount(0);
+      await expect(nav.locator(":scope > .tt-nav__actions > .tt-nav__ov-trigger")).toHaveText(/Browse/);
       await expect(nav.locator(".tt-ov__card")).toHaveCount(4);
-      await expect(nav.locator(".tt-nav__account")).toHaveAttribute("aria-label", "Open the operator manifesto");
       const navBox = await nav.boundingBox();
       expect(navBox?.x).toBe(0);
       expect(navBox?.width).toBe(viewport.width);
@@ -107,17 +108,15 @@ test("homepage hero preserves its content and static fallback under reduced moti
   await context.close();
 });
 
-test("mega menu opens, supports command search, and restores focus", async ({ page }) => {
+test("Browse menu opens, exposes the complete navigation, and restores focus", async ({ page }) => {
   await page.goto("/docs");
-  const trigger = page.getByRole("button", { name: "Explore" });
+  const trigger = page.getByRole("button", { name: "Browse" });
   await trigger.click();
-  await expect(page.getByRole("dialog", { name: "Explore Ghost Signal" })).toBeVisible();
+  await expect(page.getByRole("dialog", { name: "Browse Ghost Signal" })).toBeVisible();
   await expect(page.locator(".tt-ov__card")).toHaveCount(4);
   await expect(page.locator(".tt-ov__card").first()).toBeFocused();
   await page.keyboard.press("Escape");
   await expect(trigger).toBeFocused();
-  await page.keyboard.press("ControlOrMeta+K");
-  await expect(page.locator("[data-tt-ov-search]")).toBeFocused();
 });
 
 test("full theme.tools catalog and provenance manifest are public", async ({ request }) => {

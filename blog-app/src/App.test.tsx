@@ -20,11 +20,12 @@ describe("Ghost Signal Journal", () => {
     expect(screen.getByRole("link", { name: /Acoustic & Electromagnetic Anomaly Telemetry/i })).toHaveAttribute("href", "/blog/sensor-telemetry-web-dossier");
     expect(screen.getByText(/speculative horror and cultural criticism/i)).toBeInTheDocument();
     expect(screen.getByAltText("Ghost Signal logo")).toHaveAttribute("src", expect.stringContaining("/logo-nav.png"));
-    const utilities = screen.getByRole("navigation", { name: "Utilities" });
-    expect(utilities.querySelector('a[href="/#chat-widget"]')).toHaveTextContent("AI");
+    expect(screen.getByRole("button", { name: "Browse" })).toBeInTheDocument();
+    expect(container.querySelectorAll(".tt-nav__links > .tt-nav__link")).toHaveLength(0);
+    expect(container.querySelector(".tt-nav__ov-search")).not.toBeInTheDocument();
     expect(container.querySelectorAll(".tt-ov__card")).toHaveLength(4);
     expect(container.querySelector('.tt-ov__card[href="/blog"]')).toHaveAttribute("aria-current", "page");
-    expect(screen.getByRole("link", { name: "Open the operator manifesto" })).toBeInTheDocument();
+    expect(container.querySelector(".tt-nav__account")).not.toBeInTheDocument();
   });
 
   it("renders article references through the canonical theme.tools source library", () => {

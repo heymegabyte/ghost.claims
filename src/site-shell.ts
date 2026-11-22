@@ -11,10 +11,7 @@ export const GHOST_SIGNAL_NAV_LINKS = [
 export const GHOST_SIGNAL_NAV_CONFIG = {
   brand: "GHOST // SIGNAL",
   brandHref: "/",
-  links: [
-    { label: "AI", href: "/#chat-widget" },
-    { label: "Call", href: "tel:+16016666602", cta: true },
-  ],
+  links: [],
   layout: "full",
   logo: {
     src: "/logo-nav.png?v=2945c6a-1778550809",
@@ -23,9 +20,8 @@ export const GHOST_SIGNAL_NAV_CONFIG = {
     height: 34,
   },
   megaMode: "overlay",
-  megaTriggerLabel: "Explore",
-  megaLabel: "Explore Ghost Signal",
-  megaSearch: { action: "/blog", placeholder: "Search signals, records, and field notes…" },
+  megaTriggerLabel: "Browse",
+  megaLabel: "Browse Ghost Signal",
   mega: [
     {
       label: "Signal", href: "/", icon: "◉", blurb: "Live electromagnetic readings, entropy, and the core public experiment.",
@@ -75,7 +71,6 @@ export const GHOST_SIGNAL_NAV_CONFIG = {
     { label: "Call the hotline", href: "tel:+16016666602", icon: "☎", sub: "(601) 666-6602" },
     { label: "API reference", href: "/api/docs", icon: "{}", sub: "Schemas and endpoints" },
   ] },
-  account: { href: "/#manifesto", label: "Open the operator manifesto", avatarSrc: "/apple-touch-icon.png?v=2945c6a-1778550809", avatarAlt: "Ghost Signal operator" },
 } as const;
 
 export const GHOST_SIGNAL_NAV_JS = NAV_MENU_JS;
@@ -84,6 +79,47 @@ export const GHOST_SIGNAL_SHELL_CSS = `
 .tt-nav{view-transition-name:site-header}
 .tt-nav__logo{width:24px;height:24px;flex:0 0 24px;padding:2px;border-radius:8px;object-fit:contain;background:var(--tt-ink-2);box-shadow:0 0 20px rgba(0,229,255,.45),0 0 0 1px var(--tt-line-2)}
 .tt-nav__link[aria-current="page"]{color:var(--tt-cyan);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:6px}
+.tt-nav--overlay .tt-nav__actions{gap:0}
+.tt-nav--overlay .tt-nav__links:empty{display:none}
+/* Five-pass Browse convergence: silhouette, depth, icon rhythm, interaction, and responsive finish. */
+.tt-nav--overlay .tt-nav__ov-trigger{
+  position:relative;isolation:isolate;min-height:44px;padding:9px 17px 9px 14px;gap:11px;overflow:hidden;
+  border:1px solid rgba(117,238,255,.34);border-radius:15px;color:#eaffff;
+  background:linear-gradient(135deg,rgba(7,27,38,.96),rgba(7,12,27,.94));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.1),inset 0 -1px 0 rgba(0,229,255,.06),0 10px 34px -18px rgba(0,229,255,.76);
+  font-size:.82rem;font-weight:760;letter-spacing:.055em;text-transform:uppercase;
+  transition:transform .24s cubic-bezier(.22,1,.36,1),border-color .24s ease,box-shadow .24s ease,color .24s ease
+}
+.tt-nav--overlay .tt-nav__ov-trigger::before{
+  content:"";position:absolute;inset:0;z-index:-1;opacity:.82;
+  background:radial-gradient(circle at 14% 12%,rgba(0,229,255,.22),transparent 42%),linear-gradient(105deg,transparent 28%,rgba(255,255,255,.08) 48%,transparent 68%);
+  transform:translateX(-36%);transition:transform .55s cubic-bezier(.22,1,.36,1),opacity .24s ease
+}
+.tt-nav--overlay .tt-nav__ov-trigger::after{
+  content:"";position:absolute;inset:3px;border-radius:11px;border:1px solid rgba(255,255,255,.035);pointer-events:none
+}
+.tt-nav--overlay .tt-nav__ov-grid{width:16px;height:16px;gap:3px}
+.tt-nav--overlay .tt-nav__ov-grid i{border-radius:2px;background:linear-gradient(145deg,#a7f7ff,#00e5ff);box-shadow:0 0 10px rgba(0,229,255,.72)}
+.tt-nav--overlay .tt-nav__ov-label{line-height:1}
+.tt-nav--overlay .tt-nav__ov-chev{margin-left:1px;color:#8ddde8;filter:drop-shadow(0 0 5px rgba(0,229,255,.45))}
+.tt-nav--overlay .tt-nav__ov-trigger:hover{
+  transform:translateY(-2px);border-color:rgba(139,244,255,.72);color:#fff;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 16px 38px -16px rgba(0,229,255,.9),0 0 0 1px rgba(0,229,255,.08)
+}
+.tt-nav--overlay .tt-nav__ov-trigger:hover::before{transform:translateX(30%);opacity:1}
+.tt-nav--overlay .tt-nav__ov-trigger:active{transform:translateY(0) scale(.98)}
+.tt-nav--overlay .tt-nav__ov-trigger[aria-expanded="true"]{border-color:#75efff;color:#fff;background:linear-gradient(135deg,rgba(0,48,60,.98),rgba(10,14,34,.98));box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 0 34px -8px rgba(0,229,255,.78)}
+.tt-nav--overlay .tt-nav__ov-trigger:focus-visible{outline:2px solid #baf8ff;outline-offset:4px}
+.tt-nav--overlay .tt-ov__sheet{background:radial-gradient(100% 90% at 0 0,rgba(0,229,255,.09),transparent 50%),linear-gradient(145deg,rgba(5,20,30,.99),rgba(5,7,20,.995));box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 44px 110px -36px rgba(0,0,0,.98),0 0 90px -35px rgba(0,229,255,.55)}
+.tt-nav--overlay .tt-ov__top{justify-content:flex-end;margin-bottom:10px}
+@media(max-width:640px){
+  .tt-nav--overlay .tt-nav__ov-trigger{min-height:42px;padding:8px 14px 8px 12px;border-radius:14px;font-size:.76rem}
+  .tt-nav--overlay .tt-nav__ov-grid{width:15px;height:15px}
+  .tt-nav--overlay .tt-nav__ov-label{position:static;width:auto;height:auto;padding:0;margin:0;overflow:visible;clip:auto;white-space:nowrap;border:0}
+}
+@media(prefers-reduced-motion:reduce){
+  .tt-nav--overlay .tt-nav__ov-trigger,.tt-nav--overlay .tt-nav__ov-trigger::before{transition:none}
+}
 `;
 
 export function renderGhostSignalNav(pathname: string): string {
