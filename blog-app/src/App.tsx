@@ -139,19 +139,19 @@ function CanonicalArticlePage({ post }: { post: CanonicalBlogPost }) {
 
   return <>
     <CanonicalMarkup html={renderReadingProgress()} />
-    <CanonicalMarkup html={renderBreadcrumb({ items: [
+    <CanonicalMarkup className="journal-reading-rail" html={renderBreadcrumb({ items: [
       { label: "Ghost Signal", href: "/" },
       { label: "Journal", href: "/blog" },
       { label: post.title },
     ] })} />
-    <CanonicalMarkup html={renderPageHeader({ kicker: `${post.desk.toUpperCase()} // ${post.format.toUpperCase()} // ${meta}`, title: post.title, lede: post.description })} />
-    <div className="journal-article-tools">
+    <CanonicalMarkup className="journal-reading-rail" html={renderPageHeader({ kicker: `${post.desk.toUpperCase()} // ${post.format.toUpperCase()} // ${meta}`, title: post.title, lede: post.description })} />
+    <div className="journal-article-tools journal-reading-rail">
       <CanonicalMarkup html={renderEvidenceBadge(post.evidence)} />
       <CanonicalMarkup html={renderTagList({ tags: post.tags, label: "Filed under" })} />
     </div>
-    <CanonicalMarkup html={renderTableOfContents({ headings, label: "Inside this dossier" })} />
+    <CanonicalMarkup className="journal-reading-rail" html={renderTableOfContents({ headings, label: "Inside this dossier" })} />
     <CanonicalMarkup html={renderArticle(renderCanonicalBody(post))} className="tt-journal__article journal-technical-article" />
-    <CanonicalMarkup html={renderShareRow({ url: `https://ghost.claims/blog/${post.slug}`, title: post.title, label: "Transmit this dossier" })} />
+    <CanonicalMarkup className="journal-reading-rail" html={renderShareRow({ url: `https://ghost.claims/blog/${post.slug}`, title: post.title, label: "Transmit this dossier" })} />
     <CanonicalMarkup html={renderBackToTop()} />
   </>;
 }
@@ -165,12 +165,20 @@ function ArticlePage({ article }: { article: NightArchiveArticle }) {
 
   return <>
     <a className="tt-back" href="/blog">← Ghost Signal Journal</a>
-    <CanonicalMarkup html={renderPageHeader({ kicker: article.file, title: article.title, lede: article.standfirst })} />
-    <CanonicalMarkup html={renderJournalNotice({
+    <CanonicalMarkup className="journal-reading-rail" html={renderPageHeader({ kicker: article.file, title: article.title, lede: article.standfirst })} />
+    <CanonicalMarkup className="journal-reading-rail" html={renderJournalNotice({
       label: article.genre === "reported memoir" ? "Editorial method:" : "Fiction:",
       body: article.disclosure ?? "This story uses supernatural and surveillance imagery as metaphor. It does not describe verified events or people.",
     })} />
     <tt-article-reader article-title={article.title} reading-minutes={String(article.readingMinutes)} headings={JSON.stringify(headings)} />
+    {article.slug === "greystone-after-the-skunk" ? <CanonicalMarkup html={renderComponent("audio-narration", {
+      audioUrl: "/blog-media/greystone/greystone-after-the-skunk-audio-briefing.mp3",
+      title: "Greystone After the Skunk — audio briefing",
+      narratorName: "Ghost Signal synthesized voice",
+      durationFormatted: "3 min listen",
+      transcriptUrl: "/blog-media/greystone/greystone-after-the-skunk-audio-briefing.txt",
+      downloadUrl: "/blog-media/greystone/greystone-after-the-skunk-audio-briefing.mp3",
+    })} className="journal-audio-briefing" /> : null}
     <CanonicalMarkup html={renderArticle(articleBody(article))} className="tt-journal__article" />
   </>;
 }
@@ -189,6 +197,55 @@ export default function App() {
       document.head.append(description);
     }
     description.content = article?.standfirst ?? canonicalPost?.description ?? "Field reports, strange histories, systems dossiers, and speculative stories from Ghost Signal.";
+
+    const canonicalUrl = slug ? `https://ghost.claims/blog/${slug}` : "https://ghost.claims/blog";
+    let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement("link");
+      canonical.rel = "canonical";
+      document.head.append(canonical);
+    }
+    canonical.href = canonicalUrl;
+
+    const setSocialMeta = (property: string, content: string) => {
+      let meta = document.querySelector<HTMLMetaElement>(`meta[property="${property}"]`);
+      if (!meta) {
+        meta = document.createElement("meta");
+        meta.setAttribute("property", property);
+        document.head.append(meta);
+      }
+      meta.content = content;
+    };
+    setSocialMeta("og:title", article?.title ?? canonicalPost?.title ?? "Ghost Signal Journal");
+    setSocialMeta("og:description", description.content);
+    setSocialMeta("og:url", canonicalUrl);
+    setSocialMeta("og:type", slug ? "article" : "website");
+    if (article?.slug === "greystone-after-the-skunk") setSocialMeta("og:image", "https://ghost.claims/blog-media/greystone/greystone-memory-study.webp");
+
+    document.getElementById("tt-article-jsonld")?.remove();
+    if (article) {
+      const structuredData = document.createElement("script");
+      structuredData.id = "tt-article-jsonld";
+      structuredData.type = "application/ld+json";
+      structuredData.textContent = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: article.title,
+        description: article.standfirst,
+        author: { "@type": "Person", name: "Brian Zalewski" },
+        publisher: { "@type": "Organization", name: "Ghost Signal", url: "https://ghost.claims" },
+        mainEntityOfPage: canonicalUrl,
+        image: article.slug === "greystone-after-the-skunk" ? "https://ghost.claims/blog-media/greystone/greystone-memory-study.webp" : undefined,
+        associatedMedia: article.slug === "greystone-after-the-skunk" ? {
+          "@type": "AudioObject",
+          name: "Greystone After the Skunk — audio briefing",
+          contentUrl: "https://ghost.claims/blog-media/greystone/greystone-after-the-skunk-audio-briefing.mp3",
+          duration: "PT3M13S",
+          transcript: "https://ghost.claims/blog-media/greystone/greystone-after-the-skunk-audio-briefing.txt",
+        } : undefined,
+      });
+      document.head.append(structuredData);
+    }
   }, [article, canonicalPost]);
 
   useEffect(() => installImageLightbox(document), [article, canonicalPost]);

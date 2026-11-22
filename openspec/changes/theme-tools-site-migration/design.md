@@ -3,6 +3,12 @@
 **Architect:** codex
 **Architect Role:** assigned
 
+## Story and evidence archive split
+
+The homepage is the product surface: live field data, entropy tools, the featured Signal film, and open-channel actions. The long first-person manifesto, chronology, and dossier move intact to `/story`; the license-plate chapter and complete media archive move intact to `/plates`. Both routes use the same generated theme.tools shell and product effects as the homepage, while route-specific introductions establish provenance and reading context.
+
+The Signal film remains on the homepage as the project’s primary first-person evidence for its multiverse-aware EMF hypothesis. Copy distinguishes the existence of the recording and measurements from the supernatural interpretation, which is not presented as independently validated scientific proof. The Plates essay likewise distinguishes photographed vehicles and remembered experiences from unverified claims about drivers, agencies, possession, or coordination.
+
 ## Browse-only resting navigation
 
 The canonical resting header exposes only the existing brand anchor and one `Browse` trigger. Search, AI, call, profile, and every destination remain available inside the theme.tools overlay rather than competing in the resting bar. Five visual convergence passes refine the trigger's silhouette, surface depth, icon rhythm, interaction states, and responsive/reduced-motion finish without forking the overlay implementation.
@@ -10,6 +16,14 @@ The canonical resting header exposes only the existing brand anchor and one `Bro
 ## Centered signal panels and singleton grids
 
 The auditory legend uses three equally weighted, centered signal cards with title, frequency, and description on distinct lines. Five convergence passes cover alignment, hierarchy, surface depth, signal-specific accents, and responsive interaction polish. Homepage card grids with exactly one child collapse their reserved columns and center that child at a readable maximum width; multi-card and intentional full-row layouts remain unchanged.
+
+The auditory scope diagram and Ghost Detector panel share one 760px responsive rail so their left and right edges align at desktop and collapse together on narrow screens.
+
+## Editorial article convergence
+
+Night Archive articles use a single centered, viewport-safe reading rail with left-aligned prose, consistent section rhythm, full-width media inside the rail, and a deliberate wide breakout only for the canonical source library. The Greystone field note receives five screenshot-led refinement passes across hierarchy, spacing, media, citations, and responsive polish. A synthesized audio briefing uses the canonical theme.tools audio component, requires an explicit play gesture, provides a transcript and download, and identifies its provenance. Generated editorial art is labeled as interpretive and is never presented as documentary evidence.
+
+The Browse overlay uses a fully opaque black canvas and coordinated scrim/sheet/content transitions on open and close. Reduced-motion users receive the same state change without movement, focus remains trapped while open, and focus returns to the trigger on close.
 
 ## Approach
 
@@ -20,6 +34,8 @@ Page content remains in its current runtime to avoid a high-risk framework rewri
 ## Unified journal
 
 The blog index uses theme.tools' magazine primitives to become one publication rather than two competing implementations. The canonical structured engineering post is the cover story; the five existing narrative and reported pieces remain the Night Archive below it. Both formats resolve through the same React route shell and full theme.tools component registry. The technical post retains its canonical JSON source and renders Markdown, figures, evidence provenance, tags, table of contents, sharing, and structured widgets through package exports rather than duplicated local templates.
+
+The structured sensor-telemetry dossier uses a flat editorial canvas: its canonical widgets remain distinct, accessible surfaces, while the article and section wrappers are transparent and borderless. This avoids stacking widget tiles inside a second article tile. The journal `#main` is explicitly transparent so the shared Ghost Signal canvas remains visually continuous.
 
 The visual bridge uses the canonical theme.tools canvas and electric cyan as the publication-wide identity. Night Archive distinctions come from content, composition, and editorial labels rather than a second palette. Typography, surface elevation, navigation, focus, responsive behavior, and motion remain shared across both desks.
 

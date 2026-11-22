@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 const routes = [
-  "/", "/transmissions", "/docs", "/api/docs", "/privacy", "/terms", "/blog",
+  "/", "/story", "/plates", "/transmissions", "/docs", "/api/docs", "/privacy", "/terms", "/blog",
   "/blog/the-panopticon-learned-to-pray", "/blog/the-clout-war-above-heaven",
   "/blog/bondage-of-the-failed-christ", "/blog/greystone-after-the-skunk",
   "/blog/jungle-habitat-dead-battery-safari-trails",
@@ -21,7 +21,7 @@ for (const viewport of [{ name: "desktop", width: 1440, height: 1000 }, { name: 
       await expect(nav.locator(".tt-nav__links > .tt-nav__link")).toHaveCount(0);
       await expect(nav.locator(".tt-nav__ov-search, .tt-nav__account")).toHaveCount(0);
       await expect(nav.locator(":scope > .tt-nav__actions > .tt-nav__ov-trigger")).toHaveText(/Browse/);
-      await expect(nav.locator(".tt-ov__card")).toHaveCount(4);
+      await expect(nav.locator(".tt-ov__card")).toHaveCount(5);
       const navBox = await nav.boundingBox();
       expect(navBox?.x).toBe(0);
       expect(navBox?.width).toBe(viewport.width);
@@ -113,10 +113,22 @@ test("Browse menu opens, exposes the complete navigation, and restores focus", a
   const trigger = page.getByRole("button", { name: "Browse" });
   await trigger.click();
   await expect(page.getByRole("dialog", { name: "Browse Ghost Signal" })).toBeVisible();
-  await expect(page.locator(".tt-ov__card")).toHaveCount(4);
+  await expect(page.locator(".tt-ov__card")).toHaveCount(5);
   await expect(page.locator(".tt-ov__card").first()).toBeFocused();
   await page.keyboard.press("Escape");
   await expect(trigger).toBeFocused();
+});
+
+test("Browse overlay is opaque and completes its animated close", async ({ page }) => {
+  await page.goto("/");
+  const trigger = page.getByRole("button", { name: "Browse" });
+  await trigger.click();
+  const overlay = page.getByRole("dialog", { name: "Browse Ghost Signal" });
+  await expect(overlay).toBeVisible();
+  expect(await overlay.locator(".tt-ov__scrim").evaluate((node) => getComputedStyle(node).backgroundColor)).toBe("rgb(0, 0, 0)");
+  await overlay.locator("[data-tt-ov-close]").click();
+  await expect(overlay).toBeVisible();
+  await expect(overlay).toBeHidden({ timeout: 700 });
 });
 
 test("full theme.tools catalog and provenance manifest are public", async ({ request }) => {
@@ -127,10 +139,10 @@ test("full theme.tools catalog and provenance manifest are public", async ({ req
   const manifest = await request.get("/theme-tools-components.json");
   expect(manifest.ok()).toBe(true);
   const catalog = await manifest.json();
-  expect(catalog.version).toBe("1.0.11");
-  expect(catalog.sourceCommit).toBe("43906c2b246f8efc7404e04fe161a113246addaa");
-  expect(catalog.sourcePatchSha256).toBe("2bf8516016df2a25ccd7efd581506ce9754b68ba0bf5bfbfcc97784acb6d37da");
-  expect(catalog.artifactSha256).toBe("f392e3d83ab67fd7f368a0ff5c355aec72ae62843f353ad0edf8dbf14c552690");
+  expect(catalog.version).toBe("1.0.12");
+  expect(catalog.sourceCommit).toBe("639ed83de3702a1fbb4b463e10b1aed9ee347d3e");
+  expect(catalog.sourcePatchSha256).toBe("dfc6695c2b85401007a7f09c62414cf4f7568e21d6781fb3a33fc28b72e57c23");
+  expect(catalog.artifactSha256).toBe("158b1da100b13bc8bd4c2667c0684c19a1f8f9c6845003fb82299942e2c57fbd");
   expect(catalog.componentTypes).toContain("article-reader");
   expect(catalog.componentTypes.length).toBeGreaterThanOrEqual(29);
 });

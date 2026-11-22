@@ -18,7 +18,7 @@ export interface NightArchiveArticle {
 
 export type ArticleComponent =
   | { kind: "widget"; type: "callout" | "comparison" | "timeline" | "stat-cards" | "spec-table"; data: unknown }
-  | { kind: "media"; type: "featured" | "gallery"; data: unknown };
+  | { kind: "media"; type: "featured" | "gallery" | "audio-narration"; data: unknown };
 
 export interface CanonicalBlogPost {
   readonly slug: string;
@@ -82,6 +82,7 @@ export const articles: readonly NightArchiveArticle[] = [
           "And then we saw a skunk. All the architecture, all the nerve we had manufactured to enter, all the dark institutional history—none of it mattered. We freaked out and left. The skunk ended the expedition with the clean authority of a closing bell.",
         ],
         components: [
+          { kind: "media", type: "featured", data: { src: "/blog-media/greystone/greystone-memory-study.webp", alt: "Interpretive editorial composite of Greystone's Kirkbride silhouette above a tiled corridor lined with hydrotherapy tubs, with a skunk near the open exit", caption: "Greystone memory study. AI-generated editorial illustration created for this essay; it is not documentary evidence or an archival photograph." } },
           { kind: "widget", type: "stat-cards", data: { title: "Greystone by the numbers", cards: [
             { value: "1876", label: "opened with 292 patients", source: "NJ Department of Health" },
             { value: "7,700", label: "reported peak census in 1947", source: "Greystone annual report" },

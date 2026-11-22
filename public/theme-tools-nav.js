@@ -88,6 +88,15 @@
     var fKicker=featuredLink?featuredLink.querySelector('[data-tt-ov-fkicker]'):null;
     var fTitle=featuredLink?featuredLink.querySelector('[data-tt-ov-ftitle]'):null;
     var lastFocus=null,swapT=null;
+    function markCurrentRoute(){
+      var here=location.pathname.replace(/\/+$/,'')||'/';
+      Array.prototype.forEach.call(panel.querySelectorAll('a[href]'),function(link){
+        var current=false;
+        try{var url=new URL(link.getAttribute('href'),location.href);var path=url.pathname.replace(/\/+$/,'')||'/';current=url.origin===location.origin&&path===here;}catch(e){}
+        if(current){link.setAttribute('aria-current','page');link.setAttribute('data-tt-ov-current','1');}
+        else{link.removeAttribute('aria-current');link.removeAttribute('data-tt-ov-current');}
+      });
+    }
     function cols(){ // how many cards per row (for up/down arrows) — read the computed grid
       try{var s=getComputedStyle(panel.querySelector('.tt-ov__grid'));var n=s.gridTemplateColumns.split(' ').length;return n>0?n:3;}catch(e){return 3;}}
     function setFeatured(card){
@@ -113,6 +122,7 @@
     function isOpen(){return trigger.getAttribute('aria-expanded')==='true';}
     function open(focusSearch){
       if(isOpen())return;lastFocus=document.activeElement;
+      markCurrentRoute();
       panel.hidden=false;
       // next frame so the transition runs from the hidden→shown state
       requestAnimationFrame(function(){panel.setAttribute('data-tt-ov-open','1');});
@@ -130,7 +140,7 @@
       var done=function(){panel.hidden=true;};
       // allow the close transition to play unless reduced-motion
       var rm=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if(rm){done();}else{setTimeout(done,300);}
+      if(rm){done();}else{setTimeout(done,360);}
       if(restore!==false){var t=lastFocus&&lastFocus.focus?lastFocus:trigger;setTimeout(function(){t.focus();},0);}
     }
     trigger.addEventListener('click',function(e){e.preventDefault();if(isOpen())close();else open(false);});

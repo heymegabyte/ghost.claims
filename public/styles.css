@@ -10098,7 +10098,8 @@
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     text-align: left;
-    max-width: 760px;
+    width: min(100%, 760px);
+    box-sizing: border-box;
     margin: 0 auto;
     box-shadow: 0 12px 40px rgba(0,0,0,0.45);
   }
@@ -10259,7 +10260,8 @@
 
   .listen-feature-scope-wrap {
     position: relative;
-    margin: 2.4rem 0 2rem;
+    width: min(100%, 760px);
+    margin: 2.4rem auto 2rem;
     border-radius: 14px;
     overflow: hidden;
     background: linear-gradient(180deg, rgba(6,6,16,0.92) 0%, rgba(12,12,28,0.92) 100%);
@@ -13763,6 +13765,75 @@ html[data-runtime-reduced-motion="true"] *::after {
 }
 
 /* Featured transmission — The Signal */
+.archive-page-hero {
+  position: relative;
+  display: grid;
+  min-height: clamp(34rem, 72svh, 52rem);
+  place-items: center;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(103, 232, 249, 0.18);
+  background:
+    radial-gradient(circle at 16% 18%, rgba(0, 229, 255, 0.16), transparent 34%),
+    radial-gradient(circle at 82% 72%, rgba(124, 58, 237, 0.2), transparent 38%),
+    linear-gradient(145deg, #03070d, #08091a 58%, #05070f);
+}
+.archive-page-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.18;
+  background-image: linear-gradient(rgba(103, 232, 249, 0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(103, 232, 249, 0.12) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, transparent, #000 24%, #000 76%, transparent);
+}
+.archive-page-hero__inner { position: relative; z-index: 1; width: min(100%, 900px); text-align: center; }
+.archive-page-hero h1 { margin: 0.2em 0; font-size: clamp(4rem, 11vw, 9rem); line-height: 0.9; letter-spacing: -0.065em; }
+.archive-page-hero__lede { max-width: 760px; margin: 1.25rem auto 0; color: #e7fbff; font-size: clamp(1.15rem, 2.4vw, 1.65rem); line-height: 1.5; }
+.archive-page-hero__note { max-width: 700px; margin: 1.2rem auto 0; color: rgba(222, 245, 248, 0.72); line-height: 1.65; }
+.archive-page-hero .hero-actions { justify-content: center; margin-top: 1.8rem; }
+.plate-essay { width: min(calc(100% - 2rem), 900px); margin-block: clamp(4rem, 9vw, 8rem); }
+.plate-essay__header { max-width: 780px; margin-inline: auto; text-align: center; }
+.plate-essay__header h2 { margin: 0.3em 0; font-size: clamp(2.4rem, 6vw, 5rem); line-height: 0.96; }
+.plate-essay__dek { color: rgba(228, 248, 250, 0.74); font-size: clamp(1.08rem, 2vw, 1.35rem); }
+.plate-essay__body { max-width: 760px; margin: 2.5rem auto 0; color: rgba(238, 251, 252, 0.9); font-size: clamp(1.05rem, 1.6vw, 1.18rem); line-height: 1.82; text-align: left; }
+.plate-essay__body p + p { margin-top: 1.4em; }
+.plate-essay__body blockquote { margin: 2.2rem 0; padding: 1.35rem 1.5rem; border: 1px solid rgba(103, 232, 249, 0.24); border-left: 3px solid #67e8f9; border-radius: 0 16px 16px 0; color: #dffcff; background: rgba(3, 20, 29, 0.74); font-size: 1.1em; }
+.archive-page-hero--plates ~ .plate-vault-section .plate-loupe-wrap { line-height: normal; cursor: default; }
+.archive-page-hero--plates ~ .plate-vault-section .plate-vault-grid-merged {
+  --plate-cols: initial;
+  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+  gap: 0.75rem;
+  padding-inline: clamp(0.75rem, 2.5vw, 2.5rem);
+}
+.archive-page-hero--plates ~ .plate-vault-section .plate-vault-grid-merged .plate-vault-card {
+  overflow: hidden;
+  border: 1px solid rgba(103, 232, 249, 0.14);
+  border-radius: 14px;
+  background: rgba(4, 15, 24, 0.84);
+}
+.archive-page-hero--plates ~ .plate-vault-section .plate-vault-grid-merged .plate-vault-card:hover {
+  z-index: 2;
+  transform: translateY(-3px);
+  border: 1px solid rgba(103, 232, 249, 0.46);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.45), 0 0 28px rgba(0, 229, 255, 0.1);
+}
+.archive-page-hero--plates ~ .plate-vault-section .plate-vault-grid-merged .plate-vault-card img,
+.archive-page-hero--plates ~ .plate-vault-section .plate-vault-grid-merged .plate-vault-card video { border-radius: 13px; }
+.archive-page-hero--plates ~ .plate-vault-section .plate-vault-grid-merged .plate-vault-card figcaption {
+  display: block;
+  padding: 1.8rem 0.55rem 0.55rem;
+}
+.archive-page-hero--plates ~ .plate-vault-section .plate-loupe { display: none; }
+.the-signal-disclosure { padding: 1rem 1.1rem; border: 1px solid rgba(103, 232, 249, 0.2); border-radius: 12px; background: rgba(2, 17, 25, 0.72); color: rgba(229, 249, 251, 0.78); }
+.the-signal-copy .hero-actions { margin-top: 1.25rem; }
+@media (max-width: 640px) {
+  .archive-page-hero { min-height: 38rem; }
+  .archive-page-hero__inner { padding-inline: 1rem; }
+  .archive-page-hero .hero-actions { align-items: stretch; flex-direction: column; }
+  .plate-essay { width: min(calc(100% - 1.5rem), 900px); }
+  .archive-page-hero--plates ~ .plate-vault-section .plate-vault-grid-merged { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; }
+}
 .the-signal-section {
   padding: clamp(4rem, 8vw, 7rem) 0;
   border-top: 1px solid rgba(0, 229, 255, 0.12);

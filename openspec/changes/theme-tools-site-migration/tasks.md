@@ -36,3 +36,13 @@
 - [x] Complete five visual convergence passes and verify desktop, mobile, keyboard, reduced-motion, and cross-route invariants.
 - [x] Center and visually converge the Drone, Harmonic, and Whisper panels through five refinement passes.
 - [x] Center singleton homepage grids, including “Take the data with you,” without constraining full-row content.
+- [x] Align the auditory scope and Ghost Detector to one responsive content rail and verify both edges at desktop and mobile widths.
+- [x] Converge every blog article on one centered, left-aligned reading rail and complete five visual refinement passes on Greystone.
+- [x] Add the Greystone synthesized audio briefing, transcript, and clearly labeled generated editorial image through canonical theme.tools components.
+- [x] Make the Browse overlay opaque with accessible coordinated open/close motion and reduced-motion behavior.
+- [x] Upstream reusable article-width, media-rhythm, audio, and overlay improvements to theme.tools; pack and consume the exact tested artifact.
+- [x] Split the first-person manifesto, chronology, and dossier into a dedicated `/story` route without losing media or interaction behavior.
+- [x] Split the complete license-plate chapter into `/plates` and add a provenance-aware first-person essay.
+- [x] Reframe the homepage Signal film as the project’s primary evidence while distinguishing observation from interpretation.
+- [x] Verify the Story and Plates routes visually, update navigation/discovery, and run the complete release gates.
+- [x] Flatten the sensor-telemetry dossier’s redundant article/section surfaces and keep the journal main canvas transparent.

@@ -14,14 +14,15 @@ test("homepage uses the converged shell and removes its duplicate transmission a
 
   await expect(page.locator(".entropy-explainer .tt-gallery__slide")).toHaveCount(5);
   await expect(page.getByRole("heading", { name: /alarm clock for breaking multiverse bondage/i })).toBeVisible();
-  const manifestoWidth = await page.locator(".manifesto-frame").evaluate((node) => node.getBoundingClientRect().width);
-  expect(manifestoWidth).toBeLessThanOrEqual(720);
-
   const metric = page.locator(".status-card .metric").first();
   const before = await metric.evaluate((node) => node.getBoundingClientRect().height);
   await metric.evaluate((node) => { node.textContent = "123456789012345678901234567890"; });
   const after = await metric.evaluate((node) => node.getBoundingClientRect().height);
   expect(Math.abs(after - before)).toBeLessThan(0.01);
+
+  await page.goto("/story");
+  const manifestoWidth = await page.locator(".manifesto-frame").evaluate((node) => node.getBoundingClientRect().width);
+  expect(manifestoWidth).toBeLessThanOrEqual(720);
 });
 
 test("AI microphone visibly records recognized speech", async ({ page }) => {
@@ -86,4 +87,11 @@ test("auditory signal cards and singleton data export stay centered", async ({ p
     return { left: card.left - grid.left, right: grid.right - card.right };
   });
   expect(Math.abs(singleton.left - singleton.right)).toBeLessThan(1);
+
+  const auditoryWidths = await page.locator(".listen-feature-scope-wrap, .listen-feature-detector").evaluateAll((elements) =>
+    elements.map((element) => ({ left: element.getBoundingClientRect().left, width: element.getBoundingClientRect().width })),
+  );
+  expect(auditoryWidths).toHaveLength(2);
+  expect(Math.abs(auditoryWidths[0].left - auditoryWidths[1].left)).toBeLessThan(1);
+  expect(Math.abs(auditoryWidths[0].width - auditoryWidths[1].width)).toBeLessThan(1);
 });

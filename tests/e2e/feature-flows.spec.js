@@ -14,7 +14,7 @@ test.beforeEach(async ({ request }) => {
 });
 
 test("timeline renders the complete chronological record with evidence", async ({ page }) => {
-  await gotoHome(page, SEEDED_CUSTOM_RANGE);
+  await page.goto("/story");
   await waitForTimelineReady(page);
 
   const items = page.locator(".tl-item");
@@ -27,7 +27,7 @@ test("timeline renders the complete chronological record with evidence", async (
 });
 
 test("timeline is a semantic, non-collapsing list", async ({ page }) => {
-  await gotoHome(page, SEEDED_CUSTOM_RANGE);
+  await page.goto("/story");
   await waitForTimelineReady(page);
 
   const track = page.locator("#timeline-track");

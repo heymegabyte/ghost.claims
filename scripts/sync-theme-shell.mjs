@@ -16,11 +16,13 @@ const entropyGallery = renderComponent("gallery", {
 
 const pages = [
   ["public/index.html", "/"],
+  ["public/story.html", "/story"],
+  ["public/plates.html", "/plates"],
   ["public/docs.html", "/docs"],
   ["public/privacy.html", "/privacy"],
   ["public/terms.html", "/terms"],
 ];
-const themeToolsStylesheetHref = "/theme-tools.css?v=theme-tools-blog-1.0.11";
+const themeToolsStylesheetHref = "/theme-tools.css?v=theme-tools-blog-1.0.12";
 
 for (const [file, pathname] of pages) {
   const source = await readFile(file, "utf8");

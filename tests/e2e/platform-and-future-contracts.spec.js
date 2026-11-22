@@ -15,7 +15,7 @@ test.beforeEach(async ({ request }) => {
 });
 
 test.describe("mobile", () => {
-  test("mobile viewport: nav, chat widget, timeline, hotline, and range controls remain usable", async ({ page }) => {
+  test("mobile viewport: nav, chat widget, hotline, and range controls remain usable", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await gotoHome(page, SEEDED_CUSTOM_RANGE);
 
@@ -37,11 +37,13 @@ test.describe("mobile", () => {
     await page.locator("#chat-close").click();
     await expect(page.locator("#chat-panel")).toHaveAttribute("aria-hidden", "true");
 
-    // Timeline scrollable with nodes
+    // Timeline moved to the dedicated Story route.
+    await page.goto("/story");
     await waitForTimelineReady(page);
     await expect(page.locator("#timeline-track")).toBeVisible();
 
-    // Hotline number visible
+    // Hotline number remains on the product homepage.
+    await page.goto("/");
     await expect(page.locator(".six-six-six-close .hotline-number")).toContainText("(601) 666-6602");
 
     // Docs link navigates
@@ -52,7 +54,6 @@ test.describe("mobile", () => {
 
 test("keyboard accessibility: skip link, nav focus, semantic timeline, chat Escape close", async ({ page }) => {
   await gotoHome(page, SEEDED_CUSTOM_RANGE);
-  await waitForTimelineReady(page);
 
   // Skip link
   await page.keyboard.press("Tab");
@@ -72,6 +73,8 @@ test("keyboard accessibility: skip link, nav focus, semantic timeline, chat Esca
   await page.keyboard.press("Escape");
   await expect(page.locator("#chat-panel")).toHaveAttribute("aria-hidden", "true");
 
+  await page.goto("/story");
+  await waitForTimelineReady(page);
   await expect(page.locator("#timeline-track")).toHaveAttribute("role", "list");
   await expect(page.locator("#timeline-track .tl-item").first()).toHaveAttribute("role", "listitem");
 });
@@ -110,14 +113,12 @@ test("featured Signal transmission is accessible and defers its video payload", 
   await page.goto("/");
 
   const section = page.getByTestId("the-signal-video");
-  await expect(section.getByRole("heading", { name: "The Signal" })).toBeVisible();
+  await expect(section.getByRole("heading", { name: /The Signal/ })).toBeVisible();
   await expect(section).toContainText("The high electric-field (EF) readings have continued");
   await expect(section).toContainText("Hindu Temple apartment");
 
-  const followsFirstAlarm = await section.evaluate((signal) =>
-    signal.previousElementSibling?.querySelector("h2")?.textContent?.includes("The First Alarm"),
-  );
-  expect(followsFirstAlarm).toBe(true);
+  await expect(section).toContainText("project’s direct first-person evidence");
+  await expect(section).toContainText("not been independently validated as scientific proof");
 
   const video = section.locator("video");
   await expect(video).toHaveAttribute("controls", "");

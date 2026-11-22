@@ -33,7 +33,7 @@ async function trackErrors(page: Page) {
 
 test.describe("Plate Section TDD Verification", () => {
   test("plate intro contains WTC2001 + JFK + Federal Reserve narrative", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/plates");
     const intro = page.locator("section").filter({ hasText: "The Signal Speaks Through Traffic" });
     await expect(intro).toBeVisible();
     await expect(intro).toContainText("WTC2001");
@@ -50,7 +50,7 @@ test.describe("Plate Section TDD Verification", () => {
 
   test("4 GONDOR figure is 300x300 and float-right on desktop", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
-    await page.goto("/", { waitUntil: "domcontentloaded" });
+    await page.goto("/story", { waitUntil: "domcontentloaded" });
     const figure = page.locator(".dossier-feature-figure--float-right").first();
     await figure.scrollIntoViewIfNeeded();
     await expect(figure).toBeVisible();
@@ -78,7 +78,7 @@ test.describe("Plate Section TDD Verification", () => {
 
   test("4 GONDOR figure stacks centered on small screens", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto("/");
+    await page.goto("/story");
     const figure = page.locator(".dossier-feature-figure--float-right").first();
     await expect(figure).toBeVisible();
     const cssFloat = await figure.evaluate((el) => getComputedStyle(el).float);
@@ -100,7 +100,7 @@ test.describe("Plate Section TDD Verification", () => {
 
   test("JCSAVES plate floats right inline with passage on desktop", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
-    await page.goto("/", { waitUntil: "domcontentloaded" });
+    await page.goto("/story", { waitUntil: "domcontentloaded" });
     const figure = page.locator('figure.dossier-feature-figure--float-right:has(img[data-src*="jcsaves"])').first();
     await figure.scrollIntoViewIfNeeded();
     await expect(figure).toBeVisible();
@@ -123,7 +123,7 @@ test.describe("Plate Section TDD Verification", () => {
   });
 
   test("Crop circle map is non-interactive and themed", async ({ page }) => {
-    await page.goto("/", { waitUntil: "domcontentloaded" });
+    await page.goto("/story", { waitUntil: "domcontentloaded" });
     const map = page.locator(".dossier-feature-map--themed").first();
     await map.scrollIntoViewIfNeeded();
     await expect(map).toBeVisible();
@@ -144,7 +144,7 @@ test.describe("Plate Section TDD Verification", () => {
   });
 
   test("'O' avatar card has resonance/time-traveler narrative", async ({ page }) => {
-    await page.goto("/", { waitUntil: "domcontentloaded" });
+    await page.goto("/story", { waitUntil: "domcontentloaded" });
     const card = page.locator('li.avatar-slide:has(img[data-src="/story/o.webp"])').first();
     await expect(card).toBeAttached();
     await expect(card).toContainText("nanostructures");

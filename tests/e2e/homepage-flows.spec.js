@@ -53,9 +53,9 @@ test("hero, status grid, and 'Enter the Signal' button opens chat widget", async
   await expect(chatPanel).toHaveAttribute("aria-hidden", "false");
   await expect(page.locator("#chat-toggle")).toHaveAttribute("aria-expanded", "true");
 
-  // Chart and timeline also loaded
+  // The product chart remains on the homepage; the personal timeline lives on Story.
   await expect(page.locator("#history-chart")).toBeVisible();
-  await waitForTimelineReady(page);
+  await expect(page.locator("#timeline-track")).toHaveCount(0);
 
   expectNoConsoleErrors(consoleErrors);
 });

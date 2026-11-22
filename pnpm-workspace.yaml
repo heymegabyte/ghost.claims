@@ -1,1 +1,5 @@
-storeDir: /Users/apple/.local/share/pnpm/store/v10
+packages:
+  - .
+
+overrides:
+  "@theme-tools/shared-utils": "file:vendor/theme-tools/theme-tools-shared-utils-1.0.2.tgz"

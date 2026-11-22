@@ -23,7 +23,9 @@ describe("Ghost Signal Journal", () => {
     expect(screen.getByRole("button", { name: "Browse" })).toBeInTheDocument();
     expect(container.querySelectorAll(".tt-nav__links > .tt-nav__link")).toHaveLength(0);
     expect(container.querySelector(".tt-nav__ov-search")).not.toBeInTheDocument();
-    expect(container.querySelectorAll(".tt-ov__card")).toHaveLength(4);
+    expect(container.querySelectorAll(".tt-ov__card")).toHaveLength(5);
+    expect(container.querySelector('.tt-ov__card[href="/story"]')).toHaveTextContent("Story");
+    expect(container.querySelector('.tt-ov__card[href="/plates"]')).toHaveTextContent("Plates");
     expect(container.querySelector('.tt-ov__card[href="/blog"]')).toHaveAttribute("aria-current", "page");
     expect(container.querySelector(".tt-nav__account")).not.toBeInTheDocument();
   });
@@ -55,6 +57,13 @@ describe("Ghost Signal Journal", () => {
     expect(screen.getByRole("heading", { level: 1, name: "The Clout War Above Heaven" })).toBeInTheDocument();
     expect(container.querySelector("tt-article-reader")?.shadowRoot).not.toBeNull();
     expect(container.querySelector(".tt-article")).not.toBeNull();
+  });
+
+  it("keeps the journal canvas and technical article shell transparent", () => {
+    window.history.replaceState({}, "", "/blog/sensor-telemetry-web-dossier");
+    const { container } = render(<App />);
+    expect(container.querySelector("#main")).toHaveClass("tt-journal");
+    expect(container.querySelector(".journal-technical-article")).toBeInTheDocument();
   });
 
   it("renders the Greystone reported memoir with theme.tools research components", () => {

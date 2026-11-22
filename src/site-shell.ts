@@ -33,13 +33,22 @@ export const GHOST_SIGNAL_NAV_CONFIG = {
       featured: { src: "/evidence-radiation-tdr.webp", alt: "Ghost Signal electromagnetic sensor display", href: "/#live", title: "Read the live electromagnetic field", kicker: "Live now" },
     },
     {
-      label: "Records", href: "/transmissions", icon: "⌁", blurb: "Public calls, the evidence timeline, and recorded transmissions.",
+      label: "Story", href: "/story", icon: "⌁", blurb: "The first-person chronology, evidence dossier, and path to the public experiment.",
       items: [
+        { label: "Evidence timeline", href: "/story#timeline", sub: "Archive" },
+        { label: "The dossier", href: "/story#dossier", sub: "Record" },
         { label: "Transmissions", href: "/transmissions", sub: "Calls" },
-        { label: "Evidence timeline", href: "/#timeline", sub: "Archive" },
+      ],
+      featured: { src: "/story/time-travelers.webp", alt: "Figures crossing a luminous field", href: "/story", title: "Read the story behind the signal", kicker: "First-person record" },
+    },
+    {
+      label: "Plates", href: "/plates", icon: "▣", blurb: "The complete road-photo archive and an essay about pattern, perception, and documentation.",
+      items: [
+        { label: "Plate essay", href: "/plates#plate-essay", sub: "Account" },
+        { label: "Photo archive", href: "/plates#plate-vault-grid", sub: "Evidence" },
         { label: "The Signal", href: "/#the-signal", sub: "Film" },
       ],
-      featured: { src: "/story/time-travelers.webp", alt: "Figures crossing a luminous field", href: "/transmissions", title: "Open the public transmission record", kicker: "Public record" },
+      featured: { src: "/evidence-plate-blckchn.webp", alt: "BLCKCHN vanity plate documented in the Ghost Signal archive", href: "/plates", title: "Open the complete plate archive", kicker: "Field archive" },
     },
     {
       label: "Journal", href: "/blog", icon: "✦", blurb: "Reported memory, strange histories, engineering dossiers, and Night Archive field notes.",

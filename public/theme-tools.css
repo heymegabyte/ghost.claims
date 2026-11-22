@@ -237,11 +237,12 @@ main{min-height:58vh}
 /* The overlay (dialog) */
 .tt-ov{position:fixed;inset:0;z-index:90}
 .tt-ov[hidden]{display:none}
-.tt-ov__scrim{position:absolute;inset:0;background:rgba(2,3,9,.72);backdrop-filter:blur(7px);
+.tt-nav:has(.tt-ov[data-tt-ov-open]){backdrop-filter:none;-webkit-backdrop-filter:none}
+.tt-ov__scrim{position:absolute;inset:0;background:#000;backdrop-filter:none;
   opacity:0;transition:opacity .333s var(--tt-ease)}
 .tt-ov[data-tt-ov-open] .tt-ov__scrim{opacity:1}
 .tt-ov__sheet{position:absolute;left:50%;top:0;transform:translateX(-50%);width:min(1120px,96vw);
-  max-height:92vh;overflow-y:auto;overscroll-behavior:contain;margin-top:70px;padding:20px;
+  max-height:92vh;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable;margin-top:70px;padding:20px;isolation:isolate;
   background:radial-gradient(130% 90% at 0% 0%,rgba(0,229,255,.09),transparent 52%),radial-gradient(120% 120% at 100% 0%,rgba(124,58,237,.11),transparent 54%),linear-gradient(180deg,var(--tt-panel),var(--tt-ink-2));
   border:1px solid var(--tt-line);border-radius:20px;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 50px 120px -40px rgba(0,0,0,.95),0 0 80px -30px rgba(0,229,255,.4);
@@ -280,6 +281,7 @@ main{min-height:58vh}
   transition:border-color .2s var(--tt-ease),background .2s var(--tt-ease),transform .2s var(--tt-ease),box-shadow .2s var(--tt-ease)}
 .tt-ov__card:hover,.tt-ov__card:focus-visible,.tt-ov__card[data-tt-ov-active]{border-color:var(--tt-line-2);transform:translateY(-2px);
   background:linear-gradient(180deg,rgba(0,229,255,.1),rgba(0,229,255,.02));box-shadow:0 16px 40px -22px rgba(0,229,255,.55);outline:none}
+.tt-ov__card[aria-current="page"],.tt-ov a[data-tt-ov-current]{border-color:var(--tt-cyan);box-shadow:inset 3px 0 0 var(--tt-cyan),0 16px 40px -24px rgba(0,229,255,.5)}
 .tt-ov__card:focus-visible{box-shadow:inset 0 0 0 1px var(--tt-cyan),0 16px 40px -22px rgba(0,229,255,.55)}
 .tt-ov__card-head{display:flex;align-items:center;gap:8px;min-width:0}
 .tt-ov__card-ic{flex:0 0 auto;display:inline-grid;place-items:center;min-width:26px;height:26px;padding:0 6px;border-radius:8px;
@@ -313,6 +315,10 @@ main{min-height:58vh}
 .tt-ov__latest-item{display:flex;flex-direction:column;gap:2px;padding:8px 10px;border-radius:10px;text-decoration:none;
   transition:background .2s var(--tt-ease),padding-left .2s var(--tt-ease)}
 .tt-ov__latest-item:hover,.tt-ov__latest-item:focus-visible{background:linear-gradient(90deg,rgba(0,229,255,.1),transparent);padding-left:13px;outline:none}
+.tt-ov__latest-item--visual{display:grid;grid-template-columns:72px minmax(0,1fr);align-items:center;gap:12px}
+.tt-ov__latest-img{width:72px;height:56px;object-fit:cover;border-radius:8px;filter:saturate(.9);transition:transform .3s ease,filter .3s ease}
+.tt-ov__latest-copy{display:grid;gap:4px;min-width:0}
+.tt-ov__latest-item--visual:hover .tt-ov__latest-img,.tt-ov__latest-item--visual:focus-visible .tt-ov__latest-img{transform:scale(1.04);filter:saturate(1.1)}
 .tt-ov__latest-item:focus-visible{box-shadow:inset 0 0 0 1px var(--tt-cyan)}
 .tt-ov__latest-title{font-size:13px;font-weight:600;color:var(--tt-body);line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .tt-ov__latest-item:hover .tt-ov__latest-title,.tt-ov__latest-item:focus-visible .tt-ov__latest-title{color:var(--tt-heading)}
@@ -408,6 +414,9 @@ main{min-height:58vh}
   box-shadow:0 0 18px rgba(0,229,255,.25)}
 .tt-feature__title{margin:16px 0 8px;font-size:1.18rem;font-weight:700;color:var(--tt-heading)}
 .tt-feature__body{color:var(--tt-muted);font-size:.97rem;margin:0}
+.tt-feature__title a{color:inherit;text-decoration:none}
+.tt-feature__title a:hover{color:var(--tt-cyan-soft)}
+.tt-feature .tt-tags{margin-top:14px}
 .tt-feature__body code{font-family:var(--tt-mono);font-size:.88em;background:rgba(0,229,255,.1);color:var(--tt-cyan-soft);
   padding:2px 6px;border-radius:6px}
 
@@ -474,7 +483,7 @@ main{min-height:58vh}
   .tt-journal .tt-pagehead{padding:26px 20px}.tt-journal__article>.tt-article{padding:24px 18px}}
 
 /* Article shell --------------------------------------------------------- */
-.tt-article{max-width:720px;margin:0 auto;padding:56px 24px}
+.tt-article{box-sizing:border-box;width:min(100%,720px);max-width:720px;margin-inline:auto;padding:56px 24px;text-align:left}
 .tt-article h1{font-size:clamp(2rem,5vw,3rem);letter-spacing:-.03em;color:var(--tt-heading);font-weight:800}
 .tt-article .back,.tt-back{font-family:var(--tt-mono);font-size:13px;color:var(--tt-muted)}
 .tt-article .back:hover,.tt-back:hover{color:var(--tt-cyan)}
@@ -503,6 +512,8 @@ main{min-height:58vh}
   font-size:1.12rem;color:var(--tt-heading);box-shadow:0 0 30px -14px rgba(0,229,255,.4)}
 .tt-article .body .fig{margin:30px 0;border:1px solid var(--tt-line);border-radius:14px;overflow:hidden;background:var(--tt-panel-2)}
 .tt-article .body .fig svg{display:block;width:100%;height:auto}
+.tt-article .body>figure{box-sizing:border-box;width:100%;max-width:100%;margin:clamp(28px,6vw,48px) auto;overflow:hidden}
+.tt-article .body>figure :where(img,picture,video,iframe,svg){display:block;max-width:100%;height:auto;margin-inline:auto}
 .tt-article .body figcaption{padding:12px 16px;color:var(--tt-faint);font-size:.85rem;font-family:var(--tt-mono);border-top:1px solid var(--tt-line)}
 .tt-article .body #faq{margin-top:48px;padding-top:4px;border-top:1px solid var(--tt-line)}
 
@@ -685,6 +696,8 @@ main{min-height:58vh}
    visual padding — these border+background chips read as tappable, so give them a real hit-box. */
 .tt-tag{display:inline-flex;align-items:center;min-height:24px;font-family:var(--tt-mono);font-size:11.5px;letter-spacing:.02em;padding:4px 11px;border-radius:999px;
   border:1px solid var(--tt-line);color:var(--tt-cyan);background:rgba(0,229,255,.06)}
+a.tt-tag{text-decoration:none;transition:border-color .2s,background .2s}
+a.tt-tag:hover{border-color:var(--tt-cyan);background:rgba(0,229,255,.12)}
 
 /* Code block + copy button ---------------------------------------------- */
 .tt-article .body .tt-code{position:relative;margin:24px 0}

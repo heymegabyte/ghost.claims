@@ -3,13 +3,13 @@ import { expect, test } from "@playwright/test";
 /**
  * Timeline evidence-image coverage.
  *
- * The homepage "Timeline" section (#timeline-track) must render one card per
+ * The Story page "Timeline" section (#timeline-track) must render one card per
  * chronicle event, and EVERY card must carry a related image so each entry has
  * visual validity. Runs against the local dev server by default; set PROD_URL to
  * verify the deployed site (e.g. PROD_URL=https://ghost.claims).
  */
 
-const TARGET = process.env.PROD_URL || "/";
+const TARGET = `${process.env.PROD_URL || ""}/story`;
 const MIN_EVENTS = 16;
 
 test.describe("timeline evidence images", () => {
@@ -31,7 +31,7 @@ test.describe("timeline evidence images", () => {
   });
 
   test("American Spirits recollection is placed in the chronology and opens in the page gallery", async ({ page }) => {
-    await page.goto("/");
+    await page.goto(TARGET);
     const card = page.locator(".tl-card", { hasText: "American Spirits in the Pew" });
     await expect(card).toContainText("Give us the Marlboros");
     const image = card.locator("img");
