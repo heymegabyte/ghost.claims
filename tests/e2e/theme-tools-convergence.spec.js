@@ -81,6 +81,41 @@ test("entropy split becomes a full-width mobile stack", async ({ page }) => {
   expect((await carousel.boundingBox())?.width).toBeGreaterThan(340);
 });
 
+test("Signal film actions are centered and footer content clears live telemetry", async ({ page }) => {
+  await page.goto("/");
+
+  const signalCopy = page.locator(".the-signal-copy");
+  const actions = signalCopy.locator(".hero-actions");
+  const alignment = await actions.evaluate((element) => {
+    const parent = element.parentElement.getBoundingClientRect();
+    const box = element.getBoundingClientRect();
+    return {
+      left: box.left - parent.left,
+      right: parent.right - box.right,
+      justifyContent: getComputedStyle(element).justifyContent,
+    };
+  });
+  expect(alignment.justifyContent).toBe("center");
+  expect(Math.abs(alignment.left - alignment.right)).toBeLessThan(1);
+
+  const disclosurePadding = await signalCopy.locator(".the-signal-disclosure").evaluate((element) => ({
+    block: Number.parseFloat(getComputedStyle(element).paddingTop),
+    inline: Number.parseFloat(getComputedStyle(element).paddingLeft),
+  }));
+  expect(disclosurePadding.block).toBeGreaterThanOrEqual(20);
+  expect(disclosurePadding.inline).toBeGreaterThanOrEqual(20);
+
+  await page.locator(".tt-footer").scrollIntoViewIfNeeded();
+  const clearance = await page.evaluate(() => {
+    const content = document.querySelector(".tt-footer__row").getBoundingClientRect();
+    const telemetry = document.querySelector(".telemetry-strip").getBoundingClientRect();
+    const links = document.querySelector(".tt-footer__links").getBoundingClientRect();
+    const note = document.querySelector(".tt-footer__note").getBoundingClientRect();
+    return telemetry.top - Math.max(links.bottom, note.bottom, content.top);
+  });
+  expect(clearance).toBeGreaterThanOrEqual(32);
+});
+
 test("auditory signal cards and singleton data export stay centered", async ({ page }) => {
   await page.goto("/");
   const cards = page.locator(".listen-feature-legend-card");
