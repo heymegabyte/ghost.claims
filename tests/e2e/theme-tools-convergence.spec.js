@@ -29,6 +29,12 @@ test("homepage uses the converged shell and removes its duplicate transmission a
   await expect(page.locator(".multiverse-alarm-visual img").first()).toHaveAttribute("src", "/alarm-clock-entropy-shift.webp");
   await expect(page.locator(".alarm-gallery .multiverse-alarm-visual")).toHaveCount(4);
   await expect(page.locator(".alarm-price")).toContainText("$378");
+  const purchase = page.getByRole("link", { name: /reserve the ghost signal entropy clock for \$378/i });
+  await expect(purchase).toHaveAttribute("href", "https://buy.stripe.com/bJedR88bR7ld95I3EIfnO00");
+  await expect(page.getByRole("link", { name: /get clock updates without reserving/i })).toHaveAttribute("href", "#newsletter-form");
+  await expect(page.locator(".multiverse-alarm-disclosure")).toContainText(/non-refundable r&d production reservation/i);
+  await expect(page.locator(".multiverse-alarm-disclosure")).toContainText(/at least 100 paid reservations/i);
+  await expect(page.locator(".multiverse-alarm-disclosure")).toContainText(/receipt,? and a printable invoice/i);
   await expect(page.getByText(/pair over Bluetooth/i)).toBeVisible();
   await expect(page.locator(".alarm-shift-demo")).toContainText("7:03");
   for (const cardMetric of await page.locator(".status-card .metric").all()) {

@@ -1,0 +1,20 @@
+{
+  "trustedAuthority": {
+    "source": "host-user-message",
+    "changeId": "stripe-entropy-clock-checkout",
+    "assignedBy": "repository-owner",
+    "evidenceDigest": "sha256:c227545e2f56c9b23477e58049948b93a98db2e88f991daae2afba86762469eb"
+  },
+  "assignment": {
+    "assignmentId": "stripe-entropy-clock-checkout-codex-2026-11-23",
+    "changeId": "stripe-entropy-clock-checkout",
+    "architectId": "codex-root",
+    "modelFamily": "codex",
+    "assignedBy": "repository-owner",
+    "authorityEvidence": "The repository owner agreed to proceed after Codex requested explicit architect assignment for the Ghost Signal Stripe checkout integration, then authorized full Stripe checkout, success/error, and receipt implementation in the same conversation.",
+    "assignedAt": "2026-11-23T22:20:00.000Z",
+    "status": "active",
+    "digest": "sha256:b174f7cb457aae34ac798b89c3689c52c9606d39f26d44cbd2433e3ebfc97b48"
+  }
+}
+
