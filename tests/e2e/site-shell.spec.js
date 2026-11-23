@@ -165,6 +165,45 @@ test("Browse overlay is opaque and completes its animated close", async ({ page 
   await expect(overlay).toBeHidden({ timeout: 700 });
 });
 
+test("every Browse destination resolves and same-page actions close the overlay", async ({ page, request }) => {
+  await page.goto("/");
+  const hrefs = await page.locator('[data-tt-ov-panel] a[href]').evaluateAll((links) =>
+    [...new Set(links.map((link) => link.getAttribute("href")).filter(Boolean))],
+  );
+
+  for (const href of hrefs) {
+    const url = new URL(href, "http://127.0.0.1:8787");
+    if (url.protocol !== "http:" || url.origin !== "http://127.0.0.1:8787") continue;
+    const response = await request.get(url.pathname);
+    expect(response.ok(), `${href} should resolve`).toBe(true);
+    if (url.hash) {
+      await page.goto(url.pathname);
+      await expect(page.locator(url.hash), `${href} should target an existing element`).toHaveCount(1);
+    }
+  }
+
+  for (const href of ["/#live"]) {
+    await page.goto("/");
+    await page.getByRole("button", { name: "Browse" }).click();
+    const overlay = page.getByRole("dialog", { name: "Browse Ghost Signal" });
+    await overlay.locator(`a[href="${href}"]`).first().click();
+    await expect(page).toHaveURL(new RegExp(`${href.slice(1)}$`));
+    await expect(overlay).toBeHidden({ timeout: 700 });
+  }
+
+  await page.goto("/");
+  await page.getByRole("button", { name: "Browse" }).click();
+  const overlay = page.getByRole("dialog", { name: "Browse Ghost Signal" });
+  await overlay.locator('a[href="/#chat-widget"]').first().click();
+  await expect(overlay).toBeHidden({ timeout: 700 });
+  await expect(page.locator("#chat-panel")).toBeVisible();
+  await page.locator("#chat-close").click();
+
+  await page.getByRole("button", { name: "Browse" }).click();
+  await page.locator('[data-tt-ov-panel] a[href="/story"]').first().click();
+  await expect(page).toHaveURL(/\/story$/);
+});
+
 test("full theme.tools catalog and provenance manifest are public", async ({ request }) => {
   const stylesheet = await request.get("/theme-tools.css");
   expect(stylesheet.ok()).toBe(true);

@@ -82,7 +82,27 @@ export const GHOST_SIGNAL_NAV_CONFIG = {
   ] },
 } as const;
 
-export const GHOST_SIGNAL_NAV_JS = NAV_MENU_JS;
+const GHOST_SIGNAL_OVERLAY_NAVIGATION_JS = `(function(){
+  if(window.__ghostSignalOverlayNavigation)return;window.__ghostSignalOverlayNavigation=true;
+  document.addEventListener('click',function(event){
+    var node=event.target;var link=node&&node.closest?node.closest('[data-tt-ov-panel] a[href]'):null;
+    if(!link)return;
+    var panel=link.closest('[data-tt-ov-panel]');var closeButton=panel&&panel.querySelector('[data-tt-ov-close]');
+    var raw=link.getAttribute('href');var url;
+    try{url=new URL(raw,location.href);}catch(error){if(closeButton)closeButton.click();return;}
+    var sameDocument=url.origin===location.origin&&url.pathname===location.pathname&&url.search===location.search;
+    if(closeButton)closeButton.click();
+    if(!sameDocument||!url.hash)return;
+    event.preventDefault();
+    var previousHash=location.hash;
+    location.hash=url.hash;
+    if(previousHash===url.hash&&window.HashChangeEvent)window.dispatchEvent(new HashChangeEvent('hashchange'));
+    var target=document.getElementById(decodeURIComponent(url.hash.slice(1)));
+    if(target)setTimeout(function(){target.scrollIntoView({block:'start'});},0);
+  });
+})();`;
+
+export const GHOST_SIGNAL_NAV_JS = `${NAV_MENU_JS}\n${GHOST_SIGNAL_OVERLAY_NAVIGATION_JS}`;
 
 export const GHOST_SIGNAL_SHELL_CSS = `
 .tt-nav{view-transition-name:site-header}

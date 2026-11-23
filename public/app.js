@@ -3060,6 +3060,11 @@ if (document.body.dataset.page === "home") {
   document.querySelectorAll('[data-action="open-chat"]').forEach((el) =>
     el.addEventListener("click", () => toggleChat(true))
   );
+  const openChatFromHash = () => {
+    if (location.hash === "#chat-widget") toggleChat(true);
+  };
+  window.addEventListener("hashchange", openChatFromHash);
+  openChatFromHash();
 
   chatFormEl?.addEventListener("submit", (e) => {
     e.preventDefault();
