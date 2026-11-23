@@ -23,7 +23,10 @@ test("homepage uses the converged shell and removes its duplicate transmission a
   await expect(nav.locator(".tt-nav__logo")).toHaveAttribute("src", /logo-nav\.png/);
 
   await expect(page.locator(".entropy-explainer .tt-gallery__slide")).toHaveCount(5);
-  await expect(page.getByRole("heading", { name: /alarm clock for breaking multiverse bondage/i })).toBeVisible();
+  await expect(page.getByText("SNAPSHOT VAULT // ENTROPY EXPORT", { exact: true })).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: /wake up somewhere between/i })).toBeVisible();
+  await expect(page.locator(".multiverse-alarm-visual img")).toHaveAttribute("src", "/alarm-clock-entropy-shift.webp");
+  await expect(page.locator(".alarm-shift-demo")).toContainText("7:03");
   for (const cardMetric of await page.locator(".status-card .metric").all()) {
     const fits = await cardMetric.evaluate((element) => element.scrollWidth <= element.clientWidth);
     expect(fits).toBe(true);
@@ -108,7 +111,11 @@ test("Signal film actions are centered and footer content clears live telemetry"
   const actionSpacing = await actions.evaluate((element) => Number.parseFloat(getComputedStyle(element).paddingBottom));
   expect(actionSpacing).toBeGreaterThanOrEqual(20);
 
-  await expect(page.locator(".signal-closing > .signal-closing__grid > .tt-panel")).toHaveCount(2);
+  await expect(page.locator(".signal-closing > .tt-panel.signal-closing__panel")).toHaveCount(1);
+  const closingGrid = page.locator(".signal-closing__panel > .tt-panel__body > .signal-closing__grid");
+  await expect(closingGrid).toBeVisible();
+  const desktopColumns = await closingGrid.evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(" ").length);
+  expect(desktopColumns).toBe(2);
   await expect(page.locator(".signal-closing__dispatch #newsletter-form")).toBeVisible();
   await expect(page.locator(".signal-closing__note .hotline-number")).toHaveAttribute("href", "tel:+16016666602");
 
@@ -121,6 +128,16 @@ test("Signal film actions are centered and footer content clears live telemetry"
     return telemetry.top - Math.max(links.bottom, note.bottom, content.top);
   });
   expect(clearance).toBeGreaterThanOrEqual(32);
+});
+
+test("Signal closing surface collapses to one column on mobile", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  const closingGrid = page.locator(".signal-closing__panel > .tt-panel__body > .signal-closing__grid");
+  await expect(closingGrid).toBeVisible();
+  const mobileColumns = await closingGrid.evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(" ").length);
+  expect(mobileColumns).toBe(1);
+  await expect(page.locator(".signal-closing__note")).toHaveCSS("border-left-width", "0px");
 });
 
 test("auditory signal cards and singleton data export stay centered", async ({ page }) => {

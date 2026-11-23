@@ -15,10 +15,12 @@ const entropyGallery = renderComponent("gallery", {
   ],
 });
 
-const dispatchPanel = renderPanel({
-  kicker: "SUBSCRIBE // SIGNAL DISPATCH",
-  title: "The Signal Dispatch",
-  body: `<div class="newsletter-body">
+const signalClosingPanel = renderPanel({
+  body: `<div class="signal-closing__grid">
+  <div class="signal-closing__column signal-closing__dispatch">
+    <p class="tt-kicker">SUBSCRIBE // SIGNAL DISPATCH</p>
+    <h2 class="tt-panel__title">The Signal Dispatch</h2>
+    <div class="newsletter-body">
     <p>Every week, AI summarizes the most striking submissions from the hotline and chat. Sensor anomalies. Notes on the unseen layer. The intersection of free will, 666, and the systems that quietly shape daily life.</p>
     <p>No spam. Just notes from someone keeping a careful record — finding the language for patterns most people aren&rsquo;t given the room to discuss in plain terms.</p>
     <form id="newsletter-form" class="newsletter-form" data-testid="newsletter-form" novalidate>
@@ -30,25 +32,25 @@ const dispatchPanel = renderPanel({
       <input id="newsletter-website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none" />
       <p id="newsletter-status" class="card-note" role="status" aria-live="polite"></p>
     </form>
-  </div>`,
-}).replace('class="tt-panel"', 'class="tt-panel signal-closing__panel signal-closing__dispatch"');
-
-const closingPanel = renderPanel({
-  kicker: "IF YOU’VE READ THIS FAR",
-  title: "14 upon thee.",
-  body: `<div class="signal-closing__note-copy">
-    <p>It&rsquo;s not a curse. It&rsquo;s a pattern. People who sit with the full record tend to feel the weight of it — not because anyone wished it on them, but because the signal is real and it asks something of whoever notices. You&rsquo;re in the signal now. The question is what you do with it.</p>
-    <p>The hotline is open because I want people to be able to say what they&rsquo;ve seen. Call if any of this lines up with something in your own life.</p>
-  </div>`,
-  actions: '<a class="hotline-number hotline-number--666" href="tel:+16016666602">(601) 666-6602</a>',
-}).replace('class="tt-panel"', 'class="tt-panel signal-closing__panel signal-closing__note"');
+    </div>
+  </div>
+  <div class="signal-closing__column signal-closing__note">
+    <p class="tt-kicker">IF YOU’VE READ THIS FAR</p>
+    <h2 class="tt-panel__title">14 upon thee.</h2>
+    <div class="signal-closing__note-copy">
+      <p>It&rsquo;s not a curse. It&rsquo;s a pattern. People who sit with the full record tend to feel the weight of it — not because anyone wished it on them, but because the signal is real and it asks something of whoever notices. You&rsquo;re in the signal now. The question is what you do with it.</p>
+      <p>The hotline is open because I want people to be able to say what they&rsquo;ve seen. Call if any of this lines up with something in your own life.</p>
+    </div>
+    <div class="tt-panel__actions">
+      <a class="hotline-number hotline-number--666" href="tel:+16016666602">(601) 666-6602</a>
+    </div>
+  </div>
+</div>`,
+}).replace('class="tt-panel"', 'class="tt-panel signal-closing__panel"');
 
 const signalClosing = `<!-- theme-tools:signal-closing:start -->
 <section class="shell signal-closing reveal-section bx-from-left" data-testid="newsletter-section" aria-label="Signal Dispatch and closing note">
-  <div class="signal-closing__grid">
-    ${dispatchPanel}
-    ${closingPanel}
-  </div>
+  ${signalClosingPanel}
 </section>
 <!-- theme-tools:signal-closing:end -->`;
 
