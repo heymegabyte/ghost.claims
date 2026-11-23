@@ -25,8 +25,11 @@ test("homepage uses the converged shell and removes its duplicate transmission a
   await expect(page.locator(".entropy-explainer .tt-gallery__slide")).toHaveCount(5);
   await expect(page.locator(".listen-feature-reading-label").first()).toHaveText("Local Device");
   await expect(page.getByText("SNAPSHOT VAULT // ENTROPY EXPORT", { exact: true })).toHaveCount(0);
-  await expect(page.getByRole("heading", { name: /wake up somewhere between/i })).toBeVisible();
-  await expect(page.locator(".multiverse-alarm-visual img")).toHaveAttribute("src", "/alarm-clock-entropy-shift.webp");
+  await expect(page.getByRole("heading", { name: /alarm designed to interrupt the feeling of fate/i })).toBeVisible();
+  await expect(page.locator(".multiverse-alarm-visual img").first()).toHaveAttribute("src", "/alarm-clock-entropy-shift.webp");
+  await expect(page.locator(".alarm-gallery .multiverse-alarm-visual")).toHaveCount(4);
+  await expect(page.locator(".alarm-price")).toContainText("$378");
+  await expect(page.getByText(/pair over Bluetooth/i)).toBeVisible();
   await expect(page.locator(".alarm-shift-demo")).toContainText("7:03");
   for (const cardMetric of await page.locator(".status-card .metric").all()) {
     const fits = await cardMetric.evaluate((element) => element.scrollWidth <= element.clientWidth);
