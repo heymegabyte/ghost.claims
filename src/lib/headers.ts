@@ -1,12 +1,4 @@
-export function applyResponseHeaders(response: Response, headers: HeadersInit): Response {
-  const next = new Response(response.body, response);
-
-  new Headers(headers).forEach((value, key) => {
-    next.headers.set(key, value);
-  });
-
-  return next;
-}
+export { applyResponseHeaders } from "@theme-tools/shared-utils/security-sanitization-and-errors";
 
 export function getSecurityHeaders(pathname: string): Headers {
   const headers = new Headers({

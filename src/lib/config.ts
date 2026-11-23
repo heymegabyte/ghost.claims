@@ -1,13 +1,5 @@
 import type { Env } from "../types";
-
-export function getIntSetting(value: string | undefined, fallback: number): number {
-  if (!value) {
-    return fallback;
-  }
-
-  const parsed = Number.parseInt(value, 10);
-  return Number.isFinite(parsed) ? parsed : fallback;
-}
+import { parseIntegerSetting as getIntSetting } from "@theme-tools/shared-utils/client-and-worker-utils";
 
 export function getSiteUrl(env: Env): string {
   return env.SITE_URL ?? "https://ghost.claims";
