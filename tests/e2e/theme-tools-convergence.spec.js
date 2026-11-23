@@ -82,8 +82,20 @@ test("auditory signal cards and singleton data export stay centered", async ({ p
       textAlign: getComputedStyle(element).textAlign,
       titleDisplay: getComputedStyle(element.querySelector("strong")).display,
       titleAlign: getComputedStyle(element.querySelector("strong")).textAlign,
+      titleWeight: Number(getComputedStyle(element.querySelector("strong")).fontWeight),
+      titleSize: Number.parseFloat(getComputedStyle(element.querySelector("strong")).fontSize),
+      descriptionDisplay: getComputedStyle(element.querySelector(".listen-feature-description")).display,
+      descriptionAlign: getComputedStyle(element.querySelector(".listen-feature-description")).textAlign,
     }));
-    expect(alignment).toEqual({ textAlign: "center", titleDisplay: "block", titleAlign: "center" });
+    expect(alignment).toMatchObject({
+      textAlign: "center",
+      titleDisplay: "block",
+      titleAlign: "center",
+      titleWeight: 800,
+      descriptionDisplay: "block",
+      descriptionAlign: "center",
+    });
+    expect(alignment.titleSize).toBeGreaterThanOrEqual(24);
   }
 
   const singleton = await page.locator(".dossier-entropy-grid").evaluate((element) => {

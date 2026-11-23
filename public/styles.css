@@ -9990,6 +9990,7 @@
   }
 
   .listen-feature-shell {
+    --listen-instrument-width: 760px;
     position: relative;
     text-align: center;
     max-width: 980px;
@@ -10109,7 +10110,7 @@
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     text-align: left;
-    width: min(100%, 760px);
+    width: min(100%, var(--listen-instrument-width));
     box-sizing: border-box;
     margin: 0 auto;
     box-shadow: 0 12px 40px rgba(0,0,0,0.45);
@@ -10186,6 +10187,16 @@
     color: #fff;
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.25s ease, background 0.25s ease;
+  }
+  .listen-feature-detector-head:has(.detector-enable-btn) {
+    flex-wrap: wrap;
+  }
+  .listen-feature-detector-head .detector-enable-btn {
+    flex: 0 0 100%;
+    width: 100%;
+    min-height: 44px;
+    margin-top: 0.25rem;
+    justify-content: center;
   }
   .detector-enable-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(0,229,255,0.25); }
   .detector-enable-btn:disabled { opacity: 0.6; cursor: progress; }
@@ -10271,7 +10282,7 @@
 
   .listen-feature-scope-wrap {
     position: relative;
-    width: min(100%, 760px);
+    width: min(100%, var(--listen-instrument-width));
     margin: 2.4rem auto 2rem;
     border-radius: 14px;
     overflow: hidden;
@@ -10389,7 +10400,7 @@
     justify-items: center;
     align-content: start;
     gap: 0.65rem;
-    min-height: 190px;
+    min-height: 210px;
     padding: 1.35rem 1.15rem 1.25rem;
     overflow: hidden;
     text-align: center;
@@ -10419,9 +10430,9 @@
     width: 100%;
     color: #fff;
     font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(1.2rem, 2vw, 1.55rem);
-    font-weight: 700;
-    line-height: 1;
+    font-size: clamp(1.55rem, 2.4vw, 2rem);
+    font-weight: 800;
+    line-height: 1.05;
     letter-spacing: -.025em;
     text-align: center;
   }
@@ -10435,9 +10446,10 @@
   }
 
   .listen-feature-legend-copy {
-    display: grid;
-    justify-items: center;
-    align-content: start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
     gap: .5rem;
     width: 100%;
   }
@@ -10462,9 +10474,12 @@
 
   .listen-feature-description {
     display: block;
+    width: 100%;
     max-width: 28ch;
     color: rgba(235,245,248,.72);
-    line-height: 1.55;
+    font-size: clamp(.98rem, 1.25vw, 1.08rem);
+    line-height: 1.6;
+    text-align: center;
     text-wrap: balance;
   }
 
