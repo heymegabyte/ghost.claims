@@ -231,7 +231,7 @@
       }
     </script>
   </head>
-  <body data-page="home" data-content-page="story">
+  <body data-page="story" data-content-page="story">
     <a class="tt-skip" href="#main">Skip to content</a>
     <div class="reading-progress" role="presentation" aria-hidden="true"><div class="reading-progress-bar"></div></div>
     <div class="gh-letterbox gh-letterbox--top" aria-hidden="true"></div>
@@ -529,13 +529,15 @@
         </div>
       </section>
 
-      <section class="shell timeline-section reveal-section bx-zoom" data-testid="timeline-nav">
-        <div class="panel-copy" style="text-align:center; margin-bottom: 1.5rem;">
+      <section class="shell timeline-section" data-testid="timeline-nav" aria-labelledby="timeline-heading">
+        <div class="panel-copy timeline-section__header">
           <p class="eyebrow">Chronicle</p>
-          <h2>Timeline</h2>
+          <h2 id="timeline-heading">Timeline</h2>
           <p>The signal's history — progressing toward now.</p>
         </div>
-        <div class="timeline-vertical" role="list" aria-label="Timeline" id="timeline-track"></div>
+        <div class="timeline-vertical" role="list" aria-label="Timeline" id="timeline-track" aria-busy="true">
+          <p class="timeline-loading" role="status">Loading the chronology…</p>
+        </div>
       </section>
 
       <hr class="section-divider" aria-hidden="true" />

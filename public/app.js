@@ -408,6 +408,7 @@ function drawChart(points) {
 function renderTimeline() {
   if (!timelineTrackEl || !state.timeline?.events) return;
   timelineTrackEl.replaceChildren();
+  timelineTrackEl.setAttribute("aria-busy", "false");
   // Track items so initTimelineReveal can observe newly created nodes
   state.__timelineNeedsReveal = true;
 
@@ -419,7 +420,7 @@ function renderTimeline() {
     const isFuture = new Date(ev.date) > now;
     const side = i % 2 === 0 ? "left" : "right";
 
-    const item = el("div", `tl-item tl-${side}${isFuture ? " tl-future" : ""}`);
+    const item = el("div", `tl-item tl-${side}${isFuture ? " tl-future" : ""} is-visible`);
     item.setAttribute("role", "listitem");
 
     // Dot on the spine
@@ -2961,6 +2962,7 @@ initSpectralHero();
 if (timelineTrackEl) {
   loadTimeline().catch((error) => {
     console.error("Unable to load the story timeline.", error);
+    timelineTrackEl.setAttribute("aria-busy", "false");
     timelineTrackEl.innerHTML = '<p class="timeline-load-error" role="status">The timeline could not be loaded. Refresh to try again.</p>';
   });
 }

@@ -11,11 +11,15 @@ test("homepage stays product-focused and retains only the featured Signal narrat
 
 test("Story owns the first-person dossier and complete chronology", async ({ page }) => {
   await page.goto("/story");
+  await expect(page.locator("body")).toHaveAttribute("data-page", "story");
   await expect(page.locator("body")).toHaveAttribute("data-content-page", "story");
   await expect(page.getByRole("heading", { name: "I Signal." })).toBeVisible();
   await expect(page.getByTestId("manifesto")).toBeVisible();
   await waitForTimelineReady(page);
   await expect(page.locator("#timeline-track .tl-item")).not.toHaveCount(0);
+  await expect(page.locator("#timeline-track")).toHaveAttribute("aria-busy", "false");
+  await expect(page.getByTestId("timeline-nav")).toHaveCSS("opacity", "1");
+  await expect(page.locator("#timeline-track .tl-item").first()).toHaveCSS("opacity", "1");
   await expect(page.getByTestId("plate-vault")).toHaveCount(0);
 });
 
