@@ -14429,31 +14429,48 @@ body[data-page="home"] .the-signal-section {
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(300px, .92fr);
   align-items: center;
-  gap: clamp(2rem, 6vw, 6rem);
+  gap: clamp(3rem, 7vw, 7rem);
   width: min(calc(100% - 2rem), var(--tt-maxw));
-  margin: clamp(4rem, 9vw, 8rem) auto;
-  padding: clamp(1rem, 3vw, 2rem);
+  margin: 0 auto;
+  padding: clamp(5rem, 10vw, 9rem) clamp(.5rem, 2vw, 1.5rem);
+  border: 0;
+  background: none !important;
+  box-shadow: none;
 }
 .signal-closing .newsletter-section {
   margin: 0;
   padding: 0;
+  border: 0;
+  background: none !important;
+  box-shadow: none;
   text-align: left;
 }
 .signal-closing .newsletter-section .panel-copy,
 .signal-closing .newsletter-body { margin-inline: 0; text-align: left; }
-.signal-closing .newsletter-body > p + p { margin-top: 1rem; }
-.signal-closing .newsletter-input-group { margin-inline: 0; }
+.signal-closing .newsletter-body > p { font-size: 1rem; line-height: 1.75; }
+.signal-closing .newsletter-body > p + p { margin-top: 1.25rem; }
+.signal-closing .newsletter-form { margin-top: 2rem; }
+.signal-closing .newsletter-anon-note { max-width: 34rem; margin-inline: 0; text-align: left; line-height: 1.65; }
+.signal-closing .newsletter-input-group { max-width: 34rem; margin-inline: 0; }
+.signal-closing .newsletter-input-group input,
+.signal-closing .newsletter-input-group button { min-height: 52px; }
 .signal-closing .six-six-six-inner {
   max-width: 34rem;
-  padding-left: clamp(1.25rem, 3vw, 2.5rem);
-  border-left: 1px solid rgba(0, 229, 255, .18);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none !important;
   text-align: left;
 }
 .signal-closing .six-six-six-text { font-size: clamp(3rem, 7vw, 6rem); }
 @media (max-width: 800px) {
-  .signal-closing { grid-template-columns: 1fr; width: calc(100% - 1rem); padding-inline: .75rem; }
+  .signal-closing { grid-template-columns: 1fr; gap: 4rem; width: calc(100% - 1rem); padding: 4.5rem .75rem 6rem; }
   .signal-closing .newsletter-input-group { max-width: none; }
-  .signal-closing .six-six-six-inner { max-width: none; padding: 2rem 0 0; border-left: 0; border-top: 1px solid rgba(0, 229, 255, .18); }
+  .signal-closing .six-six-six-inner { max-width: none; }
+}
+@media (max-width: 460px) {
+  .signal-closing .newsletter-input-group { flex-direction: column; }
+  .signal-closing .newsletter-input-group button { width: 100%; }
 }
 
 /* Single-item homepage grids center their content instead of reserving an empty column. */
