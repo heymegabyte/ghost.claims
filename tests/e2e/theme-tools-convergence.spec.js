@@ -6,6 +6,15 @@ test("homepage uses the converged shell and removes its duplicate transmission a
   await expect(page.getByText("The Open Channel", { exact: true })).toHaveCount(0);
   await expect(page.locator(".chat-toggle-label")).toHaveText("AI");
   await expect(page.locator("tt-ai-chat-shell")).toHaveAttribute("data-theme-tools", "ai-chat-shell");
+  await expect(page.locator("main > .section-divider")).toHaveCount(0);
+
+  for (const section of await page.locator("main > section:not(.hero)").all()) {
+    const borders = await section.evaluate((element) => ({
+      top: getComputedStyle(element).borderTopWidth,
+      bottom: getComputedStyle(element).borderBottomWidth,
+    }));
+    expect(borders).toEqual({ top: "0px", bottom: "0px" });
+  }
 
   const nav = page.locator('[data-theme-tools="site-nav"]');
   const box = await nav.boundingBox();

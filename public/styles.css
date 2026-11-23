@@ -14400,6 +14400,31 @@ tt-ai-chat-shell { display: block; }
   padding-block-start: clamp(1.5rem, 4vw, 3.5rem);
 }
 
+/* Homepage continuity: top-level chapters should read as one sustained page,
+   not a stack of unrelated framed microsites. Keep borders on real controls
+   and media widgets, but remove ornamental chapter rules and redundant outer
+   shells where the content already supplies its own visual grouping. */
+body[data-page="home"] main > .section-divider {
+  display: none;
+}
+body[data-page="home"] main > section:not(.hero) {
+  border-block: 0;
+}
+body[data-page="home"] main > section:not(.hero)::before {
+  display: none;
+}
+body[data-page="home"] :is(.dev-quickstart, .multiverse-alarm-section, .newsletter-section) {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+body[data-page="home"] :is(.dev-quickstart, .multiverse-alarm-section, .newsletter-section)::before {
+  display: none;
+}
+body[data-page="home"] .the-signal-section {
+  background: radial-gradient(circle at 78% 45%, rgba(0, 229, 255, 0.055), transparent 34rem);
+}
+
 /* Single-item homepage grids center their content instead of reserving an empty column. */
 .dossier-feature--snapshot .dossier-feature-meta,
 .dossier-feature--snapshot .dossier-feature-title,
