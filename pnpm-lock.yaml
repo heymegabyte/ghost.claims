@@ -52,8 +52,8 @@ importers:
         specifier: latest
         version: 16.3.3(@testing-library/dom@10.4.2)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@theme-tools/testing':
-        specifier: file:vendor/theme-tools/theme-tools-testing-1.0.0.tgz
-        version: file:vendor/theme-tools/theme-tools-testing-1.0.0.tgz(@types/node@26.6.6)(typescript@5.9.3)
+        specifier: file:vendor/theme-tools/theme-tools-testing-1.0.0-contracts.tgz
+        version: file:vendor/theme-tools/theme-tools-testing-1.0.0-contracts.tgz(@types/node@26.6.6)(typescript@5.9.3)
       '@types/node':
         specifier: latest
         version: 26.6.6
@@ -785,8 +785,8 @@ packages:
     resolution: {integrity: sha512-/LAc38ZxS++sQsqrGijPfDY3IlAxACYAfKxSyv44sofiyfyJH2RvBra4DqQjdtz55ZgErrD8LLwVSU6Z6R1h3A==, tarball: file:vendor/theme-tools/theme-tools-shared-utils-1.0.13.tgz}
     version: 1.0.13
 
-  '@theme-tools/testing@file:vendor/theme-tools/theme-tools-testing-1.0.0.tgz':
-    resolution: {integrity: sha512-R57MrJnjZM2BHSaaIONXK5PcZryRWaatPfr/8Fv21ufKnjfQT4gXETUzlUGj2aAYs9KbNb+0mF4KAQ0G/TIP6w==, tarball: file:vendor/theme-tools/theme-tools-testing-1.0.0.tgz}
+  '@theme-tools/testing@file:vendor/theme-tools/theme-tools-testing-1.0.0-contracts.tgz':
+    resolution: {integrity: sha512-1EMjaFcn6dF+5O4hPI6zAqtaexeCUP0204ouTaz528oY/t2i5cJy/S5z4FZDJAoYnsP/B+mDRZtvckit4pjtVA==, tarball: file:vendor/theme-tools/theme-tools-testing-1.0.0-contracts.tgz}
     version: 1.0.0
 
   '@theme.tools/blog@file:vendor/theme-tools/theme.tools-blog-1.0.12.tgz':
@@ -2057,7 +2057,7 @@ snapshots:
     dependencies:
       zod: 4.6.7
 
-  '@theme-tools/testing@file:vendor/theme-tools/theme-tools-testing-1.0.0.tgz(@types/node@26.6.6)(typescript@5.9.3)':
+  '@theme-tools/testing@file:vendor/theme-tools/theme-tools-testing-1.0.0-contracts.tgz(@types/node@26.6.6)(typescript@5.9.3)':
     dependencies:
       '@theme-tools/shared-utils': file:vendor/theme-tools/theme-tools-shared-utils-1.0.13.tgz
       msw: 2.15.0(@types/node@26.6.6)(typescript@5.9.3)

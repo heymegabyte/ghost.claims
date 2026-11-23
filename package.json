@@ -33,7 +33,7 @@
     "zod": "^3"
   },
   "devDependencies": {
-    "@theme-tools/testing": "file:vendor/theme-tools/theme-tools-testing-1.0.0.tgz",
+    "@theme-tools/testing": "file:vendor/theme-tools/theme-tools-testing-1.0.0-contracts.tgz",
     "@cloudflare/workers-types": "^4",
     "@playwright/test": "^1.56.1",
     "@testing-library/jest-dom": "latest",
