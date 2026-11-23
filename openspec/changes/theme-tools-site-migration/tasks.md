@@ -54,4 +54,4 @@
 - [x] Re-inventory every route and component against the pinned theme.tools catalog and document justified product-specific boundaries.
 - [x] Remove the obsolete homepage Open Channel chapter and repair live-card clipping and section-edge spacing.
 - [x] Complete focused route screenshots and geometry checks until no high-confidence alignment defect remains.
-- [ ] Run the full release gates, commit, push, deploy, and verify the exact production revision.
+- [x] Run the full release gates, commit, push, deploy, and verify the exact production revision.
