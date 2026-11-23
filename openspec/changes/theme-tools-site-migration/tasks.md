@@ -50,4 +50,4 @@
 - [x] Decouple the Story chronology from homepage initialization and expose an honest timeline failure state.
 - [x] Render the archived Jungle Habitat clips with accessible native players and explicit poster thumbnails.
 - [x] Repair narrow-screen documentation chips and remove decorative arrow copy from interactive-reference links.
-- [ ] Run the complete release gates, deploy the exact tested commit, and verify the repaired routes in production.
+- [x] Run the complete release gates, deploy the exact tested commit, and verify the repaired routes in production.
