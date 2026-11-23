@@ -106,6 +106,7 @@ export const GHOST_SIGNAL_NAV_JS = `${NAV_MENU_JS}\n${GHOST_SIGNAL_OVERLAY_NAVIG
 
 export const GHOST_SIGNAL_SHELL_CSS = `
 .tt-nav{view-transition-name:site-header}
+.tt-nav__brand{min-height:44px}
 .tt-nav__logo{width:24px;height:24px;flex:0 0 24px;padding:2px;border-radius:8px;object-fit:contain;background:var(--tt-ink-2);box-shadow:0 0 20px rgba(0,229,255,.45),0 0 0 1px var(--tt-line-2)}
 .tt-nav__link[aria-current="page"]{color:var(--tt-cyan);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:6px}
 .tt-nav--overlay .tt-nav__actions{gap:0}
@@ -142,7 +143,7 @@ export const GHOST_SIGNAL_SHELL_CSS = `
 .tt-nav--overlay .tt-ov__sheet{background:radial-gradient(100% 90% at 0 0,rgba(0,229,255,.09),transparent 50%),linear-gradient(145deg,rgba(5,20,30,.99),rgba(5,7,20,.995));box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 44px 110px -36px rgba(0,0,0,.98),0 0 90px -35px rgba(0,229,255,.55)}
 .tt-nav--overlay .tt-ov__top{justify-content:flex-end;margin-bottom:10px}
 @media(max-width:640px){
-  .tt-nav--overlay .tt-nav__ov-trigger{min-height:42px;padding:8px 14px 8px 12px;border-radius:14px;font-size:.76rem}
+  .tt-nav--overlay .tt-nav__ov-trigger{min-height:44px;padding:8px 14px 8px 12px;border-radius:14px;font-size:.76rem}
   .tt-nav--overlay .tt-nav__ov-grid{width:15px;height:15px}
   .tt-nav--overlay .tt-nav__ov-label{position:static;width:auto;height:auto;padding:0;margin:0;overflow:visible;clip:auto;white-space:nowrap;border:0}
 }

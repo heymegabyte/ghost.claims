@@ -55,3 +55,6 @@
 - [x] Remove the obsolete homepage Open Channel chapter and repair live-card clipping and section-edge spacing.
 - [x] Complete focused route screenshots and geometry checks until no high-confidence alignment defect remains.
 - [x] Run the full release gates, commit, push, deploy, and verify the exact production revision.
+- [x] Re-audit every public route at desktop and phone widths, then refine touch geometry, mobile editorial table affordances, and Story artifact containment without changing the approved visual identity.
+- [x] Restore Story controller initialization so the AVATAR MUD terminal and shared interactions load without starting homepage-only sensor polling.
+- [x] Verify the refinement with focused recaptures, performance budgets, route-shell invariants, and the complete 76-test E2E suite in deterministic serial mode.

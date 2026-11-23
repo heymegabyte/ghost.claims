@@ -233,6 +233,35 @@ tt-article-reader {
 }
 .journal-technical-article .tt-comparison__scroll { max-width: 100%; }
 
+/* Comparison tables deliberately retain useful column width on phones. The
+   framed scroll rail and visible scrollbar make that behavior discoverable
+   without allowing the article itself to drift off-canvas. */
+.tt-journal__article .tt-comparison__scroll {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 229, 255, .55) rgba(255, 255, 255, .04);
+}
+
+.tt-journal__article .tt-comparison__scroll::-webkit-scrollbar { height: 8px; }
+.tt-journal__article .tt-comparison__scroll::-webkit-scrollbar-track { background: rgba(255, 255, 255, .04); }
+.tt-journal__article .tt-comparison__scroll::-webkit-scrollbar-thumb {
+  border: 2px solid rgba(4, 9, 15, .96);
+  border-radius: 999px;
+  background: rgba(0, 229, 255, .55);
+}
+
+.tt-journal__article :where(.tt-back, .tt-h-anchor, .tt-code__copy) {
+  min-height: 44px;
+}
+
+.tt-journal__article .tt-h-anchor {
+  min-width: 44px;
+}
+
 .journal-figure {
   width: min(100%, 880px);
   margin: 3rem auto;
@@ -263,6 +292,11 @@ tt-article-reader {
     overflow-wrap: anywhere;
   }
   .journal-technical-article .tt-code { max-width: 100%; }
+  .tt-journal__article .tt-comparison__scroll {
+    padding-bottom: .35rem;
+    border-radius: 12px;
+    box-shadow: inset -18px 0 24px -24px rgba(0, 229, 255, .9);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

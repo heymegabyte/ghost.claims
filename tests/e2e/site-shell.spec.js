@@ -98,6 +98,38 @@ test("mobile developer samples stay in a bounded horizontal scroller", async ({ 
   }
 });
 
+test("high-frequency controls keep comfortable touch geometry", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  for (const control of await page.locator(".tt-nav__brand, .tt-nav__ov-trigger, .range-button, .chart-icon-btn").all()) {
+    const box = await control.boundingBox();
+    expect(box?.height).toBeGreaterThanOrEqual(44);
+  }
+
+  await page.goto("/docs");
+  for (const control of await page.locator(".family-cta, .usecase-link").all()) {
+    const box = await control.boundingBox();
+    expect(box?.height).toBeGreaterThanOrEqual(44);
+  }
+});
+
+test("mobile editorial comparison tables stay inside a discoverable scroll rail", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  for (const route of [
+    "/blog/sensor-telemetry-web-dossier",
+    "/blog/greystone-after-the-skunk",
+    "/blog/jungle-habitat-dead-battery-safari-trails",
+  ]) {
+    await page.goto(route);
+    for (const rail of await page.locator(".tt-comparison__scroll").all()) {
+      const box = await rail.boundingBox();
+      expect(box?.x).toBeGreaterThanOrEqual(0);
+      expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(390);
+      expect(await rail.evaluate((node) => getComputedStyle(node).overflowX)).toBe("auto");
+    }
+  }
+});
+
 test("shared lightbox placeholders do not request the current document as an image", async ({ page }) => {
   for (const route of ["/", "/story", "/plates"]) {
     await page.goto(route);

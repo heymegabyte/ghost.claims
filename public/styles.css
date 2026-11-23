@@ -14001,6 +14001,56 @@ html[data-runtime-reduced-motion="true"] *::after {
 
 /* Full-page entropy hero — approved 2026-11-22 */
 body[data-page="home"] main { padding-top: 0; }
+
+/* Route-wide interaction and small-screen convergence.
+   Shared theme.tools geometry remains authoritative; these product adapters only
+   normalize Ghost-specific controls and compositions that sit outside it. */
+.range-button,
+.chart-icon-btn,
+.chat-icon-btn,
+.chat-starter,
+body[data-page="docs"] .family-cta,
+body[data-page="docs"] .usecase-link {
+  min-height: 44px;
+}
+
+.range-button,
+.chart-icon-btn,
+.chat-icon-btn {
+  min-width: 44px;
+}
+
+.chat-starter,
+body[data-page="docs"] .family-cta,
+body[data-page="docs"] .usecase-link {
+  display: inline-flex;
+  align-items: center;
+}
+
+@media (max-width: 640px) {
+  .exorcism-letter {
+    padding-inline: 0.35rem;
+  }
+
+  .exorcism-letter-paper {
+    width: calc(100% - 0.7rem);
+    max-width: calc(100vw - 2rem);
+    box-sizing: border-box;
+    transform: rotate(-0.75deg);
+  }
+
+  .dossier-feature-map-pin .map-pin-label {
+    max-width: calc(100vw - 2rem);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) and (max-width: 640px) {
+  .exorcism-letter-paper {
+    transform: rotate(-0.75deg);
+  }
+}
 .hero {
   isolation: isolate;
   position: relative;

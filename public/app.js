@@ -2967,20 +2967,22 @@ if (timelineTrackEl) {
   });
 }
 
-if (document.body.dataset.page === "home") {
-  const timelineBoot = document.body.dataset.contentPage === "story" ? Promise.resolve() : loadTimeline();
-  Promise.all([loadMeta(), timelineBoot])
-    .then(() => {
-      const r = parseInitialRange();
-      const u = new URL(location.href);
-      const userPicked = u.searchParams.has("range") || (u.searchParams.has("start") && u.searchParams.has("end"));
-      setRange(r.preset, { start: r.start, end: r.end }, { persist: userPicked });
-      return refreshAll();
-    })
-    .catch((err) => {
-      if (currentStateEl) currentStateEl.textContent = "Signal not responding.";
-      console.error(err);
-    });
+if (document.body.dataset.page === "home" || document.body.dataset.contentPage === "story") {
+  if (document.body.dataset.page === "home") {
+    const timelineBoot = document.body.dataset.contentPage === "story" ? Promise.resolve() : loadTimeline();
+    Promise.all([loadMeta(), timelineBoot])
+      .then(() => {
+        const r = parseInitialRange();
+        const u = new URL(location.href);
+        const userPicked = u.searchParams.has("range") || (u.searchParams.has("start") && u.searchParams.has("end"));
+        setRange(r.preset, { start: r.start, end: r.end }, { persist: userPicked });
+        return refreshAll();
+      })
+      .catch((err) => {
+        if (currentStateEl) currentStateEl.textContent = "Signal not responding.";
+        console.error(err);
+      });
+  }
 
   // Range presets
   rangeButtons.forEach((btn) => {
@@ -3489,41 +3491,43 @@ if (document.body.dataset.page === "home") {
     setInterval(() => loadFeed(true).catch(() => {}), 5000);
   }
 
-  // Keep the edge reading within one sensor tick of Home Assistant. Pause while
-  // hidden, refresh immediately on return, and never overlap upstream requests.
-  const livePollInterval = Math.max(500, Number(state.meta?.polling?.recommendedIntervalMs) || 1000);
-  let livePollTimer = null;
-  const scheduleLivePoll = () => {
-    clearTimeout(livePollTimer);
-    if (document.hidden) return;
-    livePollTimer = setTimeout(async () => {
-      await loadCurrent().catch(() => {});
-      scheduleLivePoll();
-    }, livePollInterval);
-  };
-  document.addEventListener("visibilitychange", () => {
-    clearTimeout(livePollTimer);
-    if (!document.hidden) {
-      loadCurrent().catch(() => {}).finally(scheduleLivePoll);
-    }
-  });
-  scheduleLivePoll();
-  setInterval(() => {
-    refreshPreset();
-    loadHistory().catch(() => {});
-    loadEntropy().catch(() => {});
-    loadSnapshotUtils().catch(() => {});
-  }, 10000);
-  setInterval(() => loadTransmissionCount().catch(() => {}), 30000);
+  if (document.body.dataset.page === "home") {
+    // Keep the edge reading within one sensor tick of Home Assistant. Pause while
+    // hidden, refresh immediately on return, and never overlap upstream requests.
+    const livePollInterval = Math.max(500, Number(state.meta?.polling?.recommendedIntervalMs) || 1000);
+    let livePollTimer = null;
+    const scheduleLivePoll = () => {
+      clearTimeout(livePollTimer);
+      if (document.hidden) return;
+      livePollTimer = setTimeout(async () => {
+        await loadCurrent().catch(() => {});
+        scheduleLivePoll();
+      }, livePollInterval);
+    };
+    document.addEventListener("visibilitychange", () => {
+      clearTimeout(livePollTimer);
+      if (!document.hidden) {
+        loadCurrent().catch(() => {}).finally(scheduleLivePoll);
+      }
+    });
+    scheduleLivePoll();
+    setInterval(() => {
+      refreshPreset();
+      loadHistory().catch(() => {});
+      loadEntropy().catch(() => {});
+      loadSnapshotUtils().catch(() => {});
+    }, 10000);
+    setInterval(() => loadTransmissionCount().catch(() => {}), 30000);
 
-  // Signal age update
-  setInterval(() => {
-    if (state.meta?.earliestKnownAt) {
-      const age = formatAge(state.meta.earliestKnownAt);
-      if (signalAgeEl) signalAgeEl.textContent = age;
-      if (teleAgeEl) teleAgeEl.textContent = age;
-    }
-  }, 60000);
+    // Signal age update
+    setInterval(() => {
+      if (state.meta?.earliestKnownAt) {
+        const age = formatAge(state.meta.earliestKnownAt);
+        if (signalAgeEl) signalAgeEl.textContent = age;
+        if (teleAgeEl) teleAgeEl.textContent = age;
+      }
+    }, 60000);
+  }
 }
 
 /* ---------- Middle-Earth Map (ambient CSS-only — no JS needed) ---------- */
