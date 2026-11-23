@@ -158,7 +158,7 @@ function CanonicalArticlePage({ post }: { post: CanonicalBlogPost }) {
       { label: "Journal", href: "/blog" },
       { label: post.title },
     ] })} />
-    <CanonicalMarkup className="journal-reading-rail" html={renderPageHeader({ kicker: `${post.desk.toUpperCase()} // ${post.format.toUpperCase()} // ${meta}`, title: post.title, lede: post.description })} />
+    <CanonicalMarkup className="journal-reading-rail journal-technical-header" html={renderPageHeader({ kicker: `${post.desk.toUpperCase()} // ${post.format.toUpperCase()} // ${meta}`, title: post.title, lede: post.description })} />
     <div className="journal-article-tools journal-reading-rail">
       <CanonicalMarkup html={renderEvidenceBadge(post.evidence)} />
       <CanonicalMarkup html={renderTagList({ tags: post.tags, label: "Filed under" })} />

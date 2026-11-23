@@ -38,6 +38,15 @@ body { margin: 0; }
   text-align: left;
 }
 
+/* Long engineering titles should establish hierarchy without consuming an
+   entire desktop viewport before the article description becomes visible. */
+.journal-technical-header .tt-pagehead h1 {
+  max-width: 15ch;
+  font-size: clamp(2.65rem, 5vw, 4.75rem);
+  line-height: .98;
+  text-wrap: balance;
+}
+
 .tt-journal__article > .tt-article {
   box-sizing: border-box;
   width: 100%;

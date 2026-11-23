@@ -3,6 +3,7 @@ import { test, expect } from "@playwright/test";
 test("homepage uses the converged shell and removes its duplicate transmission archive", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("#transmissions, .transmissions-section")).toHaveCount(0);
+  await expect(page.getByText("The Open Channel", { exact: true })).toHaveCount(0);
   await expect(page.locator(".chat-toggle-label")).toHaveText("AI");
   await expect(page.locator("tt-ai-chat-shell")).toHaveAttribute("data-theme-tools", "ai-chat-shell");
 
@@ -14,6 +15,10 @@ test("homepage uses the converged shell and removes its duplicate transmission a
 
   await expect(page.locator(".entropy-explainer .tt-gallery__slide")).toHaveCount(5);
   await expect(page.getByRole("heading", { name: /alarm clock for breaking multiverse bondage/i })).toBeVisible();
+  for (const cardMetric of await page.locator(".status-card .metric").all()) {
+    const fits = await cardMetric.evaluate((element) => element.scrollWidth <= element.clientWidth);
+    expect(fits).toBe(true);
+  }
   const metric = page.locator(".status-card .metric").first();
   const before = await metric.evaluate((node) => node.getBoundingClientRect().height);
   await metric.evaluate((node) => { node.textContent = "123456789012345678901234567890"; });

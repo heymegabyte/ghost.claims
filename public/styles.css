@@ -14310,6 +14310,37 @@ tt-ai-chat-shell { display: block; }
   padding-block-start: max(0.375rem, env(safe-area-inset-top));
 }
 
+/* Keep live values legible inside their own card instead of clipping at
+   intermediate widths. Container-relative type preserves the fixed metric
+   row height while allowing long unit-bearing readings to fit. */
+.status-card {
+  container-type: inline-size;
+  min-width: 0;
+}
+.status-card .metric {
+  width: 100%;
+  min-width: 0;
+  gap: 0.18em;
+  font-size: clamp(1.7rem, 13cqi, 3.4rem);
+}
+.status-card .metric.metric-small {
+  font-size: clamp(1.25rem, 9cqi, 2rem);
+}
+.status-card .metric > :first-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.status-card .metric-unit {
+  flex: 0 0 auto;
+  margin-left: 0;
+}
+
+/* Sections following full-width dividers retain a complete visual runway. */
+.platform-pillars {
+  padding-block-start: clamp(1.5rem, 4vw, 3.5rem);
+}
+
 /* Single-item homepage grids center their content instead of reserving an empty column. */
 .dossier-feature--snapshot .dossier-feature-meta,
 .dossier-feature--snapshot .dossier-feature-title,

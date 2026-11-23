@@ -51,3 +51,7 @@
 - [x] Render the archived Jungle Habitat clips with accessible native players and explicit poster thumbnails.
 - [x] Repair narrow-screen documentation chips and remove decorative arrow copy from interactive-reference links.
 - [x] Run the complete release gates, deploy the exact tested commit, and verify the repaired routes in production.
+- [x] Re-inventory every route and component against the pinned theme.tools catalog and document justified product-specific boundaries.
+- [x] Remove the obsolete homepage Open Channel chapter and repair live-card clipping and section-edge spacing.
+- [x] Complete focused route screenshots and geometry checks until no high-confidence alignment defect remains.
+- [ ] Run the full release gates, commit, push, deploy, and verify the exact production revision.
