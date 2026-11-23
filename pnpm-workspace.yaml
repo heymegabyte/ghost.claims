@@ -2,4 +2,4 @@ packages:
   - .
 
 overrides:
-  "@theme-tools/shared-utils": "file:vendor/theme-tools/theme-tools-shared-utils-1.0.4.tgz"
+  "@theme-tools/shared-utils": "file:vendor/theme-tools/theme-tools-shared-utils-1.0.5.tgz"
