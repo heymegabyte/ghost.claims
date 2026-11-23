@@ -63,6 +63,7 @@ const pages = [
   ["public/terms.html", "/terms"],
 ];
 const themeToolsStylesheetHref = "/theme-tools.css?v=theme-tools-blog-1.0.12";
+const themeToolsShellStylesheetHref = "/theme-tools-shell.css?v=20261123-visual-convergence";
 
 for (const [file, pathname] of pages) {
   const source = await readFile(file, "utf8");
@@ -70,8 +71,8 @@ for (const [file, pathname] of pages) {
     ? source.replace(/\/theme-tools\.css(?:\?[^"']*)?/g, themeToolsStylesheetHref)
     : source.replace(/(<link rel="stylesheet" href="\/styles\.css[^>]*>)/, `<link rel="stylesheet" href="${themeToolsStylesheetHref}" />\n    $1`);
   const withStylesheet = withCatalog.includes("/theme-tools-shell.css")
-    ? withCatalog
-    : withCatalog.replace(/(<link rel="stylesheet" href="\/styles\.css[^>]*>)/, '$1\n    <link rel="stylesheet" href="/theme-tools-shell.css" />');
+    ? withCatalog.replace(/\/theme-tools-shell\.css(?:\?[^"']*)?/g, themeToolsShellStylesheetHref)
+    : withCatalog.replace(/(<link rel="stylesheet" href="\/styles\.css[^>]*>)/, `$1\n    <link rel="stylesheet" href="${themeToolsShellStylesheetHref}" />`);
   const withNav = withStylesheet.replace(/\s*<header class="[^"]*(?:site-header|tt-nav)[^"]*"[\s\S]*?<\/header>/, `\n    ${renderGhostSignalNav(pathname)}`);
   const withSkipLink = withNav.replace(/<a class="(?:skip-link|tt-skip)" href="#main">Skip to content<\/a>/, renderGhostSignalSkipLink());
   const withFragments = withSkipLink.replace(

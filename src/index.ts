@@ -263,7 +263,7 @@ function transmissionsPageHtml(): string {
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.12" />
   <link rel="stylesheet" href="/styles.css" />
-  <link rel="stylesheet" href="/theme-tools-shell.css" />
+  <link rel="stylesheet" href="/theme-tools-shell.css?v=20261123-visual-convergence" />
   <style>
     .tx-layout { padding-top: 1rem; padding-bottom: 3rem; }
     .tx-hero {
@@ -1325,7 +1325,7 @@ app.get("/api/docs", (c) => {
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.12" />
   <link rel="stylesheet" href="/styles.css?v=20260501-reveal" />
-  <link rel="stylesheet" href="/theme-tools-shell.css" />
+  <link rel="stylesheet" href="/theme-tools-shell.css?v=20261123-visual-convergence" />
   <style>
     @view-transition { navigation: auto; }
     :root {
