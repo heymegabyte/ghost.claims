@@ -4519,6 +4519,9 @@
   }
   .docs-sensor-chip {
     display: inline-flex; align-items: center; gap: 0.5rem;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
     padding: 0.5rem 0.8rem;
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: var(--radius-soft);
@@ -4548,6 +4551,8 @@
   .docs-sensor-ef .docs-sensor-label { color: var(--accent-purple); }
   .docs-sensor-rf .docs-sensor-label { color: var(--accent-cyan); }
   .docs-sensor-chip code {
+    min-width: 0;
+    overflow-wrap: anywhere;
     color: var(--text-muted); font-size: 0.78rem;
   }
 
@@ -6115,6 +6120,7 @@
   }
   .dev-snippet {
     margin: 0;
+    min-width: 0;
     background: rgba(0, 0, 0, 0.45);
     border: 1px solid rgba(0, 229, 255, 0.18);
     border-radius: 8px;
@@ -6132,8 +6138,13 @@
     color: var(--accent-cyan, #00E5FF);
   }
   .dev-snippet pre {
+    box-sizing: border-box;
+    max-width: 100%;
+    width: 100%;
     margin: 0;
     overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-gutter: stable;
   }
   .dev-snippet code {
     font-family: var(--font-mono, 'JetBrains Mono', monospace);

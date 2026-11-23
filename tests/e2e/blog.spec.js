@@ -81,6 +81,16 @@ test("Jungle Habitat memoir loads research, original photography, and canonical 
   await expect(page.locator(".tt-pagehead__title")).toHaveText("Jungle Habitat: The Safari That Killed My Battery");
   await expect(page.getByText(/May 5, 2018 field footage and receipt/i)).toBeVisible();
   await expect(page.locator(".tt-gallery img")).toHaveCount(12);
+  const fieldVideos = page.locator(".journal-field-video video");
+  await expect(fieldVideos).toHaveCount(2);
+  await expect(fieldVideos.nth(0)).toHaveAttribute("preload", "none");
+  await expect(fieldVideos.nth(0)).toHaveAttribute("poster", "/video-poster-evidence-jungle-habitat-1.webp");
+  await expect(fieldVideos.nth(1)).toHaveAttribute("poster", "/video-poster-evidence-jungle-habitat-2.webp");
+  for (const video of await fieldVideos.all()) {
+    const poster = await video.getAttribute("poster");
+    const response = await page.request.get(poster);
+    expect(response.ok(), `${poster} should load`).toBeTruthy();
+  }
   await expect(page.locator("[id^='jh-source-']")).toHaveCount(9);
   await expect(page.locator(".tt-source-card")).toHaveCount(9);
   await expect(page.getByLabel("9 references")).toBeVisible();

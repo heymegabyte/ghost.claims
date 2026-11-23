@@ -2955,8 +2955,19 @@ initYouTubeFacades();
 initHobbitAudio();
 initSpectralHero();
 
+// The first-person timeline lives on /story. Keep its data loading tied to the
+// component rather than the homepage so future page moves cannot silently
+// leave an empty timeline shell behind.
+if (timelineTrackEl) {
+  loadTimeline().catch((error) => {
+    console.error("Unable to load the story timeline.", error);
+    timelineTrackEl.innerHTML = '<p class="timeline-load-error" role="status">The timeline could not be loaded. Refresh to try again.</p>';
+  });
+}
+
 if (document.body.dataset.page === "home") {
-  Promise.all([loadMeta(), loadTimeline()])
+  const timelineBoot = document.body.dataset.contentPage === "story" ? Promise.resolve() : loadTimeline();
+  Promise.all([loadMeta(), timelineBoot])
     .then(() => {
       const r = parseInitialRange();
       const u = new URL(location.href);

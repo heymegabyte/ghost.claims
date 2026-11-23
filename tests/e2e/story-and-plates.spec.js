@@ -11,6 +11,7 @@ test("homepage stays product-focused and retains only the featured Signal narrat
 
 test("Story owns the first-person dossier and complete chronology", async ({ page }) => {
   await page.goto("/story");
+  await expect(page.locator("body")).toHaveAttribute("data-content-page", "story");
   await expect(page.getByRole("heading", { name: "I Signal." })).toBeVisible();
   await expect(page.getByTestId("manifesto")).toBeVisible();
   await waitForTimelineReady(page);

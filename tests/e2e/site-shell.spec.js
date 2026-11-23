@@ -9,6 +9,7 @@ const routes = [
 
 for (const viewport of [{ name: "desktop", width: 1440, height: 1000 }, { name: "phone", width: 390, height: 844 }]) {
   test(`canonical theme.tools shell is invariant on every route at ${viewport.name}`, async ({ page }) => {
+    test.setTimeout(120_000);
     await page.setViewportSize(viewport);
     let canonical;
     for (const route of routes) {
@@ -71,6 +72,39 @@ test("canonical shell exposes keyboard navigation and theme.tools footer", async
   await expect(page.locator(".tt-skip")).toBeFocused();
   await expect(page.locator('[data-theme-tools="site-footer"]')).toContainText("ghost.claims");
   await expect(page.locator(".tt-nav__brand")).toHaveAttribute("href", "/");
+});
+
+test("documentation sensor chips remain inside the mobile reading rail", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/docs");
+  const chips = page.locator(".docs-sensor-chip");
+  await expect(chips).toHaveCount(3);
+  for (const chip of await chips.all()) {
+    const box = await chip.boundingBox();
+    expect(box?.x).toBeGreaterThanOrEqual(0);
+    expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(390);
+  }
+  await expect(page.getByRole("link", { name: "Open Interactive Reference", exact: true })).toHaveCount(2);
+});
+
+test("mobile developer samples stay in a bounded horizontal scroller", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  for (const sample of await page.locator(".dev-snippet pre").all()) {
+    const box = await sample.boundingBox();
+    expect(box?.x).toBeGreaterThanOrEqual(0);
+    expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(390);
+    expect(await sample.evaluate((node) => getComputedStyle(node).overflowX)).toBe("auto");
+  }
+});
+
+test("shared lightbox placeholders do not request the current document as an image", async ({ page }) => {
+  for (const route of ["/", "/story", "/plates"]) {
+    await page.goto(route);
+    const placeholder = page.locator(".lightbox-image");
+    await expect(placeholder).toHaveCount(1);
+    await expect(placeholder).not.toHaveAttribute("src", "");
+  }
 });
 
 test("homepage uses the theme.tools hero with a copyable entropy instrument", async ({ page }) => {

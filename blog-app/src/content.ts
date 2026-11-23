@@ -18,7 +18,7 @@ export interface NightArchiveArticle {
 
 export type ArticleComponent =
   | { kind: "widget"; type: "callout" | "comparison" | "timeline" | "stat-cards" | "spec-table"; data: unknown }
-  | { kind: "media"; type: "featured" | "gallery" | "audio-narration"; data: unknown };
+  | { kind: "media"; type: "featured" | "gallery" | "audio-narration" | "field-video"; data: unknown };
 
 export interface CanonicalBlogPost {
   readonly slug: string;
@@ -206,6 +206,8 @@ export const articles: readonly NightArchiveArticle[] = [
         ],
         components: [
           { kind: "media", type: "featured", data: { src: "/video-poster-evidence-jungle-habitat-2.webp", alt: "A narrow paved trail bends through dense green forest at the former Jungle Habitat site", caption: "Original field footage, Jungle Habitat, May 5, 2018. The old paved alignments are now threaded through a living trail network." } },
+          { kind: "media", type: "field-video", data: { src: "/evidence-jungle-habitat-1.mp4", poster: "/video-poster-evidence-jungle-habitat-1.webp", title: "Jungle Habitat field clip one", caption: "Field clip 01 · Riding the former safari trails, May 5, 2018." } },
+          { kind: "media", type: "field-video", data: { src: "/evidence-jungle-habitat-2.mp4", poster: "/video-poster-evidence-jungle-habitat-2.webp", title: "Jungle Habitat field clip two", caption: "Field clip 02 · Old pavement disappearing beneath the forest, May 5, 2018." } },
           { kind: "widget", type: "callout", data: { variant: "warning", title: "Field record // May 5, 2018", body: "The author’s archived receipt records a $214.83 replacement battery in West Milford after the visit. Practical lesson: carry a jump pack, and do not let the soundtrack outlast the car." } },
         ],
       },

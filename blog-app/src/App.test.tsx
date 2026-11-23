@@ -84,6 +84,11 @@ describe("Ghost Signal Journal", () => {
     expect(screen.getByText(/May 5, 2018 field footage and receipt/i)).toBeInTheDocument();
     expect(container.querySelector(".tt-timeline")).not.toBeNull();
     expect(container.querySelector(".tt-gallery")).not.toBeNull();
+    const videos = container.querySelectorAll<HTMLVideoElement>(".journal-field-video video");
+    expect(videos).toHaveLength(2);
+    expect(videos[0]).toHaveAttribute("preload", "none");
+    expect(videos[0]).toHaveAttribute("poster", "/video-poster-evidence-jungle-habitat-1.webp");
+    expect(videos[1]).toHaveAttribute("poster", "/video-poster-evidence-jungle-habitat-2.webp");
     expect(container.querySelectorAll("[id^='jh-source-']")).toHaveLength(9);
     expect(container.querySelectorAll(".tt-source-card")).toHaveLength(9);
     expect(screen.getByLabelText("9 references")).toBeInTheDocument();

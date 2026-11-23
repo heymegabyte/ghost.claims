@@ -56,6 +56,32 @@ body { margin: 0; }
   margin-inline: auto;
 }
 
+.journal-field-video {
+  width: 100%;
+  margin-block: clamp(1.5rem, 4vw, 2.5rem);
+  overflow: hidden;
+  border: 1px solid rgba(0, 229, 255, .22);
+  border-radius: 16px;
+  background: #03070c;
+  box-shadow: 0 24px 60px -42px rgba(0, 229, 255, .65);
+}
+
+.journal-field-video video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: #020406;
+}
+
+.journal-field-video figcaption {
+  padding: .85rem 1rem 1rem;
+  color: var(--tt-muted);
+  font: .76rem/1.55 var(--tt-mono);
+  letter-spacing: .055em;
+  text-transform: uppercase;
+}
+
 .journal-audio-briefing {
   display: block;
   margin-block: 1.5rem 2rem;

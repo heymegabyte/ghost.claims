@@ -46,3 +46,8 @@
 - [x] Reframe the homepage Signal film as the project’s primary evidence while distinguishing observation from interpretation.
 - [x] Verify the Story and Plates routes visually, update navigation/discovery, and run the complete release gates.
 - [x] Flatten the sensor-telemetry dossier’s redundant article/section surfaces and keep the journal main canvas transparent.
+- [x] Audit every public route with deterministic desktop/mobile geometry plus focused one-or-two-screen visual passes.
+- [x] Decouple the Story chronology from homepage initialization and expose an honest timeline failure state.
+- [x] Render the archived Jungle Habitat clips with accessible native players and explicit poster thumbnails.
+- [x] Repair narrow-screen documentation chips and remove decorative arrow copy from interactive-reference links.
+- [ ] Run the complete release gates, deploy the exact tested commit, and verify the repaired routes in production.

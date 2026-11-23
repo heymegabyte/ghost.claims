@@ -36,10 +36,24 @@ function articleBody(article: NightArchiveArticle): string {
     const heading = section.heading ? `<h2 id="${id}">${section.heading}</h2>` : "";
     const paragraphs = section.paragraphs.map((paragraph) => `<p>${paragraph}</p>`).join("");
     const quote = section.quote ? `<blockquote>${section.quote}</blockquote>` : "";
-    const components = section.components?.map((component) => renderComponent(component.type, component.data)).join("") ?? "";
+    const components = section.components?.map((component) => {
+      if (component.type === "field-video") return renderFieldVideo(component.data);
+      return renderComponent(component.type, component.data);
+    }).join("") ?? "";
     return `<section>${heading}${paragraphs}${quote}${components}</section>`;
   }).join("");
   return html.replace(/<img(?![^>]*data-tt-zoom)/g, '<img data-tt-zoom');
+}
+
+function renderFieldVideo(data: unknown): string {
+  const video = data as { src: string; poster: string; title: string; caption: string };
+  return `<figure class="journal-field-video">
+    <video controls playsinline preload="none" poster="${video.poster}" aria-label="${video.title}">
+      <source src="${video.src}" type="video/mp4" />
+      <a href="${video.src}">Open ${video.title}</a>
+    </video>
+    <figcaption>${video.caption}</figcaption>
+  </figure>`;
 }
 
 function renderArticleSourceLibrary(heading: string, headingId: string, sources: readonly string[]): string {

@@ -61,9 +61,9 @@ The final shell uses the canonical compact-overlay mega-menu variant. Its edge-t
 
 The consumer pins a reproducible tarball built from canonical theme.tools commit `748a389c6a9ca9d745c050c1ccd2a64a07f51a3e` in an isolated clean worktree. The unified `components-registry` is the only editorial widget/media dispatcher. `SITE_CSS` and `ALL_BLOG_CSS` are generated into one shared catalog stylesheet loaded before product-specific composition CSS on every route. Product code retains only content, routes, data bindings, and Ghost Signal-specific compositions. A generated JSON manifest records exact source provenance, every available component type, and runtime invariant results.
 
-## Ten-pass visual loop
+## Evidence-based visual convergence loop
 
-Each pass captures all routes at 1440×1000 and 390×844 and reviews: shell/navbar; hierarchy; spacing/grid; typography; component convergence; interaction/focus; accessibility/contrast; responsive behavior; loading/error stability; and final regression/performance polish. Repairs are re-captured before the next pass.
+The route inventory is covered by deterministic desktop/mobile geometry, accessibility, network, and interaction checks. Qualitative review stays focused on one route and one or two representative viewports per pass so defects remain attributable; four or more simultaneous screenshots are reserved for a recorded breakpoint or release-risk question. Each repair is re-captured at the affected viewport before the next evidence-led pass. Review covers shell/navbar, hierarchy, spacing/grid, typography, component convergence, interaction/focus, accessibility/contrast, responsive behavior, loading/error stability, media fallbacks, and final regression/performance polish. The loop ends only when a fresh inventory produces no further high-confidence defect.
 
 ## Migration and rollback
 
