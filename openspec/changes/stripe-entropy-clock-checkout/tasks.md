@@ -15,7 +15,14 @@
 
 - [x] 3.1 Run `pnpm check`, `pnpm test:unit`, `pnpm build:blog`, `pnpm check:performance`, and focused/full E2E as applicable; classify every result distinctly.
 - [x] 3.2 Inspect the final homepage clock listing at one desktop and one phone viewport and verify layout, focus, network, console, and checkout navigation evidence.
-- [ ] 3.3 Inspect the push-triggered workflows and deployment contract; deploy only the exact tested tree when current authority and credentials permit, then verify the real production route and Stripe handoff.
+- [x] 3.3 Inspect the push-triggered workflows and deployment contract; deploy only the exact tested tree when current authority and credentials permit, then verify the real production route and Stripe handoff.
+
+## Production evidence
+
+- Source commit: `6abd78e6edfaec668643a63088facaebb8935805`
+- Initial Cloudflare Worker version: `7fc0a9a4-e0fc-41ea-bacd-68bb9c7bc340`
+- Production verification: `https://ghost.claims/`, terms, privacy, and the live Stripe Payment Link returned HTTP 200; a real browser reached the branded `$378.00` checkout and rendered the correct production-reservation description without submitting a charge.
+- Receipt verification: Stripe customer successful-payment emails and printable invoice PDFs are enabled; an actual receipt was not generated because verification intentionally did not create a real `$378` charge.
 
 ## Workflow follow-up
 
