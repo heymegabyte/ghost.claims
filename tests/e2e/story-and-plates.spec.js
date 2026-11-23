@@ -15,6 +15,7 @@ test("Story owns the first-person dossier and complete chronology", async ({ pag
   await expect(page.locator("body")).toHaveAttribute("data-content-page", "story");
   await expect(page.getByRole("heading", { name: "I Signal." })).toBeVisible();
   await expect(page.getByTestId("manifesto")).toBeVisible();
+  await expect(page.locator(".cinema-chapter")).toHaveCount(0);
   await waitForTimelineReady(page);
   await expect(page.locator("#timeline-track .tl-item")).not.toHaveCount(0);
   await expect(page.locator("#timeline-track")).toHaveAttribute("aria-busy", "false");
