@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@theme-tools/shared-utils': file:vendor/theme-tools/theme-tools-shared-utils-1.0.5.tgz
+  '@theme-tools/shared-utils': file:vendor/theme-tools/theme-tools-shared-utils-1.0.7.tgz
 
 importers:
 
@@ -18,8 +18,8 @@ importers:
         specifier: ^0
         version: 0.19.10(hono@4.12.14)(zod@3.25.76)
       '@theme-tools/shared-utils':
-        specifier: file:vendor/theme-tools/theme-tools-shared-utils-1.0.5.tgz
-        version: file:vendor/theme-tools/theme-tools-shared-utils-1.0.5.tgz
+        specifier: file:vendor/theme-tools/theme-tools-shared-utils-1.0.7.tgz
+        version: file:vendor/theme-tools/theme-tools-shared-utils-1.0.7.tgz
       '@theme.tools/blog':
         specifier: file:vendor/theme-tools/theme.tools-blog-1.0.12.tgz
         version: file:vendor/theme-tools/theme.tools-blog-1.0.12.tgz
@@ -781,9 +781,9 @@ packages:
       '@types/react-dom':
         optional: true
 
-  '@theme-tools/shared-utils@file:vendor/theme-tools/theme-tools-shared-utils-1.0.5.tgz':
-    resolution: {integrity: sha512-gHKqkMXqEz3SIpuv2k62qUp1oD4KvonDhasef8MtaIw3JPcRpaePjOetQb0SOy6KJCo1prliJLzvOW1mZXNs/Q==, tarball: file:vendor/theme-tools/theme-tools-shared-utils-1.0.5.tgz}
-    version: 1.0.5
+  '@theme-tools/shared-utils@file:vendor/theme-tools/theme-tools-shared-utils-1.0.7.tgz':
+    resolution: {integrity: sha512-LGKXSUGiPfnM87HFUbiB0X6wvbnP9IoLePm7UHBUpjtFi9PqUsCCbGxFB04iHJuHpHzTdpPlV4d82Dj/TM0VGg==, tarball: file:vendor/theme-tools/theme-tools-shared-utils-1.0.7.tgz}
+    version: 1.0.7
 
   '@theme-tools/testing@file:vendor/theme-tools/theme-tools-testing-1.0.0.tgz':
     resolution: {integrity: sha512-R57MrJnjZM2BHSaaIONXK5PcZryRWaatPfr/8Fv21ufKnjfQT4gXETUzlUGj2aAYs9KbNb+0mF4KAQ0G/TIP6w==, tarball: file:vendor/theme-tools/theme-tools-testing-1.0.0.tgz}
@@ -2053,11 +2053,11 @@ snapshots:
       '@types/react': 19.3.0
       '@types/react-dom': 19.3.0(@types/react@19.3.0)
 
-  '@theme-tools/shared-utils@file:vendor/theme-tools/theme-tools-shared-utils-1.0.5.tgz': {}
+  '@theme-tools/shared-utils@file:vendor/theme-tools/theme-tools-shared-utils-1.0.7.tgz': {}
 
   '@theme-tools/testing@file:vendor/theme-tools/theme-tools-testing-1.0.0.tgz(@types/node@26.6.6)(typescript@5.9.3)':
     dependencies:
-      '@theme-tools/shared-utils': file:vendor/theme-tools/theme-tools-shared-utils-1.0.5.tgz
+      '@theme-tools/shared-utils': file:vendor/theme-tools/theme-tools-shared-utils-1.0.7.tgz
       msw: 2.15.0(@types/node@26.6.6)(typescript@5.9.3)
       zod: 4.6.7
     transitivePeerDependencies:
@@ -2066,7 +2066,7 @@ snapshots:
 
   '@theme.tools/blog@file:vendor/theme-tools/theme.tools-blog-1.0.12.tgz':
     dependencies:
-      '@theme-tools/shared-utils': file:vendor/theme-tools/theme-tools-shared-utils-1.0.5.tgz
+      '@theme-tools/shared-utils': file:vendor/theme-tools/theme-tools-shared-utils-1.0.7.tgz
 
   '@tybys/wasm-util@0.10.4':
     dependencies:

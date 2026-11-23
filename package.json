@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@theme.tools/blog": "file:vendor/theme-tools/theme.tools-blog-1.0.12.tgz",
-    "@theme-tools/shared-utils": "file:vendor/theme-tools/theme-tools-shared-utils-1.0.5.tgz",
+    "@theme-tools/shared-utils": "file:vendor/theme-tools/theme-tools-shared-utils-1.0.7.tgz",
     "@hono/swagger-ui": "^0",
     "@hono/zod-openapi": "^0",
     "hono": "^4",

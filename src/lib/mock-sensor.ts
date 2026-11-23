@@ -1,12 +1,5 @@
 import type { Env, HistoryPoint, HistoryWindow, NormalizedReading, SnapshotRecord } from "../types";
-
-function getDeterministicValueAt(date: Date): number {
-  const minutes = Math.floor(date.getTime() / 60_000);
-  const waveA = Math.sin(minutes / 11) * 0.22;
-  const waveB = Math.cos(minutes / 37) * 0.17;
-  const waveC = Math.sin(minutes / 5) * 0.08;
-  return Number((0.82 + waveA + waveB + waveC).toFixed(3));
-}
+import { buildDeterministicSensorHistory, deterministicSensorValueAt } from "@theme-tools/shared-utils/sensor-data";
 
 export function isMockSensorMode(env: Env): boolean {
   return env.MOCK_SENSOR_MODE === "1";
@@ -14,7 +7,7 @@ export function isMockSensorMode(env: Env): boolean {
 
 export function buildMockReading(env: Env, date = new Date()): NormalizedReading {
   const timestamp = date.toISOString();
-  const numericValue = getDeterministicValueAt(date);
+  const numericValue = deterministicSensorValueAt(date);
 
   return {
     entityId: env.EMF_SENSOR_ENTITY_ID,
@@ -35,19 +28,7 @@ export function buildMockReading(env: Env, date = new Date()): NormalizedReading
 }
 
 export function buildMockHistoryPoints(window: HistoryWindow): HistoryPoint[] {
-  const start = new Date(window.start);
-  const end = new Date(window.end);
-  const points: HistoryPoint[] = [];
-
-  for (let cursor = start.getTime(); cursor <= end.getTime(); cursor += 60_000) {
-    const date = new Date(cursor);
-    points.push({
-      timestamp: date.toISOString(),
-      value: getDeterministicValueAt(date),
-    });
-  }
-
-  return points;
+  return buildDeterministicSensorHistory(window);
 }
 
 export function buildMockSnapshotRecords(env: Env, window: HistoryWindow): SnapshotRecord[] {
