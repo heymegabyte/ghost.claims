@@ -105,6 +105,13 @@ test("Signal film actions are centered and footer content clears live telemetry"
   expect(disclosurePadding.block).toBeGreaterThanOrEqual(20);
   expect(disclosurePadding.inline).toBeGreaterThanOrEqual(20);
 
+  const actionSpacing = await actions.evaluate((element) => Number.parseFloat(getComputedStyle(element).paddingBottom));
+  expect(actionSpacing).toBeGreaterThanOrEqual(20);
+
+  await expect(page.locator(".signal-closing > .signal-closing__grid > .tt-panel")).toHaveCount(2);
+  await expect(page.locator(".signal-closing__dispatch #newsletter-form")).toBeVisible();
+  await expect(page.locator(".signal-closing__note .hotline-number")).toHaveAttribute("href", "tel:+16016666602");
+
   await page.locator(".tt-footer").scrollIntoViewIfNeeded();
   const clearance = await page.evaluate(() => {
     const content = document.querySelector(".tt-footer__row").getBoundingClientRect();
