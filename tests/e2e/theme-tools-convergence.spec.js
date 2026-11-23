@@ -23,6 +23,7 @@ test("homepage uses the converged shell and removes its duplicate transmission a
   await expect(nav.locator(".tt-nav__logo")).toHaveAttribute("src", /logo-nav\.png/);
 
   await expect(page.locator(".entropy-explainer .tt-gallery__slide")).toHaveCount(5);
+  await expect(page.locator(".listen-feature-reading-label").first()).toHaveText("Local Device");
   await expect(page.getByText("SNAPSHOT VAULT // ENTROPY EXPORT", { exact: true })).toHaveCount(0);
   await expect(page.getByRole("heading", { name: /wake up somewhere between/i })).toBeVisible();
   await expect(page.locator(".multiverse-alarm-visual img")).toHaveAttribute("src", "/alarm-clock-entropy-shift.webp");

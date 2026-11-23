@@ -1202,7 +1202,7 @@ const GhostFeatures = (() => {
     function attemptDeviceOrientation() {
       if (!window.DeviceOrientationEvent) {
         sensorOnline = false;
-        setStatus("No phone sensors · remote feed only", "offline");
+        setStatus("No compatible device sensors · remote feed only", "offline");
         return false;
       }
       let received = false;
@@ -1222,7 +1222,7 @@ const GhostFeatures = (() => {
       setTimeout(() => {
         if (!received) {
           sensorOnline = false;
-          setStatus("Phone sensors silent · remote feed only", "offline");
+          setStatus("Device sensors silent · remote feed only", "offline");
         }
       }, 2500);
       return true;
@@ -1268,8 +1268,8 @@ const GhostFeatures = (() => {
       permissionButton = document.createElement("button");
       permissionButton.type = "button";
       permissionButton.className = "tt-btn tt-btn--ghost detector-enable-btn";
-      permissionButton.textContent = "Enable Phone Sensors";
-      permissionButton.setAttribute("aria-label", "Enable phone motion and magnetometer sensors for ghost detection");
+      permissionButton.textContent = "Enable Device Sensors";
+      permissionButton.setAttribute("aria-label", "Enable this device's motion or magnetometer sensors for ghost detection");
       const head = panel.querySelector(".listen-feature-detector-head") || panel;
       head.appendChild(permissionButton);
       permissionButton.addEventListener("click", async () => {
@@ -1297,7 +1297,7 @@ const GhostFeatures = (() => {
 
     /* ── boot ─────────────────────────────────────────────── */
     if (needsPermission()) {
-      setStatus("Tap to enable phone sensors", "waiting");
+      setStatus("Enable available device sensors", "waiting");
       injectPermissionButton();
     } else {
       startSensors();
