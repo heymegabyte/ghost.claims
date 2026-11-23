@@ -44,7 +44,7 @@ test.describe("mobile", () => {
 
     // Hotline number remains on the product homepage.
     await page.goto("/");
-    await expect(page.locator(".six-six-six-close .hotline-number")).toContainText("(601) 666-6602");
+    await expect(page.locator(".signal-closing .hotline-number")).toContainText("(601) 666-6602");
 
     // Docs link navigates
     await page.getByRole("link", { name: "Docs" }).click();

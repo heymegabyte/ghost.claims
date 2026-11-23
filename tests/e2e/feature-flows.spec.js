@@ -112,7 +112,7 @@ test("hotline section: phone number visible with correct tel: href, section cont
   await gotoHome(page, SEEDED_CUSTOM_RANGE);
 
   // Hotline section visible
-  const hotlineSection = page.locator(".six-six-six-close");
+  const hotlineSection = page.locator(".signal-closing");
   await expect(hotlineSection).toBeVisible();
 
   // Phone number link

@@ -9,7 +9,12 @@ export { BLOG_COMPONENT_MANIFEST, COMPONENT_TYPES, renderComponent };
 // Ghost Signal intentionally uses its own font delivery, so do not emit broken /fonts requests.
 const siteCssWithoutOptionalFonts = SITE_CSS.slice(SITE_CSS.indexOf(":root{"));
 
-export const GHOST_THEME_TOOLS_CSS = `${siteCssWithoutOptionalFonts}\n${ALL_BLOG_CSS}`;
+export const GHOST_THEME_TOOLS_CSS = `${siteCssWithoutOptionalFonts}\n${ALL_BLOG_CSS}\n
+/* Consumer-wide surface guarantees. */
+#main{background:none!important}
+:where(button,[role="button"],a.tt-btn,a.button,a[class*="button"],a[class*="btn"],input[type="button"],input[type="submit"]){text-decoration:none!important}
+:where(a.tt-btn,a.button,a[role="button"],a[class*="button"],a[class*="btn"])::after{content:none!important;text-decoration:none!important}
+`;
 
 export const GHOST_THEME_TOOLS_MANIFEST = {
   package: "@theme.tools/blog",

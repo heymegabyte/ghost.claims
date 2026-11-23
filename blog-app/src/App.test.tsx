@@ -15,6 +15,8 @@ describe("Ghost Signal Journal", () => {
     window.history.replaceState({}, "", "/blog");
     const { container } = render(<App />);
     expect(screen.getByText("GHOST SIGNAL JOURNAL")).toBeInTheDocument();
+    expect(document.querySelector(".journal-atf")).toBeInTheDocument();
+    expect(screen.getByText("Read the featured dossier")).toBeInTheDocument();
     expect(screen.getByText("Stories for the watched.")).toBeInTheDocument();
     expect(container.querySelectorAll(".tt-post")).toHaveLength(5);
     expect(screen.getByRole("link", { name: /Acoustic & Electromagnetic Anomaly Telemetry/i })).toHaveAttribute("href", "/blog/sensor-telemetry-web-dossier");

@@ -1829,3 +1829,8 @@ img[data-tt-zoom]{cursor:zoom-in}
   .tt-gallery__nav:hover { transform: translateY(-50%); }
   .tt-video-browser__facade:hover .tt-video-browser__play { transform: translate(-50%, -50%); }
 }
+
+/* Consumer-wide surface guarantees. */
+#main{background:none!important}
+:where(button,[role="button"],a.tt-btn,a.button,a[class*="button"],a[class*="btn"],input[type="button"],input[type="submit"]){text-decoration:none!important}
+:where(a.tt-btn,a.button,a[role="button"],a[class*="button"],a[class*="btn"])::after{content:none!important;text-decoration:none!important}

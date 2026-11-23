@@ -95,21 +95,23 @@ function ArchiveIndex() {
   const cover = canonicalPosts[0];
 
   return <>
+    <section className="journal-atf" aria-label="Ghost Signal Journal and featured article">
     <CanonicalMarkup html={renderMasthead({
       title: "GHOST SIGNAL JOURNAL",
       tagline: "Field reports, strange histories, and systems observed after dark.",
       meta: "EST. 2026 · NEW JERSEY · SIX TRANSMISSIONS RECOVERED",
     })} />
     <CanonicalMarkup html={renderCoverStory({
-      kicker: "SYSTEM DOSSIER // ARCHITECTURE & ENGINEERING",
+      kicker: "LATEST FEATURE // SYSTEM DOSSIER",
       title: cover.title,
       dek: cover.description,
       byline: cover.author,
       meta: `${cover.date} · ${readingMinutes(cover.body)} min read`,
       href: `/blog/${cover.slug}`,
       image: { src: "/evidence-radiation-tdr.webp", alt: "Sensor telemetry display glowing against a dark field" },
-      cta: "Open the dossier →",
+      cta: "Read the featured dossier",
     })} />
+    </section>
     <CanonicalMarkup html={renderEditorsNote({
       kicker: "FROM THE ARCHIVE",
       heading: "One signal, two frequencies.",
