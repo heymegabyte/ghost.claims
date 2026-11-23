@@ -1,5 +1,6 @@
 import { ApiError } from "./errors";
 import type { HistoryPoint, HistoryWindow } from "../types";
+import { downsampleNumericPoints } from "@theme-tools/shared-utils/sensor-data";
 
 export function parseHistoryWindow(input: {
   start?: string;
@@ -44,19 +45,5 @@ export function parseHistoryWindow(input: {
 }
 
 export function downsamplePoints(points: HistoryPoint[], targetPoints: number): HistoryPoint[] {
-  if (targetPoints <= 0 || points.length <= targetPoints) {
-    return points;
-  }
-
-  const step = (points.length - 1) / (targetPoints - 1);
-  const sampled: HistoryPoint[] = [];
-
-  for (let index = 0; index < targetPoints; index += 1) {
-    const point = points[Math.round(index * step)];
-    if (point) {
-      sampled.push(point);
-    }
-  }
-
-  return sampled;
+  return downsampleNumericPoints(points, targetPoints);
 }
