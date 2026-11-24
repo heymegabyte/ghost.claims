@@ -14109,7 +14109,7 @@ body[data-page="home"] main { padding-top: 0; }
 .chat-starter,
 body[data-page="docs"] .family-cta,
 body[data-page="docs"] .usecase-link {
-  min-height: 44px;
+  min-height: 45px;
 }
 
 .range-button,
@@ -14547,16 +14547,18 @@ body[data-page="home"] main > section:not(.hero) {
   background: linear-gradient(155deg, rgba(0, 229, 255, .055), rgba(10, 8, 24, .88) 55%, rgba(139, 92, 246, .065));
   box-shadow: 0 20px 50px rgba(0, 0, 0, .24), inset 0 1px 0 rgba(255, 255, 255, .035);
 }
-.multiverse-alarm-details .alarm-feature-list li img {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1;
-  object-fit: cover;
+.multiverse-alarm-details .alarm-feature-symbol {
+  display: grid;
+  min-height: clamp(8rem, 15vw, 11rem);
+  place-items: center;
+  color: var(--tt-cyan);
+  background: radial-gradient(circle at 50% 45%, rgba(0, 229, 255, .13), transparent 52%), linear-gradient(145deg, rgba(0, 229, 255, .035), rgba(139, 92, 246, .045));
   border-bottom: 1px solid var(--tt-line-2);
-  transition: transform .45s ease, filter .45s ease;
+  transition: color .3s ease, background-color .3s ease;
 }
-.multiverse-alarm-details .alarm-feature-list li:hover img { transform: scale(1.025); filter: saturate(1.08) brightness(1.04); }
+.multiverse-alarm-details .alarm-feature-symbol svg { width: clamp(3.75rem, 7vw, 5.25rem); height: auto; overflow: visible; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 15px rgba(0, 229, 255, .3)); }
+.multiverse-alarm-details .alarm-feature-symbol text { fill: currentColor; stroke: none; font: 700 8px var(--tt-mono); text-anchor: middle; letter-spacing: .04em; }
+.multiverse-alarm-details .alarm-feature-list li:hover .alarm-feature-symbol { color: #b9f8ff; background-color: rgba(0, 229, 255, .035); }
 .multiverse-alarm-details .alarm-feature-list li div { padding: clamp(1rem, 2vw, 1.25rem); }
 .multiverse-alarm-details .alarm-feature-list li strong { display: block; font-size: clamp(1rem, 1.4vw, 1.2rem); line-height: 1.2; text-wrap: balance; }
 .multiverse-alarm-details .alarm-feature-list li span { display: block; margin-top: .55rem; line-height: 1.55; }
@@ -14630,8 +14632,7 @@ tt-ai-chat-shell { display: block; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .multiverse-alarm-details .alarm-feature-list li img { transition: none; }
-  .multiverse-alarm-details .alarm-feature-list li:hover img { transform: none; }
+  .multiverse-alarm-details .alarm-feature-symbol { transition: none; }
 }
 
 /* Hover runway: lifted live-data cards retain a visible top edge and glow. */
