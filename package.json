@@ -22,8 +22,9 @@
     "test:e2e:report": "playwright show-report"
   },
   "dependencies": {
+    "@theme.tools/auth": "file:vendor/theme-tools/theme.tools-auth-1.0.2.tgz",
     "@theme.tools/blog": "file:vendor/theme-tools/theme.tools-blog-1.0.13.tgz",
-    "@theme-tools/shared-utils": "file:vendor/theme-tools/theme-tools-shared-utils-1.0.18.tgz",
+    "@theme-tools/shared-utils": "file:vendor/theme-tools/theme-tools-shared-utils-1.0.20.tgz",
     "@hono/swagger-ui": "^0",
     "@hono/zod-openapi": "^0",
     "hono": "^4",
