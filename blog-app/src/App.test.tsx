@@ -19,9 +19,11 @@ describe("Ghost Signal Journal", () => {
     expect(screen.getByText("Read the featured dossier")).toBeInTheDocument();
     expect(screen.getByText("Stories for the watched.")).toBeInTheDocument();
     expect(container.querySelectorAll(".tt-post")).toHaveLength(5);
+    expect(container.querySelectorAll(".tt-post__media > .tt-post__thumb")).toHaveLength(5);
     expect(screen.getByRole("link", { name: /Acoustic & Electromagnetic Anomaly Telemetry/i })).toHaveAttribute("href", "/blog/sensor-telemetry-web-dossier");
     expect(screen.getByText(/speculative horror and cultural criticism/i)).toBeInTheDocument();
-    expect(screen.getByAltText("Ghost Signal logo")).toHaveAttribute("src", expect.stringContaining("/logo-nav.png"));
+    expect(screen.getAllByAltText("Ghost Signal logo")).toHaveLength(2);
+    expect(screen.getAllByAltText("Ghost Signal logo")[0]).toHaveAttribute("src", expect.stringContaining("/logo-nav.png"));
     expect(screen.getByRole("button", { name: "Browse" })).toBeInTheDocument();
     expect(container.querySelectorAll(".tt-nav__links > .tt-nav__link")).toHaveLength(0);
     expect(container.querySelector(".tt-nav__ov-search")).not.toBeInTheDocument();
@@ -59,6 +61,7 @@ describe("Ghost Signal Journal", () => {
     expect(screen.getByRole("heading", { level: 1, name: "The Clout War Above Heaven" })).toBeInTheDocument();
     expect(container.querySelector("tt-article-reader")?.shadowRoot).not.toBeNull();
     expect(container.querySelector(".tt-article")).not.toBeNull();
+    expect(screen.getByAltText(/saturated infernal arena/i)).toHaveAttribute("src", "/dream-doom.webp");
   });
 
   it("keeps the journal canvas and technical article shell transparent", () => {
@@ -75,6 +78,7 @@ describe("Ghost Signal Journal", () => {
     expect(screen.getByText(/firsthand recollection with public records/i)).toBeInTheDocument();
     expect(container.querySelector(".tt-timeline")).not.toBeNull();
     expect(container.querySelector(".tt-stat-cards")).not.toBeNull();
+    expect(screen.getByAltText(/Greystone's monumental psychiatric hospital/i)).toHaveAttribute("src", "/blog-media/greystone/greystone-memory-study.webp");
     expect(container.querySelector(".tt-gallery")).not.toBeNull();
     expect(container.querySelectorAll("[id^='source-']")).toHaveLength(12);
   });

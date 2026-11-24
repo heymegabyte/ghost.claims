@@ -3,8 +3,9 @@ import { test, expect } from "@playwright/test";
 test("homepage uses the converged shell and removes its duplicate transmission archive", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("#transmissions, .transmissions-section")).toHaveCount(0);
+  await expect(page.getByText("SEV 3", { exact: true })).toHaveCount(0);
   await expect(page.getByText("The Open Channel", { exact: true })).toHaveCount(0);
-  await expect(page.locator(".chat-toggle-label")).toHaveText("AI");
+  await expect(page.locator(".chat-toggle-label")).toHaveCount(0);
   await expect(page.locator("tt-ai-chat-shell")).toHaveAttribute("data-theme-tools", "ai-chat-shell");
   await expect(page.locator("main > .section-divider")).toHaveCount(0);
 
@@ -32,6 +33,20 @@ test("homepage uses the converged shell and removes its duplicate transmission a
   const purchase = page.getByRole("link", { name: /reserve the ghost signal entropy clock for \$378/i });
   await expect(purchase).toHaveAttribute("href", "https://buy.stripe.com/bJedR88bR7ld95I3EIfnO00");
   await expect(page.getByRole("link", { name: /get clock updates without reserving/i })).toHaveAttribute("href", "#newsletter-form");
+  const purchaseActions = page.locator(".alarm-purchase-actions");
+  const purchaseActionSpacing = await purchaseActions.evaluate((node) => {
+    const styles = getComputedStyle(node);
+    return {
+      marginTop: Number.parseFloat(styles.marginTop),
+      paddingTop: Number.parseFloat(styles.paddingTop),
+      paddingBottom: Number.parseFloat(styles.paddingBottom),
+      gap: Number.parseFloat(styles.gap),
+    };
+  });
+  expect(purchaseActionSpacing.marginTop).toBeGreaterThanOrEqual(20);
+  expect(purchaseActionSpacing.paddingTop).toBeGreaterThanOrEqual(12);
+  expect(purchaseActionSpacing.paddingBottom).toBeGreaterThanOrEqual(12);
+  expect(purchaseActionSpacing.gap).toBeGreaterThanOrEqual(12);
   await expect(page.locator(".multiverse-alarm-disclosure")).toContainText(/non-refundable r&d production reservation/i);
   await expect(page.locator(".multiverse-alarm-disclosure")).toContainText(/at least 100 paid reservations/i);
   await expect(page.locator(".multiverse-alarm-disclosure")).toContainText(/receipt,? and a printable invoice/i);
@@ -68,6 +83,31 @@ test("AI microphone visibly records recognized speech", async ({ page }) => {
   await page.locator("#chat-mic").click();
   await expect(page.locator("#chat-mic")).toHaveAttribute("aria-pressed", "true");
   await expect(page.locator("#chat-input")).toHaveValue("the signal is clear");
+});
+
+test("AI read-aloud control speaks assistant replies and exposes a stop control", async ({ page }) => {
+  await page.addInitScript(() => {
+    window.__spoken = [];
+    window.SpeechSynthesisUtterance = class {
+      constructor(text) { this.text = text; }
+    };
+    Object.defineProperty(window, "speechSynthesis", { configurable: true, value: {
+      cancel() {},
+      getVoices() { return []; },
+      speak(utterance) {
+        window.__spoken.push(utterance.text);
+        utterance.onstart?.();
+      },
+    } });
+  });
+  await page.goto("/");
+  await page.locator("#chat-toggle").click();
+  await page.locator("#chat-messages").evaluate((messages) => {
+    messages.insertAdjacentHTML("beforeend", '<div class="chat-message chat-assistant"><div class="chat-msg-text">Voice verification reply</div><button type="button" class="chat-msg-action" data-msg-action="speak" aria-label="Read aloud">speak</button></div>');
+  });
+  await page.getByRole("button", { name: "Read aloud" }).click();
+  await expect.poll(() => page.evaluate(() => window.__spoken.length)).toBeGreaterThan(0);
+  await expect(page.locator("#chat-tts-stop")).toBeVisible();
 });
 
 test("transmission records only open and remain open", async ({ page }) => {
@@ -121,17 +161,19 @@ test("Signal film actions are centered and footer content clears live telemetry"
   const actionSpacing = await actions.evaluate((element) => Number.parseFloat(getComputedStyle(element).paddingBottom));
   expect(actionSpacing).toBeGreaterThanOrEqual(20);
 
-  await expect(page.locator(".signal-closing > .tt-panel.signal-closing__panel")).toHaveCount(1);
-  const closingGrid = page.locator(".signal-closing__panel > .tt-panel__body > .signal-closing__grid");
-  await expect(closingGrid).toBeVisible();
-  const desktopColumns = await closingGrid.evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(" ").length);
-  expect(desktopColumns).toBe(2);
-  await expect(page.locator(".signal-closing__dispatch #newsletter-form")).toBeVisible();
-  await expect(page.locator(".signal-closing__note .hotline-number")).toHaveAttribute("href", "tel:+16016666602");
+  await expect(page.locator(".signal-closing")).toHaveCount(0);
+  await expect(page.locator(".tt-footer [data-tt-footer-newsletter]")).toBeVisible();
+  const footerGrid = page.locator(".tt-footer__grid");
+  const desktopColumns = await footerGrid.evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(" ").length);
+  expect(desktopColumns).toBe(3);
+  const footerHotline = page.locator('.tt-footer a[href="tel:+16016666602"]');
+  await expect(footerHotline).toHaveCSS("color", "rgb(0, 229, 255)");
+  await footerHotline.hover();
+  await expect(footerHotline).toHaveCSS("color", "rgb(0, 229, 255)");
 
   await page.locator(".tt-footer").scrollIntoViewIfNeeded();
   const clearance = await page.evaluate(() => {
-    const content = document.querySelector(".tt-footer__row").getBoundingClientRect();
+    const content = document.querySelector(".tt-footer__grid").getBoundingClientRect();
     const telemetry = document.querySelector(".telemetry-strip").getBoundingClientRect();
     const links = document.querySelector(".tt-footer__links").getBoundingClientRect();
     const note = document.querySelector(".tt-footer__note").getBoundingClientRect();
@@ -140,14 +182,16 @@ test("Signal film actions are centered and footer content clears live telemetry"
   expect(clearance).toBeGreaterThanOrEqual(32);
 });
 
-test("Signal closing surface collapses to one column on mobile", async ({ page }) => {
+test("canonical footer collapses to one column on mobile", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
-  const closingGrid = page.locator(".signal-closing__panel > .tt-panel__body > .signal-closing__grid");
-  await expect(closingGrid).toBeVisible();
-  const mobileColumns = await closingGrid.evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(" ").length);
+  const footerGrid = page.locator(".tt-footer__grid");
+  await expect(footerGrid).toBeVisible();
+  const mobileColumns = await footerGrid.evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(" ").length);
   expect(mobileColumns).toBe(1);
-  await expect(page.locator(".signal-closing__note")).toHaveCSS("border-left-width", "0px");
+  await expect(page.locator(".tt-footer [data-tt-footer-newsletter]")).toBeVisible();
+  await expect(page.locator('.tt-footer a[href="/privacy"]')).toBeVisible();
+  await expect(page.locator('.tt-footer a[href="/terms"]')).toBeVisible();
 });
 
 test("auditory signal cards and singleton data export stay centered", async ({ page }) => {

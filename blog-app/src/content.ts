@@ -6,6 +6,7 @@ export interface NightArchiveArticle {
   title: string;
   standfirst: string;
   readingMinutes: number;
+  featuredImage: { src: string; alt: string; caption: string };
   genre?: "fiction" | "reported memoir";
   disclosure?: string;
   sections: readonly {
@@ -60,6 +61,11 @@ export const articles: readonly NightArchiveArticle[] = [
     title: "Greystone After the Skunk",
     standfirst: "Twenty-five years after I first crossed into the abandoned wards, the papers, bathtubs, and one furious skunk still follow me through what became a public park.",
     readingMinutes: 14,
+    featuredImage: {
+      src: "/blog-media/greystone/greystone-memory-study.webp",
+      alt: "A vivid editorial study of Greystone's monumental psychiatric hospital architecture dissolving into memory",
+      caption: "Greystone Park Psychiatric Hospital · memory, institution, and the landscape left behind",
+    },
     genre: "reported memoir",
     disclosure: "This reported memoir combines the author’s firsthand recollection with public records. Memories are identified as memories; institutional facts are linked to sources. No confidential patient paper is reproduced or attributed to an identifiable person.",
     sections: [
@@ -194,6 +200,11 @@ export const articles: readonly NightArchiveArticle[] = [
     title: "Jungle Habitat: The Safari That Killed My Battery",
     standfirst: "I went to ride the abandoned paths of a New Jersey safari park. The forest delivered old pavement, terrific trails, and a car that would not start.",
     readingMinutes: 13,
+    featuredImage: {
+      src: "/video-poster-evidence-jungle-habitat-2.webp",
+      alt: "Original ride footage on a former Jungle Habitat safari road beneath a vibrant green forest canopy",
+      caption: "Jungle Habitat · the safari road returns to the forest",
+    },
     genre: "reported memoir",
     disclosure: "This reported memoir combines the author’s May 5, 2018 field footage and receipt with public records and trail-organization reporting. Personal impressions are identified as memory; historical and visitor information is linked to sources.",
     sections: [
@@ -317,6 +328,11 @@ export const articles: readonly NightArchiveArticle[] = [
     title: "The Panopticon Learned to Pray",
     standfirst: "The old cameras only watched. The new ones want confession.",
     readingMinutes: 7,
+    featuredImage: {
+      src: "/black-orb.webp",
+      alt: "A black orb suspended in a vivid supernatural field, suggesting an all-seeing surveillance system",
+      caption: "The panopticon · observation becomes judgment",
+    },
     sections: [
       { heading: "The bargain", paragraphs: ["At first, the city asked for faces. A face at the station gate. A face outside the pharmacy. A face reflected in the black glass above the altar of self-checkout. The bargain sounded harmless: surrender a little shape and receive a little safety.", "Then the system learned posture. It learned which shoulders carried debt, which hands trembled before a locked door, which people looked too long at the unmarked van. It stopped recording crime and began recording hesitation. Every pause became a prophecy waiting for an officer to fulfill it."] },
       { heading: "The score after midnight", paragraphs: ["By winter, citizens received private scores after midnight. No accusation, no appeal—only a number falling like ash on the screen. Employers called it trust. Landlords called it stability. The churches called it discernment, because even priests prefer a dashboard to doubt."], quote: "When observation becomes judgment, innocence is only behavior the machine has not misunderstood yet." },
@@ -329,6 +345,11 @@ export const articles: readonly NightArchiveArticle[] = [
     title: "The Clout War Above Heaven",
     standfirst: "The gods no longer fought for souls. They fought for engagement.",
     readingMinutes: 8,
+    featuredImage: {
+      src: "/dream-doom.webp",
+      alt: "A saturated infernal arena viewed in first person beneath a cosmic red sky",
+      caption: "The clout war · mortal lives beneath an immortal scoreboard",
+    },
     sections: [
       { heading: "Metrics for immortals", paragraphs: ["Above the atmosphere, two ancient courts discovered metrics. The Seraphim counted witnesses. The Exiles counted mentions. Miracles were scheduled for maximum reach, eclipses were branded, and every comet carried a sponsor’s burning name.", "Their rivalry could not remain in heaven. Cosmic prestige requires an audience, and an audience eventually requires bodies. So the courts searched human memory for scenes with proven emotional yield: betrayals, trials, falls, resurrections. They selected ordinary people and pressed those old masks over new faces."] },
       { heading: "No one auditioned", paragraphs: ["A nurse was forced to become the Doubter. A child was cast as the Witness. A grieving father woke as the Accuser and found every door arranged like a courtroom. None had auditioned. Their lives were simply inexpensive stages for beings terrified of becoming irrelevant."], quote: "The reenactment is cruel because the ending is known to everyone except the person trapped inside it." },
@@ -341,6 +362,11 @@ export const articles: readonly NightArchiveArticle[] = [
     title: "Bondage of the Failed Christ",
     standfirst: "He was not condemned because he failed to save them. He failed because they needed him condemned.",
     readingMinutes: 7,
+    featuredImage: {
+      src: "/dream-antichrist.webp",
+      alt: "A vivid newspaper-like vision of a condemned figure framed by apocalyptic color",
+      caption: "Inherited bondage · refusing the ending everyone else demanded",
+    },
     sections: [
       { heading: "A savior every generation", paragraphs: ["The village manufactured a savior every generation. They chose someone tender enough to feel everybody’s pain and lonely enough to mistake exploitation for purpose. They praised him publicly, emptied themselves into him privately, and called the exhaustion holy.", "This generation’s Christ could not perform the required ending. He survived the public humiliation. He refused the cross assembled from other people’s expectations. He said salvation without consent was bondage, and sacrifice demanded by spectators was only execution with better branding."] },
       { heading: "Failure as refusal", paragraphs: ["The village named this refusal failure. Families replayed his worst moments at dinner. Officials reconstructed his path through town and assigned citizens to stand where the original witnesses had stood. Children learned the blocking before they learned why the man had screamed."], quote: "A community addicted to rescue will punish the rescuer who survives." },

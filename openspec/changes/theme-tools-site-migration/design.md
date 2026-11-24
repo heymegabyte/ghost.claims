@@ -85,9 +85,13 @@ The homepage removes its duplicate transmission archive because `/transmissions`
 
 The homepage begins with a full-viewport, two-column composition: the product promise and CTA hierarchy occupy the editorial rail, while a large instrument-like entropy card makes the copy action the primary task. The existing random-number endpoint, IDs, clipboard behavior, live metadata, and scientific disclaimer remain unchanged.
 
-A product-specific canvas runs behind the content. A dependency-free fragment shader builds slow spectral fog, refracted cyan/violet light, particulate grain, and a central ghost-like void without loading textures or blocking the main content. Rendering caps device pixel ratio, pauses when the hero or document is hidden, and responds to element resize. Reduced-motion users receive a single static frame; devices without WebGL receive the same layered CSS fallback. The canvas is decorative, excluded from the accessibility tree, and never gates content or interaction.
+A product-specific progressive composition runs behind the content. Two compressed, generated atmospheric plates establish the apparition and causal-interference depth immediately; a dependency-free fragment shader adds only lightweight field lines, static bands, and bounded pointer/touch ripples. The shader is initialized during idle time, caps its back buffer below 650,000 pixels, throttles mobile rendering, pauses when the hero or document is hidden, and responds to element resize. Reduced-motion users receive the same layered static composition plus one still shader frame; devices without WebGL retain the art and CSS fallback. Every layer is decorative, excluded from the accessibility tree, and never gates content or interaction.
 
 The hero is at least one small-viewport height after navigation, keeps CTA targets at least 44px, preserves keyboard order and visible focus, avoids content shift while sensor data resolves, and collapses to a single readable column on narrow screens.
+
+## Complete shared footer
+
+The canonical theme.tools footer accepts product identity, logo, description, vertically grouped destination links, newsletter configuration, and a distinct legal-policy row. Ghost Signal supplies only content and the newsletter endpoint. One delegated progressive-enhancement controller submits the compact form on static, Worker-rendered, and React routes, reports validation/delivery status accessibly, and retains functional navigation without JavaScript. The former homepage-only dispatch panel is removed so subscription is available exactly once on every public route.
 
 ## Route-wide alignment and component ownership convergence
 

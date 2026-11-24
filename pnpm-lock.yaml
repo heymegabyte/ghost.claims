@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@theme-tools/shared-utils': file:vendor/theme-tools/theme-tools-shared-utils-1.0.20.tgz
+  '@theme-tools/shared-utils': file:vendor/theme-tools/theme-tools-shared-utils-1.0.22.tgz
 
 importers:
 
@@ -18,14 +18,14 @@ importers:
         specifier: ^0
         version: 0.19.10(hono@4.12.14)(zod@3.25.76)
       '@theme-tools/shared-utils':
-        specifier: file:vendor/theme-tools/theme-tools-shared-utils-1.0.20.tgz
-        version: file:vendor/theme-tools/theme-tools-shared-utils-1.0.20.tgz
+        specifier: file:vendor/theme-tools/theme-tools-shared-utils-1.0.22.tgz
+        version: file:vendor/theme-tools/theme-tools-shared-utils-1.0.22.tgz
       '@theme.tools/auth':
         specifier: file:vendor/theme-tools/theme.tools-auth-1.0.2.tgz
         version: file:vendor/theme-tools/theme.tools-auth-1.0.2.tgz
       '@theme.tools/blog':
         specifier: file:vendor/theme-tools/theme.tools-blog-1.0.13.tgz
-        version: file:vendor/theme-tools/theme.tools-blog-1.0.13.tgz(@theme-tools/shared-utils@file:vendor/theme-tools/theme-tools-shared-utils-1.0.20.tgz)
+        version: file:vendor/theme-tools/theme.tools-blog-1.0.13.tgz(@theme-tools/shared-utils@file:vendor/theme-tools/theme-tools-shared-utils-1.0.22.tgz)
       hono:
         specifier: ^4
         version: 4.12.14
@@ -56,7 +56,7 @@ importers:
         version: 16.3.3(@testing-library/dom@10.4.2)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@theme-tools/testing':
         specifier: file:vendor/theme-tools/theme-tools-testing-1.0.1-contracts.tgz
-        version: file:vendor/theme-tools/theme-tools-testing-1.0.1-contracts.tgz(@theme-tools/shared-utils@file:vendor/theme-tools/theme-tools-shared-utils-1.0.20.tgz)(@types/node@26.6.6)(typescript@5.9.3)
+        version: file:vendor/theme-tools/theme-tools-testing-1.0.1-contracts.tgz(@theme-tools/shared-utils@file:vendor/theme-tools/theme-tools-shared-utils-1.0.22.tgz)(@types/node@26.6.6)(typescript@5.9.3)
       '@types/node':
         specifier: latest
         version: 26.6.6
@@ -784,9 +784,9 @@ packages:
       '@types/react-dom':
         optional: true
 
-  '@theme-tools/shared-utils@file:vendor/theme-tools/theme-tools-shared-utils-1.0.20.tgz':
-    resolution: {integrity: sha512-f6ZwGwmzwen/Gnj26e9x4EuocFPIr6DVHLqievIO0WTlkCh7JINmVJBH5ZK14++MenAa185+/KWayLaZODWn/g==, tarball: file:vendor/theme-tools/theme-tools-shared-utils-1.0.20.tgz}
-    version: 1.0.20
+  '@theme-tools/shared-utils@file:vendor/theme-tools/theme-tools-shared-utils-1.0.22.tgz':
+    resolution: {integrity: sha512-NpOTMcJ7GSwtzPlupoO6/9JdcgiSkPUdZUqNMPacK4t6hkNQGbgG/9S+ImNFx07CVxqh8qYl7+xn4VjMrBbUKw==, tarball: file:vendor/theme-tools/theme-tools-shared-utils-1.0.22.tgz}
+    version: 1.0.22
 
   '@theme-tools/testing@file:vendor/theme-tools/theme-tools-testing-1.0.1-contracts.tgz':
     resolution: {integrity: sha512-EyNUqGuWXk8Mt50jz+4bNcSQnv0qbbO9MuUMBC1GKo5HOztUAOwXXk2cb0t8pr12C6159EBY9mbN3xFb3QeghA==, tarball: file:vendor/theme-tools/theme-tools-testing-1.0.1-contracts.tgz}
@@ -2064,13 +2064,13 @@ snapshots:
       '@types/react': 19.3.0
       '@types/react-dom': 19.3.0(@types/react@19.3.0)
 
-  '@theme-tools/shared-utils@file:vendor/theme-tools/theme-tools-shared-utils-1.0.20.tgz':
+  '@theme-tools/shared-utils@file:vendor/theme-tools/theme-tools-shared-utils-1.0.22.tgz':
     dependencies:
       zod: 4.6.7
 
-  '@theme-tools/testing@file:vendor/theme-tools/theme-tools-testing-1.0.1-contracts.tgz(@theme-tools/shared-utils@file:vendor/theme-tools/theme-tools-shared-utils-1.0.20.tgz)(@types/node@26.6.6)(typescript@5.9.3)':
+  '@theme-tools/testing@file:vendor/theme-tools/theme-tools-testing-1.0.1-contracts.tgz(@theme-tools/shared-utils@file:vendor/theme-tools/theme-tools-shared-utils-1.0.22.tgz)(@types/node@26.6.6)(typescript@5.9.3)':
     dependencies:
-      '@theme-tools/shared-utils': file:vendor/theme-tools/theme-tools-shared-utils-1.0.20.tgz
+      '@theme-tools/shared-utils': file:vendor/theme-tools/theme-tools-shared-utils-1.0.22.tgz
       msw: 2.15.0(@types/node@26.6.6)(typescript@5.9.3)
       zod: 4.6.7
     transitivePeerDependencies:
@@ -2079,12 +2079,12 @@ snapshots:
 
   '@theme.tools/auth@file:vendor/theme-tools/theme.tools-auth-1.0.2.tgz':
     dependencies:
-      '@theme-tools/shared-utils': file:vendor/theme-tools/theme-tools-shared-utils-1.0.20.tgz
+      '@theme-tools/shared-utils': file:vendor/theme-tools/theme-tools-shared-utils-1.0.22.tgz
       zod: 4.6.7
 
-  '@theme.tools/blog@file:vendor/theme-tools/theme.tools-blog-1.0.13.tgz(@theme-tools/shared-utils@file:vendor/theme-tools/theme-tools-shared-utils-1.0.20.tgz)':
+  '@theme.tools/blog@file:vendor/theme-tools/theme.tools-blog-1.0.13.tgz(@theme-tools/shared-utils@file:vendor/theme-tools/theme-tools-shared-utils-1.0.22.tgz)':
     dependencies:
-      '@theme-tools/shared-utils': file:vendor/theme-tools/theme-tools-shared-utils-1.0.20.tgz
+      '@theme-tools/shared-utils': file:vendor/theme-tools/theme-tools-shared-utils-1.0.22.tgz
 
   '@tybys/wasm-util@0.10.4':
     dependencies:

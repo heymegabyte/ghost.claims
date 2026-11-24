@@ -452,8 +452,17 @@ function renderTimeline() {
       img.decoding = "async";
       img.width = 480;
       img.height = 300;
+      img.setAttribute("data-zoomable", "");
+      img.setAttribute("data-gallery", "timeline-events");
+      img.setAttribute("data-lightbox-caption", `${dateStr} · ${ev.title} — ${ev.body}`);
+      img.setAttribute("aria-label", `Open ${ev.title} in the timeline gallery`);
       media.append(img);
-      if (ev.imageCaption) media.append(el("figcaption", "tl-media-cap", ev.imageCaption));
+      const caption = el("figcaption", "tl-media-cap");
+      caption.append(
+        el("span", "tl-media-caption-text", ev.imageCaption || ev.title),
+        el("span", "tl-media-cue", `Open gallery · ${i + 1}/${events.length}`),
+      );
+      media.append(caption);
     }
     const body = el("p", "tl-body", ev.body);
     const severity = el("div", "tl-severity");
@@ -641,7 +650,7 @@ function addChatMessage(role, text, opts = {}) {
     <div class="chat-msg-row">
       <span class="chat-avatar chat-avatar-${role === "assistant" ? "ai" : "user"}" aria-hidden="true">${avatar}</span>
       <div class="chat-msg-body">
-        <p class="chat-msg-text">${renderRichText(text)}</p>
+        <div class="chat-msg-text">${renderRichText(text)}</div>
         ${attachmentsHtml}
         <div class="chat-msg-meta">
           <time class="chat-msg-time">${time}</time>
@@ -686,7 +695,7 @@ function showTyping() {
   typing.innerHTML = `
     <div class="chat-msg-row">
       <span class="chat-avatar chat-avatar-ai" aria-hidden="true">◊</span>
-      <div class="chat-msg-body"><p class="chat-msg-text">The signal is processing<span class="chat-typing-dots">…</span></p></div>
+      <div class="chat-msg-body"><div class="chat-msg-text">The signal is processing<span class="chat-typing-dots">…</span></div></div>
     </div>`;
   chatMessagesEl.append(typing);
   if (chatAutoScrollLocked) scrollChatToBottom();
@@ -2233,6 +2242,8 @@ function initGalleryLightbox() {
   });
 
   function captionFor(img) {
+    const explicitCaption = img.getAttribute("data-lightbox-caption");
+    if (explicitCaption) return explicitCaption;
     const fig = img.closest("figure");
     const cap = fig?.querySelector("figcaption");
     if (cap) return cap.textContent.trim();
@@ -2766,178 +2777,111 @@ function initSpectralHero() {
   const hero = document.querySelector('[data-testid="hero"]');
   const canvas = document.getElementById("spectral-hero-canvas");
   if (!hero || !(canvas instanceof HTMLCanvasElement)) return;
-
-  const gl = canvas.getContext("webgl", {
-    alpha: false,
-    antialias: false,
-    depth: false,
-    stencil: false,
-    powerPreference: "low-power",
-    preserveDrawingBuffer: false,
-  });
-  if (!gl) {
-    hero.dataset.webgl = "fallback";
-    return;
-  }
-
-  const vertexSource = `
-    attribute vec2 a_position;
-    void main() { gl_Position = vec4(a_position, 0.0, 1.0); }
-  `;
-  const fragmentSource = `
-    precision mediump float;
-    uniform vec2 u_resolution;
-    uniform float u_time;
-
-    float hash(vec2 p) {
-      p = fract(p * vec2(123.34, 345.45));
-      p += dot(p, p + 34.345);
-      return fract(p.x * p.y);
-    }
-    float noise(vec2 p) {
-      vec2 i = floor(p);
-      vec2 f = fract(p);
-      f = f * f * (3.0 - 2.0 * f);
-      return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), f.x),
-                 mix(hash(i + vec2(0.0, 1.0)), hash(i + 1.0), f.x), f.y);
-    }
-    float fbm(vec2 p) {
-      float value = 0.0;
-      float amplitude = 0.52;
-      for (int i = 0; i < 4; i++) {
-        value += amplitude * noise(p);
-        p = mat2(1.62, 1.18, -1.18, 1.62) * p + 0.13;
-        amplitude *= 0.48;
-      }
-      return value;
-    }
-    void main() {
-      vec2 uv = (2.0 * gl_FragCoord.xy - u_resolution.xy) / min(u_resolution.x, u_resolution.y);
-      float t = u_time * 0.075;
-      vec2 drift = vec2(t, -t * 0.62);
-      float fogA = fbm(uv * 1.18 + drift);
-      float fogB = fbm(uv * 2.35 - drift * 0.74 + fogA);
-      float vapor = smoothstep(0.24, 1.02, fogA * 0.72 + fogB * 0.64);
-
-      vec2 ghostUv = uv - vec2(0.50, 0.02);
-      float head = length(ghostUv * vec2(1.25, 1.0) - vec2(0.0, 0.24));
-      float body = length(ghostUv * vec2(0.62, 1.15) + vec2(0.0, 0.18));
-      float apparition = smoothstep(0.72, 0.08, head) * 0.7 + smoothstep(1.15, 0.16, body) * 0.45;
-      apparition *= 0.5 + 0.5 * smoothstep(0.18, 0.86, fogB);
-      float eyes = smoothstep(0.075, 0.012, length(ghostUv - vec2(-0.105, 0.31)))
-                 + smoothstep(0.075, 0.012, length(ghostUv - vec2(0.105, 0.31)));
-
-      float halo = exp(-1.55 * length(ghostUv * vec2(0.72, 0.9)));
-      vec3 night = mix(vec3(0.006, 0.018, 0.042), vec3(0.025, 0.012, 0.075), clamp(uv.x * 0.32 + 0.52, 0.0, 1.0));
-      vec3 cyan = vec3(0.0, 0.80, 0.96);
-      vec3 violet = vec3(0.45, 0.20, 0.95);
-      vec3 color = night;
-      color += cyan * vapor * (0.12 + halo * 0.24);
-      color += violet * fogB * 0.10;
-      color += mix(cyan, violet, fogA) * apparition * 0.22;
-      color += vec3(0.62, 0.95, 1.0) * eyes * 0.34;
-
-      float stars = step(0.9965, hash(floor((uv + 4.0) * 150.0))) * (0.3 + 0.7 * noise(uv * 90.0 + t));
-      color += vec3(0.45, 0.82, 1.0) * stars * 0.45;
-      float vignette = smoothstep(1.65, 0.2, length(uv * vec2(0.72, 0.9)));
-      color *= 0.42 + vignette * 0.78;
-      color += (hash(gl_FragCoord.xy + u_time) - 0.5) * 0.012;
-      gl_FragColor = vec4(color, 1.0);
-    }
-  `;
-
-  function compile(type, source) {
-    const shader = gl.createShader(type);
-    gl.shaderSource(shader, source);
-    gl.compileShader(shader);
-    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-      gl.deleteShader(shader);
-      return null;
-    }
-    return shader;
-  }
-
-  const vertex = compile(gl.VERTEX_SHADER, vertexSource);
-  const fragment = compile(gl.FRAGMENT_SHADER, fragmentSource);
-  if (!vertex || !fragment) {
-    hero.dataset.webgl = "fallback";
-    return;
-  }
-  const program = gl.createProgram();
-  gl.attachShader(program, vertex);
-  gl.attachShader(program, fragment);
-  gl.linkProgram(program);
-  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-    hero.dataset.webgl = "fallback";
-    return;
-  }
-
-  const buffer = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-  gl.useProgram(program);
-  const position = gl.getAttribLocation(program, "a_position");
-  gl.enableVertexAttribArray(position);
-  gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
-  const resolution = gl.getUniformLocation(program, "u_resolution");
-  const time = gl.getUniformLocation(program, "u_time");
+  hero.dataset.webgl = "pending";
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let visible = true;
-  let raf = 0;
-  let previousFrame = 0;
 
-  function resize() {
-    const rect = hero.getBoundingClientRect();
-    const maxDpr = innerWidth < 720 ? 0.85 : 1.15;
-    const dpr = Math.min(devicePixelRatio || 1, maxDpr);
-    const maxPixels = 1400000;
-    const rawWidth = Math.max(1, Math.round(rect.width * dpr));
-    const rawHeight = Math.max(1, Math.round(rect.height * dpr));
-    const scale = Math.min(1, Math.sqrt(maxPixels / (rawWidth * rawHeight)));
-    const width = Math.max(1, Math.round(rawWidth * scale));
-    const height = Math.max(1, Math.round(rawHeight * scale));
-    if (canvas.width === width && canvas.height === height) return;
-    canvas.width = width;
-    canvas.height = height;
-    gl.viewport(0, 0, width, height);
-    gl.uniform2f(resolution, width, height);
-  }
+  function start() {
+    hero.dataset.layers = "ready";
+    const gl = canvas.getContext("webgl", {
+      alpha: true,
+      antialias: false,
+      depth: false,
+      stencil: false,
+      powerPreference: "low-power",
+      preserveDrawingBuffer: false,
+    });
+    if (!gl) { hero.dataset.webgl = "fallback"; return; }
 
-  function draw(now = 0) {
-    raf = 0;
-    if (!visible || document.hidden) return;
-    if (!reduceMotion && now - previousFrame < 33) {
-      raf = requestAnimationFrame(draw);
-      return;
+    const vertexSource = `attribute vec2 a_position;void main(){gl_Position=vec4(a_position,0.0,1.0);}`;
+    const fragmentSource = `
+      precision mediump float;
+      uniform vec2 u_resolution;
+      uniform vec2 u_pointer;
+      uniform float u_time;
+      uniform float u_energy;
+      float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+      void main(){
+        vec2 uv=gl_FragCoord.xy/u_resolution.xy;
+        vec2 aspect=vec2(u_resolution.x/u_resolution.y,1.0);
+        vec2 source=mix(vec2(.76,.5),u_pointer,clamp(u_energy,0.0,1.0));
+        float d=distance(uv*aspect,source*aspect);
+        float t=u_time*.34;
+        float bend=exp(-d*5.0)*(.018+.018*sin(t));
+        float lines=0.0;
+        for(int i=0;i<4;i++){
+          float fi=float(i);
+          float wave=uv.y+sin(uv.x*(8.0+fi*2.3)+t*(.45+fi*.08)+fi)*(.016+fi*.004);
+          wave+=bend*sin(d*34.0-t*1.4+fi);
+          lines+=smoothstep(.014,0.0,abs(fract(wave*(9.0+fi*2.0))-0.5)-.47);
+        }
+        float ring=smoothstep(.018,0.0,abs(fract(d*12.0-t*.26)-.5)-.475)*exp(-d*1.8);
+        float staticBand=step(.982,hash(floor(vec2(gl_FragCoord.x*.16,(gl_FragCoord.y+t*80.0)*.08))))*exp(-d*2.5);
+        float pulse=(lines*.085+ring*.2+staticBand*.18)*(0.52+u_energy*.48);
+        vec3 cyan=vec3(0.0,.88,1.0);vec3 violet=vec3(.43,.24,1.0);
+        vec3 color=mix(violet,cyan,uv.x)*pulse;
+        gl_FragColor=vec4(color,clamp(pulse*1.5,0.0,.48));
+      }`;
+
+    function compile(type, source) {
+      const shader = gl.createShader(type);
+      gl.shaderSource(shader, source);
+      gl.compileShader(shader);
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) { gl.deleteShader(shader); return null; }
+      return shader;
     }
-    previousFrame = now;
-    resize();
-    gl.uniform1f(time, reduceMotion ? 8.0 : now * 0.001);
-    gl.drawArrays(gl.TRIANGLES, 0, 3);
-    hero.dataset.webgl = "ready";
-    if (!reduceMotion) raf = requestAnimationFrame(draw);
+    const vertex = compile(gl.VERTEX_SHADER, vertexSource);
+    const fragment = compile(gl.FRAGMENT_SHADER, fragmentSource);
+    if (!vertex || !fragment) { hero.dataset.webgl = "fallback"; return; }
+    const program = gl.createProgram();
+    gl.attachShader(program, vertex); gl.attachShader(program, fragment); gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) { hero.dataset.webgl = "fallback"; return; }
+    gl.deleteShader(vertex); gl.deleteShader(fragment);
+    const buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,3,-1,-1,3]), gl.STATIC_DRAW);
+    gl.useProgram(program);
+    const position = gl.getAttribLocation(program, "a_position");
+    gl.enableVertexAttribArray(position); gl.vertexAttribPointer(position,2,gl.FLOAT,false,0,0);
+    const resolution = gl.getUniformLocation(program,"u_resolution");
+    const time = gl.getUniformLocation(program,"u_time");
+    const pointer = gl.getUniformLocation(program,"u_pointer");
+    const energy = gl.getUniformLocation(program,"u_energy");
+    let visible=true,raf=0,previousFrame=0,pointerX=.76,pointerY=.5,targetX=.76,targetY=.5,activity=0;
+
+    function resize(){
+      const rect=hero.getBoundingClientRect();
+      const dpr=Math.min(devicePixelRatio||1,innerWidth<720?.68:.9);
+      const rawWidth=Math.max(1,Math.round(rect.width*dpr));
+      const rawHeight=Math.max(1,Math.round(rect.height*dpr));
+      const scale=Math.min(1,Math.sqrt(650000/(rawWidth*rawHeight)));
+      const width=Math.max(1,Math.round(rawWidth*scale));const height=Math.max(1,Math.round(rawHeight*scale));
+      if(canvas.width===width&&canvas.height===height)return;
+      canvas.width=width;canvas.height=height;gl.viewport(0,0,width,height);gl.uniform2f(resolution,width,height);
+    }
+
+    function draw(now=0){
+      raf=0;if(!visible||document.hidden)return;
+      const interval=innerWidth<720?66:42;
+      if(!reduceMotion&&now-previousFrame<interval){raf=requestAnimationFrame(draw);return;}
+      previousFrame=now;resize();pointerX+=(targetX-pointerX)*.075;pointerY+=(targetY-pointerY)*.075;activity*=.965;
+      gl.uniform2f(pointer,pointerX,pointerY);gl.uniform1f(energy,reduceMotion?0:activity);gl.uniform1f(time,reduceMotion?7:now*.001);
+      gl.drawArrays(gl.TRIANGLES,0,3);hero.dataset.webgl="ready";
+      if(!reduceMotion)raf=requestAnimationFrame(draw);
+    }
+
+    function syncAnimation(){if(visible&&!document.hidden&&!raf)raf=requestAnimationFrame(draw);if((!visible||document.hidden)&&raf){cancelAnimationFrame(raf);raf=0;}}
+    function aim(event){const rect=hero.getBoundingClientRect();targetX=Math.max(0,Math.min(1,(event.clientX-rect.left)/rect.width));targetY=1-Math.max(0,Math.min(1,(event.clientY-rect.top)/rect.height));activity=1;}
+    hero.addEventListener("pointermove",aim,{passive:true});
+    hero.addEventListener("pointerdown",aim,{passive:true});
+    new ResizeObserver(()=>{resize();if(reduceMotion)draw();}).observe(hero);
+    new IntersectionObserver(([entry])=>{visible=Boolean(entry?.isIntersecting);syncAnimation();},{threshold:.01}).observe(hero);
+    document.addEventListener("visibilitychange",syncAnimation);
+    canvas.addEventListener("webglcontextlost",event=>{event.preventDefault();hero.dataset.webgl="fallback";visible=false;syncAnimation();},{passive:false});
+    syncAnimation();
   }
 
-  function syncAnimation() {
-    if (visible && !document.hidden && !raf) raf = requestAnimationFrame(draw);
-    if ((!visible || document.hidden) && raf) {
-      cancelAnimationFrame(raf);
-      raf = 0;
-    }
-  }
-  new ResizeObserver(() => { resize(); if (reduceMotion) draw(); }).observe(hero);
-  new IntersectionObserver(([entry]) => {
-    visible = Boolean(entry?.isIntersecting);
-    syncAnimation();
-  }, { threshold: 0.01 }).observe(hero);
-  document.addEventListener("visibilitychange", syncAnimation);
-  canvas.addEventListener("webglcontextlost", (event) => {
-    event.preventDefault();
-    hero.dataset.webgl = "fallback";
-    visible = false;
-    syncAnimation();
-  }, { passive: false });
-  syncAnimation();
+  if ("requestIdleCallback" in window) requestIdleCallback(start,{timeout:700});
+  else setTimeout(start,120);
 }
 
 // Service worker registration

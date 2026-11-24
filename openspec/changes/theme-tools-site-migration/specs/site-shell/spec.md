@@ -103,3 +103,18 @@ The hero SHALL render its ghost-like atmosphere as progressive enhancement that 
 
 - **WHEN** the hero is no longer visible or the document becomes hidden
 - **THEN** animation frames stop until visibility returns.
+
+### Requirement: every route exposes the complete shared footer
+
+Every public route SHALL render the same theme.tools footer with the Ghost Signal logo and description, a vertical destination list, a compact Signal Dispatch subscription form, and working Privacy and Terms destinations.
+
+#### Scenario: newsletter submission from a non-homepage route
+
+- **GIVEN** a visitor is on a static, Worker-rendered, or React route
+- **WHEN** they submit a valid email in the footer
+- **THEN** the shared controller posts to the declared newsletter endpoint and announces success or failure without navigating away.
+
+#### Scenario: footer hotline interaction
+
+- **WHEN** the hotline link is hovered, focused, or selected
+- **THEN** its cyan text remains visible and its telephone destination remains unchanged.

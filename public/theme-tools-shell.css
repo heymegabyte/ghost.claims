@@ -40,6 +40,9 @@
   .tt-nav--overlay .tt-nav__ov-grid{width:15px;height:15px}
   .tt-nav--overlay .tt-nav__ov-label{position:static;width:auto;height:auto;padding:0;margin:0;overflow:visible;clip:auto;white-space:nowrap;border:0}
 }
+@media(max-width:520px){
+  .tt-footer__links{display:flex;flex-direction:column;align-items:flex-start}
+}
 @media(prefers-reduced-motion:reduce){
   .tt-nav--overlay .tt-nav__ov-trigger,.tt-nav--overlay .tt-nav__ov-trigger::before{transition:none}
 }

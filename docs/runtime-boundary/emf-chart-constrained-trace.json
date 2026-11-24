@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "repository": "ghost.claims",
-  "evidenceRevision": "worktree-sha256:540990d0382582db761d598f7896046b1f41afb5c47e0353f9e118a1706f261a",
+  "evidenceRevision": "worktree-sha256:be5233aec6665a1cac595579737c72f6ce95a04842149d5c23077c1ad412ce3d",
   "browser": {
     "name": "chrome",
-    "version": "157.0.8103.80",
+    "version": "158.0.8127.37",
     "headless": true
   },
   "device": {
@@ -22,11 +22,11 @@
   },
   "build": {
     "indexPath": "public/index.html",
-    "indexDigest": "sha256:9076e449aa31745a389ebc75eb95d70b8fceffec838bba8d0cc620350895cc25",
+    "indexDigest": "sha256:fd6292a640959b48510a3f194aede97025f1788b6b4aa9ff1086f56b47165f40",
     "entryPath": "public/app.js",
-    "entryDigest": "sha256:292966af1439f4eb1fa766784872ca4443835c9e8ad81a2a8f0df14fe83bf96d",
+    "entryDigest": "sha256:ed33f9fba5c8db1079f3d8df43b6f915716ff28625b56e2757f3d6b6034ba7fb",
     "workerBundlePath": "docs/runtime-boundary/worker-build/index.js",
-    "workerBundleDigest": "sha256:7a47e30fa38a562b7bfdd8ee62e8ab6209ba737d68349a9354aafd0ad311a303"
+    "workerBundleDigest": "sha256:425f958058cda351c013278b057fc56aeb0091280f38bc67861eea10ffef91fa"
   },
   "interaction": {
     "id": "emf-history-range-chart",
@@ -35,11 +35,11 @@
     "rationale": "The bounded canvas redraw is synchronous product presentation with no server authority or optional SDK fan-out; data retrieval and validation remain in the Cloudflare Worker API, so artificial chunking or worker transfer would add coordination cost without measured benefit.",
     "accessibilityPattern": "inline",
     "thresholdMs": 1500,
-    "p75Ms": 414.08,
+    "p75Ms": 1058.97,
     "samples": [
       {
         "id": "sample-1",
-        "activationToVisibleMs": 414.08,
+        "activationToVisibleMs": 1058.97,
         "chunkRequestedBeforeActivation": false,
         "chunkRequestedAfterActivation": false,
         "contentVisible": true,
@@ -50,7 +50,7 @@
       },
       {
         "id": "sample-2",
-        "activationToVisibleMs": 473.82,
+        "activationToVisibleMs": 397.29,
         "chunkRequestedBeforeActivation": false,
         "chunkRequestedAfterActivation": false,
         "contentVisible": true,
@@ -61,7 +61,7 @@
       },
       {
         "id": "sample-3",
-        "activationToVisibleMs": 276.76,
+        "activationToVisibleMs": 350.29,
         "chunkRequestedBeforeActivation": false,
         "chunkRequestedAfterActivation": false,
         "contentVisible": true,
@@ -72,7 +72,7 @@
       },
       {
         "id": "sample-4",
-        "activationToVisibleMs": 269.69,
+        "activationToVisibleMs": 467.49,
         "chunkRequestedBeforeActivation": false,
         "chunkRequestedAfterActivation": false,
         "contentVisible": true,
@@ -83,7 +83,7 @@
       },
       {
         "id": "sample-5",
-        "activationToVisibleMs": 330.63,
+        "activationToVisibleMs": 2158.33,
         "chunkRequestedBeforeActivation": false,
         "chunkRequestedAfterActivation": false,
         "contentVisible": true,
@@ -95,22 +95,22 @@
     ]
   },
   "sourceDigests": {
-    "chartComposition": "sha256:292966af1439f4eb1fa766784872ca4443835c9e8ad81a2a8f0df14fe83bf96d",
-    "pageComposition": "sha256:9076e449aa31745a389ebc75eb95d70b8fceffec838bba8d0cc620350895cc25",
+    "chartComposition": "sha256:ed33f9fba5c8db1079f3d8df43b6f915716ff28625b56e2757f3d6b6034ba7fb",
+    "pageComposition": "sha256:fd6292a640959b48510a3f194aede97025f1788b6b4aa9ff1086f56b47165f40",
     "workerConfiguration": "sha256:969cb307abd3e9ab11ee5e0d854cc0c0200fbda665840e5e90eb4fc845918af6",
     "browserRehearsal": "sha256:238d4b8a2588331812e467f54149297d868b2c4afd6d7fe74659386235ee5a6f"
   },
   "artifactDigests": {
-    "public/index.html": "sha256:9076e449aa31745a389ebc75eb95d70b8fceffec838bba8d0cc620350895cc25",
-    "public/app.js": "sha256:292966af1439f4eb1fa766784872ca4443835c9e8ad81a2a8f0df14fe83bf96d",
-    "public/styles.css": "sha256:270a3a2eb65566e52a92af02e9f208ec932e7dbb66d84e14bb8d8fba80745c0b",
-    "public/theme-tools.css": "sha256:34a8ea7a94cd2b9d1673b5cc6ab0fa49f9fc5608e20cf7c6a33f5fee2247da17",
+    "public/index.html": "sha256:fd6292a640959b48510a3f194aede97025f1788b6b4aa9ff1086f56b47165f40",
+    "public/app.js": "sha256:ed33f9fba5c8db1079f3d8df43b6f915716ff28625b56e2757f3d6b6034ba7fb",
+    "public/styles.css": "sha256:2ce9bc2708b6d168ec0490dd5ec65e22a6a2da01dfc7ef5a43d520f6923872d8",
+    "public/theme-tools.css": "sha256:26f1fdeb27e2e502e063b571881cf4ce357c8a9fc5d8039dd84566c6b3702c18",
     "wrangler.jsonc": "sha256:969cb307abd3e9ab11ee5e0d854cc0c0200fbda665840e5e90eb4fc845918af6",
     "scripts/verify-runtime-boundary.mjs": "sha256:238d4b8a2588331812e467f54149297d868b2c4afd6d7fe74659386235ee5a6f",
-    "docs/runtime-boundary/worker-build/06cc009c95fa9694bf8ac16ad0c778c664148e07-timeline.yaml": "sha256:1e60bd8342e6aff5e1d1903c92a38b0fd987a64d0c56b685925762979cae78ba",
-    "docs/runtime-boundary/worker-build/README.md": "sha256:20cf6e96e44703a5c11765f6f08322d4e74be78ba3801d3d2ad59ae02c9f7e80",
-    "docs/runtime-boundary/worker-build/index.js": "sha256:7a47e30fa38a562b7bfdd8ee62e8ab6209ba737d68349a9354aafd0ad311a303",
-    "docs/runtime-boundary/worker-build/index.js.map": "sha256:8117e608ca6608077c552e971a77082fb6996619a885078250ea2f1f1e6c8b37"
+    "docs/runtime-boundary/worker-build/248a773409d8cc45e76693b561baaf43315419af-timeline.yaml": "sha256:dac083397076323c1e1c2d4a1be25674f4f6083c0ee67fd2d760c599e1147d17",
+    "docs/runtime-boundary/worker-build/README.md": "sha256:4eddb85fe24e0045e8ca9d99a86ab529a996d4952806410ba71ffdb10ff00163",
+    "docs/runtime-boundary/worker-build/index.js": "sha256:425f958058cda351c013278b057fc56aeb0091280f38bc67861eea10ffef91fa",
+    "docs/runtime-boundary/worker-build/index.js.map": "sha256:1d7cddf59a47983b029bdb022cbe1d1c555418c34bbcaf9ae46e237bc096a577"
   },
   "traceArtifact": "docs/runtime-boundary/emf-chart-constrained-trace.json"
 }

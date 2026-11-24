@@ -19,6 +19,10 @@
     "spec-table",
     "scorecard",
     "accordion",
+    "pricing",
+    "cta",
+    "link-card",
+    "table",
     "featured",
     "gallery",
     "video-browser",
@@ -40,7 +44,7 @@
       "type": "callout",
       "module": "widgets",
       "cssVar": "WIDGET_CSS",
-      "description": "Coloured note/aside (info · warning · success · tip)."
+      "description": "Coloured note/aside (info · warning · success · tip · error); title and body are each optional (at least one required)."
     },
     {
       "type": "takeaways",
@@ -119,6 +123,30 @@
       "module": "widgets",
       "cssVar": "WIDGET_CSS",
       "description": "Generic expand/collapse accordion of sections."
+    },
+    {
+      "type": "pricing",
+      "module": "widgets",
+      "cssVar": "WIDGET_CSS",
+      "description": "Pricing-tier card (tier + price + features + optional CTA)."
+    },
+    {
+      "type": "cta",
+      "module": "widgets",
+      "cssVar": "WIDGET_CSS",
+      "description": "Call-to-action card (title + body + primary/secondary action buttons)."
+    },
+    {
+      "type": "link-card",
+      "module": "widgets",
+      "cssVar": "WIDGET_CSS",
+      "description": "Whole-card link (title + optional description + badge)."
+    },
+    {
+      "type": "table",
+      "module": "widgets",
+      "cssVar": "WIDGET_CSS",
+      "description": "Generic data table (arbitrary column headers + body rows; empty cells allowed)."
     },
     {
       "type": "featured",

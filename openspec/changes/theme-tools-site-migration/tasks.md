@@ -53,6 +53,8 @@
 - [x] Run the complete release gates, deploy the exact tested commit, and verify the repaired routes in production.
 - [x] Re-inventory every route and component against the pinned theme.tools catalog and document justified product-specific boundaries.
 - [x] Remove the obsolete homepage Open Channel chapter and repair live-card clipping and section-edge spacing.
+- [x] Replace the homepage-only dispatch block with a compact canonical theme.tools footer newsletter across static, Worker, and React routes.
+- [x] Replace the expensive full-scene hero shader with compressed generated depth plates and a bounded interactive WebGL field-line pass.
 - [x] Complete focused route screenshots and geometry checks until no high-confidence alignment defect remains.
 - [x] Run the full release gates, commit, push, deploy, and verify the exact production revision.
 - [x] Re-audit every public route at desktop and phone widths, then refine touch geometry, mobile editorial table affordances, and Story artifact containment without changing the approved visual identity.

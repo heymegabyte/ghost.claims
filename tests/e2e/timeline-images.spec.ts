@@ -25,9 +25,41 @@ test.describe("timeline evidence images", () => {
     await expect.poll(() => featureImage.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBe(1100);
 
     const timelineCard = page.locator(".tl-card", { hasText: "AVATAR MUD" }).first();
+    await expect(timelineCard.locator(".tl-body")).toHaveText(
+      "I religiously played AVATAR MUD, a text-based Dungeons & Dragons game. Its main group of players later came to my town for a convention in Parsippany, New Jersey.",
+    );
     const timelineImage = timelineCard.locator("img");
     await timelineImage.scrollIntoViewIfNeeded();
     await expect(timelineImage).toHaveAttribute("src", "/avatar-mud-login.webp");
+  });
+
+  test("the timeline is a dedicated, keyboard-navigable event gallery", async ({ page }) => {
+    await page.goto(TARGET, { waitUntil: "domcontentloaded" });
+    const items = page.locator("#timeline-track .tl-item");
+    await expect.poll(() => items.count(), { timeout: 15_000 }).toBeGreaterThanOrEqual(MIN_EVENTS);
+    const count = await items.count();
+    const images = items.locator(".tl-thumb");
+    await expect(images).toHaveCount(count);
+    for (let i = 0; i < count; i++) {
+      await expect(images.nth(i)).toHaveAttribute("data-gallery", "timeline-events");
+    }
+
+    await images.first().focus();
+    await page.keyboard.press("Enter");
+    const dialog = page.getByRole("dialog", { name: "Image viewer" });
+    await expect(dialog).toBeVisible();
+    await expect(dialog.locator(".gallery-lightbox-counter")).toHaveText(`1 / ${count}`);
+    await expect(dialog.locator(".gallery-lightbox-caption")).toContainText("AVATAR MUD");
+
+    await page.keyboard.press("ArrowRight");
+    await expect(dialog.locator(".gallery-lightbox-counter")).toHaveText(`2 / ${count}`);
+    await expect(dialog.locator(".gallery-lightbox-caption")).toContainText("The Avatar Frame");
+    await expect(dialog.locator(".gallery-lightbox-stage img")).toHaveAttribute("src", /\/story\/cane\.webp$/);
+
+    await page.keyboard.press("End");
+    await expect(dialog.locator(".gallery-lightbox-counter")).toHaveText(`${count} / ${count}`);
+    await page.keyboard.press("Escape");
+    await expect(dialog).toBeHidden();
   });
 
   test("American Spirits recollection is placed in the chronology and opens in the page gallery", async ({ page }) => {

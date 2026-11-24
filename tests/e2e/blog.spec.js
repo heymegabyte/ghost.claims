@@ -9,6 +9,12 @@ test("theme.tools Night Archive publishes fiction and reported memoir", async ({
   await page.goto("/blog");
   await expect(page).toHaveTitle(/Night Archive/);
   await expect(page.locator(".tt-post")).toHaveCount(5);
+  const featuredCards = page.locator(".tt-post__media > .tt-post__thumb");
+  await expect(featuredCards).toHaveCount(5);
+  for (const image of await featuredCards.all()) {
+    await image.scrollIntoViewIfNeeded();
+    await expect.poll(() => image.evaluate((node) => node.naturalWidth)).toBeGreaterThan(0);
+  }
   await expect(page.locator(".tt-nav__logo")).toHaveAttribute("src", /\/logo-nav\.png/);
   await expect(page.locator(".tt-nav__links > .tt-nav__link")).toHaveCount(0);
   await expect(page.getByRole("button", { name: "Browse" })).toBeVisible();
@@ -17,6 +23,8 @@ test("theme.tools Night Archive publishes fiction and reported memoir", async ({
   await page.getByRole("link", { name: /The Clout War Above Heaven/ }).click();
   await expect(page).toHaveURL(/the-clout-war-above-heaven/);
   await expect(page.locator("tt-article-reader")).toBeVisible();
+  await expect(page.locator(".journal-featured-media .tt-featured__img")).toHaveAttribute("src", "/dream-doom.webp");
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute("content", /\/dream-doom\.webp$/);
   await expect(page.locator(".tt-article")).toContainText("Above the atmosphere, two ancient courts discovered metrics");
   expect(errors).toEqual([]);
 });

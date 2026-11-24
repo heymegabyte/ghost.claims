@@ -104,6 +104,24 @@ const GHOST_SIGNAL_OVERLAY_NAVIGATION_JS = `(function(){
 
 export const GHOST_SIGNAL_NAV_JS = `${NAV_MENU_JS}\n${GHOST_SIGNAL_OVERLAY_NAVIGATION_JS}`;
 
+const GHOST_SIGNAL_FOOTER_JS = `(function(){
+  if(window.__ghostSignalFooter)return;window.__ghostSignalFooter=true;
+  document.addEventListener('submit',async function(event){
+    var form=event.target&&event.target.closest?event.target.closest('[data-tt-footer-newsletter]'):null;
+    if(!form)return;event.preventDefault();
+    var status=form.parentElement&&form.parentElement.querySelector('[data-tt-footer-newsletter-status]');
+    var button=form.querySelector('button[type="submit"]');var email=form.querySelector('input[name="email"]');
+    if(!email||!email.validity.valid){if(status)status.textContent='Enter a valid email address.';email&&email.focus();return;}
+    if(button){button.disabled=true;button.setAttribute('aria-busy','true');}
+    if(status)status.textContent='Joining the dispatch…';
+    try{var response=await fetch(form.getAttribute('data-endpoint')||'/api/v1/newsletter/subscribe',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email:email.value,website:(form.querySelector('input[name="website"]')||{}).value||''})});var data=await response.json().catch(function(){return{}});if(!response.ok)throw new Error(data.error||'Subscription failed');if(status)status.textContent=data.message||'You are on the Signal Dispatch.';form.reset();}
+    catch(error){if(status)status.textContent=error&&error.message?error.message:'The signal dropped. Please try again.';}
+    finally{if(button){button.disabled=false;button.removeAttribute('aria-busy');}}
+  });
+})();`;
+
+export const GHOST_SIGNAL_SHELL_JS = `${GHOST_SIGNAL_NAV_JS}\n${GHOST_SIGNAL_FOOTER_JS}`;
+
 export const GHOST_SIGNAL_SHELL_CSS = `
 .tt-nav{view-transition-name:site-header}
 .tt-nav__brand{min-height:44px}
@@ -147,6 +165,9 @@ export const GHOST_SIGNAL_SHELL_CSS = `
   .tt-nav--overlay .tt-nav__ov-grid{width:15px;height:15px}
   .tt-nav--overlay .tt-nav__ov-label{position:static;width:auto;height:auto;padding:0;margin:0;overflow:visible;clip:auto;white-space:nowrap;border:0}
 }
+@media(max-width:520px){
+  .tt-footer__links{display:flex;flex-direction:column;align-items:flex-start}
+}
 @media(prefers-reduced-motion:reduce){
   .tt-nav--overlay .tt-nav__ov-trigger,.tt-nav--overlay .tt-nav__ov-trigger::before{transition:none}
 }
@@ -184,12 +205,32 @@ export function renderGhostSignalNav(pathname: string): string {
 
 export function renderGhostSignalFooter(): string {
   return renderSiteFooter({
-    note: "ghost.claims // Public signal. Open data. Night archive.",
+    note: "Ghost Signal // ghost.claims",
+    logo: { src: "/logo-nav.png?v=2945c6a-1778550809", alt: "Ghost Signal logo", width: 40, height: 40 },
+    description: "A public electromagnetic sensor, entropy experiment, AI hotline, and night archive documenting the signal without pretending interpretation is proof.",
     links: [
-      ...GHOST_SIGNAL_NAV_LINKS,
+      { label: "Live signal", href: "/#live" },
+      { label: "Story", href: "/story" },
+      { label: "Plates", href: "/plates" },
+      { label: "Transmissions", href: "/transmissions" },
+      { label: "Journal", href: "/blog" },
+      { label: "Developer docs", href: "/docs" },
+      { label: "API reference", href: "/api/docs" },
+      { label: "Evidence standard", href: "/story#dossier" },
+      { label: "(601) 666-6602", href: "tel:+16016666602" },
+    ],
+    legalLinks: [
       { label: "Privacy", href: "/privacy" },
       { label: "Terms", href: "/terms" },
     ],
+    newsletter: {
+      label: "Signal Dispatch",
+      title: "Keep one eye on the field.",
+      description: "A compact weekly digest of sensor anomalies, new records, and additions to the archive. Email only.",
+      endpoint: "/api/v1/newsletter/subscribe",
+      placeholder: "anonymous@yourdomain.com",
+      buttonLabel: "Join",
+    },
   }).replace('<footer class="tt-footer">', '<footer class="tt-footer" data-theme-tools="site-footer">');
 }
 

@@ -107,21 +107,18 @@ test("chat message flow: send message, see user bubble, typing indicator, then A
   expectNoConsoleErrors(consoleErrors);
 });
 
-test("hotline section: phone number visible with correct tel: href, section content intact", async ({ page }) => {
+test("shared footer: hotline and dispatch details remain available", async ({ page }) => {
   const consoleErrors = trackConsoleErrors(page);
   await gotoHome(page, SEEDED_CUSTOM_RANGE);
 
-  // Hotline section visible
-  const hotlineSection = page.locator(".signal-closing");
-  await expect(hotlineSection).toBeVisible();
+  const footer = page.locator('[data-theme-tools="site-footer"]');
+  await expect(footer).toBeVisible();
 
-  // Phone number link
-  const phoneLink = hotlineSection.locator(".hotline-number");
+  const phoneLink = footer.locator('a[href="tel:+16016666602"]');
   await expect(phoneLink).toContainText("(601) 666-6602");
   await expect(phoneLink).toHaveAttribute("href", "tel:+16016666602");
 
-  // Hotline content
-  await expect(hotlineSection).toContainText("The hotline is open");
+  await expect(footer).toContainText("Signal Dispatch");
 
   expectNoConsoleErrors(consoleErrors);
 });

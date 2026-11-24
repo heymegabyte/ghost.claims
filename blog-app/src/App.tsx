@@ -25,6 +25,11 @@ import { GHOST_SIGNAL_SHELL_CSS, renderGhostSignalFooter, renderGhostSignalNav, 
 import "./app.css";
 
 const nav = renderGhostSignalNav("/blog");
+const CANONICAL_FEATURED_IMAGE = {
+  src: "/evidence-radiation-tdr.webp",
+  alt: "Ghost Signal sensor telemetry glowing against a dark electromagnetic field",
+  caption: "Sensor telemetry dossier · the public edge, runtime boundary, and evidence trail",
+};
 
 function articleBody(article: NightArchiveArticle): string {
   const html = article.sections.map((section, sectionIndex) => {
@@ -89,6 +94,7 @@ function ArchiveIndex() {
       href: `/blog/${article.slug}`,
       tag: article.file.replace("FILE ", ""),
       meta: `${article.readingMinutes} min transmission · ${article.genre ?? "fiction"}`,
+      image: { src: article.featuredImage.src, alt: article.featuredImage.alt },
     })),
   });
 
@@ -108,7 +114,7 @@ function ArchiveIndex() {
       byline: cover.author,
       meta: `${cover.date} · ${readingMinutes(cover.body)} min read`,
       href: `/blog/${cover.slug}`,
-      image: { src: "/evidence-radiation-tdr.webp", alt: "Sensor telemetry display glowing against a dark field" },
+      image: CANONICAL_FEATURED_IMAGE,
       cta: "Read the featured dossier",
     })} />
     </section>
@@ -161,6 +167,7 @@ function CanonicalArticlePage({ post }: { post: CanonicalBlogPost }) {
       { label: post.title },
     ] })} />
     <CanonicalMarkup className="journal-reading-rail journal-technical-header" html={renderPageHeader({ kicker: `${post.desk.toUpperCase()} // ${post.format.toUpperCase()} // ${meta}`, title: post.title, lede: post.description })} />
+    <CanonicalMarkup className="journal-featured-media" html={renderComponent("featured", CANONICAL_FEATURED_IMAGE)} />
     <div className="journal-article-tools journal-reading-rail">
       <CanonicalMarkup html={renderEvidenceBadge(post.evidence)} />
       <CanonicalMarkup html={renderTagList({ tags: post.tags, label: "Filed under" })} />
@@ -182,6 +189,7 @@ function ArticlePage({ article }: { article: NightArchiveArticle }) {
   return <>
     <a className="tt-back" href="/blog">← Ghost Signal Journal</a>
     <CanonicalMarkup className="journal-reading-rail" html={renderPageHeader({ kicker: article.file, title: article.title, lede: article.standfirst })} />
+    <CanonicalMarkup className="journal-featured-media" html={renderComponent("featured", article.featuredImage)} />
     <CanonicalMarkup className="journal-reading-rail" html={renderJournalNotice({
       label: article.genre === "reported memoir" ? "Editorial method:" : "Fiction:",
       body: article.disclosure ?? "This story uses supernatural and surveillance imagery as metaphor. It does not describe verified events or people.",
@@ -236,7 +244,8 @@ export default function App() {
     setSocialMeta("og:description", description.content);
     setSocialMeta("og:url", canonicalUrl);
     setSocialMeta("og:type", slug ? "article" : "website");
-    if (article?.slug === "greystone-after-the-skunk") setSocialMeta("og:image", "https://ghost.claims/blog-media/greystone/greystone-memory-study.webp");
+    const socialImage = article?.featuredImage.src ?? (canonicalPost ? "/evidence-radiation-tdr.webp" : undefined);
+    if (socialImage) setSocialMeta("og:image", new URL(socialImage, "https://ghost.claims").href);
 
     document.getElementById("tt-article-jsonld")?.remove();
     if (article) {
@@ -251,7 +260,7 @@ export default function App() {
         author: { "@type": "Person", name: "Brian Zalewski" },
         publisher: { "@type": "Organization", name: "Ghost Signal", url: "https://ghost.claims" },
         mainEntityOfPage: canonicalUrl,
-        image: article.slug === "greystone-after-the-skunk" ? "https://ghost.claims/blog-media/greystone/greystone-memory-study.webp" : undefined,
+        image: new URL(article.featuredImage.src, "https://ghost.claims").href,
         associatedMedia: article.slug === "greystone-after-the-skunk" ? {
           "@type": "AudioObject",
           name: "Greystone After the Skunk — audio briefing",

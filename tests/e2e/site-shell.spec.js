@@ -72,6 +72,19 @@ test("canonical shell exposes keyboard navigation and theme.tools footer", async
   await expect(page.locator(".tt-skip")).toBeFocused();
   await expect(page.locator('[data-theme-tools="site-footer"]')).toContainText("ghost.claims");
   await expect(page.locator(".tt-nav__brand")).toHaveAttribute("href", "/");
+  await expect(page.locator(".tt-footer__logo")).toHaveAttribute("src", /logo-nav\.png/);
+  await expect(page.locator(".tt-footer [data-tt-footer-newsletter]")).toBeVisible();
+  await expect(page.locator('.tt-footer a[href="/privacy"]')).toBeVisible();
+  await expect(page.locator('.tt-footer a[href="/terms"]')).toBeVisible();
+});
+
+test("footer newsletter submits from a non-homepage route", async ({ page }) => {
+  await page.route("**/api/v1/newsletter/subscribe", (route) => route.fulfill({ json: { ok: true, message: "Subscribed from the shared footer." } }));
+  await page.goto("/privacy");
+  const footer = page.locator(".tt-footer");
+  await footer.locator('input[name="email"]').fill("signal@example.com");
+  await footer.getByRole("button", { name: "Join" }).click();
+  await expect(footer.locator("[data-tt-footer-newsletter-status]")).toHaveText("Subscribed from the shared footer.");
 });
 
 test("documentation sensor chips remain inside the mobile reading rail", async ({ page }) => {
@@ -155,6 +168,8 @@ test("homepage uses the theme.tools hero with a copyable entropy instrument", as
   await expect(hero.locator("#random-number")).toBeVisible();
   await expect(hero.locator("#copy-entropy")).toHaveAccessibleName("Copy random number");
   await expect(page.locator(".hero-stage, .hero-video, #orb-canvas, .gh-candle-flame")).toHaveCount(0);
+  await expect(hero.locator(".spectral-hero-art--entity")).toHaveCSS("background-image", /hero-entity-field-v2\.webp/);
+  await expect(hero.locator(".spectral-hero-art--interference")).toBeAttached();
   await expect(hero.locator("#spectral-hero-canvas")).toBeVisible();
   await expect.poll(() => hero.getAttribute("data-webgl")).toMatch(/ready|fallback/);
   expect(candleRequests).toEqual([]);

@@ -5,7 +5,10 @@
 
 html { scroll-behavior: smooth; background: var(--tt-bg); }
 body { margin: 0; }
-#main { background: none !important; }
+#main {
+  padding: 0 !important;
+  background: none !important;
+}
 
 .tt-journal {
   width: min(100% - clamp(1.25rem, 5vw, 4rem), 1180px);
@@ -17,9 +20,33 @@ body { margin: 0; }
 .tt-journal > .tt-back,
 .tt-journal > tt-article-reader,
 .tt-journal > .journal-audio-briefing,
+.tt-journal > .journal-featured-media,
 .tt-journal > .tt-journal__article {
   width: min(100%, 820px);
   margin-inline: auto;
+}
+
+.journal-featured-media { margin-block: clamp(1.25rem, 3vw, 2.25rem); }
+.journal-featured-media .tt-featured {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid color-mix(in oklch, var(--tt-cyan) 32%, var(--tt-line));
+  border-radius: 22px;
+  background: var(--tt-panel);
+  box-shadow: 0 26px 80px -46px rgba(0, 229, 255, .72);
+}
+.journal-featured-media .tt-featured__img {
+  width: 100%;
+  aspect-ratio: 1200 / 630;
+  object-fit: cover;
+  filter: saturate(1.12) contrast(1.04);
+}
+.journal-featured-media .tt-featured__caption {
+  padding: .8rem 1rem;
+  color: rgba(224, 247, 250, .72);
+  font-family: var(--tt-mono);
+  font-size: .72rem;
+  letter-spacing: .04em;
 }
 
 .tt-journal > .tt-back { display: block; }

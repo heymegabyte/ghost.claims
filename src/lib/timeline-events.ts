@@ -15,6 +15,20 @@ export const timelineAnnotations: TimelineAnnotation[] = [
     subtitle: "The sensor feed was prepared for public Cloudflare-cached access and full-range browsing.",
     kind: "technical",
   },
+  {
+    id: "move-sensor-offline",
+    date: "2026-06-09T15:45:42.459000+00:00",
+    title: "I moved",
+    subtitle: "The sensor went offline while I moved, beginning the long gap visible in the recorded signal.",
+    kind: "narrative",
+  },
+  {
+    id: "sensor-reactivated-new-home",
+    date: "2026-11-18T00:49:14.793000+00:00",
+    title: "Signal reactivated at the new place",
+    subtitle: "I finished moving and reactivated the sensor here. The renewed EMF fluctuations make me feel that the ghost or entity is still present and may be aware of or able to influence EMF; that is my personal interpretation, not a verified cause of the readings.",
+    kind: "narrative",
+  },
 ];
 
 export const storyMilestones: StoryMilestone[] = [

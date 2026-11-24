@@ -147,6 +147,24 @@
     if(searchBtn)searchBtn.addEventListener('click',function(e){e.preventDefault();open(true);});
     if(scrim)scrim.addEventListener('click',function(){close();});
     if(closeBtn)closeBtn.addEventListener('click',function(){close();});
+    // Every overlay destination closes the modal before navigation. Same-document anchors are
+    // handled explicitly because scrolling while the root is overflow-locked is inconsistent
+    // across browsers and can leave the destination hidden behind the still-open overlay.
+    panel.addEventListener('click',function(e){
+      var node=e.target;var link=node&&node.closest?node.closest('a[href]'):null;
+      if(!link||!panel.contains(link))return;
+      var raw=link.getAttribute('href');if(!raw)return;
+      var url;try{url=new URL(raw,location.href);}catch(err){close(false);return;}
+      var sameDocument=url.origin===location.origin&&url.pathname===location.pathname&&url.search===location.search;
+      close(false);
+      if(!sameDocument||!url.hash)return;
+      e.preventDefault();
+      var previousHash=location.hash;
+      location.hash=url.hash;
+      if(previousHash===url.hash&&window.HashChangeEvent)window.dispatchEvent(new HashChangeEvent('hashchange'));
+      var target=document.getElementById(decodeURIComponent(url.hash.slice(1)));
+      if(target&&target.scrollIntoView)setTimeout(function(){target.scrollIntoView({block:'start'});},0);
+    });
     // Live featured swap on card hover/focus
     cards.forEach(function(card,idx){
       card.addEventListener('mouseenter',function(){setFeatured(card);markActive(card);});
@@ -214,5 +232,20 @@
     if(previousHash===url.hash&&window.HashChangeEvent)window.dispatchEvent(new HashChangeEvent('hashchange'));
     var target=document.getElementById(decodeURIComponent(url.hash.slice(1)));
     if(target)setTimeout(function(){target.scrollIntoView({block:'start'});},0);
+  });
+})();
+(function(){
+  if(window.__ghostSignalFooter)return;window.__ghostSignalFooter=true;
+  document.addEventListener('submit',async function(event){
+    var form=event.target&&event.target.closest?event.target.closest('[data-tt-footer-newsletter]'):null;
+    if(!form)return;event.preventDefault();
+    var status=form.parentElement&&form.parentElement.querySelector('[data-tt-footer-newsletter-status]');
+    var button=form.querySelector('button[type="submit"]');var email=form.querySelector('input[name="email"]');
+    if(!email||!email.validity.valid){if(status)status.textContent='Enter a valid email address.';email&&email.focus();return;}
+    if(button){button.disabled=true;button.setAttribute('aria-busy','true');}
+    if(status)status.textContent='Joining the dispatch…';
+    try{var response=await fetch(form.getAttribute('data-endpoint')||'/api/v1/newsletter/subscribe',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email:email.value,website:(form.querySelector('input[name="website"]')||{}).value||''})});var data=await response.json().catch(function(){return{}});if(!response.ok)throw new Error(data.error||'Subscription failed');if(status)status.textContent=data.message||'You are on the Signal Dispatch.';form.reset();}
+    catch(error){if(status)status.textContent=error&&error.message?error.message:'The signal dropped. Please try again.';}
+    finally{if(button){button.disabled=false;button.removeAttribute('aria-busy');}}
   });
 })();

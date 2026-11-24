@@ -64,7 +64,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xterm/xterm@5.5.0/css/xterm.min.css" media="print" onload="this.media='all'" />
-    <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.12" />
+    <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.13" />
     <link rel="stylesheet" href="/styles.css?v=20261122-entropy-hero" />
     <link rel="stylesheet" href="/theme-tools-shell.css?v=20261123-visual-convergence" />
     <script>
@@ -2245,7 +2245,6 @@
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
         </svg>
-        <span class="chat-toggle-label">AI</span>
         <span class="chat-toggle-kbd" aria-hidden="true">⌘K</span>
       </button>
       <div id="chat-backdrop" class="chat-backdrop" aria-hidden="true"></div>
@@ -2487,10 +2486,23 @@
     </div>
 
     <footer class="tt-footer" data-theme-tools="site-footer">
-  <div class="tt-footer__row">
-    <div class="tt-footer__note">ghost.claims // Public signal. Open data. Night archive.</div>
-    <nav class="tt-footer__links"><a href="/">Signal</a><a href="/transmissions">Transmissions</a><a href="/blog">Blog</a><a href="/docs">Docs</a><a href="/api/docs">API</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></nav>
+  <div class="tt-footer__grid">
+    <div class="tt-footer__identity"><img class="tt-footer__logo" src="/logo-nav.png?v=2945c6a-1778550809" alt="Ghost Signal logo" width="40" height="40" loading="lazy" decoding="async"><div><div class="tt-footer__note">Ghost Signal // ghost.claims</div><p>A public electromagnetic sensor, entropy experiment, AI hotline, and night archive documenting the signal without pretending interpretation is proof.</p></div></div>
+    <nav class="tt-footer__links" aria-label="Footer navigation"><a href="/#live">Live signal</a><a href="/story">Story</a><a href="/plates">Plates</a><a href="/transmissions">Transmissions</a><a href="/blog">Journal</a><a href="/docs">Developer docs</a><a href="/api/docs">API reference</a><a href="/story#dossier">Evidence standard</a><a href="tel:+16016666602">(601) 666-6602</a></nav>
+    <div class="tt-footer__newsletter">
+      <p class="tt-footer__kicker">Signal Dispatch</p>
+      <h2>Keep one eye on the field.</h2>
+      <p>A compact weekly digest of sensor anomalies, new records, and additions to the archive. Email only.</p>
+      <form class="tt-footer__form" data-tt-footer-newsletter data-endpoint="/api/v1/newsletter/subscribe" novalidate>
+        <label class="tt-sr-only" for="tt-footer-email">Email address</label>
+        <input id="tt-footer-email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="anonymous@yourdomain.com">
+        <button class="tt-btn tt-btn--primary" type="submit">Join</button>
+        <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="tt-footer__honeypot">
+      </form>
+      <p class="tt-footer__status" data-tt-footer-newsletter-status role="status" aria-live="polite"></p>
+    </div>
   </div>
+  <div class="tt-footer__legal"><span>&copy; 2026</span><nav aria-label="Legal"><a href="/privacy">Privacy</a><a href="/terms">Terms</a></nav></div>
 </footer>
 
     <!-- ═══ Feature Overlays ═══ -->

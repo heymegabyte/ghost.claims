@@ -64,8 +64,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xterm/xterm@5.5.0/css/xterm.min.css" media="print" onload="this.media='all'" />
-    <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.12" />
-    <link rel="stylesheet" href="/styles.css?v=20261122-entropy-hero" />
+    <link rel="preload" href="/hero-entity-field-v2.webp" as="image" type="image/webp" fetchpriority="high" />
+    <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.13" />
+    <link rel="stylesheet" href="/styles.css?v=20261123-causal-hero" />
     <link rel="stylesheet" href="/theme-tools-shell.css?v=20261123-visual-convergence" />
     <script>
       history.scrollRestoration = 'manual';
@@ -496,6 +497,8 @@
 
 </div>
       <section class="hero" data-testid="hero" aria-labelledby="hero-title">
+        <div class="spectral-hero-art spectral-hero-art--entity" aria-hidden="true"></div>
+        <div class="spectral-hero-art spectral-hero-art--interference" aria-hidden="true"></div>
         <canvas id="spectral-hero-canvas" class="spectral-hero-canvas" aria-hidden="true"></canvas>
         <div class="spectral-hero-fallback" aria-hidden="true"></div>
         <div class="spectral-hero-vignette" aria-hidden="true"></div>
@@ -799,12 +802,6 @@
           <div class="listen-feature-scanline"></div>
         </div>
         <div class="shell listen-feature-shell">
-          <div class="listen-feature-meta">
-            <span class="listen-feature-led" aria-hidden="true"></span>
-            <p class="eyebrow">AUDITORY EVIDENCE &middot; LIVE FEED</p>
-            <span class="listen-feature-badge">Sonified EMF</span>
-          </div>
-
           <h2 class="listen-feature-title">Hear what&rsquo;s <span class="gradient-text">haunting</span> me.</h2>
           <p class="listen-feature-lede">The field has a voice. Three oscillators, one sensor, zero filters. Pitch tracks the floor of the field. Whispers track the spikes. Press play and whatever&rsquo;s in the room speaks back &mdash; in real time.</p>
 
@@ -890,9 +887,6 @@
       <section class="full-bleed dossier-feature dossier-feature--snapshot reveal-section bx-from-left" id="entropy" data-testid="entropy" data-severity="3">
         <div class="dossier-feature-bg" aria-hidden="true"></div>
         <div class="shell dossier-feature-shell">
-          <div class="dossier-feature-meta">
-            <span class="dossier-severity">SEV 3</span>
-          </div>
           <h2 class="dossier-feature-title">Take the data with you</h2>
           <p class="dossier-feature-subtitle">Minute-by-minute EMF snapshots stored in D1. Download raw, stream into Google Sheets, or pull a ghost-seeded random number off the same data.</p>
 
@@ -984,10 +978,22 @@
               <p>It is built as a daily ritual for anyone who wants to challenge the feeling that every outcome is already fixed. The sensor data is real; supernatural, fate-breaking, or multiverse explanations remain the project&rsquo;s interpretation.</p>
             </div>
             <ul class="alarm-feature-list">
-              <li><strong>&plusmn;10 minute guardrail</strong><span>A bounded offset keeps the experiment practical.</span></li>
-              <li><strong>Bluetooth onboarding</strong><span>Use the app to pair and configure the clock.</span></li>
-              <li><strong>Wi-Fi signal delivery</strong><span>Receive a fresh entropy value without keeping a phone nearby.</span></li>
-              <li><strong>Safe fallback</strong><span>If live data is unavailable, the original alarm time still fires.</span></li>
+              <li>
+                <img src="/alarm-feature-guardrail.webp" alt="Ghost Signal alarm clock framed by a luminous arc with two endpoints representing the bounded alarm window" width="720" height="720" loading="lazy" decoding="async">
+                <div><strong>&plusmn;10 minute guardrail</strong><span>A bounded offset keeps the experiment practical.</span></div>
+              </li>
+              <li>
+                <img src="/alarm-feature-bluetooth.webp" alt="Ghost Signal alarm clock pairing with a phone over a luminous Bluetooth connection" width="720" height="720" loading="lazy" decoding="async">
+                <div><strong>Bluetooth onboarding</strong><span>Use the app to pair and configure the clock.</span></div>
+              </li>
+              <li>
+                <img src="/alarm-feature-wifi.webp" alt="Ghost Signal alarm clock receiving a cyan wireless signal from a spectral data field" width="720" height="720" loading="lazy" decoding="async">
+                <div><strong>Wi-Fi signal delivery</strong><span>Receive a fresh entropy value without keeping a phone nearby.</span></div>
+              </li>
+              <li>
+                <img src="/alarm-feature-fallback.webp" alt="Ghost Signal alarm clock glowing steadily inside a protective halo as the surrounding signal fades" width="720" height="720" loading="lazy" decoding="async">
+                <div><strong>Safe fallback</strong><span>If live data is unavailable, the original alarm time still fires.</span></div>
+              </li>
             </ul>
           </div>
           <p class="card-note multiverse-alarm-disclosure"><strong>Before you reserve:</strong> this is a non-refundable R&amp;D production reservation. Manufacturing begins after at least 100 paid reservations, and there is no fixed delivery date; fulfillment timing depends on reaching that threshold. Reservation holders receive progress updates by email, a Stripe receipt, and a printable invoice. No scientific or medical claim is being made.</p>
@@ -1012,41 +1018,6 @@
         </div>
       </section>
 
-      <!-- theme-tools:signal-closing:start -->
-<section class="shell signal-closing reveal-section bx-from-left" data-testid="newsletter-section" aria-label="Signal Dispatch and closing note">
-  <section class="tt-panel signal-closing__panel"><div class="tt-panel__body"><div class="signal-closing__grid">
-  <div class="signal-closing__column signal-closing__dispatch">
-    <p class="tt-kicker">SUBSCRIBE // SIGNAL DISPATCH</p>
-    <h2 class="tt-panel__title">The Signal Dispatch</h2>
-    <div class="newsletter-body">
-    <p>Every week, AI summarizes the most striking submissions from the hotline and chat. Sensor anomalies. Notes on the unseen layer. The intersection of free will, 666, and the systems that quietly shape daily life.</p>
-    <p>No spam. Just notes from someone keeping a careful record — finding the language for patterns most people aren&rsquo;t given the room to discuss in plain terms.</p>
-    <form id="newsletter-form" class="newsletter-form" data-testid="newsletter-form" novalidate>
-      <p class="newsletter-anon-note">Email only. No name. Anonymous by design — just the signal.</p>
-      <div class="newsletter-input-group">
-        <input id="newsletter-email" type="email" placeholder="anonymous@yourdomain.com" required autocomplete="email" aria-label="Email address for newsletter" maxlength="254" />
-        <button type="submit" class="tt-btn tt-btn--primary" id="newsletter-submit">Subscribe</button>
-      </div>
-      <input id="newsletter-website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none" />
-      <p id="newsletter-status" class="card-note" role="status" aria-live="polite"></p>
-    </form>
-    </div>
-  </div>
-  <div class="signal-closing__column signal-closing__note">
-    <p class="tt-kicker">IF YOU’VE READ THIS FAR</p>
-    <h2 class="tt-panel__title">14 upon thee.</h2>
-    <div class="signal-closing__note-copy">
-      <p>It&rsquo;s not a curse. It&rsquo;s a pattern. People who sit with the full record tend to feel the weight of it — not because anyone wished it on them, but because the signal is real and it asks something of whoever notices. You&rsquo;re in the signal now. The question is what you do with it.</p>
-      <p>The hotline is open because I want people to be able to say what they&rsquo;ve seen. Call if any of this lines up with something in your own life.</p>
-    </div>
-    <div class="tt-panel__actions">
-      <a class="hotline-number hotline-number--666" href="tel:+16016666602">(601) 666-6602</a>
-    </div>
-  </div>
-</div></div></section>
-</section>
-<!-- theme-tools:signal-closing:end -->
-
     </main>
 
     <tt-ai-chat-shell id="chat-widget" class="chat-widget chat-widget--pane" data-testid="chat-widget">
@@ -1054,7 +1025,6 @@
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
         </svg>
-        <span class="chat-toggle-label">AI</span>
         <span class="chat-toggle-kbd" aria-hidden="true">⌘K</span>
       </button>
       <div id="chat-backdrop" class="chat-backdrop" aria-hidden="true"></div>
@@ -1296,10 +1266,23 @@
     </div>
 
     <footer class="tt-footer" data-theme-tools="site-footer">
-  <div class="tt-footer__row">
-    <div class="tt-footer__note">ghost.claims // Public signal. Open data. Night archive.</div>
-    <nav class="tt-footer__links"><a href="/">Signal</a><a href="/transmissions">Transmissions</a><a href="/blog">Blog</a><a href="/docs">Docs</a><a href="/api/docs">API</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></nav>
+  <div class="tt-footer__grid">
+    <div class="tt-footer__identity"><img class="tt-footer__logo" src="/logo-nav.png?v=2945c6a-1778550809" alt="Ghost Signal logo" width="40" height="40" loading="lazy" decoding="async"><div><div class="tt-footer__note">Ghost Signal // ghost.claims</div><p>A public electromagnetic sensor, entropy experiment, AI hotline, and night archive documenting the signal without pretending interpretation is proof.</p></div></div>
+    <nav class="tt-footer__links" aria-label="Footer navigation"><a href="/#live">Live signal</a><a href="/story">Story</a><a href="/plates">Plates</a><a href="/transmissions">Transmissions</a><a href="/blog">Journal</a><a href="/docs">Developer docs</a><a href="/api/docs">API reference</a><a href="/story#dossier">Evidence standard</a><a href="tel:+16016666602">(601) 666-6602</a></nav>
+    <div class="tt-footer__newsletter">
+      <p class="tt-footer__kicker">Signal Dispatch</p>
+      <h2>Keep one eye on the field.</h2>
+      <p>A compact weekly digest of sensor anomalies, new records, and additions to the archive. Email only.</p>
+      <form class="tt-footer__form" data-tt-footer-newsletter data-endpoint="/api/v1/newsletter/subscribe" novalidate>
+        <label class="tt-sr-only" for="tt-footer-email">Email address</label>
+        <input id="tt-footer-email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="anonymous@yourdomain.com">
+        <button class="tt-btn tt-btn--primary" type="submit">Join</button>
+        <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="tt-footer__honeypot">
+      </form>
+      <p class="tt-footer__status" data-tt-footer-newsletter-status role="status" aria-live="polite"></p>
+    </div>
   </div>
+  <div class="tt-footer__legal"><span>&copy; 2026</span><nav aria-label="Legal"><a href="/privacy">Privacy</a><a href="/terms">Terms</a></nav></div>
 </footer>
 
     <!-- ═══ Feature Overlays ═══ -->
@@ -1419,7 +1402,7 @@
       <p class="lightbox-attribution" hidden></p>
     </dialog>
     <script src="/performance.js?v=20261118-live-edge" defer></script>
-    <script type="module" src="/app.js?v=20261123-visual-convergence"></script>
+    <script type="module" src="/app.js?v=20261123-causal-hero"></script>
   <script src="/theme-tools-nav.js" defer></script>
   </body>
 </html>

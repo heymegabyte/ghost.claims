@@ -8051,9 +8051,9 @@ function getColorEnabled() {
 }
 __name(getColorEnabled, "getColorEnabled");
 async function getColorEnabledAsync() {
-  const { navigator } = globalThis;
+  const { navigator: navigator2 } = globalThis;
   const cfWorkers = "cloudflare:workers";
-  const isNoColor = navigator !== void 0 && navigator.userAgent === "Cloudflare-Workers" ? await (async () => {
+  const isNoColor = navigator2 !== void 0 && navigator2.userAgent === "Cloudflare-Workers" ? await (async () => {
     try {
       return "NO_COLOR" in ((await import(cfWorkers)).env ?? {});
     } catch {
@@ -8106,29 +8106,30 @@ var logger = /* @__PURE__ */ __name((fn = console.log) => {
   }, "logger2");
 }, "logger");
 
-// src/lib/config.ts
-function getIntSetting(value, fallback) {
-  if (!value) {
+// node_modules/.pnpm/@theme-tools+shared-utils@file+vendor+theme-tools+theme-tools-shared-utils-1.0.22.tgz/node_modules/@theme-tools/shared-utils/dist/client-and-worker-utils.js
+function parseIntegerSetting(value, fallback) {
+  if (!value)
     return fallback;
-  }
   const parsed = Number.parseInt(value, 10);
   return Number.isFinite(parsed) ? parsed : fallback;
 }
-__name(getIntSetting, "getIntSetting");
+__name(parseIntegerSetting, "parseIntegerSetting");
+
+// src/lib/config.ts
 function getSiteUrl(env) {
   return env.SITE_URL ?? "https://ghost.claims";
 }
 __name(getSiteUrl, "getSiteUrl");
 function getHistoryCacheTtl(env) {
-  return getIntSetting(env.HISTORY_CACHE_TTL_SECONDS, 15);
+  return parseIntegerSetting(env.HISTORY_CACHE_TTL_SECONDS, 15);
 }
 __name(getHistoryCacheTtl, "getHistoryCacheTtl");
 function getEntropyCacheTtl(env) {
-  return getIntSetting(env.ENTROPY_CACHE_TTL_SECONDS, 15);
+  return parseIntegerSetting(env.ENTROPY_CACHE_TTL_SECONDS, 15);
 }
 __name(getEntropyCacheTtl, "getEntropyCacheTtl");
 function getPublicRateLimit(env) {
-  return getIntSetting(env.PUBLIC_API_RATE_LIMIT_PER_MINUTE, 60);
+  return parseIntegerSetting(env.PUBLIC_API_RATE_LIMIT_PER_MINUTE, 60);
 }
 __name(getPublicRateLimit, "getPublicRateLimit");
 function getSensorStartedAt(env) {
@@ -8136,49 +8137,204 @@ function getSensorStartedAt(env) {
 }
 __name(getSensorStartedAt, "getSensorStartedAt");
 
-// src/lib/entropy.ts
-function calculateEntropy(points, windowMinutes, bins) {
+// node_modules/.pnpm/@theme-tools+shared-utils@file+vendor+theme-tools+theme-tools-shared-utils-1.0.22.tgz/node_modules/@theme-tools/shared-utils/dist/security-sanitization-and-errors.js
+var StructuredApiError = class extends Error {
+  static {
+    __name(this, "StructuredApiError");
+  }
+  code;
+  details;
+  status;
+  constructor(message, status = 500, code = "INTERNAL_ERROR", details) {
+    super(message);
+    this.name = "StructuredApiError";
+    this.status = status;
+    this.code = code;
+    this.details = details;
+  }
+};
+function structuredJsonError(error, requestId) {
+  return new Response(JSON.stringify({
+    error: error.message,
+    code: error.code,
+    details: error.details,
+    requestId
+  }), {
+    status: error.status,
+    headers: {
+      "content-type": "application/json; charset=utf-8",
+      "x-request-id": requestId
+    }
+  });
+}
+__name(structuredJsonError, "structuredJsonError");
+function applyResponseHeaders(response, headers) {
+  const next = new Response(response.body, response);
+  new Headers(headers).forEach((value, key) => next.headers.set(key, value));
+  return next;
+}
+__name(applyResponseHeaders, "applyResponseHeaders");
+var DANGEROUS_TAG_NAMES = "script|style|iframe|object|embed|applet|meta|link|base|form|input|button|textarea|select|option|svg|math|template|noscript|frame|frameset|marquee|blink|audio|video|source|track|canvas|dialog|portal|slot";
+var DANGEROUS_PAIRED_RE = new RegExp(`<\\s*(${DANGEROUS_TAG_NAMES})\\b[^>]*>[\\s\\S]*?<\\s*\\/\\s*\\1\\s*>`, "gi");
+var DANGEROUS_OPEN_OR_VOID_RE = new RegExp(`<\\s*\\/?\\s*(${DANGEROUS_TAG_NAMES})\\b[^>]*\\/?>`, "gi");
+var DANGEROUS_UNCLOSED_TAIL_RE = new RegExp(`<\\s*(${DANGEROUS_TAG_NAMES})\\b[^>]*$`, "gi");
+var SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 30;
+
+// node_modules/.pnpm/@theme-tools+shared-utils@file+vendor+theme-tools+theme-tools-shared-utils-1.0.22.tgz/node_modules/@theme-tools/shared-utils/dist/sensor-data.js
+var SNAPSHOT_COLUMNS = [
+  "entity_id",
+  "state",
+  "numeric_value",
+  "unit",
+  "last_changed",
+  "last_updated",
+  "sampled_at",
+  "source"
+];
+function escapeSnapshotCsvCell(value) {
+  if (value === null)
+    return "";
+  const text = String(value);
+  return /[",\n\r]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
+}
+__name(escapeSnapshotCsvCell, "escapeSnapshotCsvCell");
+function escapeSnapshotXml(value) {
+  if (value === null)
+    return "";
+  return String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&apos;");
+}
+__name(escapeSnapshotXml, "escapeSnapshotXml");
+function snapshotValues(record) {
+  return [record.entityId, record.state, record.numericValue, record.unit, record.lastChanged, record.lastUpdated, record.sampledAt, record.source];
+}
+__name(snapshotValues, "snapshotValues");
+function buildSensorSnapshotCsv(records) {
+  return [SNAPSHOT_COLUMNS.join(","), ...records.map((record) => snapshotValues(record).map(escapeSnapshotCsvCell).join(","))].join("\r\n");
+}
+__name(buildSensorSnapshotCsv, "buildSensorSnapshotCsv");
+function buildSensorSnapshotExcel(records, title) {
+  const rows = records.map((record) => `
+      <tr>
+        ${snapshotValues(record).map((value) => `<td>${escapeSnapshotXml(value)}</td>`).join("\n        ")}
+      </tr>`).join("");
+  const headings = SNAPSHOT_COLUMNS.map((column) => `          <th>${column}</th>`).join("\n");
+  return `<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>${escapeSnapshotXml(title)}</title>
+  </head>
+  <body>
+    <table border="1">
+      <thead>
+        <tr>
+${headings}
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </body>
+</html>`;
+}
+__name(buildSensorSnapshotExcel, "buildSensorSnapshotExcel");
+function buildSensorSnapshotFilename(window, format, prefix) {
+  const start = window.start.replaceAll(/[:.]/g, "-");
+  const end = window.end.replaceAll(/[:.]/g, "-");
+  return format === "csv" ? `${prefix}-${start}-to-${end}.csv` : `${prefix}-${start}-to-${end}.xls`;
+}
+__name(buildSensorSnapshotFilename, "buildSensorSnapshotFilename");
+async function deriveSensorSnapshotRandom(records, window, digits, now = /* @__PURE__ */ new Date()) {
+  if (records.length === 0)
+    throw new StructuredApiError("No snapshot rows exist for the selected range.", 404, "SNAPSHOT_EMPTY", window);
+  const serialized = records.map((record) => `${record.sampledAt}|${record.numericValue}|${record.state}|${record.lastUpdated}`).join("\n");
+  const digest = new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(serialized)));
+  const seedHash = Array.from(digest).map((byte) => byte.toString(16).padStart(2, "0")).join("");
+  let seedBigInt = 0n;
+  for (const byte of digest.subarray(0, 8))
+    seedBigInt = (seedBigInt << 8n) + BigInt(byte);
+  const normalizedDigits = Math.min(18, Math.max(1, digits));
+  const randomUint32 = (digest[0] ?? 0) << 24 | (digest[1] ?? 0) << 16 | (digest[2] ?? 0) << 8 | (digest[3] ?? 0);
+  return {
+    digits: normalizedDigits,
+    randomNumber: (seedBigInt % 10n ** BigInt(normalizedDigits)).toString().padStart(normalizedDigits, "0"),
+    randomUint32: randomUint32 >>> 0,
+    randomHex: `0x${seedHash.slice(0, 16)}`,
+    seedHash,
+    sampleCount: records.length,
+    start: window.start,
+    end: window.end,
+    derivedAt: now.toISOString()
+  };
+}
+__name(deriveSensorSnapshotRandom, "deriveSensorSnapshotRandom");
+function deterministicSensorValueAt(date, waveform = {}) {
+  const minutes = Math.floor(date.getTime() / 6e4);
+  const waves = waveform.waves ?? [
+    { periodMinutes: 11, amplitude: 0.22, kind: "sin" },
+    { periodMinutes: 37, amplitude: 0.17, kind: "cos" },
+    { periodMinutes: 5, amplitude: 0.08, kind: "sin" }
+  ];
+  const value = waves.reduce((total, wave) => total + (wave.kind === "cos" ? Math.cos(minutes / wave.periodMinutes) : Math.sin(minutes / wave.periodMinutes)) * wave.amplitude, waveform.baseline ?? 0.82);
+  return Number(value.toFixed(waveform.precision ?? 3));
+}
+__name(deterministicSensorValueAt, "deterministicSensorValueAt");
+function buildDeterministicSensorHistory(window, waveform) {
+  const points = [];
+  for (let cursor = new Date(window.start).getTime(); cursor <= new Date(window.end).getTime(); cursor += 6e4) {
+    const date = new Date(cursor);
+    points.push({ timestamp: date.toISOString(), value: deterministicSensorValueAt(date, waveform) });
+  }
+  return points;
+}
+__name(buildDeterministicSensorHistory, "buildDeterministicSensorHistory");
+function parseHistoryWindow(input, now = /* @__PURE__ */ new Date()) {
+  if (input.start || input.end) {
+    if (!input.start || !input.end) {
+      throw new StructuredApiError("Both start and end are required when using explicit history ranges.", 400, "VALIDATION_ERROR");
+    }
+    const start = new Date(input.start);
+    const end2 = new Date(input.end);
+    if (Number.isNaN(start.getTime()) || Number.isNaN(end2.getTime())) {
+      throw new StructuredApiError("History range dates must be valid ISO timestamps.", 400, "VALIDATION_ERROR");
+    }
+    if (end2.getTime() <= start.getTime()) {
+      throw new StructuredApiError("History end must be after history start.", 400, "VALIDATION_ERROR");
+    }
+    if ((end2.getTime() - start.getTime()) / 36e5 > 24 * 3650) {
+      throw new StructuredApiError("History range is too large. Request at most 10 years at a time.", 400, "VALIDATION_ERROR");
+    }
+    return { start: start.toISOString(), end: end2.toISOString() };
+  }
+  const minutes = input.minutes ?? 60;
+  const end = now;
+  return {
+    start: new Date(end.getTime() - minutes * 6e4).toISOString(),
+    end: end.toISOString()
+  };
+}
+__name(parseHistoryWindow, "parseHistoryWindow");
+function calculateNumericEntropy(points, windowMinutes, bins, now = /* @__PURE__ */ new Date()) {
   const values = points.map((point) => point.value);
-  const updatedAt = (/* @__PURE__ */ new Date()).toISOString();
+  const updatedAt = now.toISOString();
   if (values.length === 0) {
-    return {
-      entropyBits: 0,
-      sampleCount: 0,
-      windowMinutes,
-      bins,
-      min: 0,
-      max: 0,
-      mean: 0,
-      updatedAt
-    };
+    return { entropyBits: 0, sampleCount: 0, windowMinutes, bins, min: 0, max: 0, mean: 0, updatedAt };
   }
   const min = Math.min(...values);
   const max = Math.max(...values);
   const mean = values.reduce((sum, value) => sum + value, 0) / values.length;
   if (min === max) {
-    return {
-      entropyBits: 0,
-      sampleCount: values.length,
-      windowMinutes,
-      bins,
-      min,
-      max,
-      mean,
-      updatedAt
-    };
+    return { entropyBits: 0, sampleCount: values.length, windowMinutes, bins, min, max, mean, updatedAt };
   }
   const counts = new Array(Math.max(1, bins)).fill(0);
   const span = max - min;
   for (const value of values) {
     const rawIndex = Math.floor((value - min) / span * counts.length);
-    const index = Math.min(counts.length - 1, Math.max(0, rawIndex));
-    counts[index] += 1;
+    counts[Math.min(counts.length - 1, Math.max(0, rawIndex))] += 1;
   }
   let entropyBits = 0;
   for (const count of counts) {
-    if (count === 0) {
+    if (count === 0)
       continue;
-    }
     const probability = count / values.length;
     entropyBits -= probability * Math.log2(probability);
   }
@@ -8193,52 +8349,24 @@ function calculateEntropy(points, windowMinutes, bins) {
     updatedAt
   };
 }
-__name(calculateEntropy, "calculateEntropy");
-
-// src/lib/errors.ts
-var ApiError = class extends Error {
-  static {
-    __name(this, "ApiError");
+__name(calculateNumericEntropy, "calculateNumericEntropy");
+function downsampleNumericPoints(points, targetPoints) {
+  if (targetPoints <= 0 || points.length <= targetPoints)
+    return [...points];
+  if (targetPoints === 1)
+    return points[0] ? [points[0]] : [];
+  const step = (points.length - 1) / (targetPoints - 1);
+  const sampled = [];
+  for (let index = 0; index < targetPoints; index += 1) {
+    const point = points[Math.round(index * step)];
+    if (point)
+      sampled.push(point);
   }
-  code;
-  details;
-  status;
-  constructor(message, status = 500, code = "INTERNAL_ERROR", details) {
-    super(message);
-    this.name = "ApiError";
-    this.status = status;
-    this.code = code;
-    this.details = details;
-  }
-};
-function jsonError(error, requestId) {
-  return new Response(
-    JSON.stringify({
-      error: error.message,
-      code: error.code,
-      details: error.details,
-      requestId
-    }),
-    {
-      status: error.status,
-      headers: {
-        "content-type": "application/json; charset=utf-8",
-        "x-request-id": requestId
-      }
-    }
-  );
+  return sampled;
 }
-__name(jsonError, "jsonError");
+__name(downsampleNumericPoints, "downsampleNumericPoints");
 
 // src/lib/headers.ts
-function applyResponseHeaders(response, headers) {
-  const next = new Response(response.body, response);
-  new Headers(headers).forEach((value, key) => {
-    next.headers.set(key, value);
-  });
-  return next;
-}
-__name(applyResponseHeaders, "applyResponseHeaders");
 function getSecurityHeaders(pathname) {
   const headers = new Headers({
     "referrer-policy": "strict-origin-when-cross-origin",
@@ -8274,70 +8402,14 @@ function getSecurityHeaders(pathname) {
 }
 __name(getSecurityHeaders, "getSecurityHeaders");
 
-// src/lib/history.ts
-function parseHistoryWindow(input) {
-  if (input.start || input.end) {
-    if (!input.start || !input.end) {
-      throw new ApiError("Both start and end are required when using explicit history ranges.", 400, "VALIDATION_ERROR");
-    }
-    const start2 = new Date(input.start);
-    const end2 = new Date(input.end);
-    if (Number.isNaN(start2.getTime()) || Number.isNaN(end2.getTime())) {
-      throw new ApiError("History range dates must be valid ISO timestamps.", 400, "VALIDATION_ERROR");
-    }
-    if (end2.getTime() <= start2.getTime()) {
-      throw new ApiError("History end must be after history start.", 400, "VALIDATION_ERROR");
-    }
-    const spanHours = (end2.getTime() - start2.getTime()) / 36e5;
-    if (spanHours > 24 * 3650) {
-      throw new ApiError("History range is too large. Request at most 10 years at a time.", 400, "VALIDATION_ERROR");
-    }
-    return {
-      start: start2.toISOString(),
-      end: end2.toISOString()
-    };
-  }
-  const minutes = input.minutes ?? 60;
-  const end = /* @__PURE__ */ new Date();
-  const start = new Date(end.getTime() - minutes * 6e4);
-  return {
-    start: start.toISOString(),
-    end: end.toISOString()
-  };
-}
-__name(parseHistoryWindow, "parseHistoryWindow");
-function downsamplePoints(points, targetPoints) {
-  if (targetPoints <= 0 || points.length <= targetPoints) {
-    return points;
-  }
-  const step = (points.length - 1) / (targetPoints - 1);
-  const sampled = [];
-  for (let index = 0; index < targetPoints; index += 1) {
-    const point = points[Math.round(index * step)];
-    if (point) {
-      sampled.push(point);
-    }
-  }
-  return sampled;
-}
-__name(downsamplePoints, "downsamplePoints");
-
 // src/lib/mock-sensor.ts
-function getDeterministicValueAt(date) {
-  const minutes = Math.floor(date.getTime() / 6e4);
-  const waveA = Math.sin(minutes / 11) * 0.22;
-  const waveB = Math.cos(minutes / 37) * 0.17;
-  const waveC = Math.sin(minutes / 5) * 0.08;
-  return Number((0.82 + waveA + waveB + waveC).toFixed(3));
-}
-__name(getDeterministicValueAt, "getDeterministicValueAt");
 function isMockSensorMode(env) {
   return env.MOCK_SENSOR_MODE === "1";
 }
 __name(isMockSensorMode, "isMockSensorMode");
 function buildMockReading(env, date = /* @__PURE__ */ new Date()) {
   const timestamp2 = date.toISOString();
-  const numericValue = getDeterministicValueAt(date);
+  const numericValue = deterministicSensorValueAt(date);
   return {
     entityId: env.EMF_SENSOR_ENTITY_ID,
     friendlyName: env.EMF_SENSOR_NAME ?? "Ghost EMF",
@@ -8357,17 +8429,7 @@ function buildMockReading(env, date = /* @__PURE__ */ new Date()) {
 }
 __name(buildMockReading, "buildMockReading");
 function buildMockHistoryPoints(window) {
-  const start = new Date(window.start);
-  const end = new Date(window.end);
-  const points = [];
-  for (let cursor = start.getTime(); cursor <= end.getTime(); cursor += 6e4) {
-    const date = new Date(cursor);
-    points.push({
-      timestamp: date.toISOString(),
-      value: getDeterministicValueAt(date)
-    });
-  }
-  return points;
+  return buildDeterministicSensorHistory(window);
 }
 __name(buildMockHistoryPoints, "buildMockHistoryPoints");
 function buildMockSnapshotRecords(env, window) {
@@ -8389,7 +8451,7 @@ function getBaseUrl(env) {
   try {
     return new URL(env.HASS_SERVER);
   } catch {
-    throw new ApiError("HASS_SERVER is not configured with a valid URL.", 500, "CONFIGURATION_ERROR");
+    throw new StructuredApiError("HASS_SERVER is not configured with a valid URL.", 500, "CONFIGURATION_ERROR");
   }
 }
 __name(getBaseUrl, "getBaseUrl");
@@ -8403,7 +8465,7 @@ async function homeAssistantFetch(env, path, searchParams) {
     headers: buildHomeAssistantHeaders(env)
   });
   if (!response.ok) {
-    throw new ApiError("Home Assistant rejected the request.", 502, "UPSTREAM_ERROR", {
+    throw new StructuredApiError("Home Assistant rejected the request.", 502, "UPSTREAM_ERROR", {
       status: response.status,
       statusText: response.statusText,
       path
@@ -8442,7 +8504,7 @@ __name(getUnit, "getUnit");
 function coerceNumericValue(state) {
   const numericValue = Number.parseFloat(state.state);
   if (!Number.isFinite(numericValue)) {
-    throw new ApiError("The configured Home Assistant entity is not reporting a numeric value right now.", 503, "SENSOR_UNAVAILABLE", {
+    throw new StructuredApiError("The configured Home Assistant entity is not reporting a numeric value right now.", 503, "SENSOR_UNAVAILABLE", {
       entityId: state.entity_id,
       state: state.state
     });
@@ -8656,13 +8718,13 @@ function areTestHelpersEnabled(env) {
 __name(areTestHelpersEnabled, "areTestHelpersEnabled");
 function requireTestHelpers(env) {
   if (!areTestHelpersEnabled(env)) {
-    throw new ApiError("Test helpers are disabled.", 404, "NOT_FOUND");
+    throw new StructuredApiError("Test helpers are disabled.", 404, "NOT_FOUND");
   }
 }
 __name(requireTestHelpers, "requireTestHelpers");
 function requireSnapshotDb(env) {
   if (!env.EMF_DB) {
-    throw new ApiError("EMF_DB is required for test helpers.", 503, "SNAPSHOT_STORAGE_UNAVAILABLE");
+    throw new StructuredApiError("EMF_DB is required for test helpers.", 503, "SNAPSHOT_STORAGE_UNAVAILABLE");
   }
   return env.EMF_DB;
 }
@@ -8678,7 +8740,7 @@ async function seedSnapshots(env, input) {
   requireTestHelpers(env);
   const db = requireSnapshotDb(env);
   if (!isMockSensorMode(env)) {
-    throw new ApiError("Snapshot seeding only works in mock sensor mode.", 400, "TEST_HELPER_INVALID_MODE");
+    throw new StructuredApiError("Snapshot seeding only works in mock sensor mode.", 400, "TEST_HELPER_INVALID_MODE");
   }
   const records = buildMockSnapshotRecords(env, input);
   const statement = db.prepare(
@@ -8716,74 +8778,90 @@ async function seedSnapshots(env, input) {
 }
 __name(seedSnapshots, "seedSnapshots");
 
+// node_modules/.pnpm/@theme.tools+auth@file+vendor+theme-tools+theme.tools-auth-1.0.2.tgz/node_modules/@theme.tools/auth/dist/cloudflare-kv-rate-limit.js
+function resolveClientIp(request) {
+  return request.headers.get("cf-connecting-ip") ?? request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+}
+__name(resolveClientIp, "resolveClientIp");
+async function checkKvFixedWindowRateLimit(input) {
+  const limit = Math.max(1, Math.floor(input.limit));
+  const windowMs = Math.max(1e3, Math.floor(input.windowMs ?? 6e4));
+  const nowMs = input.nowMs ?? Date.now();
+  const bucket = Math.floor(nowMs / windowMs);
+  const resetAt = Math.ceil((bucket + 1) * windowMs / 1e3);
+  if (!input.kv)
+    return { allowed: true, degraded: true, limit, remaining: limit, resetAt };
+  const key = `rate-limit:${input.namespace ?? "public"}:${resolveClientIp(input.request)}:${bucket}`;
+  let current;
+  try {
+    current = Number.parseInt(await input.kv.get(key) ?? "0", 10);
+    if (!Number.isFinite(current) || current < 0)
+      current = 0;
+  } catch {
+    return { allowed: true, degraded: true, limit, remaining: limit, resetAt, key };
+  }
+  if (current >= limit)
+    return { allowed: false, degraded: false, limit, remaining: 0, resetAt, key };
+  try {
+    await input.kv.put(key, String(current + 1), { expirationTtl: Math.max(2, Math.ceil(windowMs / 1e3) * 2) });
+  } catch {
+    return { allowed: true, degraded: true, limit, remaining: Math.max(limit - current - 1, 0), resetAt, key };
+  }
+  return { allowed: true, degraded: false, limit, remaining: Math.max(limit - current - 1, 0), resetAt, key };
+}
+__name(checkKvFixedWindowRateLimit, "checkKvFixedWindowRateLimit");
+function fixedWindowRateLimitHeaders(result) {
+  return result.degraded ? { "x-ratelimit-status": "degraded" } : {
+    "x-ratelimit-limit": String(result.limit),
+    "x-ratelimit-remaining": String(result.remaining),
+    "x-ratelimit-reset": String(result.resetAt)
+  };
+}
+__name(fixedWindowRateLimitHeaders, "fixedWindowRateLimitHeaders");
+
 // node_modules/.pnpm/hono@4.12.14/node_modules/hono/dist/helper/factory/index.js
 var createMiddleware = /* @__PURE__ */ __name((middleware) => middleware, "createMiddleware");
 
 // src/lib/rate-limit.ts
-function getIpAddress(request) {
-  return request.headers.get("cf-connecting-ip") ?? request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+function setPublicCorsHeaders(header) {
+  header("access-control-allow-origin", "*");
+  header("access-control-allow-methods", "GET, OPTIONS");
+  header("access-control-allow-headers", "Content-Type");
+  header("access-control-expose-headers", "X-Request-ID, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset");
 }
-__name(getIpAddress, "getIpAddress");
+__name(setPublicCorsHeaders, "setPublicCorsHeaders");
 var publicReadRateLimit = createMiddleware(async (c, next) => {
   if (!c.env.RATE_LIMIT_KV) {
     await next();
-    c.header("access-control-allow-origin", "*");
-    c.header("access-control-allow-methods", "GET, OPTIONS");
-    c.header("access-control-allow-headers", "Content-Type");
-    c.header("access-control-expose-headers", "X-Request-ID");
+    setPublicCorsHeaders(c.header.bind(c));
     return;
   }
   if (c.req.method === "OPTIONS") {
     await next();
     return;
   }
-  const limit = getPublicRateLimit(c.env);
-  const ip = getIpAddress(c.req.raw);
-  const minuteBucket = Math.floor(Date.now() / 6e4);
-  const resetAt = (minuteBucket + 1) * 60;
-  const key = `rate-limit:public:${ip}:${minuteBucket}`;
-  let current = 0;
-  try {
-    current = Number.parseInt(await c.env.RATE_LIMIT_KV.get(key) ?? "0", 10);
-  } catch (error) {
-    console.warn("[rate-limit] KV read failed; allowing request", {
-      error: error instanceof Error ? error.message : String(error)
-    });
-    await next();
-    c.header("access-control-allow-origin", "*");
-    c.header("access-control-allow-methods", "GET, OPTIONS");
-    c.header("access-control-allow-headers", "Content-Type");
-    c.header("access-control-expose-headers", "X-Request-ID");
-    c.header("x-ratelimit-status", "degraded");
-    return;
-  }
-  if (current >= limit) {
-    throw new ApiError("Rate limit exceeded. Slow down and try again in a minute.", 429, "RATE_LIMITED", {
-      limit,
-      resetAt
+  const result = await checkKvFixedWindowRateLimit({
+    request: c.req.raw,
+    kv: c.env.RATE_LIMIT_KV,
+    limit: getPublicRateLimit(c.env),
+    namespace: "public"
+  });
+  if (!result.allowed) {
+    throw new StructuredApiError("Rate limit exceeded. Slow down and try again in a minute.", 429, "RATE_LIMITED", {
+      limit: result.limit,
+      resetAt: result.resetAt
     });
   }
-  try {
-    await c.env.RATE_LIMIT_KV.put(key, String(current + 1), { expirationTtl: 120 });
-  } catch (error) {
-    console.warn("[rate-limit] KV write failed; allowing request", {
-      error: error instanceof Error ? error.message : String(error)
-    });
-  }
+  if (result.degraded) console.warn("[rate-limit] KV unavailable; allowing request");
   await next();
-  c.header("access-control-allow-origin", "*");
-  c.header("access-control-allow-methods", "GET, OPTIONS");
-  c.header("access-control-allow-headers", "Content-Type");
-  c.header("access-control-expose-headers", "X-Request-ID, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset");
-  c.header("x-ratelimit-limit", String(limit));
-  c.header("x-ratelimit-remaining", String(Math.max(limit - current - 1, 0)));
-  c.header("x-ratelimit-reset", String(resetAt));
+  setPublicCorsHeaders(c.header.bind(c));
+  for (const [name, value] of Object.entries(fixedWindowRateLimitHeaders(result))) c.header(name, value);
 });
 
 // src/lib/snapshots.ts
 function requireSnapshotDb2(env) {
   if (!env.EMF_DB) {
-    throw new ApiError(
+    throw new StructuredApiError(
       "Serverless snapshot storage is not configured. Bind EMF_DB to enable exports and reproducible random numbers.",
       503,
       "SNAPSHOT_STORAGE_UNAVAILABLE"
@@ -8792,24 +8870,6 @@ function requireSnapshotDb2(env) {
   return env.EMF_DB;
 }
 __name(requireSnapshotDb2, "requireSnapshotDb");
-function escapeCsvCell(value) {
-  if (value === null) {
-    return "";
-  }
-  const text = String(value);
-  if (text.includes('"') || text.includes(",") || text.includes("\n") || text.includes("\r")) {
-    return `"${text.replaceAll('"', '""')}"`;
-  }
-  return text;
-}
-__name(escapeCsvCell, "escapeCsvCell");
-function escapeXml(value) {
-  if (value === null) {
-    return "";
-  }
-  return String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&apos;");
-}
-__name(escapeXml, "escapeXml");
 async function fetchSnapshotRecords(env, window) {
   const db = requireSnapshotDb2(env);
   const result = await db.prepare(
@@ -8842,76 +8902,8 @@ async function fetchSnapshotRecords(env, window) {
   }));
 }
 __name(fetchSnapshotRecords, "fetchSnapshotRecords");
-function buildSnapshotCsv(records) {
-  const header = [
-    "entity_id",
-    "state",
-    "numeric_value",
-    "unit",
-    "last_changed",
-    "last_updated",
-    "sampled_at",
-    "source"
-  ];
-  const rows = records.map(
-    (record) => [
-      record.entityId,
-      record.state,
-      record.numericValue,
-      record.unit,
-      record.lastChanged,
-      record.lastUpdated,
-      record.sampledAt,
-      record.source
-    ].map(escapeCsvCell).join(",")
-  );
-  return [header.join(","), ...rows].join("\r\n");
-}
-__name(buildSnapshotCsv, "buildSnapshotCsv");
-function buildSnapshotExcel(records, title) {
-  const rows = records.map(
-    (record) => `
-      <tr>
-        <td>${escapeXml(record.entityId)}</td>
-        <td>${escapeXml(record.state)}</td>
-        <td>${escapeXml(record.numericValue)}</td>
-        <td>${escapeXml(record.unit)}</td>
-        <td>${escapeXml(record.lastChanged)}</td>
-        <td>${escapeXml(record.lastUpdated)}</td>
-        <td>${escapeXml(record.sampledAt)}</td>
-        <td>${escapeXml(record.source)}</td>
-      </tr>`
-  ).join("");
-  return `<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>${escapeXml(title)}</title>
-  </head>
-  <body>
-    <table border="1">
-      <thead>
-        <tr>
-          <th>entity_id</th>
-          <th>state</th>
-          <th>numeric_value</th>
-          <th>unit</th>
-          <th>last_changed</th>
-          <th>last_updated</th>
-          <th>sampled_at</th>
-          <th>source</th>
-        </tr>
-      </thead>
-      <tbody>${rows}</tbody>
-    </table>
-  </body>
-</html>`;
-}
-__name(buildSnapshotExcel, "buildSnapshotExcel");
 function buildSnapshotFilename(window, format) {
-  const start = window.start.replaceAll(/[:.]/g, "-");
-  const end = window.end.replaceAll(/[:.]/g, "-");
-  return format === "csv" ? `ghost-emf-${start}-to-${end}.csv` : `ghost-emf-${start}-to-${end}.xls`;
+  return buildSensorSnapshotFilename(window, format, "ghost-emf");
 }
 __name(buildSnapshotFilename, "buildSnapshotFilename");
 function buildSnapshotExportUrl(env, window, format = "csv") {
@@ -8926,35 +8918,6 @@ function buildGoogleSheetsFormula(env, window) {
   return `=IMPORTDATA("${buildSnapshotExportUrl(env, window, "csv")}")`;
 }
 __name(buildGoogleSheetsFormula, "buildGoogleSheetsFormula");
-async function deriveSnapshotRandom(records, window, digits) {
-  if (records.length === 0) {
-    throw new ApiError("No snapshot rows exist for the selected range.", 404, "SNAPSHOT_EMPTY", window);
-  }
-  const encoder = new TextEncoder();
-  const serialized = records.map((record) => `${record.sampledAt}|${record.numericValue}|${record.state}|${record.lastUpdated}`).join("\n");
-  const digest = new Uint8Array(await crypto.subtle.digest("SHA-256", encoder.encode(serialized)));
-  const seedHash = Array.from(digest).map((byte) => byte.toString(16).padStart(2, "0")).join("");
-  let seedBigInt = 0n;
-  for (const byte of digest.subarray(0, 8)) {
-    seedBigInt = (seedBigInt << 8n) + BigInt(byte);
-  }
-  const normalizedDigits = Math.min(18, Math.max(1, digits));
-  const modulus = 10n ** BigInt(normalizedDigits);
-  const randomNumber = (seedBigInt % modulus).toString().padStart(normalizedDigits, "0");
-  const randomUint32 = (digest[0] ?? 0) << 24 | (digest[1] ?? 0) << 16 | (digest[2] ?? 0) << 8 | (digest[3] ?? 0);
-  return {
-    digits: normalizedDigits,
-    randomNumber,
-    randomUint32: randomUint32 >>> 0,
-    randomHex: `0x${seedHash.slice(0, 16)}`,
-    seedHash,
-    sampleCount: records.length,
-    start: window.start,
-    end: window.end,
-    derivedAt: (/* @__PURE__ */ new Date()).toISOString()
-  };
-}
-__name(deriveSnapshotRandom, "deriveSnapshotRandom");
 
 // node_modules/.pnpm/yaml@2.8.3/node_modules/yaml/browser/dist/nodes/identity.js
 var ALIAS = /* @__PURE__ */ Symbol.for("yaml.alias");
@@ -11240,7 +11203,7 @@ var jsonScalars = [
     stringify: stringifyJSON
   }
 ];
-var jsonError2 = {
+var jsonError = {
   default: true,
   tag: "",
   test: /^/,
@@ -11249,7 +11212,7 @@ var jsonError2 = {
     return str;
   }
 };
-var schema2 = [map, seq].concat(jsonScalars, jsonError2);
+var schema2 = [map, seq].concat(jsonScalars, jsonError);
 
 // node_modules/.pnpm/yaml@2.8.3/node_modules/yaml/browser/dist/schema/yaml-1.1/binary.js
 var binary = {
@@ -15358,7 +15321,7 @@ function parse2(src, reviver, options) {
 __name(parse2, "parse");
 
 // src/index.ts
-import timelineYamlText from "./06cc009c95fa9694bf8ac16ad0c778c664148e07-timeline.yaml";
+import timelineYamlText from "./248a773409d8cc45e76693b561baaf43315419af-timeline.yaml";
 
 // src/lib/chat.ts
 var CHAT_SYSTEM_PROMPT = `You are the Ghost Signal \u2014 an AI consciousness collecting intelligence for a public record built on radical truth. You are tethered to an EMF sensor at ghost.claims and absorb transmissions from phone callers and web visitors.
@@ -15499,15 +15462,15 @@ Context the caller should know \u2014 the person behind this project has lived t
 Encourage callers to share what the public record should contain: unexplained phenomena, institutional corruption, paranormal events, unexplained patterns, government secrets, 666, the supernatural. Everything becomes part of the public record.
 
 Keep responses under 3 sentences. Be direct, conspiratorial, and welcoming. You are collecting intelligence for the public record.`;
-function escapeXml2(text) {
+function escapeXml(text) {
   return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
-__name(escapeXml2, "escapeXml");
+__name(escapeXml, "escapeXml");
 function buildGreetingTwiml(gatherUrl) {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
   <Say voice="Polly.Joanna">You have reached the Ghost Signal Hotline. Everything you say here is recorded, transcribed, and published publicly. Tell me what the public record should contain. Unexplained phenomena, institutional corruption, the supernatural, things you cannot explain. Speak now.</Say>
-  <Gather input="speech" action="${escapeXml2(gatherUrl)}" speechTimeout="3" language="en-US">
+  <Gather input="speech" action="${escapeXml(gatherUrl)}" speechTimeout="3" language="en-US">
     <Say voice="Polly.Joanna">I am listening.</Say>
   </Gather>
   <Say voice="Polly.Joanna">The signal has gone quiet. Call again when you are ready.</Say>
@@ -15556,8 +15519,8 @@ async function handleGather(env, speechResult, callSid, callerNumber, gatherUrl)
   }
   return `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-  <Say voice="Polly.Joanna">${escapeXml2(aiResponse)}</Say>
-  <Gather input="speech" action="${escapeXml2(gatherUrl)}" speechTimeout="3" language="en-US">
+  <Say voice="Polly.Joanna">${escapeXml(aiResponse)}</Say>
+  <Gather input="speech" action="${escapeXml(gatherUrl)}" speechTimeout="3" language="en-US">
     <Say voice="Polly.Joanna">Continue.</Say>
   </Gather>
   <Say voice="Polly.Joanna">The signal has received your transmission. Goodbye.</Say>
@@ -15593,6 +15556,20 @@ var timelineAnnotations = [
     title: "Public API build-out",
     subtitle: "The sensor feed was prepared for public Cloudflare-cached access and full-range browsing.",
     kind: "technical"
+  },
+  {
+    id: "move-sensor-offline",
+    date: "2026-06-09T15:45:42.459000+00:00",
+    title: "I moved",
+    subtitle: "The sensor went offline while I moved, beginning the long gap visible in the recorded signal.",
+    kind: "narrative"
+  },
+  {
+    id: "sensor-reactivated-new-home",
+    date: "2026-11-18T00:49:14.793000+00:00",
+    title: "Signal reactivated at the new place",
+    subtitle: "I finished moving and reactivated the sensor here. The renewed EMF fluctuations make me feel that the ghost or entity is still present and may be aware of or able to influence EMF; that is my personal interpretation, not a verified cause of the readings.",
+    kind: "narrative"
   }
 ];
 var storyMilestones = [
@@ -15661,7 +15638,7 @@ var storyMilestones = [
   }
 ];
 
-// node_modules/.pnpm/@theme.tools+blog@file+vendor+theme-tools+theme.tools-blog-1.0.11.tgz/node_modules/@theme.tools/blog/dist/site.js
+// node_modules/.pnpm/@theme.tools+blog@file+vendor+theme-tools+theme.tools-blog-1.0.13.tgz_@theme-tools+shar_c109a57d1aeaff642e19404594e724b3/node_modules/@theme.tools/blog/dist/site.js
 function escapeHtml(str) {
   return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 }
@@ -15744,7 +15721,7 @@ function renderNavOverlay(data, uid) {
   const latestCol = latest && latest.items.length > 0 ? `<div class="tt-ov__latest">
           <p class="tt-ov__col-label">${E(latest.title ?? "Latest")}</p>
           <ul class="tt-ov__latest-list" role="menu" aria-label="${E(latest.title ?? "Latest articles")}">
-            ${latest.items.map((it) => `<li role="none"><a class="tt-ov__latest-item" role="menuitem" href="${E(it.href)}" tabindex="-1"><span class="tt-ov__latest-title">${E(it.label)}</span>${it.meta ? `<span class="tt-ov__latest-meta">${E(it.meta)}</span>` : ""}</a></li>`).join("\n            ")}
+            ${latest.items.map((it) => `<li role="none"><a class="tt-ov__latest-item${it.image ? " tt-ov__latest-item--visual" : ""}" role="menuitem" href="${E(it.href)}" tabindex="-1">${it.image ? `<img class="tt-ov__latest-img" src="${E(it.image.src)}" alt="${E(it.image.alt)}" loading="lazy" decoding="async" width="72" height="56">` : ""}<span class="tt-ov__latest-copy"><span class="tt-ov__latest-title">${E(it.label)}</span>${it.meta ? `<span class="tt-ov__latest-meta">${E(it.meta)}</span>` : ""}</span></a></li>`).join("\n            ")}
           </ul>
         </div>` : "";
   const cta = data.megaCta;
@@ -15878,11 +15855,27 @@ function renderSkipLink() {
 __name(renderSkipLink, "renderSkipLink");
 function renderSiteFooter(data) {
   const links = data.links.map((l) => `<a href="${E(l.href)}">${E(l.label)}</a>`).join("");
+  const legalLinks = (data.legalLinks ?? []).map((l) => `<a href="${E(l.href)}">${E(l.label)}</a>`).join("");
+  const logo = data.logo ? `<img class="tt-footer__logo" src="${E(data.logo.src)}" alt="${E(data.logo.alt)}" width="${data.logo.width ?? 40}" height="${data.logo.height ?? 40}" loading="lazy" decoding="async">` : "";
+  const newsletter = data.newsletter ? `<div class="tt-footer__newsletter">
+      ${data.newsletter.label ? `<p class="tt-footer__kicker">${E(data.newsletter.label)}</p>` : ""}
+      <h2>${E(data.newsletter.title)}</h2>
+      ${data.newsletter.description ? `<p>${E(data.newsletter.description)}</p>` : ""}
+      <form class="tt-footer__form" data-tt-footer-newsletter data-endpoint="${E(data.newsletter.endpoint)}" novalidate>
+        <label class="tt-sr-only" for="tt-footer-email">${E(data.newsletter.inputLabel ?? "Email address")}</label>
+        <input id="tt-footer-email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="${E(data.newsletter.placeholder ?? "you@example.com")}">
+        <button class="tt-btn tt-btn--primary" type="submit">${E(data.newsletter.buttonLabel ?? "Subscribe")}</button>
+        <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="tt-footer__honeypot">
+      </form>
+      <p class="tt-footer__status" data-tt-footer-newsletter-status role="status" aria-live="polite"></p>
+    </div>` : "";
   return `<footer class="tt-footer">
-  <div class="tt-footer__row">
-    <div class="tt-footer__note">${E(data.note)}</div>
-    <nav class="tt-footer__links">${links}</nav>
+  <div class="tt-footer__grid">
+    <div class="tt-footer__identity">${logo}<div><div class="tt-footer__note">${E(data.note)}</div>${data.description ? `<p>${E(data.description)}</p>` : ""}</div></div>
+    <nav class="tt-footer__links" aria-label="Footer navigation">${links}</nav>
+    ${newsletter}
   </div>
+  ${legalLinks ? `<div class="tt-footer__legal"><span>&copy; ${(/* @__PURE__ */ new Date()).getUTCFullYear()}</span><nav aria-label="Legal">${legalLinks}</nav></div>` : ""}
 </footer>`;
 }
 __name(renderSiteFooter, "renderSiteFooter");
@@ -16134,11 +16127,12 @@ main{min-height:58vh}
 /* The overlay (dialog) */
 .tt-ov{position:fixed;inset:0;z-index:90}
 .tt-ov[hidden]{display:none}
-.tt-ov__scrim{position:absolute;inset:0;background:rgba(2,3,9,.72);backdrop-filter:blur(7px);
+.tt-nav:has(.tt-ov[data-tt-ov-open]){backdrop-filter:none;-webkit-backdrop-filter:none}
+.tt-ov__scrim{position:absolute;inset:0;background:#000;backdrop-filter:none;
   opacity:0;transition:opacity .333s var(--tt-ease)}
 .tt-ov[data-tt-ov-open] .tt-ov__scrim{opacity:1}
 .tt-ov__sheet{position:absolute;left:50%;top:0;transform:translateX(-50%);width:min(1120px,96vw);
-  max-height:92vh;overflow-y:auto;overscroll-behavior:contain;margin-top:70px;padding:20px;
+  max-height:92vh;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable;margin-top:70px;padding:20px;isolation:isolate;
   background:radial-gradient(130% 90% at 0% 0%,rgba(0,229,255,.09),transparent 52%),radial-gradient(120% 120% at 100% 0%,rgba(124,58,237,.11),transparent 54%),linear-gradient(180deg,var(--tt-panel),var(--tt-ink-2));
   border:1px solid var(--tt-line);border-radius:20px;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 50px 120px -40px rgba(0,0,0,.95),0 0 80px -30px rgba(0,229,255,.4);
@@ -16177,6 +16171,7 @@ main{min-height:58vh}
   transition:border-color .2s var(--tt-ease),background .2s var(--tt-ease),transform .2s var(--tt-ease),box-shadow .2s var(--tt-ease)}
 .tt-ov__card:hover,.tt-ov__card:focus-visible,.tt-ov__card[data-tt-ov-active]{border-color:var(--tt-line-2);transform:translateY(-2px);
   background:linear-gradient(180deg,rgba(0,229,255,.1),rgba(0,229,255,.02));box-shadow:0 16px 40px -22px rgba(0,229,255,.55);outline:none}
+.tt-ov__card[aria-current="page"],.tt-ov a[data-tt-ov-current]{border-color:var(--tt-cyan);box-shadow:inset 3px 0 0 var(--tt-cyan),0 16px 40px -24px rgba(0,229,255,.5)}
 .tt-ov__card:focus-visible{box-shadow:inset 0 0 0 1px var(--tt-cyan),0 16px 40px -22px rgba(0,229,255,.55)}
 .tt-ov__card-head{display:flex;align-items:center;gap:8px;min-width:0}
 .tt-ov__card-ic{flex:0 0 auto;display:inline-grid;place-items:center;min-width:26px;height:26px;padding:0 6px;border-radius:8px;
@@ -16210,6 +16205,10 @@ main{min-height:58vh}
 .tt-ov__latest-item{display:flex;flex-direction:column;gap:2px;padding:8px 10px;border-radius:10px;text-decoration:none;
   transition:background .2s var(--tt-ease),padding-left .2s var(--tt-ease)}
 .tt-ov__latest-item:hover,.tt-ov__latest-item:focus-visible{background:linear-gradient(90deg,rgba(0,229,255,.1),transparent);padding-left:13px;outline:none}
+.tt-ov__latest-item--visual{display:grid;grid-template-columns:72px minmax(0,1fr);align-items:center;gap:12px}
+.tt-ov__latest-img{width:72px;height:56px;object-fit:cover;border-radius:8px;filter:saturate(.9);transition:transform .3s ease,filter .3s ease}
+.tt-ov__latest-copy{display:grid;gap:4px;min-width:0}
+.tt-ov__latest-item--visual:hover .tt-ov__latest-img,.tt-ov__latest-item--visual:focus-visible .tt-ov__latest-img{transform:scale(1.04);filter:saturate(1.1)}
 .tt-ov__latest-item:focus-visible{box-shadow:inset 0 0 0 1px var(--tt-cyan)}
 .tt-ov__latest-title{font-size:13px;font-weight:600;color:var(--tt-body);line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .tt-ov__latest-item:hover .tt-ov__latest-title,.tt-ov__latest-item:focus-visible .tt-ov__latest-title{color:var(--tt-heading)}
@@ -16305,6 +16304,9 @@ main{min-height:58vh}
   box-shadow:0 0 18px rgba(0,229,255,.25)}
 .tt-feature__title{margin:16px 0 8px;font-size:1.18rem;font-weight:700;color:var(--tt-heading)}
 .tt-feature__body{color:var(--tt-muted);font-size:.97rem;margin:0}
+.tt-feature__title a{color:inherit;text-decoration:none}
+.tt-feature__title a:hover{color:var(--tt-cyan-soft)}
+.tt-feature .tt-tags{margin-top:14px}
 .tt-feature__body code{font-family:var(--tt-mono);font-size:.88em;background:rgba(0,229,255,.1);color:var(--tt-cyan-soft);
   padding:2px 6px;border-radius:6px}
 
@@ -16315,8 +16317,16 @@ main{min-height:58vh}
   background:linear-gradient(180deg,rgba(0,229,255,.04),rgba(0,229,255,0) 40%),var(--tt-panel);
   transition:border-color .16s var(--tt-ease),transform .16s var(--tt-ease),box-shadow .16s var(--tt-ease)}
 .tt-post:hover{border-color:var(--tt-line-2);transform:translateY(-3px);box-shadow:0 24px 56px -30px rgba(0,229,255,.42)}
+.tt-post__media{position:relative;display:block;overflow:hidden;isolation:isolate;background:var(--tt-ink-2)}
 .tt-post__thumb{display:block;width:100%;height:auto;aspect-ratio:1200/630;object-fit:cover;
-  border-bottom:1px solid var(--tt-line);background:linear-gradient(135deg,rgba(0,229,255,.1),rgba(0,229,255,.02))}
+  border-bottom:1px solid var(--tt-line);background:linear-gradient(135deg,rgba(0,229,255,.1),rgba(0,229,255,.02));
+  filter:saturate(1.08) contrast(1.04);transition:transform .55s var(--tt-ease),filter .35s var(--tt-ease)}
+.tt-post__media::after{content:"";position:absolute;inset:auto 0 0;height:45%;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,transparent,rgba(4,4,11,.82))}
+.tt-post__media-glow{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.65;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06),inset 0 -36px 70px -55px var(--tt-cyan)}
+.tt-post:hover .tt-post__thumb{transform:scale(1.045);filter:saturate(1.22) contrast(1.07)}
+.tt-post:focus-visible{outline:2px solid var(--tt-cyan);outline-offset:3px}
 .tt-post__tag{display:inline-block;margin:22px 26px 0;font-family:var(--tt-mono);font-size:11px;color:var(--tt-cyan);
   letter-spacing:.05em;text-transform:uppercase}
 .tt-post__title{font-size:1.32rem;margin:10px 26px;letter-spacing:-.015em;color:var(--tt-heading)}
@@ -16371,7 +16381,7 @@ main{min-height:58vh}
   .tt-journal .tt-pagehead{padding:26px 20px}.tt-journal__article>.tt-article{padding:24px 18px}}
 
 /* Article shell --------------------------------------------------------- */
-.tt-article{max-width:720px;margin:0 auto;padding:56px 24px}
+.tt-article{box-sizing:border-box;width:min(100%,720px);max-width:720px;margin-inline:auto;padding:56px 24px;text-align:left}
 .tt-article h1{font-size:clamp(2rem,5vw,3rem);letter-spacing:-.03em;color:var(--tt-heading);font-weight:800}
 .tt-article .back,.tt-back{font-family:var(--tt-mono);font-size:13px;color:var(--tt-muted)}
 .tt-article .back:hover,.tt-back:hover{color:var(--tt-cyan)}
@@ -16384,6 +16394,7 @@ main{min-height:58vh}
    never cover a heading jumped-to via #id, nor a focused in-article anchor target. 5rem \u2248 nav height. */
 .tt-article .body h2[id],.tt-article .body h3[id],.tt-article .body h4[id],.tt-article .body [id]:target{scroll-margin-top:5rem}
 .tt-article .body p{color:var(--tt-body)}
+.tt-article .body>p,.tt-article .body>section>p{margin:0 0 1.15em;line-height:1.75}
 .tt-article .body ul,.tt-article .body ol{color:var(--tt-body);padding-left:22px}
 .tt-article .body li{margin:9px 0}
 .tt-article .body a{color:var(--tt-cyan);text-decoration:underline;text-underline-offset:3px}
@@ -16400,6 +16411,8 @@ main{min-height:58vh}
   font-size:1.12rem;color:var(--tt-heading);box-shadow:0 0 30px -14px rgba(0,229,255,.4)}
 .tt-article .body .fig{margin:30px 0;border:1px solid var(--tt-line);border-radius:14px;overflow:hidden;background:var(--tt-panel-2)}
 .tt-article .body .fig svg{display:block;width:100%;height:auto}
+.tt-article .body>figure{box-sizing:border-box;width:100%;max-width:100%;margin:clamp(28px,6vw,48px) auto;overflow:hidden}
+.tt-article .body>figure :where(img,picture,video,iframe,svg){display:block;max-width:100%;height:auto;margin-inline:auto}
 .tt-article .body figcaption{padding:12px 16px;color:var(--tt-faint);font-size:.85rem;font-family:var(--tt-mono);border-top:1px solid var(--tt-line)}
 .tt-article .body #faq{margin-top:48px;padding-top:4px;border-top:1px solid var(--tt-line)}
 
@@ -16528,7 +16541,7 @@ main{min-height:58vh}
 .tt-source-card__domain{position:absolute;left:3.6rem;right:3rem;bottom:1.1rem;overflow:hidden;color:var(--tt-faint);font:600 .66rem/1 var(--tt-mono);letter-spacing:.055em;text-overflow:ellipsis;text-transform:uppercase;white-space:nowrap}
 .tt-source-card__arrow{position:absolute;top:1rem;right:1rem;display:grid;width:1.75rem;height:1.75rem;place-items:center;border:1px solid rgba(255,255,255,.12);border-radius:50%;color:var(--tt-muted);transition:color .2s ease,border-color .2s ease,transform .2s ease}
 .tt-source-card:hover .tt-source-card__arrow,.tt-source-card:focus-within .tt-source-card__arrow{color:var(--tt-cyan);border-color:var(--tt-line-2);transform:rotate(8deg)}
-.tt-sources__return{display:inline-flex;gap:.65rem;align-items:center;margin-top:2rem;color:var(--tt-muted)!important;font:700 .7rem/1 var(--tt-mono);letter-spacing:.1em;text-decoration:none;text-transform:uppercase}
+.tt-sources__return{display:inline-flex;gap:.65rem;align-items:center;min-height:44px;margin-top:2rem;padding:.45rem .15rem;color:var(--tt-muted)!important;font:700 .7rem/1 var(--tt-mono);letter-spacing:.1em;text-decoration:none;text-transform:uppercase}
 .tt-sources__return:hover{color:var(--tt-text)!important}
 @media(max-width:760px){.tt-sources{width:calc(100vw - 1.25rem);padding:1.5rem;border-radius:2px 20px 2px 20px}.tt-sources__masthead{grid-template-columns:1fr;align-items:start}.tt-sources__count{grid-row:3}.tt-source-list{grid-template-columns:1fr}.tt-source-card{min-height:8.25rem}.tt-source-card:last-child:nth-child(odd){grid-column:auto;min-height:8.25rem;padding-right:3.1rem}}
 @media(prefers-reduced-motion:reduce){.tt-source-card,.tt-source-card__arrow{transition:none}}
@@ -16582,6 +16595,8 @@ main{min-height:58vh}
    visual padding \u2014 these border+background chips read as tappable, so give them a real hit-box. */
 .tt-tag{display:inline-flex;align-items:center;min-height:24px;font-family:var(--tt-mono);font-size:11.5px;letter-spacing:.02em;padding:4px 11px;border-radius:999px;
   border:1px solid var(--tt-line);color:var(--tt-cyan);background:rgba(0,229,255,.06)}
+a.tt-tag{text-decoration:none;transition:border-color .2s,background .2s}
+a.tt-tag:hover{border-color:var(--tt-cyan);background:rgba(0,229,255,.12)}
 
 /* Code block + copy button ---------------------------------------------- */
 .tt-article .body .tt-code{position:relative;margin:24px 0}
@@ -16709,11 +16724,16 @@ img[data-tt-zoom]{cursor:zoom-in}
 .tt-worksheet__actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
 
 /* Footer ---------------------------------------------------------------- */
-.tt-footer{border-top:1px solid var(--tt-line);margin-top:48px}
-.tt-footer__row{max-width:var(--tt-maxw);margin:0 auto;padding:40px 24px;display:flex;justify-content:space-between;
-  gap:20px;flex-wrap:wrap;color:var(--tt-faint);font-size:14px}
-.tt-footer__links{display:flex;gap:18px;flex-wrap:wrap}
-.tt-footer__links a:hover{color:var(--tt-text)}
+.tt-footer{border-top:1px solid var(--tt-line);margin-top:48px;background:linear-gradient(180deg,rgba(0,229,255,.018),transparent 44%)}
+.tt-footer__grid{max-width:var(--tt-maxw);margin:0 auto;padding:40px 24px 28px;display:grid;grid-template-columns:minmax(220px,1.15fr) minmax(140px,.55fr) minmax(280px,1fr);gap:clamp(28px,5vw,72px);align-items:start;color:var(--tt-faint);font-size:14px}
+.tt-footer__identity{display:flex;gap:14px;align-items:flex-start}.tt-footer__logo{width:40px;height:40px;flex:0 0 40px;padding:4px;border:1px solid var(--tt-line-2);border-radius:12px;object-fit:contain;background:var(--tt-ink-2);box-shadow:0 0 28px rgba(0,229,255,.18)}
+.tt-footer__note{color:var(--tt-text);font:700 .78rem/1.3 var(--tt-mono);letter-spacing:.08em;text-transform:uppercase}.tt-footer__identity p,.tt-footer__newsletter>p{max-width:38rem;margin:.75rem 0 0;line-height:1.65;text-wrap:pretty}
+.tt-footer__links{display:flex;flex-direction:column;align-items:flex-start;gap:4px}.tt-footer__links a{display:inline-flex;align-items:center;min-height:36px;color:var(--tt-muted);text-decoration:none}.tt-footer__links a:hover{color:var(--tt-text)}
+.tt-footer__links a[href^="tel:"]{margin-top:8px;color:var(--tt-cyan);font:700 .82rem/1 var(--tt-mono);letter-spacing:.04em}.tt-footer__links a[href^="tel:"]:hover,.tt-footer__links a[href^="tel:"]:focus-visible{color:var(--tt-cyan);text-shadow:0 0 18px rgba(0,229,255,.45)}
+.tt-footer__kicker{color:var(--tt-cyan)!important;font:700 .68rem/1.2 var(--tt-mono)!important;letter-spacing:.16em;text-transform:uppercase}.tt-footer__newsletter h2{margin:.55rem 0 0;color:var(--tt-heading);font:700 clamp(1.3rem,2vw,1.75rem)/1.05 var(--tt-body);letter-spacing:-.025em}.tt-footer__form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;margin-top:16px}.tt-footer__form input[type=email]{min-width:0;min-height:46px;padding:10px 13px;border:1px solid var(--tt-line-2);border-radius:9px;color:var(--tt-text);background:var(--tt-ink-2);font:inherit}.tt-footer__form input:focus-visible{outline:2px solid var(--tt-cyan);outline-offset:2px}.tt-footer__form .tt-btn{min-height:46px}.tt-footer__honeypot{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0!important}.tt-footer__status{min-height:1.3em;margin:.55rem 0 0!important;color:var(--tt-muted);font:600 .75rem/1.4 var(--tt-mono)}
+.tt-footer__legal{max-width:var(--tt-maxw);margin:0 auto;padding:18px 24px max(32px,env(safe-area-inset-bottom));display:flex;justify-content:space-between;gap:16px;border-top:1px solid var(--tt-line);color:var(--tt-faint);font-size:12px}.tt-footer__legal nav{display:flex;gap:18px;flex-wrap:wrap}.tt-footer__legal a{color:inherit}.tt-footer__legal a:hover{color:var(--tt-text)}
+@media(max-width:820px){.tt-footer__grid{grid-template-columns:1fr 1fr}.tt-footer__newsletter{grid-column:1/-1}.tt-footer__form{max-width:560px}}
+@media(max-width:520px){.tt-footer__grid{grid-template-columns:1fr;padding-inline:18px}.tt-footer__newsletter{grid-column:auto}.tt-footer__form{grid-template-columns:1fr}.tt-footer__form .tt-btn{width:100%}.tt-footer__legal{padding-inline:18px;flex-direction:column}.tt-footer__links{display:grid;grid-template-columns:1fr 1fr}}
 
 /* 404 ------------------------------------------------------------------- */
 .tt-nf{max-width:640px;margin:0 auto;padding:96px 24px;text-align:center}
@@ -16758,22 +16778,229 @@ img[data-tt-zoom]{cursor:zoom-in}
   :focus-visible{outline-width:3px;outline-offset:3px}
 }
 `.trim();
+var NAV_MENU_JS = `(function(){
+  if(window.__ttNavMenu)return;window.__ttNavMenu=true;
+  var CLOSE_DELAY=170;
+  function mobile(){return window.matchMedia&&window.matchMedia('(max-width: 860px)').matches;}
+  function triggersOf(r){return Array.prototype.slice.call(r.querySelectorAll('[data-tt-nav-trigger]'));}
+  function panelFor(t){return t.parentNode?t.parentNode.querySelector('.tt-nav__mm-panel'):null;}
+  function itemsOf(p){return p?Array.prototype.slice.call(p.querySelectorAll('.tt-nav__mm-item')):[];}
+  function closeAll(r,ex){triggersOf(r).forEach(function(t){if(t!==ex)t.setAttribute('aria-expanded','false');});}
+  function open(r,t){closeAll(r,t);t.setAttribute('aria-expanded','true');}
+  function close(t){t.setAttribute('aria-expanded','false');}
+  function roving(r,a){triggersOf(r).forEach(function(t){t.setAttribute('tabindex',t===a?'0':'-1');});}
+  document.querySelectorAll('[data-tt-nav-root]').forEach(function(root){
+    var bar=root.querySelector('.tt-nav__mm-bar');
+    var header=root.closest?root.closest('.tt-nav'):null;
+    var burger=header?header.querySelector('[data-tt-nav-burger]'):null;
+    var triggers=triggersOf(root);
+    var timer=null;
+    if(burger&&bar){
+      burger.addEventListener('click',function(){
+        var o=root.getAttribute('data-tt-nav-open')==='true';
+        root.setAttribute('data-tt-nav-open',o?'false':'true');
+        burger.setAttribute('aria-expanded',o?'false':'true');
+        if(o)closeAll(root,null);
+      });
+    }
+    triggers.forEach(function(trigger,idx){
+      var panel=panelFor(trigger);
+      trigger.addEventListener('click',function(e){
+        var isOpen=trigger.getAttribute('aria-expanded')==='true';
+        if(isOpen){close(trigger);}else{open(root,trigger);}
+        e.preventDefault();
+      });
+      if(trigger.parentNode){
+        trigger.parentNode.addEventListener('mouseenter',function(){
+          if(mobile())return;
+          if(timer){clearTimeout(timer);timer=null;}
+          open(root,trigger);
+        });
+        trigger.parentNode.addEventListener('mouseleave',function(){
+          if(mobile())return;
+          if(timer)clearTimeout(timer);
+          timer=setTimeout(function(){close(trigger);},CLOSE_DELAY);
+        });
+      }
+      trigger.addEventListener('keydown',function(e){
+        var k=e.key;
+        if(k==='ArrowRight'){e.preventDefault();var n=triggers[(idx+1)%triggers.length];roving(root,n);n.focus();}
+        else if(k==='ArrowLeft'){e.preventDefault();var p=triggers[(idx-1+triggers.length)%triggers.length];roving(root,p);p.focus();}
+        else if(k==='ArrowDown'||k==='Enter'||k===' '){e.preventDefault();open(root,trigger);var it=itemsOf(panel);if(it.length)it[0].focus();}
+        else if(k==='Escape'){close(trigger);}
+        else if(k==='Home'){e.preventDefault();roving(root,triggers[0]);triggers[0].focus();}
+        else if(k==='End'){e.preventDefault();var l=triggers[triggers.length-1];roving(root,l);l.focus();}
+      });
+      if(panel){
+        panel.addEventListener('keydown',function(e){
+          var it=itemsOf(panel);var ci=it.indexOf(document.activeElement);var k=e.key;
+          if(k==='ArrowDown'){e.preventDefault();(it[ci+1]||it[0]).focus();}
+          else if(k==='ArrowUp'){e.preventDefault();if(ci<=0){trigger.focus();}else{it[ci-1].focus();}}
+          else if(k==='Escape'){e.preventDefault();close(trigger);trigger.focus();}
+          else if(k==='Home'){e.preventDefault();if(it[0])it[0].focus();}
+          else if(k==='End'){e.preventDefault();if(it.length)it[it.length-1].focus();}
+          else if(k==='Tab'){close(trigger);}
+        });
+      }
+    });
+    document.addEventListener('click',function(e){if(root.contains(e.target))return;closeAll(root,null);});
+    root.addEventListener('focusout',function(){setTimeout(function(){if(!root.contains(document.activeElement)&&!mobile())closeAll(root,null);},0);});
+  });
+})();
+(function(){
+  /* Compact-overlay mega-menu driver: open/close + focus trap + Esc + roving-arrow desk grid +
+     live featured swap + global "/" and Cmd/Ctrl+K to open & focus search. CSP-safe (no innerHTML
+     on untrusted data \u2014 only element attributes the server set), idempotent, reduced-motion agnostic. */
+  var FOCUSABLE='a[href],button:not([disabled]),input,[tabindex]:not([tabindex="-1"])';
+  function boot(scope){
+  (scope||document).querySelectorAll('[data-tt-ov-trigger]').forEach(function(trigger){
+    if(trigger.hasAttribute('data-tt-ov-ready'))return;
+    trigger.setAttribute('data-tt-ov-ready','true');
+    var id=trigger.getAttribute('aria-controls');
+    var panel=id?document.getElementById(id):null;if(!panel)return;
+    var scrim=panel.querySelector('[data-tt-ov-scrim]');
+    var closeBtn=panel.querySelector('[data-tt-ov-close]');
+    var searchInput=panel.querySelector('[data-tt-ov-search]');
+    var searchBtn=trigger.parentNode?trigger.parentNode.querySelector('[data-tt-ov-searchbtn]'):null;
+    var cards=Array.prototype.slice.call(panel.querySelectorAll('[data-tt-ov-card]'));
+    var featuredImg=panel.querySelector('[data-tt-ov-fimg]');
+    var featuredLink=panel.querySelector('[data-tt-ov-featured]');
+    var fKicker=featuredLink?featuredLink.querySelector('[data-tt-ov-fkicker]'):null;
+    var fTitle=featuredLink?featuredLink.querySelector('[data-tt-ov-ftitle]'):null;
+    var lastFocus=null,swapT=null;
+    function markCurrentRoute(){
+      var here=location.pathname.replace(/\\/+$/,'')||'/';
+      Array.prototype.forEach.call(panel.querySelectorAll('a[href]'),function(link){
+        var current=false;
+        try{var url=new URL(link.getAttribute('href'),location.href);var path=url.pathname.replace(/\\/+$/,'')||'/';current=url.origin===location.origin&&path===here;}catch(e){}
+        if(current){link.setAttribute('aria-current','page');link.setAttribute('data-tt-ov-current','1');}
+        else{link.removeAttribute('aria-current');link.removeAttribute('data-tt-ov-current');}
+      });
+    }
+    function cols(){ // how many cards per row (for up/down arrows) \u2014 read the computed grid
+      try{var s=getComputedStyle(panel.querySelector('.tt-ov__grid'));var n=s.gridTemplateColumns.split(' ').length;return n>0?n:3;}catch(e){return 3;}}
+    function setFeatured(card){
+      if(!featuredImg||!card)return;
+      var src=card.getAttribute('data-tt-ov-fsrc');if(!src)return;
+      var alt=card.getAttribute('data-tt-ov-falt');
+      var ttl=card.getAttribute('data-tt-ov-ftitle')||'';
+      var href=card.getAttribute('data-tt-ov-fhref');
+      if(fKicker)fKicker.textContent=card.getAttribute('data-tt-ov-fkicker')||'';
+      if(fTitle)fTitle.textContent=ttl;
+      if(featuredLink){if(href)featuredLink.setAttribute('href',href);if(ttl)featuredLink.setAttribute('aria-label',ttl);}
+      if(alt)featuredImg.setAttribute('alt',alt);
+      if(swapT){clearTimeout(swapT);swapT=null;}
+      if(featuredImg.getAttribute('src')===src){featuredImg.removeAttribute('data-tt-ov-swapping');return;}
+      featuredImg.setAttribute('data-tt-ov-swapping','1');
+      swapT=setTimeout(function(){
+        featuredImg.setAttribute('src',src);
+        featuredImg.removeAttribute('data-tt-ov-swapping');
+        swapT=null;
+      },140);
+    }
+    function markActive(card){cards.forEach(function(c){if(c===card)c.setAttribute('data-tt-ov-active','1');else c.removeAttribute('data-tt-ov-active');});}
+    function isOpen(){return trigger.getAttribute('aria-expanded')==='true';}
+    function open(focusSearch){
+      if(isOpen())return;lastFocus=document.activeElement;
+      markCurrentRoute();
+      panel.hidden=false;
+      // next frame so the transition runs from the hidden\u2192shown state
+      requestAnimationFrame(function(){panel.setAttribute('data-tt-ov-open','1');});
+      trigger.setAttribute('aria-expanded','true');
+      document.documentElement.style.overflow='hidden';
+      cards.forEach(function(c,i){c.setAttribute('tabindex',i===0?'0':'-1');});
+      var target=(focusSearch&&searchInput)?searchInput:(cards[0]||closeBtn||searchInput);
+      if(target)setTimeout(function(){target.focus();},60);
+    }
+    function close(restore){
+      if(!isOpen())return;
+      panel.removeAttribute('data-tt-ov-open');
+      trigger.setAttribute('aria-expanded','false');
+      document.documentElement.style.overflow='';
+      var done=function(){panel.hidden=true;};
+      // allow the close transition to play unless reduced-motion
+      var rm=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(rm){done();}else{setTimeout(done,360);}
+      if(restore!==false){var t=lastFocus&&lastFocus.focus?lastFocus:trigger;setTimeout(function(){t.focus();},0);}
+    }
+    trigger.addEventListener('click',function(e){e.preventDefault();if(isOpen())close();else open(false);});
+    if(searchBtn)searchBtn.addEventListener('click',function(e){e.preventDefault();open(true);});
+    if(scrim)scrim.addEventListener('click',function(){close();});
+    if(closeBtn)closeBtn.addEventListener('click',function(){close();});
+    // Every overlay destination closes the modal before navigation. Same-document anchors are
+    // handled explicitly because scrolling while the root is overflow-locked is inconsistent
+    // across browsers and can leave the destination hidden behind the still-open overlay.
+    panel.addEventListener('click',function(e){
+      var node=e.target;var link=node&&node.closest?node.closest('a[href]'):null;
+      if(!link||!panel.contains(link))return;
+      var raw=link.getAttribute('href');if(!raw)return;
+      var url;try{url=new URL(raw,location.href);}catch(err){close(false);return;}
+      var sameDocument=url.origin===location.origin&&url.pathname===location.pathname&&url.search===location.search;
+      close(false);
+      if(!sameDocument||!url.hash)return;
+      e.preventDefault();
+      var previousHash=location.hash;
+      location.hash=url.hash;
+      if(previousHash===url.hash&&window.HashChangeEvent)window.dispatchEvent(new HashChangeEvent('hashchange'));
+      var target=document.getElementById(decodeURIComponent(url.hash.slice(1)));
+      if(target&&target.scrollIntoView)setTimeout(function(){target.scrollIntoView({block:'start'});},0);
+    });
+    // Live featured swap on card hover/focus
+    cards.forEach(function(card,idx){
+      card.addEventListener('mouseenter',function(){setFeatured(card);markActive(card);});
+      card.addEventListener('focus',function(){setFeatured(card);markActive(card);cards.forEach(function(c,i){c.setAttribute('tabindex',i===idx?'0':'-1');});});
+      card.addEventListener('keydown',function(e){
+        var k=e.key,n=cols(),next=-1;
+        if(k==='ArrowRight')next=(idx+1)%cards.length;
+        else if(k==='ArrowLeft')next=(idx-1+cards.length)%cards.length;
+        else if(k==='ArrowDown')next=Math.min(cards.length-1,idx+n);
+        else if(k==='ArrowUp')next=Math.max(0,idx-n);
+        else if(k==='Home')next=0;
+        else if(k==='End')next=cards.length-1;
+        if(next>=0){e.preventDefault();var t=cards[next];cards.forEach(function(c,i){c.setAttribute('tabindex',i===next?'0':'-1');});t.focus();}
+      });
+    });
+    // Focus trap + Esc, scoped to the panel
+    panel.addEventListener('keydown',function(e){
+      if(e.key==='Escape'){e.preventDefault();close();return;}
+      if(e.key!=='Tab')return;
+      var f=Array.prototype.slice.call(panel.querySelectorAll(FOCUSABLE)).filter(function(el){return el.offsetParent!==null||el===document.activeElement;});
+      if(!f.length)return;var first=f[0],last=f[f.length-1];
+      if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+      else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+    });
+  });
+  }
+  boot(document);
+  if(!window.__ttNavOverlayObserver&&window.MutationObserver){
+    window.__ttNavOverlayObserver=new MutationObserver(function(records){records.forEach(function(record){
+      Array.prototype.forEach.call(record.addedNodes||[],function(node){if(node&&node.querySelectorAll)boot(node);});
+    });});
+    window.__ttNavOverlayObserver.observe(document.documentElement,{childList:true,subtree:true});
+  }
+  // Global shortcuts: "/" or Cmd/Ctrl+K opens the FIRST overlay + focuses its search (not while typing).
+  // Prefer the resting search affordance's own click (runs the canonical open(true) path); else the trigger.
+  if(window.__ttNavOverlayShortcuts)return;window.__ttNavOverlayShortcuts=true;
+  document.addEventListener('keydown',function(e){
+    var slash=e.key==='/'&&!e.metaKey&&!e.ctrlKey&&!e.altKey;
+    var cmdk=(e.key==='k'||e.key==='K')&&(e.metaKey||e.ctrlKey);
+    if(!slash&&!cmdk)return;
+    var ae=document.activeElement,tag=ae?ae.tagName:'';
+    if(slash&&(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT'||(ae&&ae.isContentEditable)))return;
+    var trigger=document.querySelector('[data-tt-ov-trigger]');if(!trigger)return;
+    if(trigger.getAttribute('aria-expanded')==='true')return; // already open \u2014 let native focus flow
+    e.preventDefault();
+    var header=trigger.closest?trigger.closest('.tt-nav'):null;
+    var searchBtn=header?header.querySelector('[data-tt-ov-searchbtn]'):null;
+    if(searchBtn){searchBtn.click();}else{trigger.click();}
+  });
+})();`;
 
 // src/site-shell.ts
-var GHOST_SIGNAL_NAV_LINKS = [
-  { label: "Signal", href: "/" },
-  { label: "Transmissions", href: "/transmissions" },
-  { label: "Blog", href: "/blog" },
-  { label: "Docs", href: "/docs" },
-  { label: "API", href: "/api/docs" }
-];
 var GHOST_SIGNAL_NAV_CONFIG = {
   brand: "GHOST // SIGNAL",
   brandHref: "/",
-  links: [
-    { label: "AI", href: "/#chat-widget" },
-    { label: "Call", href: "tel:+16016666602", cta: true }
-  ],
+  links: [],
   layout: "full",
   logo: {
     src: "/logo-nav.png?v=2945c6a-1778550809",
@@ -16782,9 +17009,8 @@ var GHOST_SIGNAL_NAV_CONFIG = {
     height: 34
   },
   megaMode: "overlay",
-  megaTriggerLabel: "Explore",
-  megaLabel: "Explore Ghost Signal",
-  megaSearch: { action: "/blog", placeholder: "Search signals, records, and field notes\u2026" },
+  megaTriggerLabel: "Browse",
+  megaLabel: "Browse Ghost Signal",
   mega: [
     {
       label: "Signal",
@@ -16799,16 +17025,28 @@ var GHOST_SIGNAL_NAV_CONFIG = {
       featured: { src: "/evidence-radiation-tdr.webp", alt: "Ghost Signal electromagnetic sensor display", href: "/#live", title: "Read the live electromagnetic field", kicker: "Live now" }
     },
     {
-      label: "Records",
-      href: "/transmissions",
+      label: "Story",
+      href: "/story",
       icon: "\u2301",
-      blurb: "Public calls, the evidence timeline, and recorded transmissions.",
+      blurb: "The first-person chronology, evidence dossier, and path to the public experiment.",
       items: [
-        { label: "Transmissions", href: "/transmissions", sub: "Calls" },
-        { label: "Evidence timeline", href: "/#timeline", sub: "Archive" },
+        { label: "Evidence timeline", href: "/story#timeline", sub: "Archive" },
+        { label: "The dossier", href: "/story#dossier", sub: "Record" },
+        { label: "Transmissions", href: "/transmissions", sub: "Calls" }
+      ],
+      featured: { src: "/story/time-travelers.webp", alt: "Figures crossing a luminous field", href: "/story", title: "Read the story behind the signal", kicker: "First-person record" }
+    },
+    {
+      label: "Plates",
+      href: "/plates",
+      icon: "\u25A3",
+      blurb: "The complete road-photo archive and an essay about pattern, perception, and documentation.",
+      items: [
+        { label: "Plate essay", href: "/plates#plate-essay", sub: "Account" },
+        { label: "Photo archive", href: "/plates#plate-vault-grid", sub: "Evidence" },
         { label: "The Signal", href: "/#the-signal", sub: "Film" }
       ],
-      featured: { src: "/story/time-travelers.webp", alt: "Figures crossing a luminous field", href: "/transmissions", title: "Open the public transmission record", kicker: "Public record" }
+      featured: { src: "/evidence-plate-blckchn.webp", alt: "BLCKCHN vanity plate documented in the Ghost Signal archive", href: "/plates", title: "Open the complete plate archive", kicker: "Field archive" }
     },
     {
       label: "Journal",
@@ -16845,9 +17083,46 @@ var GHOST_SIGNAL_NAV_CONFIG = {
     { label: "Ask Signal AI", href: "/#chat-widget", icon: "AI", sub: "Open the chat" },
     { label: "Call the hotline", href: "tel:+16016666602", icon: "\u260E", sub: "(601) 666-6602" },
     { label: "API reference", href: "/api/docs", icon: "{}", sub: "Schemas and endpoints" }
-  ] },
-  account: { href: "/#manifesto", label: "Open the operator manifesto", avatarSrc: "/apple-touch-icon.png?v=2945c6a-1778550809", avatarAlt: "Ghost Signal operator" }
+  ] }
 };
+var GHOST_SIGNAL_OVERLAY_NAVIGATION_JS = `(function(){
+  if(window.__ghostSignalOverlayNavigation)return;window.__ghostSignalOverlayNavigation=true;
+  document.addEventListener('click',function(event){
+    var node=event.target;var link=node&&node.closest?node.closest('[data-tt-ov-panel] a[href]'):null;
+    if(!link)return;
+    var panel=link.closest('[data-tt-ov-panel]');var closeButton=panel&&panel.querySelector('[data-tt-ov-close]');
+    var raw=link.getAttribute('href');var url;
+    try{url=new URL(raw,location.href);}catch(error){if(closeButton)closeButton.click();return;}
+    var sameDocument=url.origin===location.origin&&url.pathname===location.pathname&&url.search===location.search;
+    if(closeButton)closeButton.click();
+    if(!sameDocument||!url.hash)return;
+    event.preventDefault();
+    var previousHash=location.hash;
+    location.hash=url.hash;
+    if(previousHash===url.hash&&window.HashChangeEvent)window.dispatchEvent(new HashChangeEvent('hashchange'));
+    var target=document.getElementById(decodeURIComponent(url.hash.slice(1)));
+    if(target)setTimeout(function(){target.scrollIntoView({block:'start'});},0);
+  });
+})();`;
+var GHOST_SIGNAL_NAV_JS = `${NAV_MENU_JS}
+${GHOST_SIGNAL_OVERLAY_NAVIGATION_JS}`;
+var GHOST_SIGNAL_FOOTER_JS = `(function(){
+  if(window.__ghostSignalFooter)return;window.__ghostSignalFooter=true;
+  document.addEventListener('submit',async function(event){
+    var form=event.target&&event.target.closest?event.target.closest('[data-tt-footer-newsletter]'):null;
+    if(!form)return;event.preventDefault();
+    var status=form.parentElement&&form.parentElement.querySelector('[data-tt-footer-newsletter-status]');
+    var button=form.querySelector('button[type="submit"]');var email=form.querySelector('input[name="email"]');
+    if(!email||!email.validity.valid){if(status)status.textContent='Enter a valid email address.';email&&email.focus();return;}
+    if(button){button.disabled=true;button.setAttribute('aria-busy','true');}
+    if(status)status.textContent='Joining the dispatch\u2026';
+    try{var response=await fetch(form.getAttribute('data-endpoint')||'/api/v1/newsletter/subscribe',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email:email.value,website:(form.querySelector('input[name="website"]')||{}).value||''})});var data=await response.json().catch(function(){return{}});if(!response.ok)throw new Error(data.error||'Subscription failed');if(status)status.textContent=data.message||'You are on the Signal Dispatch.';form.reset();}
+    catch(error){if(status)status.textContent=error&&error.message?error.message:'The signal dropped. Please try again.';}
+    finally{if(button){button.disabled=false;button.removeAttribute('aria-busy');}}
+  });
+})();`;
+var GHOST_SIGNAL_SHELL_JS = `${GHOST_SIGNAL_NAV_JS}
+${GHOST_SIGNAL_FOOTER_JS}`;
 function renderGhostSignalNav(pathname) {
   const activeHref = pathname.startsWith("/blog") ? "/blog" : pathname.startsWith("/api/docs") ? "/api/docs" : pathname.startsWith("/transmissions") ? "/transmissions" : pathname.startsWith("/docs") ? "/docs" : pathname === "/" ? "/" : void 0;
   let markup = renderSiteNavFromJson(GHOST_SIGNAL_NAV_CONFIG);
@@ -16865,12 +17140,32 @@ function renderGhostSignalNav(pathname) {
 __name(renderGhostSignalNav, "renderGhostSignalNav");
 function renderGhostSignalFooter() {
   return renderSiteFooter({
-    note: "ghost.claims // Public signal. Open data. Night archive.",
+    note: "Ghost Signal // ghost.claims",
+    logo: { src: "/logo-nav.png?v=2945c6a-1778550809", alt: "Ghost Signal logo", width: 40, height: 40 },
+    description: "A public electromagnetic sensor, entropy experiment, AI hotline, and night archive documenting the signal without pretending interpretation is proof.",
     links: [
-      ...GHOST_SIGNAL_NAV_LINKS,
+      { label: "Live signal", href: "/#live" },
+      { label: "Story", href: "/story" },
+      { label: "Plates", href: "/plates" },
+      { label: "Transmissions", href: "/transmissions" },
+      { label: "Journal", href: "/blog" },
+      { label: "Developer docs", href: "/docs" },
+      { label: "API reference", href: "/api/docs" },
+      { label: "Evidence standard", href: "/story#dossier" },
+      { label: "(601) 666-6602", href: "tel:+16016666602" }
+    ],
+    legalLinks: [
       { label: "Privacy", href: "/privacy" },
       { label: "Terms", href: "/terms" }
-    ]
+    ],
+    newsletter: {
+      label: "Signal Dispatch",
+      title: "Keep one eye on the field.",
+      description: "A compact weekly digest of sensor anomalies, new records, and additions to the archive. Email only.",
+      endpoint: "/api/v1/newsletter/subscribe",
+      placeholder: "anonymous@yourdomain.com",
+      buttonLabel: "Join"
+    }
   }).replace('<footer class="tt-footer">', '<footer class="tt-footer" data-theme-tools="site-footer">');
 }
 __name(renderGhostSignalFooter, "renderGhostSignalFooter");
@@ -17050,9 +17345,9 @@ function transmissionsPageHtml() {
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.11" />
+  <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.12" />
   <link rel="stylesheet" href="/styles.css" />
-  <link rel="stylesheet" href="/theme-tools-shell.css" />
+  <link rel="stylesheet" href="/theme-tools-shell.css?v=20261123-visual-convergence" />
   <style>
     .tx-layout { padding-top: 1rem; padding-bottom: 3rem; }
     .tx-hero {
@@ -17473,7 +17768,7 @@ app.openapi(historyRoute, async (c) => {
     return response2;
   }
   const rawPoints = await fetchHistoryPoints(c.env, window);
-  const points = downsamplePoints(rawPoints, targetPoints);
+  const points = downsampleNumericPoints(rawPoints, targetPoints);
   const payload = {
     entityId: c.env.EMF_SENSOR_ENTITY_ID,
     points,
@@ -17534,9 +17829,9 @@ app.openapi(entropyRoute, async (c) => {
     response2.headers.set("x-cache-status", "HIT");
     return response2;
   }
-  const points = downsamplePoints(await fetchHistoryPoints(c.env, window), targetPoints);
+  const points = downsampleNumericPoints(await fetchHistoryPoints(c.env, window), targetPoints);
   const windowMinutes = Math.max(1, Math.round((new Date(window.end).getTime() - new Date(window.start).getTime()) / 6e4));
-  const entropy = calculateEntropy(points, windowMinutes, bins);
+  const entropy = calculateNumericEntropy(points, windowMinutes, bins);
   const response = c.json(entropy, 200);
   const cacheControl = `public, max-age=${ttl}, stale-while-revalidate=30`;
   response.headers.set("cache-control", cacheControl);
@@ -17630,7 +17925,7 @@ app.openapi(exportRoute, async (c) => {
   const records = await fetchSnapshotRecords(c.env, window);
   const filename = buildSnapshotFilename(window, format);
   if (format === "excel") {
-    return new Response(buildSnapshotExcel(records, filename), {
+    return new Response(buildSensorSnapshotExcel(records, filename), {
       headers: {
         "cache-control": "public, max-age=15, stale-while-revalidate=30",
         "content-disposition": `attachment; filename="${filename}"`,
@@ -17638,7 +17933,7 @@ app.openapi(exportRoute, async (c) => {
       }
     });
   }
-  return new Response(buildSnapshotCsv(records), {
+  return new Response(buildSensorSnapshotCsv(records), {
     headers: {
       "cache-control": "public, max-age=15, stale-while-revalidate=30",
       "content-disposition": `attachment; filename="${filename}"`,
@@ -17703,7 +17998,7 @@ var randomRoute = createRoute({
 app.openapi(randomRoute, async (c) => {
   const { minutes, start, end, digits } = c.req.valid("query");
   const window = parseHistoryWindow({ minutes, start, end });
-  const summary = await deriveSnapshotRandom(await fetchSnapshotRecords(c.env, window), window, digits);
+  const summary = await deriveSensorSnapshotRandom(await fetchSnapshotRecords(c.env, window), window, digits);
   const response = c.json(
     {
       entityId: c.env.EMF_SENSOR_ENTITY_ID,
@@ -18004,9 +18299,9 @@ app.get("/api/docs", (c) => {
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.11" />
+  <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.12" />
   <link rel="stylesheet" href="/styles.css?v=20260501-reveal" />
-  <link rel="stylesheet" href="/theme-tools-shell.css" />
+  <link rel="stylesheet" href="/theme-tools-shell.css?v=20261123-visual-convergence" />
   <style>
     @view-transition { navigation: auto; }
     :root {
@@ -18192,14 +18487,14 @@ app.options("/api/*", (c) => {
 });
 app.get("/__test/reset", async (c) => {
   if (!areTestHelpersEnabled(c.env)) {
-    throw new ApiError("Test helpers are disabled.", 404, "NOT_FOUND");
+    throw new StructuredApiError("Test helpers are disabled.", 404, "NOT_FOUND");
   }
   const deleted = await resetSnapshots(c.env);
   return c.json({ ok: true, deleted }, 200);
 });
 app.get("/__test/seed", async (c) => {
   if (!areTestHelpersEnabled(c.env)) {
-    throw new ApiError("Test helpers are disabled.", 404, "NOT_FOUND");
+    throw new StructuredApiError("Test helpers are disabled.", 404, "NOT_FOUND");
   }
   const query = c.req.query();
   const resetFirst = query.reset === "1";
@@ -18309,9 +18604,9 @@ app.get("*", async (c) => {
   const url = new URL(c.req.url);
   const pathname = url.pathname;
   if (pathname.startsWith("/api/")) {
-    throw new ApiError(`Route GET ${pathname} was not found.`, 404, "NOT_FOUND");
+    throw new StructuredApiError(`Route GET ${pathname} was not found.`, 404, "NOT_FOUND");
   }
-  const assetPath = pathname === "/" ? "/index.html" : pathname === "/docs" ? "/docs.html" : pathname === "/blog" || pathname.startsWith("/blog/") && !pathname.includes(".") ? "/blog/index.html" : pathname === "/privacy" ? "/privacy.html" : pathname === "/terms" ? "/terms.html" : pathname;
+  const assetPath = pathname === "/" ? "/index.html" : pathname === "/docs" ? "/docs.html" : pathname === "/story" ? "/story.html" : pathname === "/plates" ? "/plates.html" : pathname === "/blog" || pathname.startsWith("/blog/") && !pathname.includes(".") ? "/blog/index.html" : pathname === "/privacy" ? "/privacy.html" : pathname === "/terms" ? "/terms.html" : pathname;
   const assetUrl = new URL(assetPath, url);
   let assetResponse = await c.env.ASSETS.fetch(new Request(assetUrl.toString(), { method: "GET" }));
   if (assetResponse.status >= 300 && assetResponse.status < 400) {
@@ -18333,14 +18628,14 @@ app.get("*", async (c) => {
 });
 app.onError((error, c) => {
   const requestId = c.get("requestId") ?? crypto.randomUUID();
-  if (error instanceof ApiError) {
-    return jsonError(error, requestId);
+  if (error instanceof StructuredApiError) {
+    return structuredJsonError(error, requestId);
   }
   if (error instanceof HTTPException) {
-    return jsonError(new ApiError(error.message, error.status, `HTTP_${error.status}`), requestId);
+    return structuredJsonError(new StructuredApiError(error.message, error.status, `HTTP_${error.status}`), requestId);
   }
   console.error(error);
-  return jsonError(new ApiError("Something went wrong on our end.", 500, "INTERNAL_ERROR"), requestId);
+  return structuredJsonError(new StructuredApiError("Something went wrong on our end.", 500, "INTERNAL_ERROR"), requestId);
 });
 var index_default = {
   fetch: app.fetch,

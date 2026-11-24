@@ -22,7 +22,7 @@ test.describe("mobile", () => {
     // Compact nav exposes the same destinations through its menu.
     await expect(page.locator(".tt-nav__links")).toBeHidden();
     await page.getByRole("button", { name: "Browse", exact: true }).click();
-    await expect(page.getByRole("link", { name: "Signal", exact: true })).toBeVisible();
+    await expect(page.locator('[data-tt-ov-panel] > .tt-ov__sheet a.tt-ov__card[href="/"]')).toBeVisible();
     await page.getByRole("button", { name: "Close menu" }).click();
 
     // Range presets work
@@ -42,9 +42,9 @@ test.describe("mobile", () => {
     await waitForTimelineReady(page);
     await expect(page.locator("#timeline-track")).toBeVisible();
 
-    // Hotline number remains on the product homepage.
+    // Hotline number remains available through the shared site footer.
     await page.goto("/");
-    await expect(page.locator(".signal-closing .hotline-number")).toContainText("(601) 666-6602");
+    await expect(page.locator('[data-theme-tools="site-footer"] a[href="tel:+16016666602"]')).toContainText("(601) 666-6602");
 
     // Docs link navigates
     await page.getByRole("link", { name: "Docs" }).click();
