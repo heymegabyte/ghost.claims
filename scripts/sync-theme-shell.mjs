@@ -5,6 +5,7 @@ import { renderComponent } from "@theme.tools/blog/components-registry";
 
 const entropyGallery = renderComponent("gallery", {
   title: "Visual field notes",
+  variant: "showcase",
   images: [
     { src: "/story/lightning-bolt.webp", alt: "Lightning crossing a dark horizon", caption: "Electromagnetic disturbance" },
     { src: "/story/time-travelers.webp", alt: "Illustrated time-travel imagery", caption: "The time-travel hypothesis" },
@@ -22,7 +23,7 @@ const pages = [
   ["public/privacy.html", "/privacy"],
   ["public/terms.html", "/terms"],
 ];
-const themeToolsStylesheetHref = "/theme-tools.css?v=theme-tools-blog-1.0.13";
+const themeToolsStylesheetHref = "/theme-tools.css?v=theme-tools-blog-1.0.15";
 const themeToolsShellStylesheetHref = "/theme-tools-shell.css?v=20261123-visual-convergence";
 
 for (const [file, pathname] of pages) {

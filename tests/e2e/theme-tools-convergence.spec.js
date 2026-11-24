@@ -23,7 +23,10 @@ test("homepage uses the converged shell and removes its duplicate transmission a
   expect(box?.width).toBe(1280);
   await expect(nav.locator(".tt-nav__logo")).toHaveAttribute("src", /logo-nav\.png/);
 
+  await expect(page.locator(".hero-kicker")).toHaveText(/LIVE HAUNTING EMF DATA/);
+  await expect(page.getByText("EDGE GENERATED", { exact: true })).toHaveCount(0);
   await expect(page.locator(".entropy-explainer .tt-gallery__slide")).toHaveCount(5);
+  await expect(page.locator(".entropy-explainer .tt-gallery")).toHaveClass(/tt-gallery--showcase/);
   await expect(page.locator(".listen-feature-reading-label").first()).toHaveText("Local Device");
   await expect(page.getByText("SNAPSHOT VAULT // ENTROPY EXPORT", { exact: true })).toHaveCount(0);
   await expect(page.getByRole("heading", { name: /alarm designed to interrupt the feeling of fate/i })).toBeVisible();
@@ -132,6 +135,22 @@ test("entropy split becomes a full-width mobile stack", async ({ page }) => {
   expect(await section.evaluate((node) => getComputedStyle(node).gridTemplateColumns.split(" ").length)).toBe(1);
   const carousel = page.locator(".entropy-explainer .tt-gallery");
   expect((await carousel.boundingBox())?.width).toBeGreaterThan(340);
+});
+
+test("showcase gallery fills its section and gives the selected thumbnail a clear active state", async ({ page }) => {
+  await page.goto("/");
+  const gallery = page.locator(".entropy-explainer .tt-gallery--showcase");
+  await gallery.scrollIntoViewIfNeeded();
+
+  const galleryWidth = (await gallery.boundingBox())?.width ?? 0;
+  const sectionWidth = (await page.locator(".entropy-explainer").boundingBox())?.width ?? 0;
+  expect(galleryWidth).toBeGreaterThan(sectionWidth * 0.9);
+
+  const thirdThumb = gallery.locator(".tt-gallery__thumb").nth(2);
+  await thirdThumb.click();
+  await expect(gallery.locator(".tt-gallery__radio").nth(2)).toBeChecked();
+  await expect(gallery.locator(".tt-gallery__slide").nth(2)).toBeVisible();
+  await expect.poll(async () => Number(await thirdThumb.evaluate((node) => getComputedStyle(node).opacity))).toBeGreaterThan(0.99);
 });
 
 test("Signal film actions are centered and footer content clears live telemetry", async ({ page }) => {
