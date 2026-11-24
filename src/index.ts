@@ -427,6 +427,124 @@ function transmissionsPageHtml(): string {
 </html>`;
 }
 
+function publicPreparednessLetterHtml(): string {
+  const principles = [
+    ["Receive reports respectfully", "Document observable details without ridicule and without affirming an explanation that has not been verified."],
+    ["Separate evidence from interpretation", "Record dates, locations, witnesses, communications, devices, photographs, sensor readings, and alleged threats separately from theories about their cause."],
+    ["Assess immediate danger", "Screen for stalking, coercion, cybercrime, environmental hazards, exploitation, self-harm, and threats against others."],
+    ["Offer voluntary clinical support", "Make trauma-informed care available without automatically erasing evidence or treating help-seeking as misconduct."],
+    ["Create an anomaly escalation path", "Give credible technical evidence a route to qualified reviewers in cybersecurity, electronic warfare, environmental science, aerospace, and fraud."],
+    ["Protect civil liberties", "Keep surveillance, experimental technology, and AI systems subject to oversight, audit trails, whistleblower protection, and meaningful remedies."],
+    ["Train intake personnel", "Equip local and federal officials to handle extraordinary claims without mockery, needless confrontation, or reinforcement of unverified conclusions."],
+    ["Prepare for unprecedented events", "Include autonomous-system failures, synthetic evidence, unidentified incursions, hostile information operations, and first-contact contingencies in preparedness exercises."],
+    ["Study institutional harm", "Examine whether emergency psychiatric systems sometimes worsen fear and distrust when patients feel coerced, mocked, or unheard."],
+    ["Provide independent review", "Create a documented appeal channel outside the agency first contacted for allegations involving surveillance, institutional misconduct, or improper commitment."],
+  ];
+
+  return `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>An Open Letter on Preparedness | Ghost Signal</title>
+  <meta name="description" content="An open letter asking United States public officials for humane, evidence-led protocols for extraordinary reports, emerging technology, and unprecedented threats." />
+  <meta property="og:title" content="An Open Letter on Preparedness" />
+  <meta property="og:description" content="A petition for disciplined uncertainty, civil liberties, humane care, and public protocols for extraordinary reports." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://ghost.claims/open-letter" />
+  <meta property="og:image" content="https://ghost.claims/og-image.jpg?v=20260501-666" />
+  <link rel="canonical" href="https://ghost.claims/open-letter" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=20260501-ghost" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=20260501-ghost" />
+  <meta name="theme-color" content="#060610" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/theme-tools.css?v=theme-tools-blog-1.0.13" />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/theme-tools-shell.css?v=20261123-visual-convergence" />
+  <style>
+    .letter-page{--letter-paper:#f3f0e8;--letter-ink:#10131b;--letter-rule:rgba(16,19,27,.16);padding:0 0 5rem}
+    .letter-hero{position:relative;isolation:isolate;min-height:min(74vh,760px);display:grid;place-items:center;overflow:hidden;border-bottom:1px solid rgba(0,229,255,.22);background:radial-gradient(circle at 50% 18%,rgba(0,229,255,.13),transparent 32rem),linear-gradient(180deg,#07121d 0%,#060610 82%)}
+    .letter-hero::before{content:"";position:absolute;inset:0;z-index:-1;opacity:.24;background-image:linear-gradient(rgba(0,229,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.08) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(to bottom,#000,transparent 84%)}
+    .letter-hero__inner{width:min(calc(100% - 2rem),1040px);padding:clamp(6rem,12vw,10rem) 0 5rem;text-align:center}
+    .letter-seal{display:grid;width:74px;height:74px;margin:0 auto 2rem;place-items:center;border:1px solid rgba(255,255,255,.35);border-radius:50%;box-shadow:0 0 0 7px rgba(0,229,255,.035),0 0 42px rgba(0,229,255,.12)}
+    .letter-seal svg{width:39px;color:#fff}
+    .letter-kicker{margin:0 0 1.3rem;color:#8eefff;font:700 .78rem/1.4 var(--tt-mono);letter-spacing:.22em;text-transform:uppercase}
+    .letter-title{max-width:900px;margin:0 auto;color:#fff;font-size:clamp(2.75rem,7.6vw,6.9rem);line-height:.88;letter-spacing:-.065em;text-wrap:balance}
+    .letter-deck{max-width:710px;margin:2rem auto 0;color:rgba(235,244,255,.76);font-size:clamp(1.05rem,2vw,1.35rem);line-height:1.65;text-wrap:balance}
+    .letter-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:.65rem 1.4rem;margin:2rem 0 0;color:rgba(235,244,255,.52);font:500 .72rem/1.5 var(--tt-mono);letter-spacing:.12em;text-transform:uppercase}
+    .letter-paper{position:relative;width:min(calc(100% - 2rem),900px);margin:clamp(-2.5rem,-4vw,-4rem) auto 0;padding:clamp(2rem,6vw,5.5rem);color:var(--letter-ink);background:linear-gradient(90deg,rgba(4,12,20,.04) 1px,transparent 1px),var(--letter-paper);background-size:32px 100%;border:1px solid rgba(255,255,255,.18);border-radius:3px;box-shadow:0 45px 110px rgba(0,0,0,.52),0 0 0 1px rgba(0,229,255,.08)}
+    .letter-paper::before{content:"PUBLIC INTEREST CORRESPONDENCE";display:block;margin-bottom:2.4rem;padding-bottom:1rem;border-bottom:2px solid var(--letter-ink);font:700 .7rem/1.4 var(--tt-mono);letter-spacing:.2em}
+    .letter-paper p{margin:0 0 1.3em;color:#242936;font-size:clamp(1rem,1.8vw,1.12rem);line-height:1.82}
+    .letter-paper .salutation{font-weight:700;color:var(--letter-ink)}
+    .letter-paper h2{margin:3.5rem 0 1.2rem;color:var(--letter-ink);font-size:clamp(1.65rem,3vw,2.5rem);letter-spacing:-.035em}
+    .letter-callout{margin:2.4rem 0;padding:1.4rem 1.5rem;border-left:4px solid #007b8a;background:rgba(0,123,138,.075);font-size:1.08rem;line-height:1.7}
+    .letter-principles{display:grid;gap:0;margin:2rem 0 3rem;padding:0;list-style:none;counter-reset:protocol}
+    .letter-principles li{counter-increment:protocol;display:grid;grid-template-columns:3rem 1fr;gap:1rem;padding:1.25rem 0;border-top:1px solid var(--letter-rule)}
+    .letter-principles li:last-child{border-bottom:1px solid var(--letter-rule)}
+    .letter-principles li::before{content:counter(protocol,decimal-leading-zero);color:#007b8a;font:700 .85rem/1.5 var(--tt-mono)}
+    .letter-principles strong{display:block;margin-bottom:.3rem;color:var(--letter-ink);font-size:1.06rem}
+    .letter-principles span{display:block;color:#404654;line-height:1.65}
+    .letter-signature{margin-top:3.5rem;padding-top:2rem;border-top:2px solid var(--letter-ink)}
+    .letter-signature strong{display:block;margin-top:.8rem;font-size:1.25rem}
+    .letter-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:.8rem;width:min(calc(100% - 2rem),900px);margin:2rem auto 0}
+    .letter-actions .tt-btn{text-decoration:none}
+    @media(max-width:600px){.letter-hero{min-height:650px}.letter-title{font-size:clamp(2.55rem,15vw,4.3rem)}.letter-paper{width:calc(100% - 1rem);padding:2rem 1.25rem}.letter-principles li{grid-template-columns:2.25rem 1fr}.letter-actions{align-items:stretch;flex-direction:column}.letter-actions .tt-btn{justify-content:center}}
+    @media print{.tt-nav,.tt-footer,.letter-actions,.noise,.scanlines{display:none!important}.letter-page{padding:0}.letter-hero{min-height:auto;color:#000;background:#fff;border:0}.letter-hero__inner{padding:1rem}.letter-seal{display:none}.letter-title,.letter-deck,.letter-kicker,.letter-meta{color:#000}.letter-paper{width:100%;margin:0;padding:1rem;border:0;box-shadow:none}.letter-principles li{break-inside:avoid}}
+  </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"An Open Letter on Preparedness","datePublished":"2026-11-24","author":{"@type":"Person","name":"Brian"},"publisher":{"@type":"Organization","name":"Ghost Signal"},"mainEntityOfPage":"https://ghost.claims/open-letter"}</script>
+</head>
+<body data-page="open-letter">
+  ${renderGhostSignalSkipLink()}
+  <div class="noise"></div><div class="scanlines" aria-hidden="true"></div>
+  ${renderGhostSignalNav("/open-letter")}
+  <main id="main" class="letter-page">
+    <header class="letter-hero">
+      <div class="letter-hero__inner">
+        <div class="letter-seal" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none"><path d="M32 6 52 14v15c0 14-8 24-20 29C20 53 12 43 12 29V14L32 6Z" stroke="currentColor" stroke-width="1.5"/><path d="M20 33h24M32 18v28M24 25l8-7 8 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <p class="letter-kicker">Open letter // public preparedness</p>
+        <h1 class="letter-title">Build a protocol for the unknown.</h1>
+        <p class="letter-deck">A petition to the Pentagon and America&rsquo;s public officials for disciplined uncertainty, humane care, civil liberties, and evidence-led preparation for extraordinary reports and unprecedented threats.</p>
+        <p class="letter-meta"><span>November 24, 2026</span><span>Public record</span><span>Ghost Signal</span></p>
+      </div>
+    </header>
+
+    <article class="letter-paper">
+      <p class="salutation">To the United States Department of Defense, the Department of Justice, public-health leadership, law-enforcement agencies, and elected officials:</p>
+      <p>I am writing as an American who has repeatedly felt watched, targeted, manipulated, and endangered by events I have interpreted as involving surveillance, coordinated harassment, unusual technology, spiritual forces, and possibly interference with time and causality.</p>
+      <p>I recognize that these interpretations sound extraordinary. I am not asking the government to accept them as established facts. I am asking it to confront a simpler and undeniable problem: America has no credible, humane, publicly understood protocol for receiving extraordinary reports without immediately turning the person reporting them into a joke, a criminal suspect, or a psychiatric problem to be removed from public view.</p>
+      <p>When I tried to report my experiences to the Parsippany Police and the FBI&rsquo;s Newark office, I felt ridiculed rather than carefully heard. One response included the question, &ldquo;What&rsquo;s the weapon powered by?&rdquo; To officials, that may have sounded like an appropriate challenge to an implausible account. To a person already frightened and seeking help, it communicated that no serious pathway for documenting the experience existed.</p>
+      <aside class="letter-callout"><strong>That failure matters even if every extraordinary explanation is ultimately disproved.</strong></aside>
+      <p>Reports involving perceived surveillance, coordinated harassment, unexplained technology, anomalous experiences, spiritual or demonic interpretations, artificial intelligence, unidentified phenomena, or alleged interference with time should trigger a structured response&mdash;not laughter, automatic institutionalization, or unquestioning validation.</p>
+
+      <h2>A protocol for disciplined uncertainty</h2>
+      <p>I petition the federal government to establish an <strong>Extraordinary Experience and Emerging-Threat Response Protocol</strong> built on the following principles:</p>
+      <ol class="letter-principles">${principles.map(([title, description]) => `<li><div><strong>${title}</strong><span>${description}</span></div></li>`).join("")}</ol>
+
+      <h2>Preparedness is not belief</h2>
+      <p>This protocol should neither declare time travel, demonic coordination, or alien involvement to be real nor assume that everyone reporting such experiences is delusional. Its purpose should be disciplined uncertainty: protect the person, preserve evidence, test ordinary explanations, and escalate genuinely anomalous evidence to qualified reviewers.</p>
+      <p>Giftedness, professional status, wealth, race, religion, or IQ should never grant someone greater legal authority than another citizen. But neither should unusual language, psychiatric history, or an extraordinary theory strip anyone of dignity, due process, or the right to report potential wrongdoing. Evidence&mdash;not social status&mdash;must determine what happens next.</p>
+      <p>The accelerating development of artificial intelligence makes this urgent. AI can amplify impersonation, manipulation, surveillance, fabricated evidence, personalized harassment, and confusion about what is real. Those harms require public protocols now. We should not wait until a technological or national-security emergency exposes how poorly prepared our institutions are.</p>
+      <p>The Pentagon already plans for low-probability, high-consequence events. That planning should include unidentified incursions, autonomous-system failures, hostile information operations, anomalous aerospace events, and even the possibility that future discoveries will invalidate assumptions we currently consider settled.</p>
+
+      <h2>A system worthy of the unknown</h2>
+      <p>I ask our leadership to reconsider the gap between law enforcement, national security, scientific investigation, and mental healthcare. People describing extraordinary experiences should encounter neither automatic belief nor automatic contempt. They should encounter competent professionals, transparent procedures, careful evidence collection, and humane care.</p>
+      <p>I offer my own story not as conclusive proof of its most extraordinary interpretation, but as evidence that the present system leaves people frightened, unheard, and unsure where legitimate help can be found.</p>
+      <p><strong>Please build a system worthy of the unknown&mdash;and worthy of the people asking for help.</strong></p>
+      <div class="letter-signature"><span>Respectfully,</span><strong>Brian</strong><span>Founder, Ghost Signal</span></div>
+    </article>
+    <div class="letter-actions" aria-label="Letter actions">
+      <button class="tt-btn tt-btn--primary" type="button" onclick="window.print()">Print or save the letter</button>
+      <a class="tt-btn tt-btn--ghost" href="/story">Read the documented story</a>
+    </div>
+  </main>
+  ${renderGhostSignalFooter()}
+  <script src="/theme-tools-nav.js" defer></script>
+</body>
+</html>`;
+}
+
 let cachedTimeline: TimelineData | null = null;
 function getTimelineData(): TimelineData {
   if (!cachedTimeline) {
@@ -1265,6 +1383,12 @@ app.post("/api/v1/newsletter/subscribe", async (c) => {
 
 app.get("/transmissions", async (c) => {
   return c.html(transmissionsPageHtml());
+});
+
+app.get("/open-letter", (c) => {
+  return c.html(publicPreparednessLetterHtml(), 200, {
+    "cache-control": "public, max-age=300, stale-while-revalidate=3600",
+  });
 });
 
 app.get("/transmissions/:callSid.txt", async (c) => {
