@@ -36,6 +36,13 @@ test("hero, status grid, and 'Enter the Signal' button opens chat widget", async
   await expect(page.locator("#entropy-value")).toContainText("bits");
   await expect(page.locator("#signal-age")).not.toHaveText("--");
 
+  // The persistent sensor strip mirrors loaded readings instead of placeholders.
+  await expect(page.locator("#tele-emf")).toHaveText(/^(?:\d|N\/A)/);
+  await expect(page.locator("#tele-ef")).toHaveText(/^(?:\d|N\/A)/);
+  await expect(page.locator("#tele-rf")).toHaveText(/^(?:\d|N\/A)/);
+  await expect(page.locator("#tele-entropy")).toHaveText(/^\d/);
+  await expect(page.locator("#tele-age")).toHaveText(/^\d/);
+
   // Lifted live-data cards remain inside the grid's padded visual runway.
   const firstCard = grid.locator(".status-card").first();
   await firstCard.hover();

@@ -1550,6 +1550,12 @@ async function loadCurrentOnce() {
   latestSensorReceivedAt = Date.now();
   window.dispatchEvent(new CustomEvent("ghost:sensors", { detail: d }));
 
+  // Keep the persistent telemetry strip informative even when an upstream
+  // installation exposes only a subset of the three physical channels.
+  if (teleEmfEl) teleEmfEl.textContent = d.emf ? Number(d.emf.numericValue).toFixed(3) : "N/A";
+  if (teleEfEl) teleEfEl.textContent = d.ef ? Number(d.ef.numericValue).toFixed(1) : "N/A";
+  if (teleRfEl) teleRfEl.textContent = d.rf ? Number(d.rf.numericValue).toFixed(3) : "N/A";
+
   const hasAny = !!(d.emf || d.ef || d.rf);
   const stale = !!d.stale || !!(d.emf && d.emf.stale);
   if (stale && hasAny) markSensorOffline(d.emf?.staleSince ?? d.sampledAt, true);
@@ -1563,7 +1569,6 @@ async function loadCurrentOnce() {
     if (currentStateEl) currentStateEl.textContent = stale
       ? `Sample from ${fmtStaleTime(d.emf.staleSince)} — sensor offline.`
       : `${d.emf.friendlyName} reporting ${d.emf.state}.`;
-    if (teleEmfEl) teleEmfEl.textContent = Number(d.emf.numericValue).toFixed(3);
   }
 
   // EF
@@ -1573,7 +1578,6 @@ async function loadCurrentOnce() {
     if (efStateEl) efStateEl.textContent = stale
       ? "Sample reading — sensor offline."
       : `${d.ef.friendlyName} reporting ${d.ef.state}.`;
-    if (teleEfEl) teleEfEl.textContent = Number(d.ef.numericValue).toFixed(1);
   }
 
   // RF
@@ -1583,7 +1587,6 @@ async function loadCurrentOnce() {
     if (rfStateEl) rfStateEl.textContent = stale
       ? "Sample reading — sensor offline."
       : `${d.rf.friendlyName} reporting ${d.rf.state}.`;
-    if (teleRfEl) teleRfEl.textContent = Number(d.rf.numericValue).toFixed(3);
   }
 
   return d;
