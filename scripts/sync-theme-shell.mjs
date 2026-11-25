@@ -41,7 +41,8 @@ for (const [file, pathname] of pages) {
     `<!-- theme-tools:entropy-gallery:start -->\n        ${entropyGallery}\n        <!-- theme-tools:entropy-gallery:end -->`,
   );
   const withClosing = withFragments.replace(/\s*<!-- theme-tools:signal-closing:start -->[\s\S]*?<!-- theme-tools:signal-closing:end -->/, "");
-  const withFooter = withClosing.replace(/<footer class="(?:site-footer shell|tt-footer)"[\s\S]*?<\/footer>/, renderGhostSignalFooter());
+  const withoutAccountPrompt = withClosing.replace(/\s*<dialog class="clock-account-dialog"[\s\S]*?<\/dialog>/g, "");
+  const withFooter = withoutAccountPrompt.replace(/<footer class="(?:site-footer shell|tt-footer)"[\s\S]*?<\/footer>/, renderGhostSignalFooter());
   const withoutChatLabel = withFooter.replace(/\s*<span class="chat-toggle-label">AI<\/span>/g, "");
   const next = withoutChatLabel.includes('/theme-tools-nav.js')
     ? withoutChatLabel

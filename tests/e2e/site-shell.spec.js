@@ -216,6 +216,7 @@ test("Browse overlay is opaque and completes its animated close", async ({ page 
 
 test("Login honestly explains the production milestone and points to the clock", async ({ page }) => {
   await page.goto("/");
+  await expect(page.locator("#clock-account-dialog")).toHaveCount(1);
   await page.getByRole("link", { name: "Login", exact: true }).click();
   const dialog = page.getByRole("dialog", { name: "Accounts arrive with the clock." });
   await expect(dialog).toBeVisible();
