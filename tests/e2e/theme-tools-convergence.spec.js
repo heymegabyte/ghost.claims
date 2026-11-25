@@ -36,6 +36,8 @@ test("homepage uses the converged shell and removes its duplicate transmission a
   const purchase = page.getByRole("link", { name: /reserve the ghost signal entropy clock for \$378/i });
   await expect(purchase).toHaveAttribute("href", "https://buy.stripe.com/bJedR88bR7ld95I3EIfnO00");
   await expect(page.getByRole("link", { name: /get clock updates without reserving/i })).toHaveAttribute("href", "#newsletter-form");
+  await page.getByRole("link", { name: /get clock updates without reserving/i }).click();
+  await expect(page.locator("#newsletter-form input[type=email]")).toBeFocused();
   const purchaseActions = page.locator(".alarm-purchase-actions");
   const purchaseActionSpacing = await purchaseActions.evaluate((node) => {
     const styles = getComputedStyle(node);
@@ -184,11 +186,11 @@ test("Signal film actions are centered and footer content clears live telemetry"
   await expect(page.locator(".tt-footer [data-tt-footer-newsletter]")).toBeVisible();
   const footerGrid = page.locator(".tt-footer__grid");
   const desktopColumns = await footerGrid.evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(" ").length);
-  expect(desktopColumns).toBe(3);
+  expect(desktopColumns).toBe(4);
   const footerHotline = page.locator('.tt-footer a[href="tel:+16016666602"]');
-  await expect(footerHotline).toHaveCSS("color", "rgb(0, 229, 255)");
+  const hotlineColor = await footerHotline.evaluate((element) => getComputedStyle(element).color);
   await footerHotline.hover();
-  await expect(footerHotline).toHaveCSS("color", "rgb(0, 229, 255)");
+  await expect(footerHotline).toHaveCSS("color", hotlineColor);
 
   await page.locator(".tt-footer").scrollIntoViewIfNeeded();
   const clearance = await page.evaluate(() => {

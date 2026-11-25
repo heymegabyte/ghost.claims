@@ -25,9 +25,9 @@ describe("Ghost Signal Journal", () => {
     expect(screen.getAllByAltText("Ghost Signal logo")).toHaveLength(2);
     expect(screen.getAllByAltText("Ghost Signal logo")[0]).toHaveAttribute("src", expect.stringContaining("/logo-nav.png"));
     expect(screen.getByRole("button", { name: "Browse" })).toBeInTheDocument();
-    expect(container.querySelectorAll(".tt-nav__links > .tt-nav__link")).toHaveLength(0);
+    expect(container.querySelectorAll(".tt-nav__links > .tt-nav__link")).toHaveLength(1);
     expect(container.querySelector(".tt-nav__ov-search")).not.toBeInTheDocument();
-    expect(container.querySelectorAll(".tt-ov__card")).toHaveLength(5);
+    expect(container.querySelectorAll(".tt-ov__card")).toHaveLength(6);
     expect(container.querySelector('.tt-ov__card[href="/story"]')).toHaveTextContent("Story");
     expect(container.querySelector('.tt-ov__card[href="/plates"]')).toHaveTextContent("Plates");
     expect(container.querySelector('.tt-ov__card[href="/blog"]')).toHaveAttribute("aria-current", "page");

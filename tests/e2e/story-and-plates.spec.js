@@ -21,6 +21,11 @@ test("Story owns the first-person dossier and complete chronology", async ({ pag
   await expect(page.locator("#timeline-track")).toHaveAttribute("aria-busy", "false");
   await expect(page.getByTestId("timeline-nav")).toHaveCSS("opacity", "1");
   await expect(page.locator("#timeline-track .tl-item").first()).toHaveCSS("opacity", "1");
+  await expect(page.locator(".section-divider")).toHaveCount(0);
+  for (const video of await page.locator(".dossier-feature-media-row--jungle video").all()) {
+    await expect(video).toHaveAttribute("poster", /video-poster-evidence-jungle-habitat/);
+    await expect(video).not.toHaveAttribute("data-poster");
+  }
   await expect(page.getByTestId("plate-vault")).toHaveCount(0);
 });
 
@@ -31,6 +36,7 @@ test("Plates owns the complete archive and separates record from interpretation"
   await expect(page.locator("#plate-essay")).toContainText("8388");
   await expect(page.locator("#plate-essay")).toContainText("cannot independently prove");
   await expect(page.getByTestId("plate-vault")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "The Pattern", exact: true })).toHaveCount(0);
   expect(await page.locator("#plate-vault-grid .plate-vault-card").count()).toBeGreaterThan(20);
 });
 

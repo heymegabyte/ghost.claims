@@ -24,8 +24,8 @@ importers:
         specifier: file:vendor/theme-tools/theme.tools-auth-1.0.2.tgz
         version: file:vendor/theme-tools/theme.tools-auth-1.0.2.tgz
       '@theme.tools/blog':
-        specifier: file:vendor/theme-tools/theme.tools-blog-1.0.15.tgz
-        version: file:vendor/theme-tools/theme.tools-blog-1.0.15.tgz(@theme-tools/shared-utils@file:vendor/theme-tools/theme-tools-shared-utils-1.0.22.tgz)
+        specifier: file:vendor/theme-tools/theme.tools-blog-1.0.17.tgz
+        version: file:vendor/theme-tools/theme.tools-blog-1.0.17.tgz(@theme-tools/shared-utils@file:vendor/theme-tools/theme-tools-shared-utils-1.0.22.tgz)
       hono:
         specifier: ^4
         version: 4.12.14
@@ -798,11 +798,11 @@ packages:
     resolution: {integrity: sha512-S86zgXCp4ep87uKx2uViuFcOzD1pZoKObr71I4UPEGoF+ijmXqMp9TUt64JEXqrZgac1gtbw7CEsSZpraVeJTA==, tarball: file:vendor/theme-tools/theme.tools-auth-1.0.2.tgz}
     version: 1.0.2
 
-  '@theme.tools/blog@file:vendor/theme-tools/theme.tools-blog-1.0.15.tgz':
-    resolution: {integrity: sha512-4+/dTg5mPFurNUZRwkeUPiR1t8boflIF3QDmZ7Jj09lykrvB3C+GREr4/wPA0aBMoMs/suDz+1jUgKANb+mhZQ==, tarball: file:vendor/theme-tools/theme.tools-blog-1.0.15.tgz}
-    version: 1.0.15
+  '@theme.tools/blog@file:vendor/theme-tools/theme.tools-blog-1.0.17.tgz':
+    resolution: {integrity: sha512-AHe12p/TD1P0a3B/K3eM3DwJZgqjlro8uVJOsJ9CFIHVcWGmhyGJS+tZXPM3b+isdvSEUz3BE0QcUXkMaMNL5Q==, tarball: file:vendor/theme-tools/theme.tools-blog-1.0.17.tgz}
+    version: 1.0.17
     peerDependencies:
-      '@theme-tools/shared-utils': workspace:*
+      '@theme-tools/shared-utils': 1.0.22
     peerDependenciesMeta:
       '@theme-tools/shared-utils':
         optional: true
@@ -2085,7 +2085,7 @@ snapshots:
       '@theme-tools/shared-utils': file:vendor/theme-tools/theme-tools-shared-utils-1.0.22.tgz
       zod: 4.6.7
 
-  '@theme.tools/blog@file:vendor/theme-tools/theme.tools-blog-1.0.15.tgz(@theme-tools/shared-utils@file:vendor/theme-tools/theme-tools-shared-utils-1.0.22.tgz)':
+  '@theme.tools/blog@file:vendor/theme-tools/theme.tools-blog-1.0.17.tgz(@theme-tools/shared-utils@file:vendor/theme-tools/theme-tools-shared-utils-1.0.22.tgz)':
     optionalDependencies:
       '@theme-tools/shared-utils': file:vendor/theme-tools/theme-tools-shared-utils-1.0.22.tgz
 

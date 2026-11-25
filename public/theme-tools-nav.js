@@ -249,3 +249,12 @@
     finally{if(button){button.disabled=false;button.removeAttribute('aria-busy');}}
   });
 })();
+(function(){
+  if(window.__ghostSignalAccountPrompt)return;window.__ghostSignalAccountPrompt=true;
+  function dialog(){return document.getElementById('clock-account-dialog');}
+  function openPrompt(){var el=dialog();if(!el)return;var section=document.getElementById('entropy-clock');if(section)section.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});if(typeof el.showModal==='function'&&!el.open)el.showModal();}
+  document.addEventListener('click',function(event){var link=event.target&&event.target.closest?event.target.closest('[data-clock-account-link]'):null;if(!link)return;var url=new URL(link.href,location.href);if(url.origin!==location.origin||url.pathname!==location.pathname)return;event.preventDefault();openPrompt();});
+  document.addEventListener('click',function(event){if(event.target&&event.target.closest&&event.target.closest('[data-clock-dialog-close]'))dialog()?.close();});
+  document.addEventListener('click',function(event){var link=event.target&&event.target.closest?event.target.closest('a[href="#newsletter-form"]'):null;if(!link)return;var form=document.getElementById('newsletter-form');if(!form)return;event.preventDefault();form.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'center'});setTimeout(function(){form.querySelector('input[type="email"]')?.focus({preventScroll:true});},350);});
+  if(location.hash==='#entropy-clock')setTimeout(openPrompt,250);
+})();

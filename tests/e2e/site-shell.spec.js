@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 const routes = [
-  "/", "/story", "/plates", "/transmissions", "/docs", "/api/docs", "/privacy", "/terms", "/blog",
+  "/", "/story", "/plates", "/open-letter", "/transmissions", "/docs", "/api/docs", "/privacy", "/terms", "/blog",
   "/blog/the-panopticon-learned-to-pray", "/blog/the-clout-war-above-heaven",
   "/blog/bondage-of-the-failed-christ", "/blog/greystone-after-the-skunk",
   "/blog/jungle-habitat-dead-battery-safari-trails",
@@ -19,10 +19,11 @@ for (const viewport of [{ name: "desktop", width: 1440, height: 1000 }, { name: 
       await expect(nav).toBeVisible();
       await expect(nav.locator(".tt-nav__logo")).toHaveAttribute("src", /logo-nav\.png/);
       await nav.locator(".tt-nav__logo").evaluate((image) => image.decode());
-      await expect(nav.locator(".tt-nav__links > .tt-nav__link")).toHaveCount(0);
+      await expect(nav.locator(".tt-nav__links > .tt-nav__link")).toHaveCount(1);
+      await expect(nav.locator('[data-clock-account-link]')).toHaveText("Login");
       await expect(nav.locator(".tt-nav__ov-search, .tt-nav__account")).toHaveCount(0);
       await expect(nav.locator(":scope > .tt-nav__actions > .tt-nav__ov-trigger")).toHaveText(/Browse/);
-      await expect(nav.locator(".tt-ov__card")).toHaveCount(5);
+      await expect(nav.locator(".tt-ov__card")).toHaveCount(6);
       const navBox = await nav.boundingBox();
       expect(navBox?.x).toBe(0);
       expect(navBox?.width).toBe(viewport.width);
@@ -194,7 +195,8 @@ test("Browse menu opens, exposes the complete navigation, and restores focus", a
   const trigger = page.getByRole("button", { name: "Browse" });
   await trigger.click();
   await expect(page.getByRole("dialog", { name: "Browse Ghost Signal" })).toBeVisible();
-  await expect(page.locator(".tt-ov__card")).toHaveCount(5);
+  await expect(page.locator(".tt-ov__card")).toHaveCount(6);
+  await expect(page.locator('.tt-ov__card[href="/open-letter"]')).toBeVisible();
   await expect(page.locator(".tt-ov__card").first()).toBeFocused();
   await page.keyboard.press("Escape");
   await expect(trigger).toBeFocused();
@@ -210,6 +212,25 @@ test("Browse overlay is opaque and completes its animated close", async ({ page 
   await overlay.locator("[data-tt-ov-close]").click();
   await expect(overlay).toBeVisible();
   await expect(overlay).toBeHidden({ timeout: 700 });
+});
+
+test("Login honestly explains the production milestone and points to the clock", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("link", { name: "Login", exact: true }).click();
+  const dialog = page.getByRole("dialog", { name: "Accounts arrive with the clock." });
+  await expect(dialog).toBeVisible();
+  await expect(dialog).toContainText("100 paid $378 reservations");
+  await expect(page.locator("#entropy-clock")).toBeInViewport();
+  await dialog.getByRole("button", { name: "Close" }).click();
+  await expect(dialog).toBeHidden();
+});
+
+test("footer invites a consent-aware public account without claiming text intake is active", async ({ page }) => {
+  await page.goto("/story");
+  const intake = page.locator(".tt-footer__callout");
+  await expect(intake).toContainText("Tell us what happened");
+  await expect(intake).toContainText("Text intake is being prepared");
+  await expect(intake.getByRole("link", { name: "Call (601) 666-6602" })).toHaveAttribute("href", "tel:+16016666602");
 });
 
 test("every Browse destination resolves and same-page actions close the overlay", async ({ page, request }) => {
@@ -259,10 +280,10 @@ test("full theme.tools catalog and provenance manifest are public", async ({ req
   const manifest = await request.get("/theme-tools-components.json");
   expect(manifest.ok()).toBe(true);
   const catalog = await manifest.json();
-  expect(catalog.version).toBe("1.0.12");
-  expect(catalog.sourceCommit).toBe("639ed83de3702a1fbb4b463e10b1aed9ee347d3e");
-  expect(catalog.sourcePatchSha256).toBe("dfc6695c2b85401007a7f09c62414cf4f7568e21d6781fb3a33fc28b72e57c23");
-  expect(catalog.artifactSha256).toBe("158b1da100b13bc8bd4c2667c0684c19a1f8f9c6845003fb82299942e2c57fbd");
+  expect(catalog.version).toBe("1.0.17");
+  expect(catalog.sourceCommit).toBe("b9f3f60e");
+  expect(catalog.sourcePatchSha256).toBe("7bd7d32e8b606f95e45100fd3d6906ac6ab61cf725593a187f5690046ff04f23");
+  expect(catalog.artifactSha256).toBe("5701fb894673c3fc71bae07faec4330ceb8a482b3de27fd502b844c7a959ebff");
   expect(catalog.componentTypes).toContain("article-reader");
   expect(catalog.componentTypes.length).toBeGreaterThanOrEqual(29);
 });

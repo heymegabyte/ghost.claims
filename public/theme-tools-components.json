@@ -1,9 +1,9 @@
 {
   "package": "@theme.tools/blog",
-  "version": "1.0.15",
-  "sourceCommit": "6a3452fe6628ea54ef690de94e9c223e7dd3cfd8",
-  "sourcePatchSha256": "27860440878df02c3b884497fd0be4259fbe61abc4c41a502d61989c7c19e652",
-  "artifactSha256": "ddf361cecef0ab8c4f4092df2091106a28368268c2210f476bdf70bd5e42af9b",
+  "version": "1.0.17",
+  "sourceCommit": "b9f3f60e",
+  "sourcePatchSha256": "7bd7d32e8b606f95e45100fd3d6906ac6ab61cf725593a187f5690046ff04f23",
+  "artifactSha256": "5701fb894673c3fc71bae07faec4330ceb8a482b3de27fd502b844c7a959ebff",
   "componentTypes": [
     "callout",
     "takeaways",

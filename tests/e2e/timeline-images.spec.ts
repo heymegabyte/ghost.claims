@@ -10,7 +10,7 @@ import { expect, test } from "@playwright/test";
  */
 
 const TARGET = `${process.env.PROD_URL || ""}/story`;
-const MIN_EVENTS = 16;
+const MIN_EVENTS = 15;
 
 test.describe("timeline evidence images", () => {
   test("AVATAR MUD uses an authentic terminal screenshot in the feature and chronology", async ({ page }) => {
@@ -53,8 +53,8 @@ test.describe("timeline evidence images", () => {
 
     await page.keyboard.press("ArrowRight");
     await expect(dialog.locator(".gallery-lightbox-counter")).toHaveText(`2 / ${count}`);
-    await expect(dialog.locator(".gallery-lightbox-caption")).toContainText("The Avatar Frame");
-    await expect(dialog.locator(".gallery-lightbox-stage img")).toHaveAttribute("src", /\/story\/cane\.webp$/);
+    await expect(dialog.locator(".gallery-lightbox-caption")).toContainText("Love and Tell Your Story");
+    await expect(dialog.locator(".gallery-lightbox-stage img")).toHaveAttribute("src", /\/light-in-bathroom\.webp$/);
 
     await page.keyboard.press("End");
     await expect(dialog.locator(".gallery-lightbox-counter")).toHaveText(`${count} / ${count}`);

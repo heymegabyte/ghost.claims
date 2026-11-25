@@ -14581,6 +14581,48 @@ body[data-page="home"] main > section:not(.hero) {
 .manifesto-section .manifesto-frame { width: 100%; max-width: 720px; margin-inline: auto; }
 .manifesto-section .manifesto-body { color: color-mix(in srgb, var(--tt-text) 82%, var(--tt-muted)); }
 
+/* Video-review convergence: one continuous Story canvas, balanced dossier geometry,
+   stable controls, and compact alarm disclosure rhythm. */
+body[data-page="story"] main { background: transparent; }
+body[data-page="story"] .timeline-section,
+body[data-page="story"] .dossier-intro,
+body[data-page="story"] .dossier-feature { border-block: 0; }
+body[data-page="story"] .dossier-feature { border-top: 0; }
+body[data-page="story"] .dossier-feature::before,
+body[data-page="story"] .dossier-feature::after { opacity: .36; }
+.dossier-intro {
+  grid-template-columns: minmax(18rem, .9fr) minmax(28rem, 1.1fr);
+  align-items: start;
+  gap: clamp(2rem, 4vw, 4.5rem);
+}
+.dossier-intro-copy::before { display: none; }
+.severity-legend-heading {
+  display: grid;
+  grid-template-columns: 7rem minmax(0,1fr);
+  align-items: end;
+  justify-content: initial;
+  gap: 1rem;
+}
+.severity-legend-heading dd { text-align: left; }
+.dossier-feature-meta { align-items: center; }
+.dossier-feature-meta .eyebrow { margin-inline: 0; text-align: left; }
+.avatar-nav { transform: none; }
+.avatar-nav:hover,.avatar-nav:focus-visible { transform: scale(1.015); }
+.avatar-nav:active { transform: scale(.985); }
+.avatar-nav svg { display: block; }
+.hobbit-play-btn { display: inline-grid; grid-template-columns: 22px auto auto; align-items: center; }
+.hobbit-play-icon { display: grid; width: 22px; height: 22px; place-items: center; line-height: 1; }
+.hobbit-play-icon svg { display: block; margin: 0; }
+.hobbit-track-name { display: block; margin: 0; line-height: 1; }
+.multiverse-alarm-disclosure { margin-top: clamp(.75rem, 2vw, 1.25rem); }
+@media (max-width:900px){
+  .dossier-intro{grid-template-columns:1fr}
+  .severity-legend-heading{grid-template-columns:7rem 1fr}
+}
+@media (max-width:480px){
+  .severity-legend-heading{display:grid;grid-template-columns:6.25rem 1fr;align-items:end;gap:.7rem}
+}
+
 tt-ai-chat-shell { display: block; }
 .chat-toggle {
   min-width: 86px;

@@ -35,9 +35,9 @@ events:
     imageCaption: "Live AVATAR MUD login · avatar.outland.org:3000"
 
   - id: avatar-identity
-    date: "2012-06-06T00:00:00Z"
+    date: "2015-12-01T00:00:00Z"
     title: "The Avatar Frame"
-    body: "I began to see ordinary life through an avatar frame—crossing the street with a cane while feeling larger than the moment around me."
+    body: "By December 2015, I was seeing ordinary life through what I called an avatar frame—including this moment crossing the street with a cane."
     category: narrative
     severity: 3
     image: "/story/cane.webp"
@@ -47,17 +47,27 @@ events:
   - id: rutgers-ultrasound
     date: "2014-09-01T00:00:00Z"
     title: "Rutgers Nanotech — The 400V Pulser Resonance"
-    body: "At Rutgers, a 400V pulser, piezo transducers, iron washers, and electromagnetic coils produced rising oscilloscope readings. I understood the resonance as the moment the wider signal began."
+    body: "While I was working on nanotechnology at Rutgers, I began noticing people following me and moments that felt precisely synchronized. At first I understood those experiences as signs from God; that remains my interpretation, not an independently verified cause."
     category: technical
     severity: 5
     image: "/evidence-radiation-tdr.webp"
     imageAlt: "Screenshot showing nearby cell-tower SSIDs renamed to Radiation TDS and Radiation TDR"
     imageCaption: "Exhibit · WiFi SSIDs renamed 'Radiation TDR'"
 
+  - id: love-tell-your-story
+    date: "2014-06-01T00:00:00Z"
+    title: "Love and Tell Your Story"
+    body: "In June 2014, I photographed a light that I remember as carrying a simple instruction: love, and tell your story. That personal reading later became part of why Ghost Signal accepts first-person accounts."
+    category: narrative
+    severity: 3
+    image: "/light-in-bathroom.webp"
+    imageAlt: "A photographed light associated with the remembered phrase love and tell your story"
+    imageCaption: "June 2014 · love and tell your story"
+
   - id: gondor-recurrence
     date: "2018-06-06T06:06:00Z"
     title: "4 GONDOR"
-    body: "My family and I saw the same unusually specific 4 GONDOR plate across state lines. The repetition turned a roadside detail into part of the record."
+    body: "A family member first told me about a 4 GONDOR plate in Massachusetts. After I joined the church, I saw the same unusually specific plate in New York while traveling to a Church of God service. I preserve the two sightings as a peculiar recurrence, without claiming to know why they happened."
     category: signal
     severity: 5
     image: "/evidence-4gondor.webp"
@@ -67,7 +77,7 @@ events:
   - id: dallas-recovery
     date: "2019-01-01T00:00:00Z"
     title: "Dallas Recovery"
-    body: "Recovery in Dallas became a chapter of discipline, alarms, and rebuilding—the practical foundation for the public feed."
+    body: "During and after recovery in Dallas, I remember a run of experiences I understood as miracles: a white van beneath an opening sky, a water jet firing after I mentioned the CIA, and later a white light and a dark orb while I slept beside a pole-less tent in Sweetwater Creek. I also remember paralysis and tingling. These are my recollections and interpretations, not independently verified causes."
     category: narrative
     severity: 3
     image: "/story/EXIT.webp"
@@ -77,7 +87,7 @@ events:
   - id: soup-kitchen
     date: "2020-03-01T00:00:00Z"
     title: "St. John's Soup Kitchen"
-    body: "While volunteering near Newark Penn Station, I remember colored bags appearing to turn black. I stayed calm and recorded the experience as I perceived it."
+    body: "While volunteering near Newark Penn Station, I remember colored bags appearing to turn black and what I experienced as a miracle during church. I stayed calm and preserve both as I perceived them."
     category: narrative
     severity: 4
     image: "/evidence-jcsaves.webp"
@@ -87,7 +97,7 @@ events:
   - id: dreams-and-coincidence
     date: "2021-06-06T00:00:00Z"
     title: "Dream Burden"
-    body: "A run of vivid dreams joined time travel, tiny machines, the Oval Office, and a shaggy ghost dog. I preserve them here as remembered experiences, not verified events."
+    body: "A run of vivid dreams joined time travel, tiny machines, the Oval Office, and a shaggy ghost dog. As an overachiever, I read the presidential dream as a multiverse story about how easily my life might have become much larger. I preserve it as a dream and personal interpretation, not a verified event."
     category: signal
     severity: 5
     image: "/dream-president.webp"
@@ -97,7 +107,7 @@ events:
   - id: crop-circle-hike
     date: "2022-03-01T00:00:00Z"
     title: "The Crop Circle"
-    body: "A friend and I went unusually far off trail and found what looked like a crop circle. The friendship later faded, but the memory remained."
+    body: "A friend and I went unusually far off trail and found what looked like a crop circle. He seemed as shocked as I was; when I pressed for an explanation, he worried that whoever made it could have damaged the ecological preserve. I answered with my own alien interpretation."
     category: signal
     severity: 5
     image: "/alien-hallucination.webp"
@@ -125,7 +135,7 @@ events:
     imageCaption: "Diocese of Paterson · exorcism declined"
 
   - id: american-spirits-pew
-    date: "2024-06-02T00:00:00Z"
+    date: "2016-09-01T00:00:00Z"
     title: "American Spirits in the Pew"
     body: "During a service, I remember the preacher hooting after I had smoked American Spirits. My reaction was blunt: ‘Give us the Marlboros.’"
     category: narrative
@@ -145,51 +155,21 @@ events:
     imageCaption: "GQ EMF-390 · first reading"
 
   - id: six-six-six-pattern
-    date: "2026-04-06T06:06:06Z"
+    date: "2026-11-24T18:00:00-05:00"
     title: "666"
-    body: "The number 666 recurred across readings, timestamps, and the hotline. I record the pattern without claiming that recurrence proves its cause."
+    body: "On November 24, 2026, the live chart displayed a 666 timeline annotation beside the newest sensor activity. I tried to remove the older entry, then captured what the site showed. I preserve that screen record as part of the project history; it does not establish a supernatural cause or a 666 mG measurement."
     category: signal
     severity: 5
-    image: "/dream-antichrist.webp"
-    imageAlt: "Newspaper front page revealing the Antichrist — a face resembling the dreamer"
-    imageCaption: "666 · the recurring number"
+    image: "/story/emf-chart-2026-11-24.webp"
+    imageAlt: "Screen capture of the live EMF chart on November 24, 2026, including the site's 666 timeline annotation"
+    imageCaption: "November 24, 2026 · live chart screen record"
 
   - id: public-api
     date: "2026-04-23T23:00:00Z"
     title: "The Signal Goes Public"
-    body: "The sensor feed became a public, Cloudflare-cached API so anyone could inspect, graph, and export the readings."
+    body: "The sensor feed, AI chat, and (601) 666-6602 hotline opened together as a public record: inspect the Cloudflare-cached data, ask questions, or share an unexplained experience by web or phone."
     category: technical
     severity: 4
-    image: "/story/collage.webp"
-    imageAlt: "Collage of the case evidence — the public dataset"
-    imageCaption: "Public API · Cloudflare-cached"
-
-  - id: hotline-active
-    date: "2026-04-23T23:30:00Z"
-    title: "The Hotline Opens"
-    body: "The Ghost Signal hotline went live at a number containing 6666, turning calls into a recorded public signal."
-    category: transmission
-    severity: 5
-    image: "/light-in-bathroom.webp"
-    imageAlt: "A light captured during the encounter that said 'tell your story'"
-    imageCaption: "Hotline · tell your story"
-
-  - id: chat-signal
-    date: "2026-04-23T23:45:00Z"
-    title: "The Chat Opens"
-    body: "The AI chat opened as another way to submit patterns, questions, and unexplained experiences to the record."
-    category: transmission
-    severity: 4
-    image: "/black-orb.webp"
-    imageAlt: "First-person POV: a black orb approaches and enters the body during the white-chariot dream"
-    imageCaption: "Chat · into the dataset"
-
-  - id: backlash
-    date: "2026-05-01T00:00:00Z"
-    title: "Future Unsolved Mystery"
-    body: "I expect backlash and psychiatric interpretations. The site keeps the evidence public so the unresolved parts can be examined later."
-    category: narrative
-    severity: 4
-    image: "/dream-doom.webp"
-    imageAlt: "First-person view in a hellish DOOM arena, lone pistol in hand, a distant figure walking away"
-    imageCaption: "Backlash · the unsolved mystery"
+    image: "/og-image.jpg"
+    imageAlt: "Ghost Signal featured image for the public sensor, chat, and hotline"
+    imageCaption: "Public sensor · AI chat · hotline"

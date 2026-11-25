@@ -11,7 +11,7 @@ export const GHOST_SIGNAL_NAV_LINKS = [
 export const GHOST_SIGNAL_NAV_CONFIG = {
   brand: "GHOST // SIGNAL",
   brandHref: "/",
-  links: [],
+  links: [{ label: "Login", href: "/#entropy-clock", cta: true }],
   layout: "full",
   logo: {
     src: "/logo-nav.png?v=2945c6a-1778550809",
@@ -68,6 +68,15 @@ export const GHOST_SIGNAL_NAV_CONFIG = {
       ],
       featured: { src: "/story/scientist.webp", alt: "Scientist studying a luminous instrument", href: "/docs", title: "Build with the Ghost Signal API", kicker: "Open data" },
     },
+    {
+      label: "Open Letter", href: "/open-letter", icon: "¶", blurb: "A public request for preparedness protocols that take extraordinary reports seriously without mistaking interpretation for proof.",
+      items: [
+        { label: "Read the letter", href: "/open-letter", sub: "Public record" },
+        { label: "Evidence standard", href: "/story#dossier", sub: "Method" },
+        { label: "Terms of publication", href: "/terms", sub: "Policy" },
+      ],
+      featured: { src: "/story/scientist.webp", alt: "A researcher examining an illuminated instrument", href: "/open-letter", title: "An open letter on preparedness", kicker: "Civic record" },
+    },
   ],
   megaLatest: { title: "Latest", items: [
     { label: "Sensor telemetry web dossier", href: "/blog/sensor-telemetry-web-dossier", meta: "Engineering dossier" },
@@ -102,6 +111,16 @@ const GHOST_SIGNAL_OVERLAY_NAVIGATION_JS = `(function(){
   });
 })();`;
 
+const GHOST_SIGNAL_ACCOUNT_PROMPT_JS = `(function(){
+  if(window.__ghostSignalAccountPrompt)return;window.__ghostSignalAccountPrompt=true;
+  function dialog(){return document.getElementById('clock-account-dialog');}
+  function openPrompt(){var el=dialog();if(!el)return;var section=document.getElementById('entropy-clock');if(section)section.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});if(typeof el.showModal==='function'&&!el.open)el.showModal();}
+  document.addEventListener('click',function(event){var link=event.target&&event.target.closest?event.target.closest('[data-clock-account-link]'):null;if(!link)return;var url=new URL(link.href,location.href);if(url.origin!==location.origin||url.pathname!==location.pathname)return;event.preventDefault();openPrompt();});
+  document.addEventListener('click',function(event){if(event.target&&event.target.closest&&event.target.closest('[data-clock-dialog-close]'))dialog()?.close();});
+  document.addEventListener('click',function(event){var link=event.target&&event.target.closest?event.target.closest('a[href="#newsletter-form"]'):null;if(!link)return;var form=document.getElementById('newsletter-form');if(!form)return;event.preventDefault();form.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'center'});setTimeout(function(){form.querySelector('input[type="email"]')?.focus({preventScroll:true});},350);});
+  if(location.hash==='#entropy-clock')setTimeout(openPrompt,250);
+})();`;
+
 export const GHOST_SIGNAL_NAV_JS = `${NAV_MENU_JS}\n${GHOST_SIGNAL_OVERLAY_NAVIGATION_JS}`;
 
 const GHOST_SIGNAL_FOOTER_JS = `(function(){
@@ -120,7 +139,7 @@ const GHOST_SIGNAL_FOOTER_JS = `(function(){
   });
 })();`;
 
-export const GHOST_SIGNAL_SHELL_JS = `${GHOST_SIGNAL_NAV_JS}\n${GHOST_SIGNAL_FOOTER_JS}`;
+export const GHOST_SIGNAL_SHELL_JS = `${GHOST_SIGNAL_NAV_JS}\n${GHOST_SIGNAL_FOOTER_JS}\n${GHOST_SIGNAL_ACCOUNT_PROMPT_JS}`;
 
 export const GHOST_SIGNAL_SHELL_CSS = `
 .tt-nav{view-transition-name:site-header}
@@ -129,6 +148,8 @@ export const GHOST_SIGNAL_SHELL_CSS = `
 .tt-nav__link[aria-current="page"]{color:var(--tt-cyan);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:6px}
 .tt-nav--overlay .tt-nav__actions{gap:0}
 .tt-nav--overlay .tt-nav__links:empty{display:none}
+.tt-nav--overlay .tt-nav__links .tt-nav__link{min-height:44px;padding:10px 15px;border:1px solid rgba(117,238,255,.28);border-radius:14px;background:rgba(4,20,30,.82);text-decoration:none}
+.tt-nav--overlay .tt-nav__links .tt-nav__link:hover{transform:translateY(-1px);border-color:rgba(117,238,255,.7);text-decoration:none}
 /* Five-pass Browse convergence: silhouette, depth, icon rhythm, interaction, and responsive finish. */
 .tt-nav--overlay .tt-nav__ov-trigger{
   position:relative;isolation:isolate;min-height:44px;padding:9px 17px 9px 14px;gap:11px;overflow:hidden;
@@ -171,6 +192,10 @@ export const GHOST_SIGNAL_SHELL_CSS = `
 @media(prefers-reduced-motion:reduce){
   .tt-nav--overlay .tt-nav__ov-trigger,.tt-nav--overlay .tt-nav__ov-trigger::before{transition:none}
 }
+.clock-account-dialog{width:min(92vw,560px);padding:0;border:1px solid rgba(0,229,255,.4);border-radius:24px;color:var(--tt-text);background:linear-gradient(145deg,#081520,#080a15);box-shadow:0 36px 100px rgba(0,0,0,.78),0 0 70px rgba(0,229,255,.16)}
+.clock-account-dialog::backdrop{background:rgba(0,2,8,.82);backdrop-filter:blur(8px)}
+.clock-account-dialog__inner{padding:clamp(24px,5vw,42px)}
+.clock-account-dialog h2{margin:8px 0 12px;font-size:clamp(1.65rem,4vw,2.5rem);text-wrap:balance}.clock-account-dialog p{margin:0 0 14px;line-height:1.75}.clock-account-dialog__actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
 `;
 
 export function renderGhostSignalNav(pathname: string): string {
@@ -200,11 +225,12 @@ export function renderGhostSignalNav(pathname: string): string {
       '<header class="tt-nav tt-nav--overlay tt-nav--full"',
       '<header class="tt-nav tt-nav--overlay tt-nav--full" data-theme-tools="site-nav"',
     )
-    .replace('<nav class="tt-nav__links">', '<nav class="tt-nav__links" aria-label="Utilities">');
+    .replace('<nav class="tt-nav__links">', '<nav class="tt-nav__links" aria-label="Utilities">')
+    .replace('href="/#entropy-clock"', 'href="/#entropy-clock" data-clock-account-link');
 }
 
 export function renderGhostSignalFooter(): string {
-  return renderSiteFooter({
+  const footer = renderSiteFooter({
     note: "Ghost Signal // ghost.claims",
     logo: { src: "/logo-nav.png?v=2945c6a-1778550809", alt: "Ghost Signal logo", width: 40, height: 40 },
     description: "A public electromagnetic sensor, entropy experiment, AI hotline, and night archive documenting the signal without pretending interpretation is proof.",
@@ -217,7 +243,6 @@ export function renderGhostSignalFooter(): string {
       { label: "Developer docs", href: "/docs" },
       { label: "API reference", href: "/api/docs" },
       { label: "Evidence standard", href: "/story#dossier" },
-      { label: "(601) 666-6602", href: "tel:+16016666602" },
     ],
     legalLinks: [
       { label: "Privacy", href: "/privacy" },
@@ -231,7 +256,19 @@ export function renderGhostSignalFooter(): string {
       placeholder: "anonymous@yourdomain.com",
       buttonLabel: "Join",
     },
-  }).replace('<footer class="tt-footer">', '<footer class="tt-footer" data-theme-tools="site-footer">');
+    callout: {
+      label: "OPEN INTAKE // PUBLIC RECORD",
+      title: "Tell us what happened.",
+      description: "Call the Ghost Signal hotline or open Signal AI to share a ghost or paranormal account. Submissions may inform the public archive under the site's consent and privacy terms. Text intake is being prepared and is not yet represented as active.",
+      actions: [
+        { label: "Call (601) 666-6602", href: "tel:+16016666602", variant: "primary" },
+        { label: "Open Signal AI", href: "/#chat-widget", variant: "ghost" },
+      ],
+    },
+  })
+    .replace('<footer class="tt-footer">', '<footer class="tt-footer" data-theme-tools="site-footer">')
+    .replace('<form class="tt-footer__form"', '<form id="newsletter-form" class="tt-footer__form"');
+  return `${footer}<dialog class="clock-account-dialog" id="clock-account-dialog" aria-labelledby="clock-account-dialog-title"><div class="clock-account-dialog__inner"><p class="tt-footer__kicker">ACCOUNT ACCESS // PRODUCTION MILESTONE</p><h2 id="clock-account-dialog-title">Accounts arrive with the clock.</h2><p>The customer login is intentionally not active yet. Manufacturing begins after at least 100 paid $378 reservations fund the first production run.</p><p>You can reserve now or join the Signal Dispatch for build updates. There is no fixed delivery date, and the R&amp;D reservation is non-refundable.</p><div class="clock-account-dialog__actions"><a class="tt-btn tt-btn--primary" href="/#entropy-clock">Review the clock</a><button class="tt-btn tt-btn--ghost" type="button" data-clock-dialog-close>Close</button></div></div></dialog>`;
 }
 
 export function renderGhostSignalSkipLink(): string {

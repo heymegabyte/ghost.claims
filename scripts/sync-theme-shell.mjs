@@ -23,7 +23,7 @@ const pages = [
   ["public/privacy.html", "/privacy"],
   ["public/terms.html", "/terms"],
 ];
-const themeToolsStylesheetHref = "/theme-tools.css?v=theme-tools-blog-1.0.15";
+const themeToolsStylesheetHref = "/theme-tools.css?v=theme-tools-blog-1.0.17";
 const themeToolsShellStylesheetHref = "/theme-tools-shell.css?v=20261123-visual-convergence";
 
 for (const [file, pathname] of pages) {
@@ -53,5 +53,10 @@ for (const [file, pathname] of pages) {
 
 await writeFile("public/theme-tools-shell.css", `${GHOST_SIGNAL_SHELL_CSS.trim()}\n`);
 await writeFile("public/theme-tools-nav.js", `${GHOST_SIGNAL_SHELL_JS.trim()}\n`);
-await writeFile("public/theme-tools.css", `${GHOST_THEME_TOOLS_CSS.trim()}\n`);
+const productionThemeCss = GHOST_THEME_TOOLS_CSS
+  .replace(/\/\*[\s\S]*?\*\//g, "")
+  .replace(/[ \t]+$/gm, "")
+  .replace(/\n{3,}/g, "\n\n")
+  .trim();
+await writeFile("public/theme-tools.css", `${productionThemeCss}\n`);
 await writeFile("public/theme-tools-components.json", `${JSON.stringify(GHOST_THEME_TOOLS_MANIFEST, null, 2)}\n`);
